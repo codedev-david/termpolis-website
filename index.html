@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="Termpolis is an AI-native, cross-platform terminal with split panes, command autocomplete, MCP server, multi-agent swarm orchestration, and built-in tools for Windows, macOS, and Linux."
+  >
+  <title>Termpolis | The AI-Native Terminal</title>
+  <link rel="icon" type="image/svg+xml" href="logo-termpolis-titlebar.svg">
+  <link rel="shortcut icon" href="logo-termpolis-titlebar.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Termpolis home">
+        <img class="brand-logo" src="logo-termpolis.svg" alt="Termpolis logo">
+        <span class="brand-text">Termpolis</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#swarm">Smart Swarm</a>
+        <a href="#ai-native">AI Native</a>
+        <a href="#features">Features</a>
+        <a href="#downloads">Downloads</a>
+      </nav>
+      <a class="button button-ghost" href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">View GitHub</a>
+    </header>
+
+    <main id="top">
+      <section class="hero reveal">
+        <div class="hero-copy">
+          <p class="eyebrow">The first multi-model AI terminal</p>
+          <h1>Termpolis</h1>
+          <p class="tagline">where Claude, Codex, Gemini, and Qwen work as a team</p>
+          <p class="hero-text">
+            Describe your task. A dedicated Claude Code instance acts as your AI conductor — it reads
+            every agent's output, reasons about what to do next, and delegates in real time. Not keyword
+            matching. Not a script. Actual AI orchestration. Claude refactors. Codex writes tests. Gemini
+            documents. Qwen handles bulk work for free. When they're done, a completion dialog summarizes
+            the results automatically.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#swarm">See smart routing</a>
+            <a class="button button-secondary" href="#downloads">Download</a>
+          </div>
+          <ul class="hero-points" aria-label="Key product highlights">
+            <li>Smart task routing — assigns the right work to the right AI model automatically</li>
+            <li>4 agents with capability scoring, transparent reasons, and token budget estimates</li>
+            <li>No AI company has built this — we did, because it moves AI forward</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orb orb-coral"></div>
+          <div class="orb orb-gold"></div>
+          <figure class="product-shot hero-shot">
+            <img src="assets/screenshot9.jpg" alt="Termpolis split view with multiple AI agents running." onerror="this.src='assets/screenshot-command-palette.png'">
+          </figure>
+        </div>
+      </section>
+
+      <section class="stats reveal" aria-label="Product overview">
+        <article>
+          <strong>Live AI conductor</strong>
+          <span>A dedicated Claude Code instance orchestrates the swarm with real AI reasoning — not keyword matching</span>
+        </article>
+        <article>
+          <strong>4 AI agents, 1 conductor</strong>
+          <span>Claude, Codex, Gemini, and Aider+Qwen — each scored across 10 capability categories</span>
+        </article>
+        <article>
+          <strong>Free local option</strong>
+          <span>Aider + Qwen3-Coder via Ollama — zero API cost, fully local, no cloud</span>
+        </article>
+      </section>
+
+      <!-- AI NATIVE -->
+      <section id="ai-native" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">AI-native features</p>
+          <h2>Built from the ground up for AI coding workflows</h2>
+          <p>
+            Termpolis isn't just a terminal that runs AI tools — it's designed around them.
+            Launch agents with one click, orchestrate swarms, track costs, record sessions,
+            search conversations, and let AI agents control your workspace through MCP.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>AI agent profiles</h3>
+            <p>
+              One-click launch for Claude Code, Codex, Gemini CLI, and Aider. Add custom profiles
+              for any AI tool. Each gets its own terminal with the right shell, color, and startup command.
+            </p>
+          </article>
+          <article class="card">
+            <h3>MCP server</h3>
+            <p>
+              Built-in HTTP/SSE server on localhost:9315 with 14 tools. AI agents create terminals,
+              run commands, read output, manage your workspace. Auto-registers with Claude Code.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Context handoff</h3>
+            <p>
+              When an AI agent runs out of context, an amber banner offers to switch to another agent.
+              Your task, git state, recent commands, and diff summary transfer automatically.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Command palette</h3>
+            <p>
+              Ctrl+K opens a natural language command bar. Type "new terminal", "launch claude",
+              "split right" — 17 commands, all local pattern matching, no API keys needed.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Prompt templates</h3>
+            <p>
+              Save reusable prompts (Fix Tests, Code Review, Refactor) and insert them into any
+              terminal with Ctrl+Shift+P. Create custom templates for your workflows.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Workflow templates</h3>
+            <p>
+              Pre-built multi-terminal layouts: "Claude + Shell" (2 panes), "Full Stack Dev" (4 panes),
+              "Code Review" (2 panes). One click launches the full split-pane setup.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Agent detection &amp; cost tracking</h3>
+            <p>
+              Automatically detects Claude, Codex, Gemini, or Aider running in a terminal. Shows
+              a colored badge with token usage and estimated cost in the status bar.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Session recording</h3>
+            <p>
+              Record AI coding sessions with timestamps. Export as shareable text logs for
+              documentation, review, or auditing what an agent did.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Output pinning</h3>
+            <p>
+              Pin important output to a persistent panel at the top of the terminal. Stays
+              visible as the terminal scrolls — keep AI-generated code in view while testing.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Smart context panel</h3>
+            <p>
+              Ctrl+Shift+E opens a side panel showing file tree, git status, and recent commits.
+              See what the AI agent sees. Refreshes every 5 seconds.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Diff viewer</h3>
+            <p>
+              Detects git diff output and renders it with syntax highlighting — green for additions,
+              red for deletions, file headers, line numbers. Built right in.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Conversation search</h3>
+            <p>
+              Ctrl+Shift+I searches across all AI conversations indexed from terminal output.
+              Find when Claude suggested that migration or Codex wrote that function.
+            </p>
+          </article>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot-command-palette.png" alt="Termpolis command palette with natural language commands.">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot-prompt-templates.png" alt="Termpolis prompt templates panel.">
+          </figure>
+        </div>
+      </section>
+
+      <!-- SWARM -->
+      <section id="swarm" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Multi-agent swarm</p>
+          <h2>The conductor that knows who plays what</h2>
+          <p>
+            No AI company has built a tool that brings together competing models to work as a team —
+            because it helps their competitors. Termpolis does it anyway, because it moves AI forward.
+            Claude, Codex, Gemini, and Qwen working in harmony on the same project — directed by a live AI conductor.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>AI Conductor</h3>
+            <p>
+              A dedicated Claude Code instance runs as the swarm orchestrator. It reads every agent's
+              output in real time, decides what to delegate next, and issues instructions using live AI
+              reasoning — not hard-coded keyword matching. The conductor thinks; the agents execute.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Smart task routing</h3>
+            <p>
+              The orchestrator analyzes your task, breaks it into subtasks (refactoring, testing, docs, review),
+              and assigns each to the best agent based on a capability matrix. Scores are transparent (0-100)
+              with reasons. Token-heavy work routed to cheaper agents. Every assignment can be overridden.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Agent capability matrix</h3>
+            <p>
+              4 agents scored across 10 categories. Claude excels at refactoring and code review.
+              Codex leads in test writing. Gemini dominates documentation and DevOps.
+              Aider+Qwen handles bulk tasks for free. The router picks the best fit automatically.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Token budget estimates</h3>
+            <p>
+              Before launching, see estimated tokens and cost per agent. Expensive models handle
+              complex work. Free/cheap models handle volume. Total estimated cost shown upfront.
+            </p>
+          </article>
+          <article class="card">
+            <h3>5-step swarm wizard</h3>
+            <p>
+              Pick agents → describe task → review smart-routed assignments → launch → conductor
+              initializes (~30s) and begins delegating. Each agent gets a split pane with their
+              optimized task prompt. The conductor monitors and adapts as work progresses.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Swarm Complete dialog</h3>
+            <p>
+              When the conductor determines all work is done, a summary dialog appears: tasks completed,
+              tasks failed, per-agent results, and a full message log. No manual polling — the conductor
+              signals completion automatically.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Interactive Agent Mode</h3>
+            <p>
+              Gemini runs in interactive mode so it has full tool access during swarm execution —
+              not just output parsing. Each agent runs in its own terminal pane with real shell access.
+            </p>
+          </article>
+          <article class="card">
+            <h3>MCP-native communication</h3>
+            <p>
+              Claude, Codex, and Gemini all connect to Termpolis via MCP natively.
+              6 swarm tools for inter-agent messaging, task management, and coordination.
+              Aider bridged automatically via terminal output parsing.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Free local option</h3>
+            <p>
+              Aider + Qwen3-Coder runs via Ollama with zero API cost. No cloud, no keys,
+              no telemetry. Auto-detects if Ollama is installed. The open-source AI coding option.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Swarm dashboard</h3>
+            <p>
+              Real-time view: agents with health status, tasks in kanban columns (Pending → In Progress →
+              Completed), and a chronological message log. Ctrl+Shift+S to open.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Context handoff</h3>
+            <p>
+              When an agent hits its token limit, seamlessly switch to another with your full
+              working context. Task, git state, modified files, and diff summary transfer automatically.
+            </p>
+          </article>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot-workflows.png" alt="Termpolis workflow templates for multi-agent setups.">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot-command-palette.png" alt="Termpolis command palette.">
+          </figure>
+        </div>
+      </section>
+
+      <!-- DOWNLOADS -->
+      <section id="downloads" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Download and code</p>
+          <h2>Install the app or inspect the source</h2>
+          <p>
+            Available for Windows, macOS, and Linux. MIT licensed, open source, free.
+          </p>
+        </div>
+        <div class="download-layout">
+          <article class="repo-card">
+            <span class="preview-tag">Source repository</span>
+            <h3>github.com/codedev-david/termpolis</h3>
+            <p>Explore the codebase, track releases, and contribute.</p>
+            <a class="button" href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">Browse the repo</a>
+          </article>
+          <div class="download-grid">
+            <article class="download-card">
+              <span class="platform-dot windows"></span>
+              <h3>Windows</h3>
+              <p>NSIS installer with bundled jq, yq, and nano.</p>
+              <a href="#" data-platform="windows" onclick="downloadRelease('windows', event)">Download for Windows</a>
+            </article>
+            <article class="download-card">
+              <span class="platform-dot mac"></span>
+              <h3>macOS</h3>
+              <p>DMG with full Unicode support and built-in tools.</p>
+              <a href="#" data-platform="mac" onclick="downloadRelease('mac', event)">Download for macOS</a>
+            </article>
+            <article class="download-card">
+              <span class="platform-dot linux"></span>
+              <h3>Linux</h3>
+              <p>AppImage with bundled CLI tools, ready to run.</p>
+              <a href="#" data-platform="linux" onclick="downloadRelease('linux', event)">Download for Linux</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- TERMINAL FEATURES -->
+      <section id="features" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Terminal features</p>
+          <h2>Everything you need in a modern terminal</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Split panes</h3>
+            <p>Split any terminal horizontally or vertically with draggable dividers. Nest splits recursively.</p>
+          </article>
+          <article class="card">
+            <h3>7 themes</h3>
+            <p>Dark, Light, Solarized Dark/Light, Monokai, Dracula, Nord. Per-terminal with live preview.</p>
+          </article>
+          <article class="card">
+            <h3>Command autocomplete</h3>
+            <p>VS Code-style dropdown for 20+ tools. Commands, subcommands, flags with descriptions.</p>
+          </article>
+          <article class="card">
+            <h3>Command auto-fix</h3>
+            <p>Mistype a command? Green banner suggests the correction. Enter to run, Esc to ignore.</p>
+          </article>
+          <article class="card">
+            <h3>Configurable keybindings</h3>
+            <p>18 keyboard shortcuts, all customizable with a recording UI in Settings.</p>
+          </article>
+          <article class="card">
+            <h3>Status bar</h3>
+            <p>Shell type, directory, git branch, AI agent badge, cost tracking. Updates live.</p>
+          </article>
+          <article class="card">
+            <h3>Built-in tools</h3>
+            <p>jq, yq, and nano bundled. Available in every terminal, even if not installed on your system.</p>
+          </article>
+          <article class="card">
+            <h3>Export &amp; drag-drop</h3>
+            <p>Export scrollback to text files. Drag files onto terminals to paste paths. Clickable URLs.</p>
+          </article>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot8.jpg" alt="Termpolis new terminal modal with themes, font size, and preview." onerror="this.src='assets/screenshot-modal.png'">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot7.jpg" alt="Termpolis settings with keybindings." onerror="this.src='assets/screenshot-settings.png'">
+          </figure>
+        </div>
+      </section>
+
+      <!-- MCP -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">MCP integration</p>
+          <h2>AI agents control your terminal</h2>
+          <p>
+            Termpolis runs an MCP server on localhost:9315 with 14 tools. Claude Code
+            auto-discovers it. Secured with a 256-bit auth token, localhost only, no plugins.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>14 MCP tools</h3>
+            <p>Terminal management (list, create, run, read, close) + file tree + git status + 6 swarm coordination tools.</p>
+          </article>
+          <article class="card">
+            <h3>Auto-registers with Claude Code</h3>
+            <p>On launch, Termpolis adds itself as a Claude Code plugin. Zero configuration needed.</p>
+          </article>
+          <article class="card">
+            <h3>CLI tool included</h3>
+            <p>termpolis-cli lets you control Termpolis from any terminal: list, create, run, read, close.</p>
+          </article>
+          <article class="card">
+            <h3>Security hardened</h3>
+            <p>256-bit auth token, localhost only, CORS restricted, no plugins, no telemetry. Atomic file writes.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- APP SHOWCASE -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">In action</p>
+          <h2>See Termpolis in action</h2>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot9.jpg" alt="Termpolis split view with Git Bash and PowerShell side by side." onerror="this.src='assets/screenshot-command-palette.png'">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot6.jpg" alt="Termpolis tab view with sidebar, workspaces, and terminals." onerror="this.src='assets/screenshot-workspace-info.png'">
+          </figure>
+        </div>
+      </section>
+
+      <!-- WORKSPACES -->
+      <section id="workspaces" class="section split reveal">
+        <div class="split-copy">
+          <p class="eyebrow">Workspaces</p>
+          <h2>Save and restore terminal sets</h2>
+          <ul class="detail-list">
+            <li>Save all terminals with names, shells, themes, fonts, colors, and working directories</li>
+            <li>Terminals reopen in the same directory they were in when saved</li>
+            <li>Session persistence brings everything back on restart</li>
+            <li>Single-instance lock prevents session corruption</li>
+          </ul>
+        </div>
+        <div class="workspace-board">
+          <article class="workspace-card">
+            <span class="workspace-label">AI Coding</span>
+            <h3>Claude + Tests</h3>
+            <p>Claude Code on the left, test runner on the right.</p>
+          </article>
+          <article class="workspace-card">
+            <span class="workspace-label">Full Stack</span>
+            <h3>Dev Environment</h3>
+            <p>Frontend, backend, database, and AI agent in 4 panes.</p>
+          </article>
+          <article class="workspace-card">
+            <span class="workspace-label">Swarm</span>
+            <h3>Multi-Agent</h3>
+            <p>Claude, Codex, and Gemini collaborating on a task.</p>
+          </article>
+          <figure class="product-shot workspace-shot">
+            <img src="assets/screenshot6.jpg" alt="Termpolis sidebar showing workspaces and AI agents." onerror="this.src='assets/screenshot-workspace-info.png'">
+          </figure>
+        </div>
+      </section>
+
+      <!-- SHORTCUTS -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Shortcuts</p>
+          <h2>18 keyboard shortcuts, all customizable</h2>
+        </div>
+        <div class="shortcut-strip">
+          <article class="shortcut-card"><strong>Ctrl+K</strong><span>Command palette</span></article>
+          <article class="shortcut-card"><strong>Ctrl+Shift+P</strong><span>Prompt templates</span></article>
+          <article class="shortcut-card"><strong>Ctrl+Shift+S</strong><span>Swarm dashboard</span></article>
+          <article class="shortcut-card"><strong>Ctrl+Shift+E</strong><span>Context panel</span></article>
+          <article class="shortcut-card"><strong>Ctrl+Shift+I</strong><span>Conversation search</span></article>
+          <article class="shortcut-card"><strong>Alt+1–9</strong><span>Jump to terminal</span></article>
+          <article class="shortcut-card"><strong>Win+Shift+T</strong><span>Global: new terminal</span></article>
+          <article class="shortcut-card"><strong>Ctrl+Space</strong><span>Autocomplete</span></article>
+        </div>
+      </section>
+
+      <!-- PERFORMANCE -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Performance &amp; security</p>
+          <h2>Enterprise-grade reliability</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>590 automated tests</h3>
+            <p>515 unit tests across 62 files (Vitest) + 75 E2E tests (Playwright) with automated screenshots. CI/CD on every release.</p>
+          </article>
+          <article class="card">
+            <h3>Output throttling</h3>
+            <p>64KB per-frame rate limit. 10,000-line scrollback cap. Viewport-aware rendering in split view.</p>
+          </article>
+          <article class="card">
+            <h3>No plugins, by design</h3>
+            <p>Third-party plugins are a security risk. Every feature is built-in, auditable, and ships with the app.</p>
+          </article>
+          <article class="card">
+            <h3>Crash recovery</h3>
+            <p>React ErrorBoundary catches render crashes. Optional Sentry integration. Terminals survive UI errors.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- SHELLS -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Supported shells</p>
+          <h2>Auto-detects your installed shells</h2>
+        </div>
+        <div class="shell-grid">
+          <article class="platform-card"><h3>PowerShell 7</h3><p>Windows, macOS, Linux</p></article>
+          <article class="platform-card"><h3>Windows PowerShell 5</h3><p>Windows</p></article>
+          <article class="platform-card"><h3>Command Prompt</h3><p>Windows</p></article>
+          <article class="platform-card"><h3>Git Bash</h3><p>Windows</p></article>
+          <article class="platform-card"><h3>Bash (WSL)</h3><p>Windows</p></article>
+          <article class="platform-card"><h3>Bash</h3><p>macOS, Linux</p></article>
+          <article class="platform-card"><h3>Zsh</h3><p>macOS, Linux</p></article>
+        </div>
+      </section>
+
+      <!-- SPONSOR -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Support the project</p>
+          <h2>Sponsor Termpolis</h2>
+          <p>
+            Termpolis is free, open source, and MIT licensed. Building it — including AI token
+            costs for development — takes time and resources. If you find it useful, please consider sponsoring.
+          </p>
+        </div>
+        <div style="text-align: center; padding: 2rem 0;">
+          <a class="button" href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
+            ❤️ Sponsor on GitHub
+          </a>
+        </div>
+      </section>
+
+      <!-- SCREENSHOTS -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Screenshots</p>
+          <h2>The interface up close</h2>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot8.jpg" alt="Terminal creation with theme picker, font selector, and live preview." onerror="this.src='assets/screenshot-modal.png'">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot7.jpg" alt="Settings panel with keybindings and shell config editor." onerror="this.src='assets/screenshot-settings.png'">
+          </figure>
+        </div>
+        <div class="feature-media-grid" style="margin-top: 1rem;">
+          <figure class="product-shot">
+            <img src="assets/screenshot-command-palette.png" alt="Command palette with natural language commands.">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot-prompt-templates.png" alt="Prompt templates for AI coding workflows.">
+          </figure>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Termpolis</p>
+      <p>
+        <a href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">GitHub</a> |
+        <a href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer">Sponsor</a> |
+        Open source | MIT License | Free
+      </p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
