@@ -535,6 +535,18 @@ h3 {
   background: var(--mint);
 }
 
+.smartscreen-note {
+  font-size: 0.65rem !important;
+  color: var(--muted) !important;
+  opacity: 0.7;
+  line-height: 1.4;
+  margin-top: 0.3rem;
+}
+
+.smartscreen-note strong {
+  color: var(--text);
+}
+
 .signed-badge {
   display: inline-block;
   font-size: 0.7rem;
