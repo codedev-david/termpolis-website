@@ -487,6 +487,16 @@ h3 {
   opacity: 0.72;
 }
 
+.download-card a.download-alt {
+  font-weight: 500;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.download-card a.download-alt:hover {
+  opacity: 1;
+}
+
 .shortcut-strip {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 1rem;
