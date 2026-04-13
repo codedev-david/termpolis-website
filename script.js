@@ -38,7 +38,7 @@ function downloadRelease(platform, event) {
         var name = a.name.toLowerCase();
         if (platform === 'windows') return name.endsWith('.exe');
         if (platform === 'mac-arm64') return name.endsWith('.dmg') && name.includes('arm64');
-        if (platform === 'mac-x64') return name.endsWith('.dmg') && (name.includes('x64') || name.includes('intel'));
+        if (platform === 'mac-x64') return name.endsWith('.dmg') && !name.includes('arm64');
         if (platform === 'linux') return name.endsWith('.appimage');
         return false;
       });
