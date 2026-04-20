@@ -373,6 +373,35 @@ kbd {
   font-size: 0.9rem;
 }
 
+/* Callouts */
+
+.docs-callout {
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(255, 122, 69, 0.28);
+  border-left: 3px solid var(--coral);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 122, 69, 0.06);
+}
+
+.docs-callout p {
+  margin: 0.4rem 0;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.docs-callout p:first-child {
+  margin-top: 0;
+}
+
+.docs-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.docs-callout strong {
+  color: var(--coral);
+}
+
 /* ---- Search result state ------------------------------------- */
 
 .docs-section.is-hidden,

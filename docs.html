@@ -305,13 +305,26 @@
               <figcaption><kbd>Ctrl</kbd> + <kbd>K</kbd> — the fastest way to do anything.</figcaption>
             </figure>
             <p>
-              Actions, workspaces, recent commands, files — all searchable with fuzzy matching.
-              Exact matches float to the top.
+              The palette is your keyboard-only shortcut to every action in Termpolis. Actions,
+              workspaces, recent commands, files — all searchable with fuzzy matching, exact matches
+              floating to the top.
             </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/11b-command-palette-filtered.png" alt="Command palette filtered by 'launch'.">
-              <figcaption>Type to filter — "launch" surfaces every agent and terminal action.</figcaption>
+              <figcaption>Type to filter — "launch" surfaces every agent and terminal launch action.</figcaption>
             </figure>
+            <h3>Why use it</h3>
+            <ul class="docs-list">
+              <li><strong>Don't remember keybindings?</strong> Type the feature name — the palette shows the shortcut next to the action.</li>
+              <li><strong>Jump across workspaces in two keystrokes.</strong> <kbd>Ctrl</kbd> + <kbd>K</kbd>, type workspace name, <kbd>Enter</kbd>.</li>
+              <li><strong>Re-run a recent command anywhere.</strong> The palette surfaces your last 50 commands across every terminal — type a fragment, hit Enter, and it runs in the focused pane.</li>
+            </ul>
+            <h3>How to use it</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Press <kbd>Ctrl</kbd> + <kbd>K</kbd>.</li>
+              <li>Type a query — e.g. <em>split</em>, <em>new terminal</em>, <em>workspace</em>, <em>launch claude</em>.</li>
+              <li>Use <kbd>↑</kbd> / <kbd>↓</kbd> to select; <kbd>Enter</kbd> runs it; <kbd>Esc</kbd> closes.</li>
+            </ol>
           </section>
 
           <!-- PROMPT TEMPLATES -->
@@ -319,14 +332,35 @@
             <h2>Prompt templates</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/12-prompt-templates.png" alt="Prompt templates library.">
-              <figcaption>Reusable prompts with variable substitution.</figcaption>
+              <figcaption>Reusable prompts with variable substitution — <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open.</figcaption>
             </figure>
             <p>
-              Built-in templates: <em>Explain this code</em>, <em>Write tests</em>,
-              <em>Refactor for readability</em>, <em>Find security issues</em>,
-              <em>Document this API</em>, <em>Code review — strict</em>. Each supports
-              <code>{{variables}}</code> filled from selection, cwd, or free-form input. Add your
-              own — they save to <code>prompt-templates.json</code>.
+              Save the prompts you type over and over. Each template supports
+              <code>{{variables}}</code> that get filled from your current selection, cwd, or a
+              free-form input when you launch it.
+            </p>
+            <h3>Built-in templates</h3>
+            <ul class="docs-list">
+              <li><strong>Explain this code</strong> — pastes current selection as context, asks the agent to walk through it.</li>
+              <li><strong>Write tests</strong> — generates unit tests for the focused file.</li>
+              <li><strong>Refactor for readability</strong> — rewrites with a focus on clarity, not behavior changes.</li>
+              <li><strong>Find security issues</strong> — static-analysis-style review for OWASP-top-10 patterns.</li>
+              <li><strong>Document this API</strong> — produces JSDoc / TSDoc / docstrings for the selection.</li>
+              <li><strong>Code review — strict</strong> — adversarial review with a "what would break?" lens.</li>
+            </ul>
+            <h3>How to use it</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Select the code you want to discuss in any terminal (or leave empty to use free-form input).</li>
+              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.</li>
+              <li>Pick a template — Termpolis fills <code>{{selection}}</code>, <code>{{cwd}}</code>, <code>{{branch}}</code>, etc. automatically.</li>
+              <li>Fill any remaining prompts in the form, then click <strong>Send to active agent</strong>.</li>
+              <li>The fully-expanded prompt is written to the focused agent's stdin.</li>
+            </ol>
+            <h3>Customizing</h3>
+            <p>
+              Click <strong>+ New</strong> in the template picker or edit
+              <code>prompt-templates.json</code> in your data directory directly. Each entry is
+              <code>{id, label, body, variables, defaultAgent}</code>.
             </p>
           </section>
 
@@ -338,9 +372,30 @@
               <figcaption>Multi-step macros: spawn terminal → run setup → prompt agent → open file.</figcaption>
             </figure>
             <p>
-              Built-in flows: <em>Start a new feature</em>, <em>Bug repro</em>,
-              <em>Pre-PR review</em>. All editable. Create your own with the visual editor — saved
-              to <code>workflow-templates.json</code>.
+              A workflow template is a sequence of steps — spawn a terminal, run a setup command,
+              prompt an agent, open a file in Monaco, etc. — that runs as a single atomic action.
+              It's the answer to "I do this same five-step thing every morning."
+            </p>
+            <h3>Built-in workflows</h3>
+            <ul class="docs-list">
+              <li><strong>Start a new feature</strong> — create a branch, spawn a Claude terminal with the feature spec, open the relevant files.</li>
+              <li><strong>Bug repro</strong> — spawn a shell in the repo, run the failing test, pipe the output into a fresh agent session.</li>
+              <li><strong>Pre-PR review</strong> — run lint + tests + coverage, then ask an agent for a strict code review of the diff.</li>
+            </ul>
+            <h3>How to run one</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Click the <strong>Workflows</strong> icon in the sidebar (or run <kbd>Ctrl</kbd> + <kbd>K</kbd> → <em>workflow</em>).</li>
+              <li>Pick a workflow from the list.</li>
+              <li>Fill any inputs the workflow requires (feature name, bug id, branch).</li>
+              <li>Click <strong>Launch</strong> — every step runs in order; failures pause the workflow with the error visible.</li>
+            </ol>
+            <h3>Creating your own</h3>
+            <p>
+              Click <strong>+ New workflow</strong> to open the visual editor. Each step is one of:
+              <code>open_terminal</code>, <code>run_command</code>, <code>send_prompt</code>,
+              <code>open_file</code>, <code>git_action</code>, or <code>wait_for_prompt</code>.
+              Workflows save to <code>workflow-templates.json</code> and can also be invoked by an
+              agent via the MCP <code>run_workflow</code> tool.
             </p>
           </section>
 
@@ -352,10 +407,35 @@
               <figcaption><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> toggles it.</figcaption>
             </figure>
             <p>
-              Shows what's "in scope" right now — git branch, focused terminal, active agent with
-              live token count, recent files, and pins. Also the pane agents read from when you ask
-              "what am I looking at?" — explicit context sharing, not implicit slurp.
+              The Context panel is Termpolis's answer to the "what does the AI actually know right
+              now?" question. It's a sliding pane on the right that shows everything currently in
+              scope for the agents you're working with — so you never have to guess whether Claude
+              saw the file you just edited, or whether Codex knows which branch you're on.
             </p>
+            <h3>What it shows</h3>
+            <ul class="docs-list">
+              <li><strong>Project root + git branch</strong> — the cwd of the focused terminal and the active branch, so an agent can ground its answers in the right repo state.</li>
+              <li><strong>File tree</strong> — collapsible directory view of the project, click to pin a file into context.</li>
+              <li><strong>Active agent</strong> — which AI is focused, its model, and a live token counter. When you hit 80% of the model's context window, the bar turns amber; at 95% it turns red — your cue to compact or wrap up.</li>
+              <li><strong>Recent files</strong> — last 20 files the agent (or you) read, edited, or ran. Click to re-open in Monaco's diff view.</li>
+              <li><strong>Pinned items</strong> — anything you've pinned: a file, an activity event, a prompt, a memory entry. Pins stay visible across sessions.</li>
+              <li><strong>Task chain</strong> — when a swarm is running, the current task, its parent, and its dependencies.</li>
+            </ul>
+            <h3>Why it's helpful</h3>
+            <ul class="docs-list">
+              <li><strong>No more "please re-share the file" loops.</strong> Pin it once and every agent can read it.</li>
+              <li><strong>Catch token pressure before it compacts.</strong> The live counter means you'll never be surprised when an agent suddenly forgets the first half of your conversation.</li>
+              <li><strong>Explicit context, not implicit slurp.</strong> Agents only see what you've put here — no silent indexing of your filesystem. Safer for private code.</li>
+              <li><strong>Share context across agents.</strong> Pin a spec once and Claude, Codex, Gemini, and Qwen all read from the same truth.</li>
+            </ul>
+            <h3>How to use it</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> to open.</li>
+              <li>Click <strong>File tree</strong> to browse; right-click a file → <strong>Pin to context</strong> to make it permanent.</li>
+              <li>Right-click any activity feed event → <strong>Pin</strong> to float it to the top.</li>
+              <li>When an agent asks "what am I looking at?", it reads from this pane directly via MCP.</li>
+              <li>Click the <strong>×</strong> on any pin to remove it; pins save to <code>~/.termpolis/context-pins.json</code>.</li>
+            </ol>
           </section>
 
           <!-- HISTORY -->
@@ -377,13 +457,47 @@
             <h2>Conversation search</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/16-conversation-search.png" alt="Conversation search panel.">
-              <figcaption>The AI-session equivalent of history search.</figcaption>
+              <figcaption>The AI-session equivalent of history search — find any prompt, tool call, or answer across every agent you've ever run.</figcaption>
             </figure>
             <p>
-              Search across every agent session Termpolis has recorded. Filter by agent, kind
-              (prompt, tool call, tool result, error), or time range. Each hit deep-links into the
-              original session so you can reopen, re-prompt, or copy a successful flow.
+              Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>. Every AI agent session in
+              Termpolis — Claude Code, Codex, Gemini CLI, Aider+Qwen, swarm runs, and the conductor
+              itself — is recorded event-by-event to <code>~/.termpolis/activity.jsonl</code>.
+              Conversation search is the UI on top of that log.
             </p>
+            <h3>What's indexed</h3>
+            <ul class="docs-list">
+              <li><strong>Prompts</strong> — every user message sent to an agent.</li>
+              <li><strong>Assistant messages</strong> — the full reply text, plus intermediate thinking blocks where available.</li>
+              <li><strong>Tool calls</strong> — the tool name and arguments (e.g. <code>Edit</code>, <code>Bash</code>, <code>WebSearch</code>).</li>
+              <li><strong>Tool results</strong> — the response the agent got back (stdout, file contents, etc.).</li>
+              <li><strong>Errors</strong> — anything the agent raised or the pty emitted on stderr.</li>
+              <li><strong>Token updates</strong> — periodic snapshots of cumulative input/output tokens.</li>
+              <li><strong>Interventions</strong> — every Pause / Cancel / Steer action you took, who took it, and when.</li>
+            </ul>
+            <h3>Filters</h3>
+            <ul class="docs-list">
+              <li><strong>Full-text</strong> — matches prompt text, assistant replies, and tool arguments.</li>
+              <li><strong>Agent</strong> — narrow to Claude, Codex, Gemini, Qwen, Conductor, or "all".</li>
+              <li><strong>Kind</strong> — prompt / tool_call / tool_result / error / message.</li>
+              <li><strong>Time range</strong> — last hour, today, last 7 days, or custom.</li>
+              <li><strong>Scope</strong> — current terminal only, current session, or all history.</li>
+            </ul>
+            <h3>Why it's helpful</h3>
+            <ul class="docs-list">
+              <li><strong>"How did I fix this last time?"</strong> — find the exact prompt and solution from a month ago.</li>
+              <li><strong>Audit what an agent actually did.</strong> When something breaks, grep the tool-call log — every <code>Edit</code>, every <code>Bash</code>, every file touched.</li>
+              <li><strong>Reuse successful prompts.</strong> Click a hit → <strong>Copy prompt</strong> to rerun it in a fresh session.</li>
+              <li><strong>Compare agent answers.</strong> Search the same question across agents to see how Claude, Codex, and Gemini differed.</li>
+            </ul>
+            <h3>How to use it</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>.</li>
+              <li>Type a query — e.g. <em>"regex for ISO dates"</em>, <em>"docker-compose error"</em>, <em>"why did claude say no"</em>.</li>
+              <li>Narrow with the kind + agent dropdowns if the hit list is noisy.</li>
+              <li>Click a result to expand the full event — prompt and answer side by side.</li>
+              <li>Use the <strong>Copy prompt</strong>, <strong>Re-run in new session</strong>, or <strong>Pin to context</strong> actions from the hit's kebab menu.</li>
+            </ol>
           </section>
 
           <!-- GIT -->
@@ -419,59 +533,122 @@
           <section id="mcp" class="docs-section">
             <h2>MCP server</h2>
             <p>
-              Termpolis ships an MCP (Model Context Protocol) server so agents can control the app
-              from inside a conversation. Listens on <code>http://localhost:48211</code> by default.
+              Termpolis ships an MCP (Model Context Protocol) server so AI agents can control the
+              app from inside a conversation. It listens on <code>http://localhost:48211</code> by
+              default.
+            </p>
+            <div class="docs-callout">
+              <p>
+                <strong>These are not commands you type.</strong> The entries in the table below are
+                <strong>MCP tools</strong> — function calls that an AI agent (Claude, Codex, Gemini,
+                etc.) invokes through the Model Context Protocol, the same way an agent uses
+                <code>Read</code>, <code>Bash</code>, or <code>WebSearch</code>. You never type
+                <code>open_terminal</code> yourself; instead, you say something like
+                <em>"open a new PowerShell terminal in the repo root"</em> and the agent calls the
+                <code>open_terminal</code> tool to do it.
+              </p>
+            </div>
+            <h3>Connecting an agent to Termpolis MCP</h3>
+            <p>
+              Any MCP-aware client can talk to the server. Register it once in the client's MCP
+              config — for example, in <code>~/.config/claude/mcp.json</code> or Codex's
+              <code>mcp_config.json</code>:
+            </p>
+            <pre class="docs-code"><code>{
+  "mcpServers": {
+    "termpolis": {
+      "url": "http://localhost:48211",
+      "headers": {
+        "Authorization": "Bearer ${TERMPOLIS_MCP_TOKEN}"
+      }
+    }
+  }
+}</code></pre>
+            <p>
+              The token is written to <code>~/.termpolis/mcp-token</code> on every launch. Most
+              official agent profiles (Claude Code, Codex, Aider) are wired up automatically when
+              launched from inside Termpolis — nothing to configure.
+            </p>
+            <h3>Available tools</h3>
+            <p>
+              Once connected, the agent can call any of these tools. You'll see each invocation in
+              the <a href="#activity">Activity Feed</a> as an <code>mcp_audit</code> event.
             </p>
             <div class="docs-table-wrap">
               <table class="docs-table">
-                <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
+                <thead><tr><th>Tool</th><th>What the agent does when it calls this</th></tr></thead>
                 <tbody>
-                  <tr><td><code>list_terminals</code></td><td>Enumerate open terminals</td></tr>
-                  <tr><td><code>open_terminal</code></td><td>Spawn a new terminal</td></tr>
-                  <tr><td><code>close_terminal</code></td><td>Close a terminal by ID</td></tr>
-                  <tr><td><code>focus_terminal</code></td><td>Bring a terminal to foreground</td></tr>
-                  <tr><td><code>send_input</code></td><td>Send raw text + control chars</td></tr>
-                  <tr><td><code>read_buffer</code></td><td>Read last N output lines</td></tr>
-                  <tr><td><code>wait_for_prompt</code></td><td>Wait for a regex match</td></tr>
-                  <tr><td><code>list_workspaces</code></td><td>Enumerate workspaces</td></tr>
-                  <tr><td><code>switch_workspace</code></td><td>Change active workspace</td></tr>
-                  <tr><td><code>git_status</code></td><td>JSON summary of current repo</td></tr>
-                  <tr><td><code>run_workflow</code></td><td>Execute a named workflow</td></tr>
-                  <tr><td><code>broadcast_message</code></td><td>Swarm-wide notification</td></tr>
-                  <tr><td><code>get_session_id</code></td><td>Calling session's opaque ID</td></tr>
-                  <tr><td><code>post_activity</code></td><td>Push an event into the feed</td></tr>
-                  <tr><td><code>memory_write</code></td><td>Persist a labeled memory entry</td></tr>
-                  <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword)</td></tr>
-                  <tr><td><code>memory_list</code></td><td>List recent memory entries</td></tr>
+                  <tr><td><code>list_terminals</code></td><td>Enumerate open terminals — agent uses this to find a working session.</td></tr>
+                  <tr><td><code>open_terminal</code></td><td>Spawn a new terminal with a chosen shell + cwd.</td></tr>
+                  <tr><td><code>close_terminal</code></td><td>Close a terminal by ID when its work is done.</td></tr>
+                  <tr><td><code>focus_terminal</code></td><td>Bring a terminal to the foreground in the UI.</td></tr>
+                  <tr><td><code>send_input</code></td><td>Type text or control chars into a terminal's stdin.</td></tr>
+                  <tr><td><code>read_buffer</code></td><td>Read the last N lines of output from a terminal.</td></tr>
+                  <tr><td><code>wait_for_prompt</code></td><td>Block until a regex appears in the buffer (e.g. wait for <code>$</code> to return).</td></tr>
+                  <tr><td><code>list_workspaces</code></td><td>Enumerate workspaces.</td></tr>
+                  <tr><td><code>switch_workspace</code></td><td>Change the active workspace.</td></tr>
+                  <tr><td><code>git_status</code></td><td>Get a JSON summary of the current repo (branch, ahead/behind, staged).</td></tr>
+                  <tr><td><code>run_workflow</code></td><td>Execute a named <a href="#workflows">workflow template</a>.</td></tr>
+                  <tr><td><code>broadcast_message</code></td><td>Send a swarm-wide notification to every active agent.</td></tr>
+                  <tr><td><code>get_session_id</code></td><td>Return the calling session's opaque ID for self-identification.</td></tr>
+                  <tr><td><code>post_activity</code></td><td>Push a custom event into the Activity Feed.</td></tr>
+                  <tr><td><code>memory_write</code></td><td>Persist a labeled memory entry into the <a href="#memory">shared memory</a> store.</td></tr>
+                  <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword) across shared memory.</td></tr>
+                  <tr><td><code>memory_list</code></td><td>List recent memory entries with filters.</td></tr>
                 </tbody>
               </table>
             </div>
-            <p>
-              Authenticated via a per-launch token at <code>~/.termpolis/mcp-token</code>. Tight
-              origin checks, rate limits, and an audit log.
-            </p>
+            <h3>Security</h3>
+            <ul class="docs-list">
+              <li><strong>Bearer token</strong> — a random token is generated per app launch and written to <code>~/.termpolis/mcp-token</code>. Every request must include it in the <code>Authorization</code> header.</li>
+              <li><strong>Origin checks</strong> — requests from browser origins are rejected unless explicitly allowlisted.</li>
+              <li><strong>Rate limits</strong> — 60 req/s per client, 10 req/s for destructive tools (<code>close_terminal</code>, <code>send_input</code>).</li>
+              <li><strong>Audit log</strong> — every tool call is written to <code>~/.termpolis/mcp-audit.jsonl</code> and emitted as an Activity Feed event.</li>
+            </ul>
           </section>
 
           <!-- SWARM -->
           <section id="swarm" class="docs-section">
             <h2>Swarm dashboard</h2>
             <figure class="docs-shot">
-              <img src="docs/screenshots/18-swarm-dashboard.png" alt="Swarm dashboard.">
-              <figcaption><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> opens the nerve center for multi-agent work.</figcaption>
+              <img src="docs/screenshots/19-swarm-tasks-tab.png" alt="Swarm tasks tab — the default dashboard view.">
+              <figcaption><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> opens the nerve center for multi-agent work. You land on the Tasks tab.</figcaption>
             </figure>
-            <p>The dashboard has three tabs:</p>
-            <figure class="docs-shot">
-              <img src="docs/screenshots/19-swarm-tasks-tab.png" alt="Swarm tasks tab.">
-              <figcaption>Tasks tab — full DAG, dependencies, critical path at a glance.</figcaption>
-            </figure>
+            <p>
+              The dashboard is where you watch a running swarm. Three tabs, each answering a
+              different question about the active run.
+            </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/20-swarm-messages-tab.png" alt="Swarm messages tab.">
-              <figcaption>Messages tab — live stream of every handoff and broadcast.</figcaption>
+              <figcaption>Messages tab — live stream of every handoff and broadcast between agents.</figcaption>
             </figure>
             <figure class="docs-shot">
               <img src="docs/screenshots/21-swarm-trace-tab.png" alt="Swarm trace tab.">
-              <figcaption>Trace tab — conductor event timeline for the active run.</figcaption>
+              <figcaption>Trace tab — the conductor's event timeline for the active run: plan → delegate → watch → merge.</figcaption>
             </figure>
+            <h3>What each tab is for</h3>
+            <ul class="docs-list">
+              <li><strong>Tasks</strong> — answers <em>"where are we?"</em>. Full DAG with Pending / In&nbsp;progress / Completed columns, per-task assignee and status, dependencies drawn as edges. Click a task to see its prompt, the agent's output so far, and the handoff chain.</li>
+              <li><strong>Messages</strong> — answers <em>"what are the agents saying?"</em>. Live stream of every handoff, broadcast, and tool result routed between agents. Use this to diagnose "why is Codex waiting?"</li>
+              <li><strong>Trace</strong> — answers <em>"what is the conductor thinking?"</em>. Timeline of the conductor's own decisions — planning, re-planning, agent picks, merge calls.</li>
+            </ul>
+            <h3>How to use it</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> at any time — no swarm needs to be running.</li>
+              <li>If no swarm is active, click <strong>Start Swarm</strong> to launch the <a href="#conductor">Start Swarm wizard</a>.</li>
+              <li>Switch tabs freely — the dashboard stays scoped to the active run.</li>
+              <li>Right-click any task → <strong>Open agent terminal</strong> to drop into that agent's live pty.</li>
+              <li>Need to abort? Click the trash icon next to the swarm title to clear all messages and tasks (see below).</li>
+            </ol>
+            <figure class="docs-shot">
+              <img src="docs/screenshots/18-swarm-dashboard.png" alt="Clear Swarm confirmation dialog.">
+              <figcaption>Clearing a swarm — the trash icon prompts for confirmation before wiping the current run's tasks and messages.</figcaption>
+            </figure>
+            <p>
+              Clearing does <strong>not</strong> kill the underlying agent pty's. Use the
+              <a href="#intervention">intervention controls</a> if you need to stop agents mid-flight
+              too.
+            </p>
           </section>
 
           <!-- CONDUCTOR -->
@@ -479,19 +656,45 @@
             <h2>AI conductor</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/22-start-swarm-wizard.png" alt="Start swarm wizard.">
-              <figcaption>Start Swarm wizard — task, agents, budget, cwd.</figcaption>
+              <figcaption>Start Swarm wizard — describe the task, pick your agents, set a budget, choose the working directory.</figcaption>
             </figure>
             <p>
-              A dedicated Claude Code instance running with a system prompt purpose-built for
-              orchestration. It reads your task, searches shared memory for relevant prior work,
-              decomposes into subtasks, picks the best-fit agent per task (capability + load + cost),
-              delegates via MCP, watches progress, decides when to merge partial results, re-plan,
-              or declare done.
+              The conductor is a dedicated Claude Code instance running with a system prompt
+              purpose-built for orchestration. When you launch a swarm, it's the conductor that
+              reads your task, searches <a href="#memory">shared memory</a> for relevant prior work,
+              decomposes the task into subtasks, picks the best-fit agent per subtask (based on
+              <a href="#capabilities">capability ratings</a> + current load + cost), delegates via
+              <a href="#mcp">MCP</a>, watches progress, and decides when to merge partial results,
+              re-plan, or declare done.
             </p>
             <p>
               Not keyword matching — <strong>actual AI reasoning</strong>, because the conductor is
               itself a frontier model. Open its terminal and watch it think live.
             </p>
+            <h3>Launching a swarm — step by step</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> or click <strong>Start Swarm</strong> on the Welcome screen.</li>
+              <li><strong>Task</strong> — describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity.</li>
+              <li><strong>Working directory</strong> — pick the repo the swarm will operate in. All agents inherit this cwd.</li>
+              <li><strong>Agents</strong> — toggle which agents are allowed to participate. Unchecked agents won't be assigned work.</li>
+              <li><strong>Budget</strong> — optional token and time ceilings. The conductor halts the run and asks you before exceeding.</li>
+              <li><strong>Launch</strong> — the wizard spawns the conductor in a hidden terminal and opens the <a href="#swarm">Swarm Dashboard</a>.</li>
+            </ol>
+            <h3>What happens next</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Conductor reads your task → queries <a href="#memory">shared memory</a> for related prior work.</li>
+              <li>Decomposes into a DAG of subtasks with explicit dependencies.</li>
+              <li>For each subtask, picks an agent: capability rating × inverse cost × current load.</li>
+              <li>Spawns the agent terminal via <code>open_terminal</code> (MCP) and sends the prompt via <code>send_input</code>.</li>
+              <li>Watches tool calls + token usage via the Activity Feed; intervenes if an agent stalls or errors out.</li>
+              <li>When a task completes, writes the result to shared memory and unblocks dependents.</li>
+              <li>When the DAG is done, presents a summary and offers a <a href="#review">swarm review</a>.</li>
+            </ol>
+            <h3>When to use a swarm vs. a single agent</h3>
+            <ul class="docs-list">
+              <li><strong>Single agent</strong> — tight iteration loops, quick fixes, interactive exploration. You're the conductor.</li>
+              <li><strong>Swarm</strong> — parallelizable tasks (build frontend + backend + tests simultaneously), long-running migrations, when you want cost-aware routing across agents, or when the task description reads like a spec more than a prompt.</li>
+            </ul>
           </section>
 
           <!-- ACTIVITY -->
