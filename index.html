@@ -21,6 +21,7 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a href="#swarm">Smart Swarm</a>
+        <a href="#observability">Observability</a>
         <a href="#ai-native">AI Native</a>
         <a href="#features">Features</a>
         <a href="#downloads">Downloads</a>
@@ -343,6 +344,79 @@
               <a href="#" data-platform="linux" onclick="downloadRelease('linux', event)">Download for Linux</a>
             </article>
           </div>
+        </div>
+      </section>
+
+      <!-- AI OBSERVABILITY -->
+      <section id="observability" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">AI observability</p>
+          <h2>See what every agent is doing, in real time</h2>
+          <p>
+            Run five agents at once and the usual problem shows up fast: two of them are doing the same work, one is about
+            to run out of context, and another is quietly burning tokens. Termpolis ships a local observability layer that
+            watches every agent on your machine — no cloud, no external dashboard, bounded memory, and 90%+ test coverage.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Activity feed</h3>
+            <p>
+              Ctrl+Shift+A opens a live stream of every agent event — messages, tool calls, tool results, token updates,
+              compaction events, errors, and MCP audit entries. Filter by agent (Claude/Codex/Gemini/Aider), by kind,
+              or search full text. Newest first.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Context gauge</h3>
+            <p>
+              A 0–100% bar in the per-terminal status bar showing how full the agent's context window is. Model aware —
+              Opus, Sonnet, Gemini, and Qwen all have their correct token limits. Color coded green → yellow → orange → red.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Context pins</h3>
+            <p>
+              Pin any snippet — a migration rule, a test policy, an API contract — to the current project. Pins are
+              re-injected on agent handoff so the next agent doesn't lose the plot. Per-project storage with full CRUD.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Redundancy detector</h3>
+            <p>
+              Ctrl+Shift+D surfaces duplicate work across terminals. Two agents running <code>npm test</code> at the same
+              time? Both editing the same file? A severity-ranked finding shows up immediately.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Efficiency panel</h3>
+            <p>
+              Ctrl+Shift+Y aggregates per-agent stats — token totals, cost, error rate, average tool-call duration. Spot
+              when one agent is burning budget while another is cruising.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Event bus</h3>
+            <p>
+              In-process bounded ring buffer (10K events) with rate limiting (500/sec burst) to prevent DoS from a runaway
+              agent. Persisted to JSONL with automatic rotation. 64KB payload cap. Subscriber callbacks are sandboxed so a
+              bad listener can't kill the bus.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Transcript watchers</h3>
+            <p>
+              Native JSONL readers for Claude Code, Codex, Gemini, and Aider. Tail-with-rotation: if the agent rotates its
+              log mid-run, the watcher follows. Path traversal is blocked at the watcher boundary.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Swarm dashboard</h3>
+            <p>
+              Live token burn per agent, tasks in kanban columns, and the full conductor message log. Every panel streams
+              from the same event bus — no polling lag, no duplicated state.
+            </p>
+          </article>
         </div>
       </section>
 
