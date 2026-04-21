@@ -179,6 +179,51 @@
   max-width: 40rem;
 }
 
+.docs-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.3rem 0 0.2rem;
+}
+
+.docs-bug-btn,
+.docs-feature-btn {
+  display: inline-block;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  line-height: 1;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.docs-bug-btn {
+  background: #e53935;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.25);
+}
+
+.docs-bug-btn:hover,
+.docs-bug-btn:focus-visible {
+  background: #c62828;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.35);
+}
+
+.docs-feature-btn {
+  background: #1976d2;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
+}
+
+.docs-feature-btn:hover,
+.docs-feature-btn:focus-visible {
+  background: #125ea5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.35);
+}
+
 /* Section blocks */
 
 .docs-section {

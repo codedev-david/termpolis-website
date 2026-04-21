@@ -225,6 +225,56 @@ h3 {
   border: 1px solid var(--line);
 }
 
+.button-sponsor {
+  background: linear-gradient(135deg, #ea4aaa, #bf3d8e);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(234, 74, 170, 0.30);
+  border: 0;
+}
+
+.button-sponsor:hover,
+.button-sponsor:focus-visible {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.free-forever {
+  max-width: 36rem;
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.free-forever a {
+  color: #ea4aaa;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.free-forever a:hover,
+.free-forever a:focus-visible {
+  text-decoration: underline;
+}
+
+.free-forever-pill {
+  display: inline-block;
+  padding: 0.18rem 0.65rem;
+  margin-right: 0.55rem;
+  border-radius: 999px;
+  background: #22c55e;
+  color: #0b1411;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+
 .hero-points,
 .detail-list {
   display: grid;

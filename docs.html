@@ -52,6 +52,7 @@
           <p class="docs-sidebar-eyebrow">Core terminal</p>
           <ul class="docs-toc">
             <li><a href="#sidebar">Sidebar</a></li>
+            <li><a href="#workspaces">Workspaces</a></li>
             <li><a href="#terminals">Terminals</a></li>
             <li><a href="#views">Tabs, splits &amp; grid</a></li>
             <li><a href="#settings">Settings</a></li>
@@ -102,6 +103,20 @@
             <p class="docs-lead">
               The definitive guide to Termpolis — the AI-native terminal where Claude, Codex,
               Gemini, and Qwen work together as a team. Every feature, every panel, every shortcut.
+            </p>
+            <p class="docs-hero-actions">
+              <a
+                class="docs-bug-btn"
+                href="https://github.com/codedev-david/termpolis/issues/new?template=bug_report.md"
+                target="_blank"
+                rel="noreferrer"
+              >🐛 Submit a bug report</a>
+              <a
+                class="docs-feature-btn"
+                href="https://github.com/codedev-david/termpolis/issues/new?template=feature_request.md"
+                target="_blank"
+                rel="noreferrer"
+              >✨ Request a feature</a>
             </p>
           </header>
 
@@ -190,11 +205,78 @@
             <p>The sidebar is the navigation spine of the app. From top to bottom:</p>
             <ol class="docs-list docs-list-ordered">
               <li>Termpolis logo — click to return to the welcome view.</li>
-              <li>Workspaces — one row per open workspace, each a named container of terminals preserved across restarts.</li>
+              <li>Workspaces — one row per open workspace. See the <a href="#workspaces">Workspaces</a> section below for how they work.</li>
               <li>Tool buttons — Settings, Git Panel, Workflows, Activity, Swarm — each toggleable.</li>
               <li>Collapse/expand chevron — hides labels to save space.</li>
             </ol>
-            <p>Right-click a workspace row for Rename, Duplicate, Close, and Show in file explorer. New workspaces via the <strong>+ Workspace</strong> button or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd>.</p>
+          </section>
+
+          <!-- WORKSPACES -->
+          <section id="workspaces" class="docs-section">
+            <h2>Workspaces</h2>
+            <p>
+              Workspaces are the <strong>project-level container</strong> in Termpolis — think of
+              them as the tabs in a browser, except each one holds a full set of terminals, a
+              split/grid layout, an active agent, a scrollback history, per-workspace settings,
+              and any panels you've left pinned. You can run many workspaces side-by-side and
+              switch between them without losing state.
+            </p>
+            <h3>What a workspace owns</h3>
+            <ul class="docs-list">
+              <li><strong>Terminals</strong> — every open pty in that workspace, with its shell, working directory, label, color, and scrollback buffer.</li>
+              <li><strong>Layout</strong> — tab view, split view (the full pane tree), or grid view. Restored exactly on relaunch.</li>
+              <li><strong>Focus</strong> — which terminal was active, cursor position, selection.</li>
+              <li><strong>Agent sessions</strong> — any Claude Code, Codex, Gemini, or Aider+Qwen runs tied to terminals in the workspace.</li>
+              <li><strong>Panel state</strong> — which side panels are open and their size.</li>
+              <li><strong>Per-workspace overrides</strong> — any setting scoped specifically to this workspace (shell default, font size, etc.).</li>
+            </ul>
+            <h3>How workspaces persist</h3>
+            <p>
+              Everything above is written to <code>session.json</code> in the Termpolis data
+              directory (see <a href="#install">Installation</a> for the per-platform path) as
+              soon as it changes — so an unclean shutdown still leaves you with last-known-good
+              state. Re-opening the app restores the workspaces in the same order with the same
+              terminals, split layouts, and focus.
+            </p>
+            <h3>Creating a workspace</h3>
+            <p>
+              Use the <strong>+ Workspace</strong> button at the top of the sidebar or the
+              <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> shortcut. Each new workspace
+              starts empty; pick a shell to open the first terminal, or apply a
+              <a href="#workflows">workflow template</a> to stamp a whole pre-built layout into it.
+            </p>
+            <h3>Managing workspaces</h3>
+            <p>Right-click any workspace row in the sidebar for:</p>
+            <ul class="docs-list">
+              <li><strong>Rename</strong> — changes the label in the sidebar and the window title when the workspace is active.</li>
+              <li><strong>Duplicate</strong> — creates a new workspace with the same terminal configuration (shell, cwd, label) but fresh, empty pty sessions. Useful when mirroring a setup for a second feature branch.</li>
+              <li><strong>Close</strong> — removes the workspace. If any terminals have live child processes, a confirmation dialog lists what's still running.</li>
+              <li><strong>Show in file explorer</strong> — opens the workspace's working directory in Finder / Explorer / your Linux file manager.</li>
+            </ul>
+            <h3>Switching between workspaces</h3>
+            <p>
+              Click a workspace row to activate it. Keyboard users can cycle with
+              <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>[</kbd> / <kbd>]</kbd>. Unsaved terminal
+              output in background workspaces keeps streaming — nothing is paused just because
+              it's not visible.
+            </p>
+            <h3>Workspace root directory</h3>
+            <p>
+              Each workspace has a default working directory that new terminals start in. Set it
+              when you create the workspace, or change it later from Settings → Workspace.
+              Terminals started with the agent launcher or a workflow template inherit this unless
+              they override it per-terminal.
+            </p>
+            <h3>Workspaces vs. workflows</h3>
+            <p>
+              Workspaces are <em>long-lived containers</em> that own state across restarts;
+              <a href="#workflows">workflows</a> are <em>one-shot recipes</em> that populate the
+              current workspace with a pre-configured set of terminals, commands, and a split
+              layout. Think of a workspace as the room you're working in, and a workflow as the
+              "set the room up like this" macro. Launching a workflow inside a workspace closes
+              the existing terminals and replaces them with the workflow's terminals — the
+              workspace stays, the contents get reset.
+            </p>
           </section>
 
           <!-- TERMINALS -->
@@ -369,33 +451,45 @@
             <h2>Workflow templates</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/13-workflow-templates.png" alt="Workflow templates panel.">
-              <figcaption>Multi-step macros: spawn terminal → run setup → prompt agent → open file.</figcaption>
+              <figcaption>One-shot recipes that stamp a pre-built terminal layout into the current workspace.</figcaption>
             </figure>
             <p>
-              A workflow template is a sequence of steps — spawn a terminal, run a setup command,
-              prompt an agent, open a file in Monaco, etc. — that runs as a single atomic action.
-              It's the answer to "I do this same five-step thing every morning."
+              A workflow template is a <strong>one-shot setup recipe</strong> for the current
+              workspace. Each template describes a set of terminals — their names, colors, shell,
+              and an optional startup command — and a layout (vertical splits or a 2×2 grid).
+              Clicking <strong>Launch</strong> closes the terminals you have open, spawns the
+              template's terminals in the configured split layout, and fires the startup commands
+              after a brief delay so the shells finish initializing first.
             </p>
+            <p>Open the Workflows panel from the <strong>Workflows</strong> sidebar button.</p>
             <h3>Built-in workflows</h3>
             <ul class="docs-list">
-              <li><strong>Start a new feature</strong> — create a branch, spawn a Claude terminal with the feature spec, open the relevant files.</li>
-              <li><strong>Bug repro</strong> — spawn a shell in the repo, run the failing test, pipe the output into a fresh agent session.</li>
-              <li><strong>Pre-PR review</strong> — run lint + tests + coverage, then ask an agent for a strict code review of the diff.</li>
+              <li><strong>Claude Code + Shell</strong> — Claude Code on the left, plain shell on the right (2-pane vertical split).</li>
+              <li><strong>Full Stack Dev</strong> — AI agent + Frontend + Backend + Tests in a 2×2 grid.</li>
+              <li><strong>Code Review</strong> — AI reviewer + Git pane (2-pane vertical split).</li>
             </ul>
-            <h3>How to run one</h3>
-            <ol class="docs-list docs-list-ordered">
-              <li>Click the <strong>Workflows</strong> icon in the sidebar (or run <kbd>Ctrl</kbd> + <kbd>K</kbd> → <em>workflow</em>).</li>
-              <li>Pick a workflow from the list.</li>
-              <li>Fill any inputs the workflow requires (feature name, bug id, branch).</li>
-              <li>Click <strong>Launch</strong> — every step runs in order; failures pause the workflow with the error visible.</li>
-            </ol>
+            <p>Built-ins are read-only. Use <strong>Duplicate</strong> on a built-in to get an editable copy with the <code>(copy)</code> suffix.</p>
             <h3>Creating your own</h3>
+            <p>Click <strong>+ New Workflow</strong> at the bottom of the picker. You get a form for:</p>
+            <ul class="docs-list">
+              <li><strong>Name</strong> and <strong>Description</strong></li>
+              <li><strong>Icon</strong> (Font Awesome solid) and <strong>Layout</strong> (vertical splits or 2×2 grid — the grid requires exactly four terminals to tile cleanly)</li>
+              <li><strong>Terminals</strong> (1–8) — per terminal: name, startup command (optional), shell, and color</li>
+            </ul>
             <p>
-              Click <strong>+ New workflow</strong> to open the visual editor. Each step is one of:
-              <code>open_terminal</code>, <code>run_command</code>, <code>send_prompt</code>,
-              <code>open_file</code>, <code>git_action</code>, or <code>wait_for_prompt</code>.
-              Workflows save to <code>workflow-templates.json</code> and can also be invoked by an
-              agent via the MCP <code>run_workflow</code> tool.
+              Saved workflows appear with a <strong>Custom</strong> badge in the picker, are
+              persisted as part of your session alongside workspaces and prompt templates, and sync
+              via the same save mechanism (<code>session.json</code> in your Termpolis data
+              directory). You can <strong>edit</strong> or <strong>delete</strong> any custom
+              workflow from its row. On Windows, templates that specify <code>bash</code> are
+              auto-resolved to Git Bash.
+            </p>
+            <h3>Difference from workspaces</h3>
+            <p>
+              Workflows don't <em>own</em> state the way <a href="#workspaces">workspaces</a> do —
+              they're a template you apply. After launch, the terminals they spawn live inside
+              your current workspace and behave like any other terminals. Closing and re-launching
+              the same workflow gives you fresh terminals, not the ones from last time.
             </p>
           </section>
 
@@ -588,7 +682,6 @@
                   <tr><td><code>list_workspaces</code></td><td>Enumerate workspaces.</td></tr>
                   <tr><td><code>switch_workspace</code></td><td>Change the active workspace.</td></tr>
                   <tr><td><code>git_status</code></td><td>Get a JSON summary of the current repo (branch, ahead/behind, staged).</td></tr>
-                  <tr><td><code>run_workflow</code></td><td>Execute a named <a href="#workflows">workflow template</a>.</td></tr>
                   <tr><td><code>broadcast_message</code></td><td>Send a swarm-wide notification to every active agent.</td></tr>
                   <tr><td><code>get_session_id</code></td><td>Return the calling session's opaque ID for self-identification.</td></tr>
                   <tr><td><code>post_activity</code></td><td>Push a custom event into the Activity Feed.</td></tr>
@@ -833,18 +926,17 @@
           <section id="architecture" class="docs-section">
             <h2>Architecture</h2>
             <pre class="docs-pre">┌─────────────────────────────────────────────────────┐
-│  Renderer (React)                                    │
+│  Renderer (React)                                   │
 │  ├── Sidebar, Terminals, Panels                     │
 │  ├── Activity Feed (observability UI)               │
 │  ├── Swarm Dashboard + Conductor view               │
-│  └── IPC client → window.termpolis bridge          │
+│  └── IPC client → window.termpolis bridge           │
 └──────────────────┬──────────────────────────────────┘
                    │  Electron IPC
 ┌──────────────────▼──────────────────────────────────┐
-│  Main process (Node)                                 │
+│  Main process (Node)                                │
 │  ├── Terminal manager (node-pty)                    │
 │  ├── Session persistence (session.json)             │
-│  ├── Workflow runner                                │
 │  ├── Git adapter                                    │
 │  ├── MCP server (HTTP, 17 tools)                    │
 │  ├── Swarm memory (JSONL + embeddings)              │
@@ -862,37 +954,60 @@
           <!-- TROUBLESHOOTING -->
           <section id="troubleshooting" class="docs-section">
             <h2>Troubleshooting</h2>
-            <h3>Terminal won't start</h3>
-            <p>
-              Check the shell path in Settings → Shells. On Windows, PowerShell 7 lives at
-              <code>C:\Program Files\PowerShell\7\pwsh.exe</code>. On macOS, re-grant Termpolis Full
-              Disk Access in System Preferences → Privacy if you get "permission denied" for
-              <code>zsh</code>.
+            <p class="docs-callout">
+              <strong>Found a bug that isn't here?</strong>
+              <a href="https://github.com/codedev-david/termpolis/issues/new?template=bug_report.md" target="_blank" rel="noreferrer">Open an issue on GitHub →</a>
+              Include your OS + version, Termpolis version (Settings → About), and the most recent entries from <code>~/.termpolis/logs/</code>.
             </p>
-            <h3>Agent CLI not found</h3>
-            <p>
-              The launch button fails silently if the CLI isn't in your PATH. Run
-              <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>,
-              <code>aider</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps
-              don't always inherit <code>$PATH</code> — restart Termpolis after updating
-              <code>~/.zprofile</code>.
-            </p>
-            <h3>Swarm conductor can't reach MCP</h3>
-            <p>
-              Check the MCP indicator in the status bar. If red, see
-              <code>~/.termpolis/logs/mcp.log</code>. Common causes: port 48211 in use (change in
-              Settings → Advanced), firewall blocking localhost.
-            </p>
-            <h3>Memory search returns nothing</h3>
-            <p>
-              Embeddings require Ollama running with <code>nomic-embed-text</code> pulled. Start it
-              and recent writes will succeed; historical keyword-only entries still match.
-            </p>
-            <h3>Reset everything</h3>
-            <p>
-              Close Termpolis, delete the data directory (see <a href="#install">Installation</a>),
-              relaunch.
-            </p>
+
+            <h3>Installation &amp; first-run</h3>
+            <p><strong>Windows: "Windows protected your PC" SmartScreen warning.</strong> Click <strong>More info</strong> → <strong>Run anyway</strong>. Termpolis is code-signed (SSL.com), but newly signed builds need reputation time before SmartScreen stops flagging them. The warning disappears once enough people download the release.</p>
+            <p><strong>macOS: "Termpolis is damaged and can't be opened."</strong> Gatekeeper couldn't verify the signature — usually a partial download. Re-download the DMG from GitHub Releases, verify the file size matches, and mount again. If it still fails, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the bottom, and click <strong>Open Anyway</strong> next to the Termpolis entry.</p>
+            <p><strong>macOS: "Permission denied" when launching a terminal.</strong> Grant Termpolis <strong>Full Disk Access</strong> in System Settings → Privacy &amp; Security → Full Disk Access. Re-launch after granting.</p>
+            <p><strong>Linux: AppImage won't run.</strong> Mark it executable: <code>chmod +x Termpolis-*.AppImage</code>. On systems with hardened FUSE, extract and run the inner binary: <code>./Termpolis-*.AppImage --appimage-extract &amp;&amp; ./squashfs-root/termpolis</code>.</p>
+            <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run — make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
+
+            <h3>Terminals</h3>
+            <p><strong>Terminal won't start.</strong> Check the shell path in Settings → Shells. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; WSL needs <code>wsl.exe</code> on PATH. On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access — launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
+            <p><strong>Terminal hangs on first prompt.</strong> Your shell's startup files (<code>.bashrc</code>, <code>.zshrc</code>, PowerShell <code>$PROFILE</code>) may be waiting on input or hitting a slow network check. Open the shell outside Termpolis to confirm; the fix is in your dotfiles, not the app.</p>
+            <p><strong>Output looks garbled / escape codes show as text.</strong> The shell detected a non-TTY environment. Make sure the <strong>Agent profile</strong> field is empty if you're launching a plain shell. Settings → Shells → Reset defaults fixes most cases.</p>
+            <p><strong>Copy/paste shortcuts don't work.</strong> On Windows/Linux, use <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> / <kbd>V</kbd> inside terminals (bare <kbd>Ctrl</kbd> + <kbd>C</kbd> sends SIGINT). On macOS, <kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>V</kbd> work everywhere.</p>
+            <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme or run <strong>Reset theme</strong> from Settings → Themes.</p>
+
+            <h3>Agents &amp; CLI tools</h3>
+            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>, <code>aider</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code> — restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
+            <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> to see which one Termpolis will launch. Override per-agent in Settings → Agents.</p>
+            <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
+
+            <h3>Swarm, MCP, and memory</h3>
+            <p><strong>MCP indicator in status bar is red.</strong> The MCP server failed to start. Check <code>~/.termpolis/logs/mcp.log</code>. Common causes:</p>
+            <ul class="docs-list">
+              <li><strong>Port 48211 already in use</strong> — another instance or a crashed process still owns it. Kill stray <code>termpolis</code> processes, or change the port in Settings → Advanced.</li>
+              <li><strong>Firewall blocking localhost</strong> — rare but possible. Add an exception for the Termpolis binary.</li>
+              <li><strong>Token file write failed</strong> — <code>~/.termpolis/mcp-token</code> couldn't be written. Fix directory permissions (<code>chmod 700 ~/.termpolis</code>).</li>
+            </ul>
+            <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Watch <code>~/.termpolis/logs/conductor.log</code> for startup output.</p>
+            <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed — if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired — restart Termpolis for fresh tokens.</p>
+            <p><strong>Memory search returns nothing.</strong> Embeddings require Ollama with <code>nomic-embed-text</code> pulled. Run <code>ollama serve</code> and <code>ollama pull nomic-embed-text</code>. New writes will succeed; historical keyword-only entries still match.</p>
+
+            <h3>Updates &amp; performance</h3>
+            <p><strong>Update notification appears but the update doesn't install.</strong> The auto-updater needs write access to the app bundle. On Windows, run the installer manually from GitHub Releases if the in-app updater fails. On macOS, drag the new DMG contents over the existing app. On Linux, download and replace the AppImage.</p>
+            <p><strong>App is slow to start / very high memory.</strong> A corrupted session file occasionally causes runaway restoration. Back up <code>session.json</code> in your data directory, delete it, and relaunch — you lose restored workspace state but get a clean baseline.</p>
+            <p><strong>Terminal scrollback is sluggish.</strong> Default xterm scrollback is 10,000 lines. If you've pasted very large logs, scrolling slows down. Settings → Terminals → Clear scrollback resets without restarting.</p>
+
+            <h3>Session corruption &amp; reset</h3>
+            <p><strong>App opens to a blank screen.</strong> Sign of a broken <code>session.json</code>. Close Termpolis, rename <code>session.json</code> in the data directory, relaunch — the app creates a fresh session. Workspaces will be empty but the app is usable again; the old file is preserved for diffing later.</p>
+            <p><strong>Reset everything.</strong> Close Termpolis, delete the entire data directory (see <a href="#install">Installation</a>), relaunch. Wipes workspaces, settings, themes, prompt templates, custom workflows, swarm history, and memory.</p>
+
+            <h3>Reporting a bug</h3>
+            <p>If none of the above fixes your problem, <a href="https://github.com/codedev-david/termpolis/issues/new?template=bug_report.md" target="_blank" rel="noreferrer">open an issue</a>. Please include:</p>
+            <ol class="docs-list docs-list-ordered">
+              <li>OS + version (e.g., Windows 11 23H2, macOS 14.3, Ubuntu 22.04).</li>
+              <li>Termpolis version (Settings → About).</li>
+              <li>Steps to reproduce — as minimal as you can make them.</li>
+              <li>Relevant log tail from <code>~/.termpolis/logs/</code> (main log plus <code>mcp.log</code> or <code>conductor.log</code> if swarm/MCP-related).</li>
+              <li>A screenshot or short screen recording if it's a UI bug.</li>
+            </ol>
           </section>
 
           <footer class="docs-footer">
