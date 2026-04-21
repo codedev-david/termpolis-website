@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta
     name="description"
-    content="Complete documentation for Termpolis — the AI-native terminal with multi-agent swarm, MCP server, shared memory, intervention controls, and observability."
+    content="Complete documentation for Termpolis, the AI-native terminal with multi-agent swarm, MCP server, shared memory, intervention controls, and observability."
   >
   <title>Documentation | Termpolis</title>
   <link rel="icon" type="image/svg+xml" href="logo-termpolis-titlebar.svg">
@@ -127,7 +127,7 @@
             <p class="eyebrow">Documentation</p>
             <h1>Termpolis Docs</h1>
             <p class="docs-lead">
-              The definitive guide to Termpolis — the AI-native terminal where Claude, Codex,
+              The definitive guide to Termpolis, the AI-native terminal where Claude, Codex,
               Gemini, and Qwen work together as a team. Every feature, every panel, every shortcut.
             </p>
             <p class="docs-hero-actions">
@@ -151,22 +151,22 @@
             <h2>Overview</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/01-welcome-screen.png" alt="Termpolis welcome screen with AI agents and swarm.">
-              <figcaption>The welcome screen — where new sessions begin.</figcaption>
+              <figcaption>The welcome screen, where new sessions begin.</figcaption>
             </figure>
             <p>
               Termpolis is a cross-platform desktop terminal manager (Windows, macOS, Linux) built on
               Electron + React + TypeScript with <code>node-pty</code> powering the underlying shells.
-              It ships as a native app — code signed on Windows, notarized on macOS.
+              It ships as a native app, code signed on Windows, notarized on macOS.
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
               <li><strong>Multi-agent swarm.</strong> Claude, Codex, Gemini, and Aider + Qwen can work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
-              <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol — open terminals, run commands, send messages.</li>
+              <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
               <li><strong>Activity observability.</strong> Every token, every tool call, every message from every agent is visible in real time.</li>
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
               <li><strong>Shared memory.</strong> A RAG-backed memory store that any agent can read and write via MCP.</li>
-              <li><strong>Free local agent.</strong> Aider + Qwen3-Coder via Ollama — zero-cost work is always on the menu.</li>
+              <li><strong>Free local agent.</strong> Aider + Qwen3-Coder via Ollama. Zero-cost work is always on the menu.</li>
             </ul>
           </section>
 
@@ -193,7 +193,7 @@
             <h3>Requirements</h3>
             <ul class="docs-list">
               <li>Windows 10 or 11 (x64)</li>
-              <li>macOS 11 (Big Sur) or later — Apple Silicon and Intel builds ship separately</li>
+              <li>macOS 11 (Big Sur) or later, Apple Silicon and Intel builds ship separately</li>
               <li>Linux: AppImage runs on any modern glibc distro</li>
               <li>~200 MB disk; 512 MB RAM minimum, 2 GB recommended when running multiple agents</li>
             </ul>
@@ -230,10 +230,10 @@
             <h2>Sidebar</h2>
             <p>The sidebar is the navigation spine of the app. From top to bottom:</p>
             <ol class="docs-list docs-list-ordered">
-              <li>Termpolis logo — click to return to the welcome view.</li>
-              <li>Workspaces — one row per open workspace. See the <a href="#workspaces">Workspaces</a> section below for how they work.</li>
-              <li>Tool buttons — Settings, Git Panel, Workflows, Activity, Swarm — each toggleable.</li>
-              <li>Collapse/expand chevron — hides labels to save space.</li>
+              <li>Termpolis logo: click to return to the welcome view.</li>
+              <li>Workspaces, one row per open workspace. See the <a href="#workspaces">Workspaces</a> section below for how they work.</li>
+              <li>Tool buttons, Settings, Git Panel, Workflows, Activity, Swarm, each toggleable.</li>
+              <li>Collapse/expand chevron, hides labels to save space.</li>
             </ol>
           </section>
 
@@ -241,7 +241,7 @@
           <section id="workspaces" class="docs-section">
             <h2>Workspaces</h2>
             <p>
-              Workspaces are the <strong>project-level container</strong> in Termpolis — think of
+              Workspaces are the <strong>project-level container</strong> in Termpolis. Think of
               them as the tabs in a browser, except each one holds a full set of terminals, a
               split/grid layout, an active agent, a scrollback history, per-workspace settings,
               and any panels you've left pinned. You can run many workspaces side-by-side and
@@ -249,18 +249,18 @@
             </p>
             <h3>What a workspace owns</h3>
             <ul class="docs-list">
-              <li><strong>Terminals</strong> — every open pty in that workspace, with its shell, working directory, label, color, and scrollback buffer.</li>
-              <li><strong>Layout</strong> — tab view, split view (the full pane tree), or grid view. Restored exactly on relaunch.</li>
-              <li><strong>Focus</strong> — which terminal was active, cursor position, selection.</li>
-              <li><strong>Agent sessions</strong> — any Claude Code, Codex, Gemini, or Aider+Qwen runs tied to terminals in the workspace.</li>
-              <li><strong>Panel state</strong> — which side panels are open and their size.</li>
-              <li><strong>Per-workspace overrides</strong> — any setting scoped specifically to this workspace (shell default, font size, etc.).</li>
+              <li><strong>Terminals</strong>, every open pty in that workspace, with its shell, working directory, label, color, and scrollback buffer.</li>
+              <li><strong>Layout</strong>, tab view, split view (the full pane tree), or grid view. Restored exactly on relaunch.</li>
+              <li><strong>Focus</strong>, which terminal was active, cursor position, selection.</li>
+              <li><strong>Agent sessions</strong>, any Claude Code, Codex, Gemini, or Aider+Qwen runs tied to terminals in the workspace.</li>
+              <li><strong>Panel state</strong>, which side panels are open and their size.</li>
+              <li><strong>Per-workspace overrides</strong>, any setting scoped specifically to this workspace (shell default, font size, etc.).</li>
             </ul>
             <h3>How workspaces persist</h3>
             <p>
               Everything above is written to <code>session.json</code> in the Termpolis data
               directory (see <a href="#install">Installation</a> for the per-platform path) as
-              soon as it changes — so an unclean shutdown still leaves you with last-known-good
+              soon as it changes, so an unclean shutdown still leaves you with last-known-good
               state. Re-opening the app restores the workspaces in the same order with the same
               terminals, split layouts, and focus.
             </p>
@@ -274,16 +274,16 @@
             <h3>Managing workspaces</h3>
             <p>Right-click any workspace row in the sidebar for:</p>
             <ul class="docs-list">
-              <li><strong>Rename</strong> — changes the label in the sidebar and the window title when the workspace is active.</li>
-              <li><strong>Duplicate</strong> — creates a new workspace with the same terminal configuration (shell, cwd, label) but fresh, empty pty sessions. Useful when mirroring a setup for a second feature branch.</li>
-              <li><strong>Close</strong> — removes the workspace. If any terminals have live child processes, a confirmation dialog lists what's still running.</li>
-              <li><strong>Show in file explorer</strong> — opens the workspace's working directory in Finder / Explorer / your Linux file manager.</li>
+              <li><strong>Rename</strong>, changes the label in the sidebar and the window title when the workspace is active.</li>
+              <li><strong>Duplicate</strong>, creates a new workspace with the same terminal configuration (shell, cwd, label) but fresh, empty pty sessions. Useful when mirroring a setup for a second feature branch.</li>
+              <li><strong>Close</strong>, removes the workspace. If any terminals have live child processes, a confirmation dialog lists what's still running.</li>
+              <li><strong>Show in file explorer</strong>, opens the workspace's working directory in Finder / Explorer / your Linux file manager.</li>
             </ul>
             <h3>Switching between workspaces</h3>
             <p>
               Click a workspace row to activate it. Keyboard users can cycle with
               <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>[</kbd> / <kbd>]</kbd>. Unsaved terminal
-              output in background workspaces keeps streaming — nothing is paused just because
+              output in background workspaces keeps streaming, nothing is paused just because
               it's not visible.
             </p>
             <h3>Workspace root directory</h3>
@@ -300,7 +300,7 @@
               current workspace with a pre-configured set of terminals, commands, and a split
               layout. Think of a workspace as the room you're working in, and a workflow as the
               "set the room up like this" macro. Launching a workflow inside a workspace closes
-              the existing terminals and replaces them with the workflow's terminals — the
+              the existing terminals and replaces them with the workflow's terminals, the
               workspace stays, the contents get reset.
             </p>
           </section>
@@ -313,16 +313,16 @@
               <figcaption>The new-terminal modal with shell, cwd, and agent profile options.</figcaption>
             </figure>
             <p>
-              Every pane is a full pty-backed terminal powered by <code>node-pty</code> — real TTY
+              Every pane is a full pty-backed terminal powered by <code>node-pty</code>, real TTY
               semantics, xterm escapes, signal forwarding. Not a shim.
             </p>
             <p>Create one with <kbd>Ctrl</kbd> + <kbd>T</kbd>. Pick a shell, a working directory, optionally an agent profile, plus a label and color.</p>
             <figure class="docs-shot">
               <img src="docs/screenshots/04-terminal-running.png" alt="A running PowerShell terminal in Termpolis.">
-              <figcaption>A running terminal — copy on selection, 256-color palette, mouse scroll.</figcaption>
+              <figcaption>A running terminal, copy on selection, 256-color palette, mouse scroll.</figcaption>
             </figure>
             <p>
-              Closing a terminal with an active process prompts for confirmation — this protects
+              Closing a terminal with an active process prompts for confirmation, this protects
               long-running tasks (model downloads, builds, agent sessions) from accidental loss.
             </p>
           </section>
@@ -332,21 +332,21 @@
             <h2>Tabs, splits &amp; grid</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/05-tab-view-multiple.png" alt="Tab view with multiple terminals open.">
-              <figcaption>Tab view — every terminal gets its own tab.</figcaption>
+              <figcaption>Tab view, every terminal gets its own tab.</figcaption>
             </figure>
             <p>
-              Terminals are arranged in one of three view modes. Pick whichever fits the task — tabs
+              Terminals are arranged in one of three view modes. Pick whichever fits the task, tabs
               for deep focus, splits for side-by-side work, grid for watching the swarm.
             </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/06-split-view.png" alt="Split view with two terminals side by side.">
-              <figcaption>Split view — recursive, drag the divider to resize.</figcaption>
+              <figcaption>Split view, recursive, drag the divider to resize.</figcaption>
             </figure>
             <ul class="docs-list">
-              <li><kbd>Ctrl</kbd> + <kbd>\</kbd> — split horizontally</li>
-              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>\</kbd> — split vertically</li>
-              <li><kbd>Alt</kbd> + <kbd>Arrow</kbd> — focus adjacent pane</li>
-              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd> — close focused pane</li>
+              <li><kbd>Ctrl</kbd> + <kbd>\</kbd>, split horizontally</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>\</kbd>, split vertically</li>
+              <li><kbd>Alt</kbd> + <kbd>Arrow</kbd>, focus adjacent pane</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>, close focused pane</li>
             </ul>
           </section>
 
@@ -355,9 +355,9 @@
             <h2>Settings</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/07-settings-panel.png" alt="Settings panel.">
-              <figcaption>The settings panel — slides in from the right.</figcaption>
+              <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
-            <p>Open with the gear icon or <kbd>Ctrl</kbd> + <kbd>,</kbd>. Changes save immediately — no apply button.</p>
+            <p>Open with the gear icon or <kbd>Ctrl</kbd> + <kbd>,</kbd>. Changes save immediately, no apply button.</p>
             <p>Tabs: <strong>Themes</strong>, <strong>Keybindings</strong>, <strong>Agent Capability</strong>, <strong>Shells</strong>, <strong>Behavior</strong>, <strong>Advanced</strong>.</p>
           </section>
 
@@ -366,12 +366,12 @@
             <h2>Themes</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/08-themes-picker.png" alt="Themes picker.">
-              <figcaption>The theme picker — curated dark themes plus VS Code import.</figcaption>
+              <figcaption>The theme picker, curated dark themes plus VS Code import.</figcaption>
             </figure>
             <p>
               Ships with Termpolis Dark (default), Dracula, Solarized Dark, Nord, Gruvbox Dark,
               Tokyo Night, Monokai. Each applies to terminals, app chrome, and AI conversation
-              syntax highlighting. Import any VS Code theme JSON — the parser maps tokenColors to
+              syntax highlighting. Import any VS Code theme JSON, the parser maps tokenColors to
               xterm colors automatically.
             </p>
           </section>
@@ -384,7 +384,7 @@
               <figcaption>Every user-facing action is rebindable.</figcaption>
             </figure>
             <p>
-              Bindings are platform-aware — <kbd>Ctrl</kbd> becomes <kbd>⌘</kbd> on macOS
+              Bindings are platform-aware, <kbd>Ctrl</kbd> becomes <kbd>⌘</kbd> on macOS
               automatically. Conflicts are flagged inline when rebinding.
             </p>
           </section>
@@ -394,7 +394,7 @@
             <h2>Agent capability ratings</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/10-agent-capability-ratings.png" alt="Agent capability ratings panel.">
-              <figcaption>Score each agent across 10 categories — powers the swarm router.</figcaption>
+              <figcaption>Score each agent across 10 categories, powers the swarm router.</figcaption>
             </figure>
             <p>
               The heart of smart swarm routing. Score each agent (Claude, Codex, Gemini,
@@ -410,27 +410,27 @@
             <h2>Command palette</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/11-command-palette.png" alt="Command palette open.">
-              <figcaption><kbd>Ctrl</kbd> + <kbd>K</kbd> — the fastest way to do anything.</figcaption>
+              <figcaption><kbd>Ctrl</kbd> + <kbd>K</kbd>, the fastest way to do anything.</figcaption>
             </figure>
             <p>
               The palette is your keyboard-only shortcut to every action in Termpolis. Actions,
-              workspaces, recent commands, files — all searchable with fuzzy matching, exact matches
+              workspaces, recent commands, files, all searchable with fuzzy matching, exact matches
               floating to the top.
             </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/11b-command-palette-filtered.png" alt="Command palette filtered by 'launch'.">
-              <figcaption>Type to filter — "launch" surfaces every agent and terminal launch action.</figcaption>
+              <figcaption>Type to filter, "launch" surfaces every agent and terminal launch action.</figcaption>
             </figure>
             <h3>Why use it</h3>
             <ul class="docs-list">
-              <li><strong>Don't remember keybindings?</strong> Type the feature name — the palette shows the shortcut next to the action.</li>
+              <li><strong>Don't remember keybindings?</strong> Type the feature name, the palette shows the shortcut next to the action.</li>
               <li><strong>Jump across workspaces in two keystrokes.</strong> <kbd>Ctrl</kbd> + <kbd>K</kbd>, type workspace name, <kbd>Enter</kbd>.</li>
-              <li><strong>Re-run a recent command anywhere.</strong> The palette surfaces your last 50 commands across every terminal — type a fragment, hit Enter, and it runs in the focused pane.</li>
+              <li><strong>Re-run a recent command anywhere.</strong> The palette surfaces your last 50 commands across every terminal, type a fragment, hit Enter, and it runs in the focused pane.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Press <kbd>Ctrl</kbd> + <kbd>K</kbd>.</li>
-              <li>Type a query — e.g. <em>split</em>, <em>new terminal</em>, <em>workspace</em>, <em>launch claude</em>.</li>
+              <li>Type a query, e.g. <em>split</em>, <em>new terminal</em>, <em>workspace</em>, <em>launch claude</em>.</li>
               <li>Use <kbd>↑</kbd> / <kbd>↓</kbd> to select; <kbd>Enter</kbd> runs it; <kbd>Esc</kbd> closes.</li>
             </ol>
           </section>
@@ -440,7 +440,7 @@
             <h2>Prompt templates</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/12-prompt-templates.png" alt="Prompt templates library.">
-              <figcaption>Reusable prompts with variable substitution — <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open.</figcaption>
+              <figcaption>Reusable prompts with variable substitution, <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open.</figcaption>
             </figure>
             <p>
               Save the prompts you type over and over. Each template supports
@@ -449,18 +449,18 @@
             </p>
             <h3>Built-in templates</h3>
             <ul class="docs-list">
-              <li><strong>Explain this code</strong> — pastes current selection as context, asks the agent to walk through it.</li>
-              <li><strong>Write tests</strong> — generates unit tests for the focused file.</li>
-              <li><strong>Refactor for readability</strong> — rewrites with a focus on clarity, not behavior changes.</li>
-              <li><strong>Find security issues</strong> — static-analysis-style review for OWASP-top-10 patterns.</li>
-              <li><strong>Document this API</strong> — produces JSDoc / TSDoc / docstrings for the selection.</li>
-              <li><strong>Code review — strict</strong> — adversarial review with a "what would break?" lens.</li>
+              <li><strong>Explain this code</strong>, pastes current selection as context, asks the agent to walk through it.</li>
+              <li><strong>Write tests</strong>, generates unit tests for the focused file.</li>
+              <li><strong>Refactor for readability</strong>, rewrites with a focus on clarity, not behavior changes.</li>
+              <li><strong>Find security issues</strong>, static-analysis-style review for OWASP-top-10 patterns.</li>
+              <li><strong>Document this API</strong>, produces JSDoc / TSDoc / docstrings for the selection.</li>
+              <li><strong>Code review, strict</strong>, adversarial review with a "what would break?" lens.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Select the code you want to discuss in any terminal (or leave empty to use free-form input).</li>
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.</li>
-              <li>Pick a template — Termpolis fills <code>{{selection}}</code>, <code>{{cwd}}</code>, <code>{{branch}}</code>, etc. automatically.</li>
+              <li>Pick a template, Termpolis fills <code>{{selection}}</code>, <code>{{cwd}}</code>, <code>{{branch}}</code>, etc. automatically.</li>
               <li>Fill any remaining prompts in the form, then click <strong>Send to active agent</strong>.</li>
               <li>The fully-expanded prompt is written to the focused agent's stdin.</li>
             </ol>
@@ -481,8 +481,8 @@
             </figure>
             <p>
               A workflow template is a <strong>one-shot setup recipe</strong> for the current
-              workspace. Each template describes a set of terminals — their names, colors, shell,
-              and an optional startup command — and a layout (vertical splits or a 2×2 grid).
+              workspace. Each template describes a set of terminals, their names, colors, shell,
+              and an optional startup command, and a layout (vertical splits or a 2×2 grid).
               Clicking <strong>Launch</strong> closes the terminals you have open, spawns the
               template's terminals in the configured split layout, and fires the startup commands
               after a brief delay so the shells finish initializing first.
@@ -490,21 +490,21 @@
             <p>Open the Workflows panel from the <strong>Workflows</strong> sidebar button.</p>
             <h3>Built-in workflows</h3>
             <ul class="docs-list">
-              <li><strong>Claude Code + Shell</strong> — Claude Code on the left, plain shell on the right (2-pane vertical split).</li>
-              <li><strong>Full Stack Dev</strong> — AI agent + Frontend + Backend + Tests in a 2×2 grid.</li>
-              <li><strong>Code Review</strong> — AI reviewer + Git pane (2-pane vertical split).</li>
+              <li><strong>Claude Code + Shell</strong>, Claude Code on the left, plain shell on the right (2-pane vertical split).</li>
+              <li><strong>Full Stack Dev</strong>, AI agent + Frontend + Backend + Tests in a 2×2 grid.</li>
+              <li><strong>Code Review</strong>, AI reviewer + Git pane (2-pane vertical split).</li>
             </ul>
             <p>Built-ins are read-only. Use <strong>Duplicate</strong> on a built-in to get an editable copy with the <code>(copy)</code> suffix.</p>
             <h3>Creating your own</h3>
             <figure class="docs-shot">
               <img src="docs/screenshots/13b-workflow-create.png" alt="New Workflow creation form with name, description, icon, layout, and terminal configuration fields.">
-              <figcaption>The New Workflow editor — name it, pick a layout, configure 1–8 terminals, save.</figcaption>
+              <figcaption>The New Workflow editor, name it, pick a layout, configure 1–8 terminals, save.</figcaption>
             </figure>
             <p>Click <strong>+ New Workflow</strong> at the bottom of the picker. You get a form for:</p>
             <ul class="docs-list">
               <li><strong>Name</strong> and <strong>Description</strong></li>
-              <li><strong>Icon</strong> (Font Awesome solid) and <strong>Layout</strong> (vertical splits or 2×2 grid — the grid requires exactly four terminals to tile cleanly)</li>
-              <li><strong>Terminals</strong> (1–8) — per terminal: name, startup command (optional), shell, and color</li>
+              <li><strong>Icon</strong> (Font Awesome solid) and <strong>Layout</strong> (vertical splits or 2×2 grid, the grid requires exactly four terminals to tile cleanly)</li>
+              <li><strong>Terminals</strong> (1–8), per terminal: name, startup command (optional), shell, and color</li>
             </ul>
             <p>
               Saved workflows appear with a <strong>Custom</strong> badge in the picker, are
@@ -516,7 +516,7 @@
             </p>
             <h3>Difference from workspaces</h3>
             <p>
-              Workflows don't <em>own</em> state the way <a href="#workspaces">workspaces</a> do —
+              Workflows don't <em>own</em> state the way <a href="#workspaces">workspaces</a> do,
               they're a template you apply. After launch, the terminals they spawn live inside
               your current workspace and behave like any other terminals. Closing and re-launching
               the same workflow gives you fresh terminals, not the ones from last time.
@@ -533,23 +533,23 @@
             <p>
               The Context panel is Termpolis's answer to the "what does the AI actually know right
               now?" question. It's a sliding pane on the right that shows everything currently in
-              scope for the agents you're working with — so you never have to guess whether Claude
+              scope for the agents you're working with, so you never have to guess whether Claude
               saw the file you just edited, or whether Codex knows which branch you're on.
             </p>
             <h3>What it shows</h3>
             <ul class="docs-list">
-              <li><strong>Project root + git branch</strong> — the cwd of the focused terminal and the active branch, so an agent can ground its answers in the right repo state.</li>
-              <li><strong>File tree</strong> — collapsible directory view of the project, click to pin a file into context.</li>
-              <li><strong>Active agent</strong> — which AI is focused, its model, and a live token counter. When you hit 80% of the model's context window, the bar turns amber; at 95% it turns red — your cue to compact or wrap up.</li>
-              <li><strong>Recent files</strong> — last 20 files the agent (or you) read, edited, or ran. Click to re-open in Monaco's diff view.</li>
-              <li><strong>Pinned items</strong> — anything you've pinned: a file, an activity event, a prompt, a memory entry. Pins stay visible across sessions.</li>
-              <li><strong>Task chain</strong> — when a swarm is running, the current task, its parent, and its dependencies.</li>
+              <li><strong>Project root + git branch</strong>, the cwd of the focused terminal and the active branch, so an agent can ground its answers in the right repo state.</li>
+              <li><strong>File tree</strong>, collapsible directory view of the project, click to pin a file into context.</li>
+              <li><strong>Active agent</strong>, which AI is focused, its model, and a live token counter. When you hit 80% of the model's context window, the bar turns amber; at 95% it turns red, your cue to compact or wrap up.</li>
+              <li><strong>Recent files</strong>, last 20 files the agent (or you) read, edited, or ran. Click to re-open in Monaco's diff view.</li>
+              <li><strong>Pinned items</strong>, anything you've pinned: a file, an activity event, a prompt, a memory entry. Pins stay visible across sessions.</li>
+              <li><strong>Task chain</strong>, when a swarm is running, the current task, its parent, and its dependencies.</li>
             </ul>
             <h3>Why it's helpful</h3>
             <ul class="docs-list">
               <li><strong>No more "please re-share the file" loops.</strong> Pin it once and every agent can read it.</li>
               <li><strong>Catch token pressure before it compacts.</strong> The live counter means you'll never be surprised when an agent suddenly forgets the first half of your conversation.</li>
-              <li><strong>Explicit context, not implicit slurp.</strong> Agents only see what you've put here — no silent indexing of your filesystem. Safer for private code.</li>
+              <li><strong>Explicit context, not implicit slurp.</strong> Agents only see what you've put here, no silent indexing of your filesystem. Safer for private code.</li>
               <li><strong>Share context across agents.</strong> Pin a spec once and Claude, Codex, Gemini, and Qwen all read from the same truth.</li>
             </ul>
             <h3>How to use it</h3>
@@ -581,45 +581,45 @@
             <h2>Conversation search</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/16-conversation-search.png" alt="Conversation search panel.">
-              <figcaption>The AI-session equivalent of history search — find any prompt, tool call, or answer across every agent you've ever run.</figcaption>
+              <figcaption>The AI-session equivalent of history search, find any prompt, tool call, or answer across every agent you've ever run.</figcaption>
             </figure>
             <p>
               Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>. Every AI agent session in
-              Termpolis — Claude Code, Codex, Gemini CLI, Aider+Qwen, swarm runs, and the conductor
-              itself — is recorded event-by-event to <code>~/.termpolis/activity.jsonl</code>.
+              Termpolis, Claude Code, Codex, Gemini CLI, Aider+Qwen, swarm runs, and the conductor
+              itself, is recorded event-by-event to <code>~/.termpolis/activity.jsonl</code>.
               Conversation search is the UI on top of that log.
             </p>
             <h3>What's indexed</h3>
             <ul class="docs-list">
-              <li><strong>Prompts</strong> — every user message sent to an agent.</li>
-              <li><strong>Assistant messages</strong> — the full reply text, plus intermediate thinking blocks where available.</li>
-              <li><strong>Tool calls</strong> — the tool name and arguments (e.g. <code>Edit</code>, <code>Bash</code>, <code>WebSearch</code>).</li>
-              <li><strong>Tool results</strong> — the response the agent got back (stdout, file contents, etc.).</li>
-              <li><strong>Errors</strong> — anything the agent raised or the pty emitted on stderr.</li>
-              <li><strong>Token updates</strong> — periodic snapshots of cumulative input/output tokens.</li>
-              <li><strong>Interventions</strong> — every Pause / Cancel / Steer action you took, who took it, and when.</li>
+              <li><strong>Prompts</strong>, every user message sent to an agent.</li>
+              <li><strong>Assistant messages</strong>, the full reply text, plus intermediate thinking blocks where available.</li>
+              <li><strong>Tool calls</strong>, the tool name and arguments (e.g. <code>Edit</code>, <code>Bash</code>, <code>WebSearch</code>).</li>
+              <li><strong>Tool results</strong>, the response the agent got back (stdout, file contents, etc.).</li>
+              <li><strong>Errors</strong>, anything the agent raised or the pty emitted on stderr.</li>
+              <li><strong>Token updates</strong>, periodic snapshots of cumulative input/output tokens.</li>
+              <li><strong>Interventions</strong>, every Pause / Cancel / Steer action you took, who took it, and when.</li>
             </ul>
             <h3>Filters</h3>
             <ul class="docs-list">
-              <li><strong>Full-text</strong> — matches prompt text, assistant replies, and tool arguments.</li>
-              <li><strong>Agent</strong> — narrow to Claude, Codex, Gemini, Qwen, Conductor, or "all".</li>
-              <li><strong>Kind</strong> — prompt / tool_call / tool_result / error / message.</li>
-              <li><strong>Time range</strong> — last hour, today, last 7 days, or custom.</li>
-              <li><strong>Scope</strong> — current terminal only, current session, or all history.</li>
+              <li><strong>Full-text</strong>, matches prompt text, assistant replies, and tool arguments.</li>
+              <li><strong>Agent</strong>, narrow to Claude, Codex, Gemini, Qwen, Conductor, or "all".</li>
+              <li><strong>Kind</strong>, prompt / tool_call / tool_result / error / message.</li>
+              <li><strong>Time range</strong>, last hour, today, last 7 days, or custom.</li>
+              <li><strong>Scope</strong>, current terminal only, current session, or all history.</li>
             </ul>
             <h3>Why it's helpful</h3>
             <ul class="docs-list">
-              <li><strong>"How did I fix this last time?"</strong> — find the exact prompt and solution from a month ago.</li>
-              <li><strong>Audit what an agent actually did.</strong> When something breaks, grep the tool-call log — every <code>Edit</code>, every <code>Bash</code>, every file touched.</li>
+              <li><strong>"How did I fix this last time?"</strong>, find the exact prompt and solution from a month ago.</li>
+              <li><strong>Audit what an agent actually did.</strong> When something breaks, grep the tool-call log, every <code>Edit</code>, every <code>Bash</code>, every file touched.</li>
               <li><strong>Reuse successful prompts.</strong> Click a hit → <strong>Copy prompt</strong> to rerun it in a fresh session.</li>
               <li><strong>Compare agent answers.</strong> Search the same question across agents to see how Claude, Codex, and Gemini differed.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>.</li>
-              <li>Type a query — e.g. <em>"regex for ISO dates"</em>, <em>"docker-compose error"</em>, <em>"why did claude say no"</em>.</li>
+              <li>Type a query, e.g. <em>"regex for ISO dates"</em>, <em>"docker-compose error"</em>, <em>"why did claude say no"</em>.</li>
               <li>Narrow with the kind + agent dropdowns if the hit list is noisy.</li>
-              <li>Click a result to expand the full event — prompt and answer side by side.</li>
+              <li>Click a result to expand the full event, prompt and answer side by side.</li>
               <li>Use the <strong>Copy prompt</strong>, <strong>Re-run in new session</strong>, or <strong>Pin to context</strong> actions from the hit's kebab menu.</li>
             </ol>
           </section>
@@ -637,8 +637,8 @@
               ✨ next to the commit-message input and an agent drafts a message from the staged diff.
             </p>
             <p>
-              Every action runs as a real <code>git</code> command in a spawned process — no
-              reimplementation — so you can always drop to the CLI and see the same state.
+              Every action runs as a real <code>git</code> command in a spawned process, no
+              reimplementation, so you can always drop to the CLI and see the same state.
             </p>
           </section>
 
@@ -649,7 +649,7 @@
               Launch any AI CLI as a profiled terminal: Claude Code, Codex, Gemini CLI, Aider.
               Profiles come pre-configured with the right shell + startup command, a color + label,
               an MCP bootstrap (where supported), and an optional dedicated working directory.
-              Custom profiles take any command — if it's in PATH, you can profile it.
+              Custom profiles take any command: if it's in PATH, you can profile it.
             </p>
           </section>
 
@@ -664,7 +664,7 @@
             <div class="docs-callout">
               <p>
                 <strong>These are not commands you type.</strong> The entries in the table below are
-                <strong>MCP tools</strong> — function calls that an AI agent (Claude, Codex, Gemini,
+                <strong>MCP tools</strong>, function calls that an AI agent (Claude, Codex, Gemini,
                 etc.) invokes through the Model Context Protocol, the same way an agent uses
                 <code>Read</code>, <code>Bash</code>, or <code>WebSearch</code>. You never type
                 <code>open_terminal</code> yourself; instead, you say something like
@@ -675,7 +675,7 @@
             <h3>Connecting an agent to Termpolis MCP</h3>
             <p>
               Any MCP-aware client can talk to the server. Register it once in the client's MCP
-              config — for example, in <code>~/.config/claude/mcp.json</code> or Codex's
+              config, for example, in <code>~/.config/claude/mcp.json</code> or Codex's
               <code>mcp_config.json</code>:
             </p>
             <pre class="docs-code"><code>{
@@ -691,7 +691,7 @@
             <p>
               The token is written to <code>~/.termpolis/mcp-token</code> on every launch. Most
               official agent profiles (Claude Code, Codex, Aider) are wired up automatically when
-              launched from inside Termpolis — nothing to configure.
+              launched from inside Termpolis, nothing to configure.
             </p>
             <h3>Available tools</h3>
             <p>
@@ -702,7 +702,7 @@
               <table class="docs-table">
                 <thead><tr><th>Tool</th><th>What the agent does when it calls this</th></tr></thead>
                 <tbody>
-                  <tr><td><code>list_terminals</code></td><td>Enumerate open terminals — agent uses this to find a working session.</td></tr>
+                  <tr><td><code>list_terminals</code></td><td>Enumerate open terminals, agent uses this to find a working session.</td></tr>
                   <tr><td><code>open_terminal</code></td><td>Spawn a new terminal with a chosen shell + cwd.</td></tr>
                   <tr><td><code>close_terminal</code></td><td>Close a terminal by ID when its work is done.</td></tr>
                   <tr><td><code>focus_terminal</code></td><td>Bring a terminal to the foreground in the UI.</td></tr>
@@ -723,10 +723,10 @@
             </div>
             <h3>Security</h3>
             <ul class="docs-list">
-              <li><strong>Bearer token</strong> — a random token is generated per app launch and written to <code>~/.termpolis/mcp-token</code>. Every request must include it in the <code>Authorization</code> header.</li>
-              <li><strong>Origin checks</strong> — requests from browser origins are rejected unless explicitly allowlisted.</li>
-              <li><strong>Rate limits</strong> — 60 req/s per client, 10 req/s for destructive tools (<code>close_terminal</code>, <code>send_input</code>).</li>
-              <li><strong>Audit log</strong> — every tool call is written to <code>~/.termpolis/mcp-audit.jsonl</code> and emitted as an Activity Feed event.</li>
+              <li><strong>Bearer token</strong>, a random token is generated per app launch and written to <code>~/.termpolis/mcp-token</code>. Every request must include it in the <code>Authorization</code> header.</li>
+              <li><strong>Origin checks</strong>, requests from browser origins are rejected unless explicitly allowlisted.</li>
+              <li><strong>Rate limits</strong>, 60 req/s per client, 10 req/s for destructive tools (<code>close_terminal</code>, <code>send_input</code>).</li>
+              <li><strong>Audit log</strong>, every tool call is written to <code>~/.termpolis/mcp-audit.jsonl</code> and emitted as an Activity Feed event.</li>
             </ul>
           </section>
 
@@ -734,7 +734,7 @@
           <section id="swarm" class="docs-section">
             <h2>Swarm dashboard</h2>
             <figure class="docs-shot">
-              <img src="docs/screenshots/19-swarm-tasks-tab.png" alt="Swarm tasks tab — the default dashboard view.">
+              <img src="docs/screenshots/19-swarm-tasks-tab.png" alt="Swarm tasks tab, the default dashboard view.">
               <figcaption><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> opens the nerve center for multi-agent work. You land on the Tasks tab.</figcaption>
             </figure>
             <p>
@@ -743,29 +743,29 @@
             </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/20-swarm-messages-tab.png" alt="Swarm messages tab.">
-              <figcaption>Messages tab — live stream of every handoff and broadcast between agents.</figcaption>
+              <figcaption>Messages tab, live stream of every handoff and broadcast between agents.</figcaption>
             </figure>
             <figure class="docs-shot">
               <img src="docs/screenshots/21-swarm-trace-tab.png" alt="Swarm trace tab.">
-              <figcaption>Trace tab — the conductor's event timeline for the active run: plan → delegate → watch → merge.</figcaption>
+              <figcaption>Trace tab, the conductor's event timeline for the active run: plan → delegate → watch → merge.</figcaption>
             </figure>
             <h3>What each tab is for</h3>
             <ul class="docs-list">
-              <li><strong>Tasks</strong> — answers <em>"where are we?"</em>. Full DAG with Pending / In&nbsp;progress / Completed columns, per-task assignee and status, dependencies drawn as edges. Click a task to see its prompt, the agent's output so far, and the handoff chain.</li>
-              <li><strong>Messages</strong> — answers <em>"what are the agents saying?"</em>. Live stream of every handoff, broadcast, and tool result routed between agents. Use this to diagnose "why is Codex waiting?"</li>
-              <li><strong>Trace</strong> — answers <em>"what is the conductor thinking?"</em>. Timeline of the conductor's own decisions — planning, re-planning, agent picks, merge calls.</li>
+              <li><strong>Tasks</strong>, answers <em>"where are we?"</em>. Full DAG with Pending / In&nbsp;progress / Completed columns, per-task assignee and status, dependencies drawn as edges. Click a task to see its prompt, the agent's output so far, and the handoff chain.</li>
+              <li><strong>Messages</strong>, answers <em>"what are the agents saying?"</em>. Live stream of every handoff, broadcast, and tool result routed between agents. Use this to diagnose "why is Codex waiting?"</li>
+              <li><strong>Trace</strong>, answers <em>"what is the conductor thinking?"</em>. Timeline of the conductor's own decisions, planning, re-planning, agent picks, merge calls.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
-              <li>Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> at any time — no swarm needs to be running.</li>
+              <li>Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> at any time, no swarm needs to be running.</li>
               <li>If no swarm is active, click <strong>Start Swarm</strong> to launch the <a href="#conductor">Start Swarm wizard</a>.</li>
-              <li>Switch tabs freely — the dashboard stays scoped to the active run.</li>
+              <li>Switch tabs freely, the dashboard stays scoped to the active run.</li>
               <li>Right-click any task → <strong>Open agent terminal</strong> to drop into that agent's live pty.</li>
               <li>Need to abort? Click the trash icon next to the swarm title to clear all messages and tasks (see below).</li>
             </ol>
             <figure class="docs-shot">
               <img src="docs/screenshots/18-swarm-dashboard.png" alt="Clear Swarm confirmation dialog.">
-              <figcaption>Clearing a swarm — the trash icon prompts for confirmation before wiping the current run's tasks and messages.</figcaption>
+              <figcaption>Clearing a swarm, the trash icon prompts for confirmation before wiping the current run's tasks and messages.</figcaption>
             </figure>
             <p>
               Clearing does <strong>not</strong> kill the underlying agent pty's. Use the
@@ -779,7 +779,7 @@
             <h2>AI conductor</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/22-start-swarm-wizard.png" alt="Start swarm wizard.">
-              <figcaption>Start Swarm wizard — describe the task, pick your agents, set a budget, choose the working directory.</figcaption>
+              <figcaption>Start Swarm wizard, describe the task, pick your agents, set a budget, choose the working directory.</figcaption>
             </figure>
             <p>
               The conductor is a dedicated Claude Code instance running with a system prompt
@@ -791,17 +791,17 @@
               re-plan, or declare done.
             </p>
             <p>
-              Not keyword matching — <strong>actual AI reasoning</strong>, because the conductor is
+              Not keyword matching, <strong>actual AI reasoning</strong>, because the conductor is
               itself a frontier model. Open its terminal and watch it think live.
             </p>
-            <h3>Launching a swarm — step by step</h3>
+            <h3>Launching a swarm, step by step</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> or click <strong>Start Swarm</strong> on the Welcome screen.</li>
-              <li><strong>Task</strong> — describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity.</li>
-              <li><strong>Working directory</strong> — pick the repo the swarm will operate in. All agents inherit this cwd.</li>
-              <li><strong>Agents</strong> — toggle which agents are allowed to participate. Unchecked agents won't be assigned work.</li>
-              <li><strong>Budget</strong> — optional token and time ceilings. The conductor halts the run and asks you before exceeding.</li>
-              <li><strong>Launch</strong> — the wizard spawns the conductor in a hidden terminal and opens the <a href="#swarm">Swarm Dashboard</a>.</li>
+              <li><strong>Task</strong>, describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity.</li>
+              <li><strong>Working directory</strong>, pick the repo the swarm will operate in. All agents inherit this cwd.</li>
+              <li><strong>Agents</strong>, toggle which agents are allowed to participate. Unchecked agents won't be assigned work.</li>
+              <li><strong>Budget</strong>, optional token and time ceilings. The conductor halts the run and asks you before exceeding.</li>
+              <li><strong>Launch</strong>, the wizard spawns the conductor in a hidden terminal and opens the <a href="#swarm">Swarm Dashboard</a>.</li>
             </ol>
             <h3>What happens next</h3>
             <ol class="docs-list docs-list-ordered">
@@ -815,8 +815,8 @@
             </ol>
             <h3>When to use a swarm vs. a single agent</h3>
             <ul class="docs-list">
-              <li><strong>Single agent</strong> — tight iteration loops, quick fixes, interactive exploration. You're the conductor.</li>
-              <li><strong>Swarm</strong> — parallelizable tasks (build frontend + backend + tests simultaneously), long-running migrations, when you want cost-aware routing across agents, or when the task description reads like a spec more than a prompt.</li>
+              <li><strong>Single agent</strong>, tight iteration loops, quick fixes, interactive exploration. You're the conductor.</li>
+              <li><strong>Swarm</strong>, parallelizable tasks (build frontend + backend + tests simultaneously), long-running migrations, when you want cost-aware routing across agents, or when the task description reads like a spec more than a prompt.</li>
             </ul>
           </section>
 
@@ -835,7 +835,7 @@
             </p>
             <p>
               Three filters combine: full-text search, kind dropdown, agent-type dropdown. Open
-              scoped to a terminal or globally across all sessions — scope is labeled in the header.
+              scoped to a terminal or globally across all sessions, scope is labeled in the header.
               Right-click an event → <strong>Pin</strong> to float it to the top of the context panel.
             </p>
           </section>
@@ -845,15 +845,15 @@
             <h2>Intervention controls</h2>
             <p>Every scoped Activity Feed includes a row of intervention controls above the event list:</p>
             <ul class="docs-list">
-              <li><strong>Pause</strong> — sends <code>ESC</code> (0x1B) to the agent's pty.</li>
-              <li><strong>Cancel</strong> — sends a single <code>Ctrl+C</code> (0x03).</li>
-              <li><strong>Interrupt</strong> — sends double <code>Ctrl+C</code> (0x03 0x03) — hard stop.</li>
-              <li><strong>Steer</strong> — type a new instruction and send it directly to the agent's stdin.</li>
+              <li><strong>Pause</strong>, sends <code>ESC</code> (0x1B) to the agent's pty.</li>
+              <li><strong>Cancel</strong>, sends a single <code>Ctrl+C</code> (0x03).</li>
+              <li><strong>Interrupt</strong>, sends double <code>Ctrl+C</code> (0x03 0x03), hard stop.</li>
+              <li><strong>Steer</strong>, type a new instruction and send it directly to the agent's stdin.</li>
             </ul>
             <p>
               Every agent is a pty, so writing control chars or text to stdin is the fastest, most
               reliable way to take over. No new IPC surface. Each intervention is logged as an event
-              — full audit trail of every mid-flight correction.
+             , full audit trail of every mid-flight correction.
             </p>
           </section>
 
@@ -862,7 +862,7 @@
             <h2>Swarm review</h2>
             <p>
               When a task requires review before handoff (default for code-review tasks), the
-              conductor pauses and opens the <strong>Swarm Review Panel</strong> — task title,
+              conductor pauses and opens the <strong>Swarm Review Panel</strong>, task title,
               assignee output, diff if applicable, and three buttons: <strong>Approve</strong>,
               <strong>Request Changes</strong>, <strong>Reject</strong>, plus an optional comment.
             </p>
@@ -877,9 +877,9 @@
             <h2>Shared memory (RAG)</h2>
             <p>A cross-agent memory store backed by JSONL + embeddings. Any agent can:</p>
             <ul class="docs-list">
-              <li><strong>Write</strong> via <code>memory_write</code> — stores <code>{label, content, tags, terminalId, ts}</code> plus an embedding from Ollama's <code>nomic-embed-text</code>.</li>
-              <li><strong>Search</strong> via <code>memory_search</code> — cosine similarity over embeddings, blended with keyword overlap.</li>
-              <li><strong>List</strong> via <code>memory_list</code> — recent entries with filters.</li>
+              <li><strong>Write</strong> via <code>memory_write</code>, stores <code>{label, content, tags, terminalId, ts}</code> plus an embedding from Ollama's <code>nomic-embed-text</code>.</li>
+              <li><strong>Search</strong> via <code>memory_search</code>, cosine similarity over embeddings, blended with keyword overlap.</li>
+              <li><strong>List</strong> via <code>memory_list</code>, recent entries with filters.</li>
             </ul>
             <p>
               Why it matters: when Claude figures out your auth module, Codex shouldn't have to
@@ -891,13 +891,13 @@
           <!-- OBSERVABILITY -->
           <section id="observability-docs" class="docs-section">
             <h2>Observability</h2>
-            <p>A full observability stack for AI work — the "watchers" system. A lightweight in-process event bus that watches for:</p>
+            <p>A full observability stack for AI work, the "watchers" system. A lightweight in-process event bus that watches for:</p>
             <ul class="docs-list">
-              <li><strong>Token pressure</strong> — approaching compaction.</li>
-              <li><strong>Stuck sessions</strong> — agent silent for &gt; N seconds.</li>
-              <li><strong>Error cascades</strong> — repeated errors in a short window.</li>
-              <li><strong>Redundancy</strong> — two agents doing overlapping work.</li>
-              <li><strong>Efficiency</strong> — rolling token-cost-per-task average.</li>
+              <li><strong>Token pressure</strong>, approaching compaction.</li>
+              <li><strong>Stuck sessions</strong>, agent silent for &gt; N seconds.</li>
+              <li><strong>Error cascades</strong>, repeated errors in a short window.</li>
+              <li><strong>Redundancy</strong>, two agents doing overlapping work.</li>
+              <li><strong>Efficiency</strong>, rolling token-cost-per-task average.</li>
             </ul>
             <p>Watchers surface alerts in the status bar, activity feed, or system notifications. Thresholds tunable in settings.</p>
           </section>
@@ -992,41 +992,41 @@
 
             <h3>Installation &amp; first-run</h3>
             <p><strong>Windows: "Windows protected your PC" SmartScreen warning.</strong> Click <strong>More info</strong> → <strong>Run anyway</strong>. Termpolis is code-signed (SSL.com), but newly signed builds need reputation time before SmartScreen stops flagging them. The warning disappears once enough people download the release.</p>
-            <p><strong>macOS: "Termpolis is damaged and can't be opened."</strong> Gatekeeper couldn't verify the signature — usually a partial download. Re-download the DMG from GitHub Releases, verify the file size matches, and mount again. If it still fails, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the bottom, and click <strong>Open Anyway</strong> next to the Termpolis entry.</p>
+            <p><strong>macOS: "Termpolis is damaged and can't be opened."</strong> Gatekeeper couldn't verify the signature, usually a partial download. Re-download the DMG from GitHub Releases, verify the file size matches, and mount again. If it still fails, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the bottom, and click <strong>Open Anyway</strong> next to the Termpolis entry.</p>
             <p><strong>macOS: "Permission denied" when launching a terminal.</strong> Grant Termpolis <strong>Full Disk Access</strong> in System Settings → Privacy &amp; Security → Full Disk Access. Re-launch after granting.</p>
             <p><strong>Linux: AppImage won't run.</strong> Mark it executable: <code>chmod +x Termpolis-*.AppImage</code>. On systems with hardened FUSE, extract and run the inner binary: <code>./Termpolis-*.AppImage --appimage-extract &amp;&amp; ./squashfs-root/termpolis</code>.</p>
-            <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run — make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
+            <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run, make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
 
             <h3>Terminals</h3>
-            <p><strong>Terminal won't start.</strong> Check the shell path in Settings → Shells. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; WSL needs <code>wsl.exe</code> on PATH. On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access — launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
+            <p><strong>Terminal won't start.</strong> Check the shell path in Settings → Shells. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; WSL needs <code>wsl.exe</code> on PATH. On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access, launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
             <p><strong>Terminal hangs on first prompt.</strong> Your shell's startup files (<code>.bashrc</code>, <code>.zshrc</code>, PowerShell <code>$PROFILE</code>) may be waiting on input or hitting a slow network check. Open the shell outside Termpolis to confirm; the fix is in your dotfiles, not the app.</p>
             <p><strong>Output looks garbled / escape codes show as text.</strong> The shell detected a non-TTY environment. Make sure the <strong>Agent profile</strong> field is empty if you're launching a plain shell. Settings → Shells → Reset defaults fixes most cases.</p>
             <p><strong>Copy/paste shortcuts don't work.</strong> On Windows/Linux, use <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> / <kbd>V</kbd> inside terminals (bare <kbd>Ctrl</kbd> + <kbd>C</kbd> sends SIGINT). On macOS, <kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>V</kbd> work everywhere.</p>
             <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme or run <strong>Reset theme</strong> from Settings → Themes.</p>
 
             <h3>Agents &amp; CLI tools</h3>
-            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>, <code>aider</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code> — restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
+            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>, <code>aider</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
             <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> to see which one Termpolis will launch. Override per-agent in Settings → Agents.</p>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
             <h3>Swarm, MCP, and memory</h3>
             <p><strong>MCP indicator in status bar is red.</strong> The MCP server failed to start. Check <code>~/.termpolis/logs/mcp.log</code>. Common causes:</p>
             <ul class="docs-list">
-              <li><strong>Port 48211 already in use</strong> — another instance or a crashed process still owns it. Kill stray <code>termpolis</code> processes, or change the port in Settings → Advanced.</li>
-              <li><strong>Firewall blocking localhost</strong> — rare but possible. Add an exception for the Termpolis binary.</li>
-              <li><strong>Token file write failed</strong> — <code>~/.termpolis/mcp-token</code> couldn't be written. Fix directory permissions (<code>chmod 700 ~/.termpolis</code>).</li>
+              <li><strong>Port 48211 already in use</strong>, another instance or a crashed process still owns it. Kill stray <code>termpolis</code> processes, or change the port in Settings → Advanced.</li>
+              <li><strong>Firewall blocking localhost</strong>, rare but possible. Add an exception for the Termpolis binary.</li>
+              <li><strong>Token file write failed</strong>, <code>~/.termpolis/mcp-token</code> couldn't be written. Fix directory permissions (<code>chmod 700 ~/.termpolis</code>).</li>
             </ul>
             <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Watch <code>~/.termpolis/logs/conductor.log</code> for startup output.</p>
-            <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed — if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired — restart Termpolis for fresh tokens.</p>
+            <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired, restart Termpolis for fresh tokens.</p>
             <p><strong>Memory search returns nothing.</strong> Embeddings require Ollama with <code>nomic-embed-text</code> pulled. Run <code>ollama serve</code> and <code>ollama pull nomic-embed-text</code>. New writes will succeed; historical keyword-only entries still match.</p>
 
             <h3>Updates &amp; performance</h3>
             <p><strong>Update notification appears but the update doesn't install.</strong> The auto-updater needs write access to the app bundle. On Windows, run the installer manually from GitHub Releases if the in-app updater fails. On macOS, drag the new DMG contents over the existing app. On Linux, download and replace the AppImage.</p>
-            <p><strong>App is slow to start / very high memory.</strong> A corrupted session file occasionally causes runaway restoration. Back up <code>session.json</code> in your data directory, delete it, and relaunch — you lose restored workspace state but get a clean baseline.</p>
+            <p><strong>App is slow to start / very high memory.</strong> A corrupted session file occasionally causes runaway restoration. Back up <code>session.json</code> in your data directory, delete it, and relaunch, you lose restored workspace state but get a clean baseline.</p>
             <p><strong>Terminal scrollback is sluggish.</strong> Default xterm scrollback is 10,000 lines. If you've pasted very large logs, scrolling slows down. Settings → Terminals → Clear scrollback resets without restarting.</p>
 
             <h3>Session corruption &amp; reset</h3>
-            <p><strong>App opens to a blank screen.</strong> Sign of a broken <code>session.json</code>. Close Termpolis, rename <code>session.json</code> in the data directory, relaunch — the app creates a fresh session. Workspaces will be empty but the app is usable again; the old file is preserved for diffing later.</p>
+            <p><strong>App opens to a blank screen.</strong> Sign of a broken <code>session.json</code>. Close Termpolis, rename <code>session.json</code> in the data directory, relaunch, the app creates a fresh session. Workspaces will be empty but the app is usable again; the old file is preserved for diffing later.</p>
             <p><strong>Reset everything.</strong> Close Termpolis, delete the entire data directory (see <a href="#install">Installation</a>), relaunch. Wipes workspaces, settings, themes, prompt templates, custom workflows, swarm history, and memory.</p>
 
             <h3>Reporting a bug</h3>
@@ -1034,14 +1034,14 @@
             <ol class="docs-list docs-list-ordered">
               <li>OS + version (e.g., Windows 11 23H2, macOS 14.3, Ubuntu 22.04).</li>
               <li>Termpolis version (Settings → About).</li>
-              <li>Steps to reproduce — as minimal as you can make them.</li>
+              <li>Steps to reproduce, as minimal as you can make them.</li>
               <li>Relevant log tail from <code>~/.termpolis/logs/</code> (main log plus <code>mcp.log</code> or <code>conductor.log</code> if swarm/MCP-related).</li>
               <li>A screenshot or short screen recording if it's a UI bug.</li>
             </ol>
           </section>
 
           <footer class="docs-footer">
-            <p>Termpolis is open source — <a href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">view on GitHub</a>. If it's useful to you, consider <a href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer">sponsoring the project</a>.</p>
+            <p>Termpolis is open source, <a href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">view on GitHub</a>. If it's useful to you, consider <a href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer">sponsoring the project</a>.</p>
           </footer>
         </article>
       </main>
