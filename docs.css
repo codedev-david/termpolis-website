@@ -224,6 +224,17 @@
   box-shadow: 0 4px 12px rgba(25, 118, 210, 0.35);
 }
 
+.docs-toc-external a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.docs-sidebar-bug {
+  color: #e53935 !important;
+  font-weight: 600;
+}
+
 /* Section blocks */
 
 .docs-section {
