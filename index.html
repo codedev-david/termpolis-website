@@ -43,7 +43,7 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.11.7",
+    "softwareVersion": "1.11.9",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -403,8 +403,9 @@
             <article class="download-card">
               <span class="platform-dot linux"></span>
               <h3>Linux</h3>
-              <p>AppImage with bundled CLI tools, ready to run.</p>
-              <a href="#" data-platform="linux" onclick="downloadRelease('linux', event)">Download for Linux</a>
+              <p>.deb for Debian/Ubuntu, AppImage for everyone else.</p>
+              <a href="#" data-platform="linux-deb" onclick="downloadRelease('linux-deb', event)">Download .deb (Debian/Ubuntu)</a>
+              <a href="#" data-platform="linux-appimage" onclick="downloadRelease('linux-appimage', event)" class="download-alt">AppImage (other distros)</a>
             </article>
           </div>
         </div>

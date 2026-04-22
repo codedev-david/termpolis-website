@@ -39,6 +39,9 @@ function downloadRelease(platform, event) {
         if (platform === 'windows') return name.endsWith('.exe');
         if (platform === 'mac-arm64') return name.endsWith('.dmg') && name.includes('arm64');
         if (platform === 'mac-x64') return name.endsWith('.dmg') && !name.includes('arm64');
+        if (platform === 'linux-deb') return name.endsWith('.deb');
+        if (platform === 'linux-appimage') return name.endsWith('.appimage');
+        // Back-compat: older links that passed 'linux' still resolve to AppImage.
         if (platform === 'linux') return name.endsWith('.appimage');
         return false;
       });
