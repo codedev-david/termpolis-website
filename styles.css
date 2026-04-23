@@ -547,6 +547,69 @@ h3 {
   opacity: 1;
 }
 
+.install-cmd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: -0.25rem;
+}
+
+.install-cmd-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.install-cmd-box {
+  appearance: none;
+  background: rgba(15, 20, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: left;
+  color: #d4d4d4;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.install-cmd-box:hover {
+  border-color: var(--sky);
+  background: rgba(15, 20, 30, 1);
+}
+
+.install-cmd-box code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #e8f0ff;
+  background: transparent;
+  padding: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.install-cmd-copy {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sky);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.install-cmd-box.copied .install-cmd-copy {
+  color: #4ade80;
+}
+
+.install-cmd-note {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-style: italic;
+}
+
 .shortcut-strip {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 1rem;

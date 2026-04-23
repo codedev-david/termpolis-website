@@ -43,7 +43,7 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.11.9",
+    "softwareVersion": "1.11.12",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -405,6 +405,14 @@
               <h3>Linux</h3>
               <p>.deb for Debian/Ubuntu, AppImage for everyone else.</p>
               <a href="#" data-platform="linux-deb" onclick="downloadRelease('linux-deb', event)">Download .deb (Debian/Ubuntu)</a>
+              <div class="install-cmd" title="Copy install command">
+                <span class="install-cmd-label">Then in the Downloads folder, run:</span>
+                <button type="button" class="install-cmd-box" onclick="copyInstallCmd(event)">
+                  <code>sudo apt install ./termpolis*.deb</code>
+                  <span class="install-cmd-copy" aria-hidden="true">Copy</span>
+                </button>
+                <span class="install-cmd-note">(Ubuntu 22.04+ no longer opens .deb files on double-click.)</span>
+              </div>
               <a href="#" data-platform="linux-appimage" onclick="downloadRelease('linux-appimage', event)" class="download-alt">AppImage (other distros)</a>
             </article>
           </div>

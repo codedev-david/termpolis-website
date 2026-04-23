@@ -24,6 +24,38 @@ if ("IntersectionObserver" in window) {
   reveals.forEach((section) => section.classList.add("is-visible"));
 }
 
+// Copy the .deb install command to clipboard with a brief "Copied!" flash.
+function copyInstallCmd(event) {
+  event.preventDefault();
+  var box = event.currentTarget;
+  var code = box.querySelector("code");
+  var label = box.querySelector(".install-cmd-copy");
+  if (!code || !label) return;
+  var original = label.textContent;
+  var cmd = code.textContent.trim();
+  var done = function () {
+    box.classList.add("copied");
+    label.textContent = "Copied!";
+    setTimeout(function () {
+      box.classList.remove("copied");
+      label.textContent = original;
+    }, 1500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(cmd).then(done).catch(function () {
+      label.textContent = "Press Ctrl+C";
+    });
+  } else {
+    // Fallback for older browsers
+    var ta = document.createElement("textarea");
+    ta.value = cmd;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); } catch (_) { label.textContent = "Press Ctrl+C"; }
+    document.body.removeChild(ta);
+  }
+}
+
 // Direct download from GitHub releases
 function downloadRelease(platform, event) {
   event.preventDefault();
