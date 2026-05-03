@@ -408,10 +408,10 @@
               <div class="install-cmd" title="Copy install command">
                 <span class="install-cmd-label">Then in the Downloads folder, run:</span>
                 <button type="button" class="install-cmd-box" onclick="copyInstallCmd(event)">
-                  <code>sudo dpkg -i ./termpolis*.deb &amp;&amp; sudo apt-get install -f</code>
+                  <code>sudo dpkg -i ./termpolis*.deb</code>
                   <span class="install-cmd-copy" aria-hidden="true">Copy</span>
                 </button>
-                <span class="install-cmd-note">(Use <code>dpkg</code>, not <code>apt install</code> — apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home dir on Ubuntu 22.04+, which causes a <em>&ldquo;Permission denied&rdquo;</em> error. The <code>apt-get install -f</code> step pulls in any missing dependencies.)</span>
+                <span class="install-cmd-note">(Use <code>dpkg</code>, not <code>apt install</code> — apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home dir on Ubuntu 22.04+, which causes a <em>&ldquo;Permission denied&rdquo;</em> error. The Termpolis postinst auto-resolves missing deps, refreshes the icon cache, and bakes <code>--no-sandbox --disable-gpu</code> into the .desktop launcher, so the dock icon Just Works.)</span>
               </div>
               <a href="#" data-platform="linux-appimage" onclick="downloadRelease('linux-appimage', event)" class="download-alt">AppImage (other distros)</a>
             </article>

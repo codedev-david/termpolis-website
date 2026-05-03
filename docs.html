@@ -220,8 +220,16 @@
               <em>&ldquo;Permission denied / pkgAcquireRun: 13&rdquo;</em>. <code>dpkg</code> doesn&rsquo;t
               drop privileges, so it works regardless of where the .deb is saved:
             </p>
-            <pre><code>sudo dpkg -i ./termpolis_*.deb
-sudo apt-get install -f   # only if dpkg complains about missing deps</code></pre>
+            <pre><code>sudo dpkg -i ./termpolis_*.deb</code></pre>
+            <p>
+              The package&rsquo;s postinst (v1.11.30+) takes care of the rest automatically:
+              it runs <code>apt-get install -f -y</code> to pull any missing transitive
+              dependencies (libgtk, libnss3, &hellip;), refreshes the desktop and hicolor
+              icon caches so the launcher icon shows up immediately, and ships the .desktop
+              entry with <code>--no-sandbox --disable-gpu</code> baked into the
+              <code>Exec=</code> line so the dock icon launches a working window on
+              NVIDIA / Wayland setups without any manual flags.
+            </p>
             <h3>Requirements</h3>
             <ul class="docs-list">
               <li>Windows 10 or 11 (x64)</li>
@@ -1027,8 +1035,8 @@ sudo apt-get install -f   # only if dpkg complains about missing deps</code></pr
             <p><strong>macOS: "Termpolis is damaged and can't be opened."</strong> Gatekeeper couldn't verify the signature, usually a partial download. Re-download the DMG from GitHub Releases, verify the file size matches, and mount again. If it still fails, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the bottom, and click <strong>Open Anyway</strong> next to the Termpolis entry.</p>
             <p><strong>macOS: "Permission denied" when launching a terminal.</strong> Grant Termpolis <strong>Full Disk Access</strong> in System Settings → Privacy &amp; Security → Full Disk Access. Re-launch after granting.</p>
             <p><strong>Linux: AppImage won't run.</strong> Mark it executable: <code>chmod +x Termpolis-*.AppImage</code>. On systems with hardened FUSE, extract and run the inner binary: <code>./Termpolis-*.AppImage --appimage-extract &amp;&amp; ./squashfs-root/termpolis</code>.</p>
-            <p><strong>Linux: .deb fails with &ldquo;Permission denied / pkgAcquireRun: 13&rdquo;.</strong> apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home directory on Ubuntu 22.04+. Install with <code>dpkg</code> instead, which doesn&rsquo;t drop privileges: <code>sudo dpkg -i ./termpolis_*.deb &amp;&amp; sudo apt-get install -f</code>.</p>
-            <p><strong>Linux: window opens as a blank black box.</strong> Common on Ubuntu setups with NVIDIA proprietary drivers or some Wayland compositors &mdash; Chromium&rsquo;s GPU process initializes but fails to compose output. Launch from a terminal with the GPU disabled: <code>TERMPOLIS_DISABLE_GPU=1 termpolis</code>. This forces software rendering (xterm falls back to canvas, slightly slower scrolling) but the UI renders reliably. v1.11.29+ also disables the unstable VAAPI video features by default, which fixes the issue on most affected machines without needing the env var.</p>
+            <p><strong>Linux: .deb fails with &ldquo;Permission denied / pkgAcquireRun: 13&rdquo;.</strong> apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home directory on Ubuntu 22.04+. Install with <code>dpkg</code> instead, which doesn&rsquo;t drop privileges: <code>sudo dpkg -i ./termpolis_*.deb</code>. v1.11.30+ ships a postinst that auto-runs <code>apt-get install -f -y</code> to resolve any missing dependencies, so a single <code>dpkg -i</code> is now enough.</p>
+            <p><strong>Linux: window opens as a blank black box.</strong> Common on Ubuntu setups with NVIDIA proprietary drivers or some Wayland compositors &mdash; Chromium&rsquo;s GPU process initializes but fails to compose output. v1.11.30+ ships <code>--no-sandbox --disable-gpu</code> baked into the .desktop launcher so the dock icon Just Works on these systems. If you launch the binary directly from a shell on an older build, pass the same flags: <code>/opt/Termpolis/termpolis --no-sandbox --disable-gpu</code>. <code>TERMPOLIS_DISABLE_GPU=1 termpolis</code> remains as an env-var escape hatch.</p>
             <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run, make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
 
             <h3>Terminals</h3>
