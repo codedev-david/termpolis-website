@@ -207,15 +207,26 @@
                   <tr><td>Windows</td><td><code>termpolis-setup-&lt;ver&gt;.exe</code></td><td>Code-signed</td></tr>
                   <tr><td>macOS (Apple Silicon)</td><td><code>termpolis-&lt;ver&gt;-arm64.dmg</code></td><td>Notarized</td></tr>
                   <tr><td>macOS (Intel)</td><td><code>termpolis-&lt;ver&gt;.dmg</code></td><td>Notarized</td></tr>
-                  <tr><td>Linux</td><td><code>termpolis-&lt;ver&gt;.AppImage</code></td><td>—</td></tr>
+                  <tr><td>Linux (Debian / Ubuntu)</td><td><code>termpolis_&lt;ver&gt;_amd64.deb</code></td><td>—</td></tr>
+                  <tr><td>Linux (other distros)</td><td><code>termpolis-&lt;ver&gt;.AppImage</code></td><td>—</td></tr>
                 </tbody>
               </table>
             </div>
+            <h3>Installing the .deb on Debian / Ubuntu</h3>
+            <p>
+              Use <code>dpkg</code>, <strong>not</strong> <code>sudo apt install ./termpolis*.deb</code>.
+              On Ubuntu 22.04+ apt drops to a sandboxed <code>_apt</code> user that can&rsquo;t read
+              files in your home directory, which fails with
+              <em>&ldquo;Permission denied / pkgAcquireRun: 13&rdquo;</em>. <code>dpkg</code> doesn&rsquo;t
+              drop privileges, so it works regardless of where the .deb is saved:
+            </p>
+            <pre><code>sudo dpkg -i ./termpolis_*.deb
+sudo apt-get install -f   # only if dpkg complains about missing deps</code></pre>
             <h3>Requirements</h3>
             <ul class="docs-list">
               <li>Windows 10 or 11 (x64)</li>
-              <li>macOS 11 (Big Sur) or later, Apple Silicon and Intel builds ship separately</li>
-              <li>Linux: AppImage runs on any modern glibc distro</li>
+              <li>macOS 10.15 (Catalina) or later, Apple Silicon and Intel builds ship separately</li>
+              <li>Linux: .deb for Debian/Ubuntu, AppImage for any other modern glibc distro</li>
               <li>~200 MB disk; 512 MB RAM minimum, 2 GB recommended when running multiple agents</li>
             </ul>
             <h3>Data directory</h3>
@@ -1016,6 +1027,7 @@
             <p><strong>macOS: "Termpolis is damaged and can't be opened."</strong> Gatekeeper couldn't verify the signature, usually a partial download. Re-download the DMG from GitHub Releases, verify the file size matches, and mount again. If it still fails, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the bottom, and click <strong>Open Anyway</strong> next to the Termpolis entry.</p>
             <p><strong>macOS: "Permission denied" when launching a terminal.</strong> Grant Termpolis <strong>Full Disk Access</strong> in System Settings → Privacy &amp; Security → Full Disk Access. Re-launch after granting.</p>
             <p><strong>Linux: AppImage won't run.</strong> Mark it executable: <code>chmod +x Termpolis-*.AppImage</code>. On systems with hardened FUSE, extract and run the inner binary: <code>./Termpolis-*.AppImage --appimage-extract &amp;&amp; ./squashfs-root/termpolis</code>.</p>
+            <p><strong>Linux: .deb fails with &ldquo;Permission denied / pkgAcquireRun: 13&rdquo;.</strong> apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home directory on Ubuntu 22.04+. Install with <code>dpkg</code> instead, which doesn&rsquo;t drop privileges: <code>sudo dpkg -i ./termpolis_*.deb &amp;&amp; sudo apt-get install -f</code>.</p>
             <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run, make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
 
             <h3>Terminals</h3>
