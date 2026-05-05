@@ -136,11 +136,11 @@
         </article>
         <article>
           <strong>4 AI agents, 1 conductor</strong>
-          <span>Claude, Codex, Gemini, and Aider+Qwen, scored across 10 customizable capability categories</span>
+          <span>Claude Code, Codex, Gemini CLI, and Qwen Code, scored across 10 customizable capability categories</span>
         </article>
         <article>
-          <strong>Free local option</strong>
-          <span>Aider + Qwen3-Coder via Ollama. Zero API cost, fully local, no cloud</span>
+          <strong>MCP-native end to end</strong>
+          <span>All four agents speak MCP — no terminal-output bridges, no parsers, no glue scripts</span>
         </article>
       </section>
 
@@ -159,7 +159,7 @@
           <article class="card">
             <h3>AI agent profiles</h3>
             <p>
-              One-click launch for Claude Code, Codex, Gemini CLI, and Aider. Add custom profiles
+              One-click launch for Claude Code, Codex, Gemini CLI, and Qwen Code. Add custom profiles
               for any AI tool. Each gets its own terminal with the right shell, color, and startup command.
             </p>
           </article>
@@ -202,7 +202,7 @@
           <article class="card">
             <h3>Agent detection &amp; cost tracking</h3>
             <p>
-              Automatically detects Claude, Codex, Gemini, or Aider running in a terminal. Shows
+              Automatically detects Claude Code, Codex, Gemini, or Qwen Code running in a terminal. Shows
               a colored badge with token usage and estimated cost in the status bar.
             </p>
           </article>
@@ -329,16 +329,17 @@
           <article class="card">
             <h3>MCP-native communication</h3>
             <p>
-              Claude, Codex, Gemini, and Qwen-Code all connect to Termpolis via MCP natively.
+              Claude Code, Codex, Gemini CLI, and Qwen Code all connect to Termpolis via MCP natively.
               6 swarm tools for inter-agent messaging, task management, and coordination.
-              Aider bridged automatically via terminal output parsing.
+              No terminal-output bridges or parser glue.
             </p>
           </article>
           <article class="card">
-            <h3>Free local option</h3>
+            <h3>Open-weight Qwen option</h3>
             <p>
-              Aider + Qwen3-Coder runs via Ollama with zero API cost. No cloud, no keys,
-              no telemetry. Auto-detects if Ollama is installed. The open-source AI coding option.
+              Qwen Code is Alibaba's MCP-native CLI for the Qwen3-Coder family. Cloud API
+              by default, drop-in alternative when you want a non-Anthropic, non-Google option
+              in the swarm.
             </p>
           </article>
           <article class="card">
@@ -440,7 +441,7 @@
             <h3>Activity feed</h3>
             <p>
               Ctrl+Shift+A opens a live stream of every agent event: messages, tool calls, tool results, token updates,
-              compaction events, errors, and MCP audit entries. Filter by agent (Claude/Codex/Gemini/Aider), by kind,
+              compaction events, errors, and MCP audit entries. Filter by agent (Claude/Codex/Gemini/Qwen Code), by kind,
               or search full text. Newest first.
             </p>
           </article>
@@ -483,7 +484,7 @@
           <article class="card">
             <h3>Transcript watchers</h3>
             <p>
-              Native JSONL readers for Claude Code, Codex, Gemini, and Aider. Tail-with-rotation: if the agent rotates its
+              Native JSONL readers for Claude Code, Codex, and Gemini transcripts. Tail-with-rotation: if the agent rotates its
               log mid-run, the watcher follows. Path traversal is blocked at the watcher boundary.
             </p>
           </article>

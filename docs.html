@@ -185,13 +185,13 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
-              <li><strong>Multi-agent swarm.</strong> Claude, Codex, Gemini, and Aider + Qwen can work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
+              <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, Gemini CLI, and Qwen Code work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
               <li><strong>Activity observability.</strong> Every token, every tool call, every message from every agent is visible in real time.</li>
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
               <li><strong>Shared memory.</strong> A RAG-backed memory store that any agent can read and write via MCP.</li>
-              <li><strong>Free local agent.</strong> Aider + Qwen3-Coder via Ollama. Zero-cost work is always on the menu.</li>
+              <li><strong>MCP-native end to end.</strong> All four agents speak MCP — no terminal-output parsers, no glue scripts, no bridge code paths.</li>
             </ul>
           </section>
 
@@ -296,7 +296,7 @@
               <li><strong>Terminals</strong>, every open pty in that workspace, with its shell, working directory, label, color, and scrollback buffer.</li>
               <li><strong>Layout</strong>, tab view, split view (the full pane tree), or grid view. Restored exactly on relaunch.</li>
               <li><strong>Focus</strong>, which terminal was active, cursor position, selection.</li>
-              <li><strong>Agent sessions</strong>, any Claude Code, Codex, Gemini, or Aider+Qwen runs tied to terminals in the workspace.</li>
+              <li><strong>Agent sessions</strong>, any Claude Code, Codex, Gemini CLI, or Qwen Code runs tied to terminals in the workspace.</li>
               <li><strong>Panel state</strong>, which side panels are open and their size.</li>
               <li><strong>Per-workspace overrides</strong>, any setting scoped specifically to this workspace (shell default, font size, etc.).</li>
             </ul>
@@ -441,12 +441,12 @@
               <figcaption>Score each agent across 10 categories, powers the swarm router.</figcaption>
             </figure>
             <p>
-              The heart of smart swarm routing. Score each agent (Claude, Codex, Gemini,
-              Aider+Qwen) from 0–100 across 10 categories: Refactoring, Testing, Documentation,
+              The heart of smart swarm routing. Score each agent (Claude Code, Codex, Gemini CLI,
+              Qwen Code) from 0–100 across 10 categories: Refactoring, Testing, Documentation,
               Code review, DevOps/Infra, Debugging, Frontend, Backend/API, Data/SQL, Bulk work.
               Defaults reflect model-family strengths; tune them to match your experience.
             </p>
-            <p>The <strong>Token Cost</strong> column ($, $$, $$$, Free) drives cost-aware routing.</p>
+            <p>The <strong>Token Cost</strong> column ($, $$, $$$) drives cost-aware routing.</p>
           </section>
 
           <!-- COMMAND PALETTE -->
@@ -629,7 +629,7 @@
             </figure>
             <p>
               Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>. Every AI agent session in
-              Termpolis, Claude Code, Codex, Gemini CLI, Aider+Qwen, swarm runs, and the conductor
+              Termpolis, Claude Code, Codex, Gemini CLI, Qwen Code, swarm runs, and the conductor
               itself, is recorded event-by-event to <code>~/.termpolis/activity.jsonl</code>.
               Conversation search is the UI on top of that log.
             </p>
@@ -690,9 +690,9 @@
           <section id="agents" class="docs-section">
             <h2>AI agent profiles</h2>
             <p>
-              Launch any AI CLI as a profiled terminal: Claude Code, Codex, Gemini CLI, Aider.
+              Launch any AI CLI as a profiled terminal: Claude Code, Codex, Gemini CLI, Qwen Code.
               Profiles come pre-configured with the right shell + startup command, a color + label,
-              an MCP bootstrap (where supported), and an optional dedicated working directory.
+              an MCP bootstrap, and an optional dedicated working directory.
               Custom profiles take any command: if it's in PATH, you can profile it.
             </p>
           </section>
@@ -733,9 +733,9 @@
   }
 }</code></pre>
             <p>
-              The token is written to <code>~/.termpolis/mcp-token</code> on every launch. Most
-              official agent profiles (Claude Code, Codex, Aider) are wired up automatically when
-              launched from inside Termpolis, nothing to configure.
+              The token is written to <code>~/.termpolis/mcp-token</code> on every launch. All four
+              official agent profiles (Claude Code, Codex, Gemini CLI, Qwen Code) are wired up
+              automatically when launched from inside Termpolis, nothing to configure.
             </p>
             <h3>Available tools</h3>
             <p>
@@ -1019,7 +1019,7 @@
 └──────────────────┬──────────────────────────────────┘
                    │  localhost:48211 (MCP)
 ┌──────────────────▼──────────────────────────────────┐
-│  AI agents (Claude, Codex, Gemini, Aider+Qwen)      │
+│  AI agents (Claude, Codex, Gemini, Qwen Code)       │
 │  Each in its own pty-backed terminal                │
 └─────────────────────────────────────────────────────┘</pre>
             <p><strong>Tech stack:</strong> Electron 29, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (2100+ tests, &gt;90% line coverage), Playwright, electron-builder, Azure Trusted Signing, notarytool.</p>
@@ -1051,7 +1051,7 @@
             <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme or run <strong>Reset theme</strong> from Settings → Themes.</p>
 
             <h3>Agents &amp; CLI tools</h3>
-            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>, <code>aider</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
+            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>, <code>qwen</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
             <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> to see which one Termpolis will launch. Override per-agent in Settings → Agents.</p>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
