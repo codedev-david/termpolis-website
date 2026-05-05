@@ -43,7 +43,7 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.11.12",
+    "softwareVersion": "1.11.31",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -166,8 +166,9 @@
           <article class="card">
             <h3>MCP server</h3>
             <p>
-              Built-in HTTP/SSE server on localhost:9315 with 14 tools. AI agents create terminals,
-              run commands, read output, manage your workspace. Auto-registers with Claude Code.
+              Built-in HTTP/SSE server on localhost:9315 with 17 tools. AI agents create terminals,
+              run commands, read output, manage your workspace, and persist memory across sessions.
+              Auto-registers with Claude Code, Codex, Gemini, and Qwen-Code.
             </p>
           </article>
           <article class="card">
@@ -328,7 +329,7 @@
           <article class="card">
             <h3>MCP-native communication</h3>
             <p>
-              Claude, Codex, and Gemini all connect to Termpolis via MCP natively.
+              Claude, Codex, Gemini, and Qwen-Code all connect to Termpolis via MCP natively.
               6 swarm tools for inter-agent messaging, task management, and coordination.
               Aider bridged automatically via terminal output parsing.
             </p>
@@ -521,7 +522,7 @@
               Type natural language in any terminal, get instant shell commands.
               "find large files" becomes <code>find . -type f -size +100M</code>.
               "undo last commit" becomes <code>git reset --soft HEAD~1</code>.
-              30+ patterns, zero latency, no API calls. Tab to accept.
+              29 patterns, zero latency, no API calls. Tab to accept.
             </p>
           </article>
           <article class="card">
@@ -561,18 +562,19 @@
           <p class="eyebrow">MCP integration</p>
           <h2>AI agents control your terminal</h2>
           <p>
-            Termpolis runs an MCP server on localhost:9315 with 14 tools. Claude Code
-            auto-discovers it. Secured with a 256-bit auth token, localhost only, no plugins.
+            Termpolis runs an MCP server on localhost:9315 with 17 tools. Claude Code,
+            Codex, Gemini, and Qwen-Code all auto-discover it. Secured with a 256-bit auth token,
+            localhost only, no plugins.
           </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>14 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close) + file tree + git status + 6 swarm coordination tools.</p>
+            <h3>17 MCP tools</h3>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 3 memory tools (write, search, list).</p>
           </article>
           <article class="card">
-            <h3>Auto-registers with Claude Code</h3>
-            <p>On launch, Termpolis adds itself as a Claude Code plugin. Zero configuration needed.</p>
+            <h3>Auto-registers with every agent</h3>
+            <p>On launch, Termpolis adds itself to Claude Code, Codex, Gemini CLI, and Qwen-Code config files. Zero configuration needed.</p>
           </article>
           <article class="card">
             <h3>CLI tool included</h3>
@@ -661,8 +663,8 @@
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>590 automated tests</h3>
-            <p>515 unit tests across 62 files (Vitest) + 75 E2E tests (Playwright) with automated screenshots. CI/CD on every release.</p>
+            <h3>3,240 automated tests</h3>
+            <p>2,723 unit tests across 129 files (Vitest, 90%+ coverage) + 517 E2E tests across 35 files (Playwright) with automated screenshots. CI/CD on every release.</p>
           </article>
           <article class="card">
             <h3>Output throttling</h3>
