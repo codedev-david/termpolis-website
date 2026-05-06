@@ -741,7 +741,7 @@
             <ul class="docs-list">
               <li><strong>Project root + git branch</strong>, the cwd of the focused terminal and the active branch, so an agent can ground its answers in the right repo state.</li>
               <li><strong>File tree</strong>, collapsible directory view of the project, click to pin a file into context.</li>
-              <li><strong>Active agent</strong>, which AI is focused, its model, and a live token counter. When you hit 80% of the model's context window, the bar turns amber; at 95% it turns red, your cue to compact or wrap up.</li>
+              <li><strong>Active agent</strong>, which AI is focused and its model.</li>
               <li><strong>Recent files</strong>, last 20 files the agent (or you) read, edited, or ran. Click to re-open in Monaco's diff view.</li>
               <li><strong>Pinned items</strong>, anything you've pinned: a file, an activity event, a prompt, a memory entry. Pins stay visible across sessions.</li>
               <li><strong>Task chain</strong>, when a swarm is running, the current task, its parent, and its dependencies.</li>
@@ -749,7 +749,6 @@
             <h3>Why it's helpful</h3>
             <ul class="docs-list">
               <li><strong>No more "please re-share the file" loops.</strong> Pin it once and every agent can read it.</li>
-              <li><strong>Catch token pressure before it compacts.</strong> The live counter means you'll never be surprised when an agent suddenly forgets the first half of your conversation.</li>
               <li><strong>Explicit context, not implicit slurp.</strong> Agents only see what you've put here, no silent indexing of your filesystem. Safer for private code.</li>
               <li><strong>Share context across agents.</strong> Pin a spec once and Claude, Codex, Gemini, and Qwen all read from the same truth.</li>
             </ul>
@@ -1094,7 +1093,6 @@
             <h2>Observability</h2>
             <p>A full observability stack for AI work, the "watchers" system. A lightweight in-process event bus that watches for:</p>
             <ul class="docs-list">
-              <li><strong>Token pressure</strong>, approaching compaction.</li>
               <li><strong>Stuck sessions</strong>, agent silent for &gt; N seconds.</li>
               <li><strong>Error cascades</strong>, repeated errors in a short window.</li>
               <li><strong>Redundancy</strong>, two agents doing overlapping work.</li>
