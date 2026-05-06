@@ -76,8 +76,8 @@
       <nav class="site-nav" aria-label="Primary">
         <a href="#security">Security</a>
         <a href="#swarm">Smart Swarm</a>
+        <a href="#context-handoff">Context Handoff</a>
         <a href="#observability">Observability</a>
-        <a href="#share">Share to Slack/Teams</a>
         <a href="#features">Features</a>
         <a href="#downloads">Downloads</a>
         <a href="docs.html">Docs</a>
@@ -106,9 +106,11 @@
             stream every tool call into a live activity feed. Pause, cancel, or steer any agent
             mid-run without losing progress. When the swarm finishes, review the diff hunk-by-hunk,
             run the tests, and accept or reject each change before it lands. The built-in
-            <strong>AI Security Center</strong> keeps source code out of training pipelines —
-            every prompt is scanned for secrets, every Gemini launch is checked for paid-tier
-            credentials, every outbound launch lands in a local JSONL audit log.
+            <strong>AI Security Center</strong> applies defense in depth around hosted models:
+            every prompt is scanned against 70+ secret patterns, oversize code or
+            <code>.env</code> pastes are flagged, every Gemini launch is checked for
+            paid-tier credentials, and every outbound launch + endpoint lands in a local
+            JSONL audit log so you can see what actually went out.
           </p>
           <p class="free-forever">
             <span class="free-forever-pill">Free forever</span>
@@ -161,41 +163,68 @@
       <section id="security" class="section reveal">
         <div class="section-heading">
           <p class="eyebrow">🛡 AI Security Center</p>
-          <h2>Source-code safety for AI-assisted development</h2>
+          <h2>Defense in depth for the hosted-model path</h2>
           <p>
-            CTOs ask: <em>"How do I let my team use Claude, Codex, Gemini, and Qwen without my
-            proprietary code ending up in someone's training pipeline?"</em> — Termpolis is the
-            answer. Every check runs locally, every log stays on the machine. Settings → Security
-            ships a complete control panel.
+            <strong>The honest framing:</strong> any tool that lets you talk to a hosted model
+            is, by definition, sending your prompt to that provider. Termpolis cannot
+            air-gap a prompt you choose to send, cannot guarantee a provider's stated
+            retention policy is enforced server-side, and cannot stop a provider from later
+            changing their terms. If your threat model requires those guarantees, run a local
+            model — but accept the quality and hardware trade-off.
+          </p>
+          <p>
+            What Termpolis <em>can</em> do is make the hosted path substantially safer than
+            typing into a stock terminal, a browser, or a VS&nbsp;Code plug-in. Every check
+            below runs locally, every log stays on the machine, and every limit is named.
           </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>Local-first by design</h3>
-            <p>
-              No browser plugin. No IDE extension. No SaaS backend. Termpolis is a native
-              terminal that talks directly to the AI CLIs you already use — your source code
-              never passes through a Termpolis-hosted server.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Per-provider training-data facts</h3>
-            <p>
-              Live ToS-sourced summaries for every provider: Claude (default-off), Codex
-              (default-off), Gemini (opt-out-required, flagged yellow), Qwen Code (default-off
-              paid / local Ollama mode). Verifiable links to the official policy pages.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Auto-scan every prompt (v1.11.44+)</h3>
+            <h3>Pre-send secret scanner</h3>
             <p>
               Once you launch <code>claude</code>, <code>codex</code>, <code>gemini</code>, or
-              <code>qwen</code> in a terminal, every Enter and every paste-sized chunk is scanned
-              against <strong>70+ regex rules</strong> in main-process memory before it reaches
-              the PTY. Hits get redacted in place and a banner tells you which rules fired.
-              Coverage spans AWS, GitHub, Azure, GCP, Stripe, Slack, Twilio, Sentry DSN, JWT,
-              PEM, <code>.env</code>-style, plus 60+ more vendor patterns. Non-AI terminals are
-              not scanned (zero overhead).
+              <code>qwen</code>, every Enter and every paste-sized chunk is matched against
+              <strong>70+ regex rules</strong> in main-process memory before it reaches the
+              PTY. Hits are redacted in place and a banner names the rules that fired.
+              Coverage: AWS, GitHub PATs, Azure, GCP service accounts, Stripe, Slack, Twilio,
+              Sentry DSN, JWT, PEM, <code>.env</code>-style URLs, and 60+ more.
+              <strong>Limit:</strong> regex-shaped secrets only — a custom token nobody publishes
+              a pattern for can still slip through.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Code-chunk + env-dump heuristics (v1.11.52)</h3>
+            <p>
+              Prompts over 2&nbsp;KB are inspected for code-shaped structure (indentation +
+              braces + keywords + module declarations) or 5+ <code>KEY=value</code> lines
+              suggestive of a pasted <code>.env</code>. Detections are surfaced in the UI
+              and written to the audit log so you notice when an entire source file or
+              env file is on its way out.
+              <strong>Limit:</strong> heuristic — false negatives possible on minified or
+              unusual shapes. The prompt isn't blocked; you decide.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Weekly ToS drift watcher (v1.11.52)</h3>
+            <p>
+              A scheduled GitHub Action fetches the four provider pages we cite (Anthropic
+              commercial terms, OpenAI enterprise privacy, Google Gemini API terms, Alibaba
+              Model Studio agreement), normalises the HTML, hashes it, and opens a tracking
+              issue when the hash changes — so what the app advertises stays aligned with
+              what providers actually publish.
+              <strong>Limit:</strong> detects rendered-text changes, not legal intent. A
+              human still reads the diff.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Per-agent egress audit (v1.11.52)</h3>
+            <p>
+              <code>netstat</code> (Windows), <code>ss</code> (Linux), or <code>lsof</code>
+              (macOS) is polled once a minute for the AI agent's PID. Every unique remote
+              <code>host:port</code> goes to the audit log, so you can answer "did Claude
+              talk to anything other than <code>api.anthropic.com</code> today?".
+              <strong>Limit:</strong> polling, not packet capture — sub-minute bursts can be
+              missed; no DNS reverse lookup; no payload inspection.
             </p>
           </article>
           <article class="card">
@@ -203,44 +232,107 @@
             <p>
               Reads <code>GEMINI_API_KEY</code>, <code>GOOGLE_API_KEY</code>,
               <code>GOOGLE_GENAI_USE_GCA</code>, and
-              <code>GOOGLE_APPLICATION_CREDENTIALS</code>+<code>GOOGLE_CLOUD_PROJECT</code> to
-              identify whether the Gemini CLI will use a paid (training-excluded) tier or fall
-              back to free OAuth — which Google may use for product improvement.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Strict Mode: paid-tier-only Gemini</h3>
-            <p>
-              When ON, Termpolis intercepts <code>gemini</code> invocations from any terminal
-              and refuses to forward them unless paid-tier credentials are detected. The
-              blocked launch is recorded in the audit log. Free-tier mistakes simply can't
-              happen.
+              <code>GOOGLE_APPLICATION_CREDENTIALS</code>+<code>GOOGLE_CLOUD_PROJECT</code>
+              to classify the active Gemini session as paid (training-excluded) or free
+              (Google may use prompts for product improvement). <strong>Strict Mode</strong>
+              intercepts <code>gemini</code> launches that look free-tier and refuses to
+              forward them; blocked launches are audited.
+              <strong>Limit:</strong> env-var heuristic — credentials shipped some other
+              way can't be classified.
             </p>
           </article>
           <article class="card">
             <h3>Local JSONL audit log</h3>
             <p>
-              Every AI-agent terminal launch is written append-only to
-              <code>ai-security-audit.jsonl</code> in your local userData directory. 10 MB
-              rotated. Optional byte counts and hit counts. Wipeable from Settings. Stays on
-              the machine — never sent anywhere.
+              Every AI terminal open/close, every redaction hit, every code-chunk or
+              env-dump detection, every Strict-Mode block writes to
+              <code>ai-security-audit.jsonl</code> in your userData directory. 10&nbsp;MB
+              rotated, append-only, on disk only, wipeable.
+              <strong>Limit:</strong> local. We don't ship it anywhere. If your machine is
+              compromised, so is the log.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Tampering-surface minimisation</h3>
+            <p>
+              No browser extension, no IDE plug-in, no Termpolis cloud sync. The MCP server
+              binds to <code>127.0.0.1</code> with a 256-bit token rotated every launch.
+              No Termpolis telemetry, no Termpolis accounts, optional crash reporting that
+              redacts user-folder paths.
+              <strong>Limit:</strong> Termpolis is itself an Electron app — same caveats
+              apply as any local desktop process running with your privileges.
             </p>
           </article>
           <article class="card">
             <h3>Built-in legal disclaimer</h3>
             <p>
-              Apache 2.0 "AS IS". Settings → Security and <code>TERMS.md</code> both ship the
-              full liability disclaimer covering provider ToS changes, the limits of regex-based
-              redaction, and the scope of Strict Mode interception. Vetted, transparent,
-              auditable.
+              Apache 2.0 "AS&nbsp;IS". Settings → Security and <code>TERMS.md</code> ship
+              the full liability disclaimer covering provider ToS changes, the limits of
+              regex-based redaction, and the scope of Strict Mode interception. Vetted,
+              transparent, auditable.
+            </p>
+          </article>
+        </div>
+        <p style="margin-top:24px; font-size:14px; opacity:0.85;">
+          <strong>What this is and isn't.</strong> Termpolis is defense in depth for the
+          hosted-model path — it raises the cost of accidental disclosure and gives you a
+          record to audit. It is <em>not</em> a guarantee that source code cannot reach a
+          provider; only not running the agent at all gives you that. The honest answer to
+          "can a hosted model leak my code?" is "yes, if you send it; the question is whether
+          the controls catch the obvious accidents and whether you trust the provider's terms
+          for the rest."
+        </p>
+      </section>
+
+      <!-- CONTEXT HANDOFF -->
+      <section id="context-handoff" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🔁 Cross-AI context handoff</p>
+          <h2>Move a Claude session to Codex, Gemini, or Qwen — without re-explaining</h2>
+          <p>
+            Open <strong>Past AI Sessions</strong> from the sidebar. Termpolis indexes every
+            <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
+            them with project label, age, message count, and size, and lets you continue
+            the work in any of the four supported agents — without manually copy-pasting
+            anything.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Resume natively</h3>
+            <p>
+              Spawns a new terminal at the original cwd and runs
+              <code>claude --resume &lt;session-id&gt;</code>. Or, if you already have a
+              plain shell focused, "Resume in active shell" runs the resume command in
+              the focused terminal — no new tab.
             </p>
           </article>
           <article class="card">
-            <h3>Zero accounts. Zero telemetry.</h3>
+            <h3>Continue in another AI</h3>
             <p>
-              No login. No phone-home. The MCP server binds to 127.0.0.1 only, with a 256-bit
-              random auth token rotated every launch. Optional crash reporting is opt-in and
-              redacts user-folder paths before sending.
+              Pick Codex, Gemini, or Qwen from the Continue ▾ menu. Termpolis spawns a fresh
+              terminal at the same cwd, boots the chosen agent, and pastes a synthesised
+              <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the
+              new agent picks up exactly where the old one left off.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Inject into the focused AI</h3>
+            <p>
+              Already have an AI shell open? "Inject context into active shell" pastes the
+              handoff prompt straight into that agent's input box. The button is disabled
+              for plain shells (where it would just splat into the command line) and the
+              tooltip explains why.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Pasted as one blob, not a stream of commands</h3>
+            <p>
+              The handoff prompt is wrapped in xterm bracketed-paste markers
+              (<code>ESC[200~ … ESC[201~</code>) so the receiving agent treats it as a
+              single paste rather than dispatching one keypress / submit per embedded
+              newline. Result: the agent sees one coherent context block, not what looks
+              like a flurry of random commands.
             </p>
           </article>
         </div>

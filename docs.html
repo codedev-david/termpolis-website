@@ -106,6 +106,7 @@
             <li><a href="#prompt-templates">Prompt templates</a></li>
             <li><a href="#workflows">Workflow templates</a></li>
             <li><a href="#context">Context panel</a></li>
+            <li><a href="#context-handoff">Cross-AI context handoff</a></li>
             <li><a href="#history">History search</a></li>
             <li><a href="#conversation">Conversation search</a></li>
             <li><a href="#git">Git panel</a></li>
@@ -220,17 +221,30 @@
           <section id="security-center" class="docs-section">
             <h2>🛡 AI Security Center</h2>
             <p>
-              Termpolis ships with an in-app AI Security Center at <strong>Settings → Security</strong>.
-              Its goal is to give administrators visibility and verifiable control over outbound AI
-              traffic, so a team can adopt Claude Code, Codex, Gemini CLI, and Qwen Code without
-              proprietary code ending up in someone's training pipeline.
+              Termpolis ships an in-app AI Security Center at <strong>Settings → Security</strong>.
+              Its goal is to give administrators visibility and layered controls around outbound
+              AI traffic so a team can adopt Claude Code, Codex, Gemini CLI, and Qwen Code with
+              the obvious accidents caught and a verifiable record of what was sent — knowing
+              that no in-the-loop tool can guarantee a hosted-model prompt never reaches the
+              provider.
+            </p>
+            <p>
+              <strong>What it is and isn't.</strong> Any tool that lets you talk to a hosted model
+              is, by definition, sending your prompt to that provider. Termpolis cannot air-gap
+              a prompt you choose to send and cannot guarantee a provider's stated retention
+              policy is enforced server-side. The Security Center is <em>defense in depth</em> —
+              it catches recognisable secrets, flags oversize code/<code>.env</code> pastes,
+              detects unexpected network endpoints, and writes everything to a local audit log.
+              For absolute air-gap, run a local model and accept the quality / hardware
+              trade-off.
             </p>
             <p><strong>Design principles:</strong></p>
             <ul class="docs-list">
               <li><strong>Local-first.</strong> Every check runs on the machine. None of these features send data to Termpolis or any third party.</li>
               <li><strong>Native, not a browser/IDE plugin.</strong> Termpolis is a terminal manager, not a Chrome extension piping your buffer to a SaaS backend.</li>
               <li><strong>No telemetry.</strong> No login, no phone-home. Optional crash reporting is opt-in and redacts user-folder paths first.</li>
-              <li><strong>Verifiable.</strong> Every claim links to the provider's published ToS page so administrators can re-check.</li>
+              <li><strong>Verifiable.</strong> Every claim links to the provider's published ToS page; a weekly drift watcher (v1.11.52) opens a tracking issue when those pages change.</li>
+              <li><strong>Honest about limits.</strong> Each control below names what it can <em>not</em> catch.</li>
             </ul>
 
             <h3>Per-provider training-disposition facts</h3>
@@ -308,6 +322,53 @@
               The audit log captures only what Termpolis observes locally — activity that bypasses
               Termpolis (a Gemini CLI run from a separate native terminal window, for example) is
               not visible to the audit log.
+            </p>
+
+            <h3 id="security-codechunk">Code-chunk + env-dump heuristics (v1.11.52)</h3>
+            <p>
+              Outbound prompts larger than 2&nbsp;KB are inspected for code-shaped structure
+              (indentation density, braces/punctuation density, common keywords like
+              <code>function</code>/<code>class</code>/<code>import</code>/<code>def</code>,
+              and module declarations such as <code>import …</code> or <code>#include</code>).
+              When two or more of those signals fire, the prompt is flagged via a
+              <code>terminal:code-chunk-detected</code> event and an audit entry tagged
+              <code>code-chunk:&lt;signals&gt;</code>. A separate detector counts
+              <code>UPPER_SNAKE=value</code> lines (with an optional <code>export</code>
+              prefix) — five or more triggers an <code>env-dump</code> flag and audit entry.
+              Both detectors are <em>heuristic</em>: the prompt is not blocked. They exist so
+              that a casual paste of an entire source file or <code>.env</code> does not slip
+              past unnoticed. False negatives are possible on minified or unusual code shapes.
+            </p>
+
+            <h3 id="security-egress">Per-agent egress audit (v1.11.52)</h3>
+            <p>
+              When an AI agent is launched, Termpolis starts a 60-second poller that asks
+              the OS what TCP connections the agent's PID has open
+              (<code>netstat -ano</code> on Windows, <code>ss -tnp</code> on Linux,
+              <code>lsof -nP -iTCP -p &lt;pid&gt;</code> on macOS) and records each unique
+              remote <code>host:port</code>. The Security panel can read this back per
+              terminal so you can answer "did Claude talk to anything other than
+              <code>api.anthropic.com</code> today?". This is polling, not packet capture —
+              sub-minute bursts can be missed, and we do not reverse-DNS or inspect the
+              payload. If the platform tool is missing or the user has insufficient
+              permissions, the poller silently returns nothing and the rest of the app
+              continues to function.
+            </p>
+
+            <h3 id="security-tos-drift">Weekly ToS drift watcher (v1.11.52)</h3>
+            <p>
+              A scheduled GitHub Action
+              (<a href="https://github.com/codedev-david/termpolis/blob/main/.github/workflows/tos-drift.yml" target="_blank" rel="noreferrer"><code>.github/workflows/tos-drift.yml</code></a>)
+              runs every Monday at 13:00 UTC. It fetches the four provider pages this app
+              cites, normalises the HTML aggressively (strips
+              <code>&lt;script&gt;</code>/<code>&lt;style&gt;</code>/<code>&lt;svg&gt;</code>/<code>&lt;head&gt;</code>
+              and HTML comments, decodes entities, collapses whitespace), hashes the result,
+              and compares it to a snapshot committed under
+              <code>docs/security-snapshots/</code>. When a hash differs the action opens a
+              tracking issue tagged <code>security,tos-drift</code> so a human reviewer can
+              decide whether the legal language has materially changed and Termpolis needs
+              an update. The watcher detects rendered-text changes — it cannot infer legal
+              intent.
             </p>
 
             <h3 id="security-disclaimer">Legal disclaimer</h3>
@@ -773,6 +834,36 @@
               <li>When an agent asks "what am I looking at?", it reads from this pane directly via MCP.</li>
               <li>Click the <strong>×</strong> on any pin to remove it; pins save to <code>~/.termpolis/context-pins.json</code>.</li>
             </ol>
+          </section>
+
+          <!-- CROSS-AI CONTEXT HANDOFF -->
+          <section id="context-handoff" class="docs-section">
+            <h2>Cross-AI context handoff &amp; Past AI Sessions</h2>
+            <p>
+              Open <strong>Past AI Sessions</strong> from the sidebar. Termpolis indexes every
+              <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
+              them with project label, age, message count, and size, and lets you continue
+              the work in any of the four supported agents — without copy-pasting anything
+              by hand. (v1.11.47 added the cross-AI bridge; v1.11.48 fixed the freeze on
+              large session histories; v1.11.51 added Inject + Resume-here gating;
+              v1.11.52 made the inject paste land as a single bracketed-paste blob.)
+            </p>
+            <h3>What you can do with a past session</h3>
+            <ul class="docs-list">
+              <li><strong>Resume natively</strong> — spawns a new terminal at the original cwd and runs <code>claude --resume &lt;session-id&gt;</code>.</li>
+              <li><strong>Resume in active shell</strong> — runs the same <code>claude --resume</code> command in the focused plain terminal instead of opening a new tab. Disabled when the focused tab is already an AI agent (so the command doesn't land inside the running agent's input box).</li>
+              <li><strong>Continue in another AI</strong> — pick Codex, Gemini, or Qwen from the Continue ▾ menu. Termpolis spawns a fresh terminal at the same cwd, boots the chosen agent, and pastes a synthesised <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the new agent picks up exactly where the old one left off.</li>
+              <li><strong>Inject context into the focused AI</strong> — pastes the same handoff prompt into the active AI shell's input box. Disabled for plain shells (where it would just splat into the command line); the tooltip explains why.</li>
+            </ul>
+            <h3>Pasted as one blob, not a stream of commands</h3>
+            <p>
+              The handoff prompt is wrapped in xterm bracketed-paste markers
+              (<code>ESC[200~ … ESC[201~</code>) and its embedded newlines are normalised to
+              <code>\r</code> so the receiving agent treats the whole thing as a single paste
+              event rather than dispatching one keypress / submit per embedded line. Result:
+              the agent sees one coherent context block, not what previously looked like a
+              flurry of random commands.
+            </p>
           </section>
 
           <!-- HISTORY -->
