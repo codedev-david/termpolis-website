@@ -90,11 +90,11 @@
         <div class="hero-copy">
           <p class="eyebrow">Secure AI-Assisted Development</p>
           <h1>Termpolis</h1>
-          <p class="tagline">where Claude, Codex, Gemini, and Qwen work as a team — without your source code leaving the machine</p>
+          <p class="tagline">where Claude, Codex, Gemini, and Qwen work as a team — under a security perimeter you control</p>
           <ul class="hero-security-pills" aria-label="Security highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
-            <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🛡 Local-first · no cloud · no telemetry</li>
+            <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🛡 Local-first app · no Termpolis backend · no telemetry</li>
             <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 No browser/IDE extension</li>
-            <li style="background:#FFB74D22;color:#FFB74D;border:1px solid #FFB74D55;border-radius:999px;padding:4px 10px;">📋 Pre-paste secret scanner</li>
+            <li style="background:#FFB74D22;color:#FFB74D;border:1px solid #FFB74D55;border-radius:999px;padding:4px 10px;">🔎 Auto-scan every prompt (70+ patterns)</li>
             <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📜 Auditable outbound log</li>
             <li style="background:#D9770622;color:#FFB74D;border:1px solid #D9770655;border-radius:999px;padding:4px 10px;">⛔ Strict Mode: Gemini paid-tier only</li>
           </ul>
@@ -125,7 +125,7 @@
             </a>
           </div>
           <ul class="hero-points" aria-label="Key product highlights">
-            <li>AI Security Center: pre-paste secret scanner, Gemini paid-tier enforcement, JSONL audit log — every check runs locally</li>
+            <li>AI Security Center: auto-scan every AI prompt against 70+ secret patterns, Gemini paid-tier enforcement, JSONL audit log — every check runs locally</li>
             <li>Smart routing: up to 5 agents in parallel, auto-assigned by capability scores across 10 skill categories</li>
             <li>Intervene mid-run: pause, cancel, or redirect any agent. Shared memory keeps context intact</li>
             <li>Share-ready output: copy any terminal output as a code block, plain text, or PNG image — paste straight into Slack, Teams, or a PR</li>
@@ -187,12 +187,15 @@
             </p>
           </article>
           <article class="card">
-            <h3>Pre-paste secret scanner</h3>
+            <h3>Auto-scan every prompt (v1.11.44+)</h3>
             <p>
-              Before any prompt or paste reaches an AI agent, Termpolis scans for AWS keys,
-              GitHub PATs, OpenAI/Anthropic/Google API keys, JWTs, PEM private keys, and
-              <code>.env</code>-style assignments. Returns a redacted preview so you can decide
-              before it leaves your machine.
+              Once you launch <code>claude</code>, <code>codex</code>, <code>gemini</code>, or
+              <code>qwen</code> in a terminal, every Enter and every paste-sized chunk is scanned
+              against <strong>70+ regex rules</strong> in main-process memory before it reaches
+              the PTY. Hits get redacted in place and a banner tells you which rules fired.
+              Coverage spans AWS, GitHub, Azure, GCP, Stripe, Slack, Twilio, Sentry DSN, JWT,
+              PEM, <code>.env</code>-style, plus 60+ more vendor patterns. Non-AI terminals are
+              not scanned (zero overhead).
             </p>
           </article>
           <article class="card">

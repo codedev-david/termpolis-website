@@ -204,7 +204,7 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
-              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> with pre-paste secret scanner, Gemini paid-tier enforcement, and an auditable JSONL log of every AI-agent terminal launch — every check runs locally.</li>
+              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> auto-scans every AI prompt against 70+ secret patterns, enforces Gemini paid-tier mode, and keeps an auditable JSONL log of every AI-agent terminal launch — every check runs locally.</li>
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, Gemini CLI, and Qwen Code work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
@@ -242,21 +242,34 @@
               <li><strong>Anthropic (Claude Code).</strong> API + commercial usage — default off for training.</li>
               <li><strong>OpenAI (Codex).</strong> API platform — default off for training.</li>
               <li><strong>Google (Gemini CLI).</strong> Paid tier (API key, Vertex AI, Code Assist) — excluded from training. Free OAuth tier — Google may use prompts to improve products. Flagged yellow.</li>
-              <li><strong>Alibaba (Qwen Code).</strong> Paid DashScope — excluded from training. Local Ollama mode — never leaves the machine.</li>
+              <li><strong>Alibaba (Qwen Code).</strong> Paid DashScope — excluded from training. Local Ollama mode — prompts stay on your machine instead of going to any provider.</li>
             </ul>
 
-            <h3 id="security-secret-scanner">Pre-paste secret scanner</h3>
+            <h3 id="security-secret-scanner">Auto-scan every prompt (v1.11.44+)</h3>
             <p>
-              Before any prompt or paste reaches an AI agent, Termpolis can scan the buffer for
-              well-shaped secrets using regex detectors:
+              Once you launch <code>claude</code>, <code>codex</code>, <code>gemini</code>, or
+              <code>qwen</code> in a terminal, every Enter and every paste-sized chunk
+              (≥32 bytes) is scanned in main-process memory against 70+ regex rules
+              <strong>before it reaches the PTY</strong>. Hits are redacted in place, audited
+              as <code>redaction_hit</code> events, and surfaced via a dismissable banner.
+              Non-AI terminals are not scanned (zero overhead). Coverage spans:
             </p>
             <ul class="docs-list">
-              <li>AWS access keys (<code>AKIA…</code>, <code>ASIA…</code>) and secret keys.</li>
-              <li>GitHub personal access tokens (<code>ghp_…</code>, <code>gho_…</code>, <code>github_pat_…</code>).</li>
-              <li>OpenAI, Anthropic, and Google API keys.</li>
-              <li>JSON Web Tokens (JWT) and PEM private key blocks.</li>
-              <li><code>.env</code>-style assignments (<code>SECRET_KEY=…</code>).</li>
+              <li>AWS (access keys <code>AKIA…</code>/<code>ASIA…</code>, secrets, session tokens).</li>
+              <li>GitHub (PAT <code>ghp_…</code>, fine-grained <code>github_pat_…</code>, OAuth secrets, runner tokens), GitLab, Bitbucket.</li>
+              <li>Azure (Storage AccountKey, SAS signature, connection strings, AD client secret, DevOps PAT) and GCP (service-account JSON, OAuth client ID).</li>
+              <li>AI providers: OpenAI, Anthropic, Google, HuggingFace, Cohere, Replicate.</li>
+              <li>Payments (Stripe, PayPal Braintree, Square), comms (Slack, Discord, Telegram, Twilio, SendGrid, Mailgun, Mailchimp, Postmark).</li>
+              <li>Cloud (Cloudflare, DigitalOcean, Heroku, Netlify, Vercel, Fly.io, Render, Pulumi), CI/CD (CircleCI, Travis, Codecov).</li>
+              <li>Observability (Sentry DSN, Datadog, New Relic, Rollbar, Honeycomb, Mapbox, Okta, Auth0).</li>
+              <li>Project mgmt (Linear, Notion, Asana, Jira, Figma), package registries (npm, PyPI, Docker Hub).</li>
+              <li>Secrets vaults (HashiCorp Vault, Doppler, 1Password Connect), DB connection strings (Postgres/MySQL/MongoDB/Redis), HTTP basic-auth URLs.</li>
+              <li>JWT, PEM/GPG private key blocks, and the <code>.env</code>-style catch-all (<code>SECRET_KEY=…</code>).</li>
             </ul>
+            <p>
+              A manual paste-and-scan box also lives in Settings → Security for one-off checks
+              of clipboard text before pasting elsewhere.
+            </p>
             <p>
               Hits return a redacted preview so you can decide whether the prompt is safe to send.
               The redaction scanner targets high-confidence patterns to keep false-positive rates
