@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Termpolis Documentation — Multi-Agent AI Terminal Guide</title>
+  <title>Termpolis Documentation — Secure AI-Assisted Development</title>
   <meta
     name="description"
-    content="Complete guide to Termpolis, the AI-native terminal with multi-agent swarm orchestration, MCP server, shared memory, intervention controls, and live observability."
+    content="Complete guide to Termpolis: AI Security Center (pre-paste secret scanner, Gemini paid-tier enforcement, audit log), copy-for-Slack/Teams output, multi-agent swarm orchestration, MCP server, shared memory, and live observability."
   >
   <meta name="author" content="Termpolis">
   <link rel="canonical" href="https://termpolis.com/docs.html">
@@ -17,7 +17,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Termpolis">
   <meta property="og:url" content="https://termpolis.com/docs.html">
-  <meta property="og:title" content="Termpolis Documentation — Multi-Agent AI Terminal Guide">
+  <meta property="og:title" content="Termpolis Documentation — Secure AI-Assisted Development">
   <meta property="og:description" content="Every feature, panel, and keyboard shortcut in Termpolis — the terminal where Claude, Codex, Gemini, and Qwen work as a team.">
   <meta property="og:image" content="https://termpolis.com/assets/screenshot-welcome.png">
   <meta property="og:image:width" content="1368">
@@ -46,9 +46,10 @@
         <span class="brand-text">Termpolis</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
+        <a href="index.html#security">Security</a>
         <a href="index.html#swarm">Smart Swarm</a>
         <a href="index.html#observability">Observability</a>
-        <a href="index.html#ai-native">AI Native</a>
+        <a href="index.html#share">Share to Slack/Teams</a>
         <a href="index.html#features">Features</a>
         <a href="index.html#downloads">Downloads</a>
         <a href="docs.html" aria-current="page" class="active">Docs</a>
@@ -72,6 +73,20 @@
             <li><a href="#overview" class="docs-toc-link">Overview</a></li>
             <li><a href="#install">Installation</a></li>
             <li><a href="#first-launch">First launch</a></li>
+          </ul>
+
+          <p class="docs-sidebar-eyebrow">🛡 Security</p>
+          <ul class="docs-toc">
+            <li><a href="#security-center">AI Security Center</a></li>
+            <li><a href="#security-secret-scanner">Pre-paste secret scanner</a></li>
+            <li><a href="#security-gemini">Gemini account-mode + Strict Mode</a></li>
+            <li><a href="#security-audit">Audit log</a></li>
+            <li><a href="#security-disclaimer">Legal disclaimer</a></li>
+          </ul>
+
+          <p class="docs-sidebar-eyebrow">Share output</p>
+          <ul class="docs-toc">
+            <li><a href="#copy-share">Copy for Slack / Teams / PRs</a></li>
           </ul>
 
           <p class="docs-sidebar-eyebrow">Core terminal</p>
@@ -152,8 +167,12 @@
             <p class="eyebrow">Documentation</p>
             <h1>Termpolis Docs</h1>
             <p class="docs-lead">
-              The definitive guide to Termpolis, the AI-native terminal where Claude, Codex,
-              Gemini, and Qwen work together as a team. Every feature, every panel, every shortcut.
+              The definitive guide to Termpolis — <strong>Secure AI-Assisted Development</strong>.
+              The local-first multi-agent terminal where Claude, Codex, Gemini, and Qwen work as a
+              team without your source code leaving the machine. Built-in
+              <a href="#security-center">AI Security Center</a>, swarm orchestration, MCP server,
+              and a one-shortcut path from terminal to Slack, Teams, or a PR.
+              Every feature, every panel, every shortcut.
             </p>
             <p class="docs-hero-actions">
               <a
@@ -185,6 +204,7 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
+              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> with pre-paste secret scanner, Gemini paid-tier enforcement, and an auditable JSONL log of every AI-agent terminal launch — every check runs locally.</li>
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, Gemini CLI, and Qwen Code work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
@@ -192,7 +212,144 @@
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
               <li><strong>Shared memory.</strong> A RAG-backed memory store that any agent can read and write via MCP.</li>
               <li><strong>MCP-native end to end.</strong> All four agents speak MCP — no terminal-output parsers, no glue scripts, no bridge code paths.</li>
+              <li><strong>Share-ready output.</strong> One shortcut from terminal to Slack, Teams, or a PR — see <a href="#copy-share">Copy for Slack / Teams / PRs</a>.</li>
             </ul>
+          </section>
+
+          <!-- AI SECURITY CENTER -->
+          <section id="security-center" class="docs-section">
+            <h2>🛡 AI Security Center</h2>
+            <p>
+              Termpolis ships with an in-app AI Security Center at <strong>Settings → Security</strong>.
+              Its goal is to give administrators visibility and verifiable control over outbound AI
+              traffic, so a team can adopt Claude Code, Codex, Gemini CLI, and Qwen Code without
+              proprietary code ending up in someone's training pipeline.
+            </p>
+            <p><strong>Design principles:</strong></p>
+            <ul class="docs-list">
+              <li><strong>Local-first.</strong> Every check runs on the machine. None of these features send data to Termpolis or any third party.</li>
+              <li><strong>Native, not a browser/IDE plugin.</strong> Termpolis is a terminal manager, not a Chrome extension piping your buffer to a SaaS backend.</li>
+              <li><strong>No telemetry.</strong> No login, no phone-home. Optional crash reporting is opt-in and redacts user-folder paths first.</li>
+              <li><strong>Verifiable.</strong> Every claim links to the provider's published ToS page so administrators can re-check.</li>
+            </ul>
+
+            <h3>Per-provider training-disposition facts</h3>
+            <p>
+              The panel summarizes how each provider treats prompts on their commercial tier, sourced
+              from the official ToS pages and updated with each release of Termpolis:
+            </p>
+            <ul class="docs-list">
+              <li><strong>Anthropic (Claude Code).</strong> API + commercial usage — default off for training.</li>
+              <li><strong>OpenAI (Codex).</strong> API platform — default off for training.</li>
+              <li><strong>Google (Gemini CLI).</strong> Paid tier (API key, Vertex AI, Code Assist) — excluded from training. Free OAuth tier — Google may use prompts to improve products. Flagged yellow.</li>
+              <li><strong>Alibaba (Qwen Code).</strong> Paid DashScope — excluded from training. Local Ollama mode — never leaves the machine.</li>
+            </ul>
+
+            <h3 id="security-secret-scanner">Pre-paste secret scanner</h3>
+            <p>
+              Before any prompt or paste reaches an AI agent, Termpolis can scan the buffer for
+              well-shaped secrets using regex detectors:
+            </p>
+            <ul class="docs-list">
+              <li>AWS access keys (<code>AKIA…</code>, <code>ASIA…</code>) and secret keys.</li>
+              <li>GitHub personal access tokens (<code>ghp_…</code>, <code>gho_…</code>, <code>github_pat_…</code>).</li>
+              <li>OpenAI, Anthropic, and Google API keys.</li>
+              <li>JSON Web Tokens (JWT) and PEM private key blocks.</li>
+              <li><code>.env</code>-style assignments (<code>SECRET_KEY=…</code>).</li>
+            </ul>
+            <p>
+              Hits return a redacted preview so you can decide whether the prompt is safe to send.
+              The redaction scanner targets high-confidence patterns to keep false-positive rates
+              low — it is <strong>not</strong> a comprehensive DLP solution. Custom corporate
+              tokens may not be detected and must be vetted separately.
+            </p>
+
+            <h3 id="security-gemini">Gemini account-mode auto-detect + Strict Mode</h3>
+            <p>
+              The Gemini CLI is the highest-risk surface, because the free OAuth tier may be used
+              for product improvement. Termpolis inspects the running shell environment to identify
+              which tier the CLI will hit:
+            </p>
+            <ul class="docs-list">
+              <li><strong>Vertex AI</strong> — <code>GOOGLE_APPLICATION_CREDENTIALS</code> + <code>GOOGLE_CLOUD_PROJECT</code>.</li>
+              <li><strong>Code Assist (Workspace)</strong> — <code>GOOGLE_GENAI_USE_GCA=true</code>.</li>
+              <li><strong>Paid API key</strong> — <code>GEMINI_API_KEY</code> or <code>GOOGLE_API_KEY</code>.</li>
+              <li><strong>Free OAuth fallback</strong> — none of the above. Flagged in red.</li>
+            </ul>
+            <p>
+              When <strong>Strict Mode</strong> is enabled, Termpolis intercepts <code>gemini</code>
+              invocations from any terminal. If the resolved account mode isn't paid-tier-safe, the
+              launch is cancelled with <kbd>Ctrl+C</kbd> and an in-band ANSI banner explains why.
+              The blocked launch is recorded in the audit log as <em>BLOCKED: strict-mode + free-tier</em>.
+              Strict Mode only intercepts shell-level invocations of the <code>gemini</code> binary —
+              it does not block out-of-band paths (a renamed binary, a script that calls the Google
+              API directly, etc.). It is a tripwire for the common-case mistake, not a full proxy.
+            </p>
+
+            <h3 id="security-audit">Local JSONL audit log</h3>
+            <p>
+              Every AI-agent terminal launch can be recorded in <code>ai-security-audit.jsonl</code>
+              inside the userData directory. Each record is one JSON object containing the timestamp,
+              the agent, the terminal id, and (optionally) byte counts and hit counts. The file is
+              append-only with 10 MB rotation. It can be wiped from Settings → Security at any time.
+              The audit log captures only what Termpolis observes locally — activity that bypasses
+              Termpolis (a Gemini CLI run from a separate native terminal window, for example) is
+              not visible to the audit log.
+            </p>
+
+            <h3 id="security-disclaimer">Legal disclaimer</h3>
+            <p>
+              The AI Security Center is <strong>best-effort, not regulatory-grade</strong>. The
+              project is licensed Apache 2.0 "AS IS". The full disclaimer ships in
+              <a href="https://github.com/codedev-david/termpolis/blob/main/TERMS.md" target="_blank" rel="noreferrer"><code>TERMS.md §5a</code></a>
+              and inside the app at Settings → Security. Provider terms can change without notice;
+              you must verify provider terms before transmitting confidential data. To the maximum
+              extent permitted by law, the authors and contributors of Termpolis disclaim all
+              liability for any data leak, breach, regulatory violation, contractual breach, or
+              business loss arising from your use of any AI agent launched through this application.
+            </p>
+          </section>
+
+          <!-- COPY FOR SLACK / TEAMS / PRs -->
+          <section id="copy-share" class="docs-section">
+            <h2>Copy for Slack / Teams / PRs</h2>
+            <p>
+              AI workflows generate share-worthy output constantly: a stack trace to dump into a
+              channel, a clean test run for a PR, a fenced code block for the engineering wiki.
+              Termpolis ships a four-way Copy submenu on every terminal context menu, plus the
+              keybinding <kbd>Ctrl+Shift+M</kbd> (rebindable) for the common case.
+            </p>
+            <h3>Copy as Code Block</h3>
+            <p>
+              Wraps the current selection — or the entire visible terminal buffer if nothing is
+              selected — in triple-backtick fences and copies it to the clipboard. Drop the result
+              into Slack, Teams, GitHub, GitLab, or any wiki that respects fenced code and the
+              monospaced layout survives.
+            </p>
+            <h3>Copy as Plain Text</h3>
+            <p>
+              Strips ANSI color escapes and copies the result as raw text. Use this for emails,
+              Jira tickets, Notion docs, or any surface where backticks would be noise.
+            </p>
+            <h3>Copy with Command</h3>
+            <p>
+              Prepends the last shell command (taken from history) to the copied output before
+              fencing. Reproducer-ready snippets for bug reports — your reviewer sees both the
+              command and the output in a single paste, instead of the usual back-and-forth.
+            </p>
+            <h3>Copy as Image (PNG)</h3>
+            <p>
+              Renders the underlying xterm.js canvas to a PNG via <code>canvas.toBlob</code> and
+              writes it to the clipboard with <code>ClipboardItem</code>. Paste straight into
+              Slack, Teams, or a Loom / wiki post. Colors, glyphs, and layout survive intact, so
+              you don't end up with the typical "weird mojibake in the screenshot" awkwardness
+              when the receiver is on a different OS or terminal font.
+            </p>
+            <p>
+              All four actions live in the terminal right-click menu under <strong>Copy →</strong>.
+              <kbd>Ctrl+Shift+M</kbd> defaults to Copy as Code Block; rebind it under Settings →
+              Keybindings.
+            </p>
           </section>
 
           <!-- INSTALL -->

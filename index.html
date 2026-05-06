@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Termpolis: AI Terminal for Claude, Codex, Gemini &amp; Qwen</title>
+  <title>Termpolis — Secure AI-Assisted Development</title>
   <meta
     name="description"
-    content="The AI-native terminal where Claude, Codex, Gemini, and Qwen work as a team. Smart task routing, live swarm observability, MCP server. Free for Windows, macOS, Linux."
+    content="Secure AI-assisted development. The local-first multi-agent terminal for Claude, Codex, Gemini, and Qwen. Built-in AI Security Center: pre-paste secret scanner, Gemini paid-tier enforcement, auditable outbound log. Free for Windows, macOS, Linux."
   >
-  <meta name="keywords" content="AI terminal, multi-agent AI, Claude Code terminal, AI coding assistant, MCP server, swarm orchestration, AI developer tools">
+  <meta name="keywords" content="secure AI development, AI terminal, multi-agent AI, Claude Code terminal, AI coding assistant, MCP server, swarm orchestration, AI developer tools, pre-paste secret scanner, AI audit log, Gemini paid tier, local-first AI">
   <meta name="author" content="Termpolis">
   <link rel="canonical" href="https://termpolis.com/">
   <link rel="icon" type="image/svg+xml" href="logo-termpolis-titlebar.svg">
@@ -18,8 +18,8 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Termpolis">
   <meta property="og:url" content="https://termpolis.com/">
-  <meta property="og:title" content="Termpolis: AI Terminal for Claude, Codex, Gemini &amp; Qwen">
-  <meta property="og:description" content="The AI-native terminal where Claude, Codex, Gemini, and Qwen work as a team. Smart task routing, live observability, MCP server. Free for Windows, macOS, Linux.">
+  <meta property="og:title" content="Termpolis — Secure AI-Assisted Development">
+  <meta property="og:description" content="Secure AI-assisted development. Local-first multi-agent terminal with built-in AI Security Center: pre-paste secret scanner, Gemini paid-tier enforcement, auditable outbound log. Free for Windows, macOS, Linux.">
   <meta property="og:image" content="https://termpolis.com/assets/screenshot-welcome.png">
   <meta property="og:image:width" content="1368">
   <meta property="og:image:height" content="908">
@@ -28,8 +28,8 @@
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Termpolis: AI Terminal for Claude, Codex, Gemini &amp; Qwen">
-  <meta name="twitter:description" content="The AI-native terminal where Claude, Codex, Gemini, and Qwen work as a team. Free for Windows, macOS, Linux.">
+  <meta name="twitter:title" content="Termpolis — Secure AI-Assisted Development">
+  <meta name="twitter:description" content="Secure AI-assisted development. Local-first multi-agent terminal with built-in secret scanner, Gemini paid-tier enforcement, and auditable outbound log.">
   <meta name="twitter:image" content="https://termpolis.com/assets/screenshot-welcome.png">
   <meta name="twitter:image:alt" content="Termpolis welcome screen with AI agents, workspaces, and swarm controls.">
 
@@ -39,7 +39,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "Termpolis",
-    "description": "AI-native cross-platform terminal with multi-agent swarm orchestration (Claude, Codex, Gemini, Qwen), MCP server, split panes, and live observability.",
+    "description": "Secure AI-assisted development. Local-first multi-agent terminal for Claude, Codex, Gemini, and Qwen with a built-in AI Security Center (pre-paste secret scanner, Gemini paid-tier enforcement, auditable outbound log), MCP server, split panes, and live observability.",
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
@@ -74,9 +74,10 @@
         <span class="brand-text">Termpolis</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
+        <a href="#security">Security</a>
         <a href="#swarm">Smart Swarm</a>
         <a href="#observability">Observability</a>
-        <a href="#ai-native">AI Native</a>
+        <a href="#share">Share to Slack/Teams</a>
         <a href="#features">Features</a>
         <a href="#downloads">Downloads</a>
         <a href="docs.html">Docs</a>
@@ -87,9 +88,16 @@
     <main id="top">
       <section class="hero reveal">
         <div class="hero-copy">
-          <p class="eyebrow">The open-source multi-agent AI terminal</p>
+          <p class="eyebrow">Secure AI-Assisted Development</p>
           <h1>Termpolis</h1>
-          <p class="tagline">where Claude, Codex, Gemini, and Qwen work as a team</p>
+          <p class="tagline">where Claude, Codex, Gemini, and Qwen work as a team — without your source code leaving the machine</p>
+          <ul class="hero-security-pills" aria-label="Security highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
+            <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🛡 Local-first · no cloud · no telemetry</li>
+            <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 No browser/IDE extension</li>
+            <li style="background:#FFB74D22;color:#FFB74D;border:1px solid #FFB74D55;border-radius:999px;padding:4px 10px;">📋 Pre-paste secret scanner</li>
+            <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📜 Auditable outbound log</li>
+            <li style="background:#D9770622;color:#FFB74D;border:1px solid #D9770655;border-radius:999px;padding:4px 10px;">⛔ Strict Mode: Gemini paid-tier only</li>
+          </ul>
           <p class="hero-text">
             Describe your task. A dedicated Claude Code conductor breaks it into subtasks and
             dispatches up to five agents in parallel, each picked by capability scores across ten
@@ -97,7 +105,10 @@
             Agents share a memory store with semantic search, message each other for handoffs, and
             stream every tool call into a live activity feed. Pause, cancel, or steer any agent
             mid-run without losing progress. When the swarm finishes, review the diff hunk-by-hunk,
-            run the tests, and accept or reject each change before it lands.
+            run the tests, and accept or reject each change before it lands. The built-in
+            <strong>AI Security Center</strong> keeps source code out of training pipelines —
+            every prompt is scanned for secrets, every Gemini launch is checked for paid-tier
+            credentials, every outbound launch lands in a local JSONL audit log.
           </p>
           <p class="free-forever">
             <span class="free-forever-pill">Free forever</span>
@@ -114,8 +125,10 @@
             </a>
           </div>
           <ul class="hero-points" aria-label="Key product highlights">
+            <li>AI Security Center: pre-paste secret scanner, Gemini paid-tier enforcement, JSONL audit log — every check runs locally</li>
             <li>Smart routing: up to 5 agents in parallel, auto-assigned by capability scores across 10 skill categories</li>
             <li>Intervene mid-run: pause, cancel, or redirect any agent. Shared memory keeps context intact</li>
+            <li>Share-ready output: copy any terminal output as a code block, plain text, or PNG image — paste straight into Slack, Teams, or a PR</li>
             <li>Hunk-by-hunk review with test gates before anything commits</li>
           </ul>
         </div>
@@ -142,6 +155,92 @@
           <strong>MCP-native end to end</strong>
           <span>All four agents speak MCP — no terminal-output bridges, no parsers, no glue scripts</span>
         </article>
+      </section>
+
+      <!-- SECURITY (AI SECURITY CENTER) -->
+      <section id="security" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🛡 AI Security Center</p>
+          <h2>Source-code safety for AI-assisted development</h2>
+          <p>
+            CTOs ask: <em>"How do I let my team use Claude, Codex, Gemini, and Qwen without my
+            proprietary code ending up in someone's training pipeline?"</em> — Termpolis is the
+            answer. Every check runs locally, every log stays on the machine. Settings → Security
+            ships a complete control panel.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Local-first by design</h3>
+            <p>
+              No browser plugin. No IDE extension. No SaaS backend. Termpolis is a native
+              terminal that talks directly to the AI CLIs you already use — your source code
+              never passes through a Termpolis-hosted server.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Per-provider training-data facts</h3>
+            <p>
+              Live ToS-sourced summaries for every provider: Claude (default-off), Codex
+              (default-off), Gemini (opt-out-required, flagged yellow), Qwen Code (default-off
+              paid / local Ollama mode). Verifiable links to the official policy pages.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Pre-paste secret scanner</h3>
+            <p>
+              Before any prompt or paste reaches an AI agent, Termpolis scans for AWS keys,
+              GitHub PATs, OpenAI/Anthropic/Google API keys, JWTs, PEM private keys, and
+              <code>.env</code>-style assignments. Returns a redacted preview so you can decide
+              before it leaves your machine.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Gemini account-mode auto-detect</h3>
+            <p>
+              Reads <code>GEMINI_API_KEY</code>, <code>GOOGLE_API_KEY</code>,
+              <code>GOOGLE_GENAI_USE_GCA</code>, and
+              <code>GOOGLE_APPLICATION_CREDENTIALS</code>+<code>GOOGLE_CLOUD_PROJECT</code> to
+              identify whether the Gemini CLI will use a paid (training-excluded) tier or fall
+              back to free OAuth — which Google may use for product improvement.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Strict Mode: paid-tier-only Gemini</h3>
+            <p>
+              When ON, Termpolis intercepts <code>gemini</code> invocations from any terminal
+              and refuses to forward them unless paid-tier credentials are detected. The
+              blocked launch is recorded in the audit log. Free-tier mistakes simply can't
+              happen.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Local JSONL audit log</h3>
+            <p>
+              Every AI-agent terminal launch is written append-only to
+              <code>ai-security-audit.jsonl</code> in your local userData directory. 10 MB
+              rotated. Optional byte counts and hit counts. Wipeable from Settings. Stays on
+              the machine — never sent anywhere.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Built-in legal disclaimer</h3>
+            <p>
+              Apache 2.0 "AS IS". Settings → Security and <code>TERMS.md</code> both ship the
+              full liability disclaimer covering provider ToS changes, the limits of regex-based
+              redaction, and the scope of Strict Mode interception. Vetted, transparent,
+              auditable.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Zero accounts. Zero telemetry.</h3>
+            <p>
+              No login. No phone-home. The MCP server binds to 127.0.0.1 only, with a 256-bit
+              random auth token rotated every launch. Optional crash reporting is opt-in and
+              redacts user-folder paths before sending.
+            </p>
+          </article>
+        </div>
       </section>
 
       <!-- AI NATIVE -->
@@ -493,6 +592,54 @@
             <p>
               Live token burn per agent, tasks in kanban columns, and the full conductor message log. Every panel streams
               from the same event bus. No polling lag, no duplicated state.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- SHARE TO SLACK / TEAMS / PRs -->
+      <section id="share" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Share-ready output</p>
+          <h2>One shortcut from terminal to Slack, Teams, or a PR</h2>
+          <p>
+            AI workflows generate share-worthy output constantly: a stack trace to dump in a
+            channel, a successful test run for a PR, a fenced code block for the engineering wiki.
+            Termpolis ships a four-way Copy submenu and a keybinding so the path from terminal
+            buffer to teammate's chat window is one click.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Copy as Code Block</h3>
+            <p>
+              Wraps the selection (or the entire visible buffer) in triple-backtick fences and
+              copies to the clipboard. Markdown-ready for Slack, Teams, GitHub, GitLab, or any
+              wiki that respects fenced code. <kbd>Ctrl+Shift+M</kbd> by default — fully
+              rebindable.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Copy as Plain Text</h3>
+            <p>
+              Strips ANSI color escapes and copies clean text. Drop straight into an email,
+              a Jira ticket, a Notion doc — anywhere code fences would be noise.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Copy with Command</h3>
+            <p>
+              Prepends the last shell command to the output before fencing. Reproducer-ready
+              snippets for bug reports — your reviewer sees both <em>what you ran</em> and
+              <em>what came back</em>, in one paste.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Copy as Image (PNG)</h3>
+            <p>
+              Renders the terminal canvas to a PNG and copies it to the clipboard. Paste
+              directly into Slack, Teams, or a Loom doc and your colors, glyphs, and layout
+              survive intact — no "weird mojibake in the screenshot" awkwardness.
             </p>
           </article>
         </div>
