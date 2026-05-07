@@ -79,6 +79,10 @@
           <ul class="docs-toc">
             <li><a href="#security-center">AI Security Center</a></li>
             <li><a href="#security-secret-scanner">Pre-paste secret scanner</a></li>
+            <li><a href="#security-sensitive-file">Sensitive-file-read alert</a></li>
+            <li><a href="#security-codechunk">Code-chunk + env-dump heuristics</a></li>
+            <li><a href="#security-egress">Per-agent egress audit</a></li>
+            <li><a href="#security-tos-drift">ToS drift watcher</a></li>
             <li><a href="#security-gemini">Gemini account-mode + Strict Mode</a></li>
             <li><a href="#security-audit">Audit log</a></li>
             <li><a href="#security-disclaimer">Legal disclaimer</a></li>
@@ -322,6 +326,67 @@
               The audit log captures only what Termpolis observes locally — activity that bypasses
               Termpolis (a Gemini CLI run from a separate native terminal window, for example) is
               not visible to the audit log.
+            </p>
+
+            <h3 id="security-sensitive-file">Sensitive-file-read alert (v1.11.53)</h3>
+            <p>
+              The pre-send secret scanner can only see what <em>you</em> type. When the AI
+              agent autonomously decides to read a sensitive file via its own
+              <code>Read</code> tool (or runs <code>cat</code>/<code>head</code>/<code>grep</code>
+              on one through <code>Bash</code>), the file's bytes have already been added to
+              the agent's context and transmitted to the provider on the next turn. The
+              terminal-side scanner never sees that path. This watcher closes the gap.
+            </p>
+            <p>
+              <strong>How it works.</strong>
+              <code>src/main/sensitiveFileWatcher.ts</code> subscribes to
+              <code>agentEventBus</code> <code>tool_call</code> events emitted by the
+              transcript watchers (Claude Code / Codex / Gemini). For each event it inspects
+              the tool name and arguments:
+            </p>
+            <ul>
+              <li>Filesystem-style tools (<code>Read</code>, <code>Edit</code>,
+                  <code>Write</code>, <code>read_file</code>, <code>view</code>, …) →
+                  pulls <code>file_path</code> / <code>path</code> / <code>filename</code> from the input.</li>
+              <li>Shell-style tools (<code>Bash</code>, <code>run_shell_command</code>,
+                  <code>container.exec</code>, …) → tokenises the command, splits on
+                  <code>&amp;&amp;</code>/<code>;</code>/<code>|</code>, and identifies positional
+                  arguments to <code>cat</code>/<code>head</code>/<code>tail</code>/<code>grep</code>/<code>cp</code>/<code>curl -F file=@</code> and 15 other reader commands.</li>
+            </ul>
+            <p>
+              Each candidate path is matched against a hand-curated rule list:
+              <code>.env</code>/<code>.env.local</code>/<code>.env.production</code>
+              (excluding <code>.env.example</code>/<code>.sample</code>/<code>.template</code>);
+              <code>*.pem</code>/<code>*.key</code>/<code>*.p12</code>/<code>*.pfx</code>/<code>*.jks</code>/<code>*.keystore</code>;
+              <code>id_rsa</code>/<code>id_ed25519</code>/<code>id_ecdsa</code>/<code>id_dsa</code> (excluding <code>.pub</code>);
+              <code>~/.aws/credentials</code> + <code>~/.aws/config</code>;
+              GCP service-account JSONs;
+              files under <code>~/.ssh/</code> excluding <code>known_hosts</code>/<code>config</code>/<code>*.pub</code>;
+              <code>.netrc</code>/<code>.npmrc</code>/<code>.pypirc</code>;
+              <code>~/.docker/config.json</code>; <code>~/.kube/config</code> + <code>*.kubeconfig</code>;
+              <code>secrets.{yml,yaml,json,env,toml,ini}</code>; <code>credentials.{yml,json,…}</code>;
+              <code>*.kdbx</code>/<code>*.kdb</code> (KeePass);
+              and Chrome/Firefox/Edge cookie databases.
+            </p>
+            <p>
+              On a match the watcher writes an audit entry tagged
+              <code>sensitive_file_read</code> (with rule id, tool name, source path) and
+              fires a <code>terminal:sensitive-file-read</code> IPC event to the renderer
+              which displays a banner naming the file and the agent. A per-terminal counter
+              is exposed via <code>aiSecurity.sensitiveReads(terminalId)</code> so the
+              Security panel can show "3 sensitive reads this session" alongside the running
+              list.
+            </p>
+            <p>
+              <strong>What it cannot catch.</strong>
+              The bytes have already been transmitted by the time the watcher runs — the
+              transcript JSONL is downstream of the agent's tool runtime. Files exfiltrated
+              via subprocesses the agent invokes through arbitrary code (e.g.
+              <code>python -c 'open(".env").read()'</code>, network sockets opened by
+              langchain wrappers, MCP servers run by the agent itself) are only caught if the
+              wrapping <code>Bash</code> command parses cleanly to one of the known reader
+              commands. The watcher is intentionally conservative on the false-positive side —
+              flagging an irrelevant file once is cheap; missing a leak is expensive.
             </p>
 
             <h3 id="security-codechunk">Code-chunk + env-dump heuristics (v1.11.52)</h3>

@@ -74,6 +74,7 @@
         <span class="brand-text">Termpolis</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
+        <a href="#compare">Compare</a>
         <a href="#security">Security</a>
         <a href="#swarm">Smart Swarm</a>
         <a href="#context-handoff">Context Handoff</a>
@@ -159,6 +160,142 @@
         </article>
       </section>
 
+      <!-- COMPARISON TABLE -->
+      <section id="compare" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">⚖ How Termpolis compares</p>
+          <h2>Termpolis vs other AI terminals</h2>
+          <p>
+            We won't fabricate competitor features — every cell below is sourced from each
+            tool's own public documentation as of <strong>May 2026</strong>. If a vendor
+            ships a feature we missed, <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">file an issue</a>
+            and we'll update. Marks: ✅ ships in product, ⚠ partial / opt-in / 3rd-party,
+            ❌ not available, — unknown.
+          </p>
+        </div>
+        <div class="compare-table-wrapper" style="overflow-x:auto;border:1px solid #2a2a2e;border-radius:14px;">
+          <table class="compare-table" style="width:100%;border-collapse:collapse;font-size:14px;min-width:880px;">
+            <thead>
+              <tr style="background:#1a1a1e;text-align:left;">
+                <th scope="col" style="padding:14px 18px;border-bottom:1px solid #2a2a2e;">Capability</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">Termpolis</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Warp</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Wave Terminal</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Amazon Q&nbsp;CLI</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Stock terminal&nbsp;+&nbsp;CLI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Open source &amp; self-hostable</strong><br><span style="opacity:0.7;font-size:12px;">Source available, you can audit/fork</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Apache 2.0</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Closed source</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ Apache 2.0</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Closed source</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ Varies</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>No required cloud account</strong><br><span style="opacity:0.7;font-size:12px;">Works the day you install it, no signup</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ No Termpolis account</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Account required (free tier exists)</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ Optional sign-in for AI</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AWS Builder ID required</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Multi-agent swarm (parallel agents w/ live conductor)</strong><br><span style="opacity:0.7;font-size:12px;">Runs Claude + Codex + Gemini + Qwen together</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Up to 5, capability-scored</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Single Warp Agent</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AI block per workspace</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Single Q chat</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Pre-send secret scanner (70+ patterns)</strong><br><span style="opacity:0.7;font-size:12px;">Redacts AWS keys, GitHub PATs, etc. before they hit the AI provider</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, every prompt</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AWS-credential heuristics only</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Sensitive-file-read alert (.env, *.pem, ~/.aws/*)</strong><br><span style="opacity:0.7;font-size:12px;">Banner + audit when an agent autonomously reads a high-risk file</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ v1.11.53</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Per-agent egress audit (netstat / ss / lsof)</strong><br><span style="opacity:0.7;font-size:12px;">Records every remote host the AI agent talks to</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ v1.11.52</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Manual</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Provider ToS drift watcher</strong><br><span style="opacity:0.7;font-size:12px;">Weekly check on Anthropic / OpenAI / Google / Alibaba terms</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ v1.11.52 (GitHub Action)</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Local JSONL audit log</strong><br><span style="opacity:0.7;font-size:12px;">Every redaction, block, and egress entry stays on disk</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Rotated, on-disk only</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Cloud history</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Local history (chat blocks)</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AWS CloudTrail (account-side)</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Shell history</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Cross-AI context handoff</strong><br><span style="opacity:0.7;font-size:12px;">Resume a Claude session inside Codex / Gemini / Qwen</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ One click, bracketed-paste safe</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Manual copy-paste</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Hunk-by-hunk swarm review w/ test gate</strong><br><span style="opacity:0.7;font-size:12px;">Accept/reject each diff hunk before commit</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Built-in review</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Diff preview</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AI block edits</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Inline confirmations</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Via <code>git add -p</code></td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Termpolis-side telemetry on you</strong><br><span style="opacity:0.7;font-size:12px;">Lower is better — what the tool itself collects</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ None by default · opt-in crash reports only</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Product analytics</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Anonymized telemetry (opt-out)</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AWS service telemetry</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ None (varies by terminal)</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Price for the editor itself</strong><br><span style="opacity:0.7;font-size:12px;">Provider API costs are separate</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Free forever</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Free tier · paid Pro/Team</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ Free</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Free w/ AWS Builder ID · paid Pro</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ Free</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:18px; font-size:13px; opacity:0.78;">
+          <strong>How to read this table.</strong> A ✅ in the Termpolis column does not mean
+          the other tools are bad — they're optimised for different threat models and use
+          cases. Termpolis trades polish (e.g. Warp's UI, Wave's workspace blocks) for
+          security primitives that hosted-model users currently have to build by hand: secret
+          redaction, egress audit, ToS drift, sensitive-file alerts, multi-agent isolation.
+          Pick the one that maps to your threat model. If something here is wrong, please file
+          a GitHub issue and we'll fix it.
+        </p>
+      </section>
+
       <!-- SECURITY (AI SECURITY CENTER) -->
       <section id="security" class="section reveal">
         <div class="section-heading">
@@ -190,6 +327,22 @@
               Sentry DSN, JWT, PEM, <code>.env</code>-style URLs, and 60+ more.
               <strong>Limit:</strong> regex-shaped secrets only — a custom token nobody publishes
               a pattern for can still slip through.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Sensitive-file-read alert (v1.11.53)</h3>
+            <p>
+              The pre-send scanner can only see what <em>you</em> type. When the agent
+              autonomously decides to read <code>.env</code>, <code>id_rsa</code>,
+              <code>~/.aws/credentials</code>, a <code>*.pem</code>, or any of 17 other
+              high-risk patterns, Termpolis subscribes to the agent's tool-call stream and
+              fires a banner + audit entry naming the file and the agent. The bytes already
+              went to the provider, so the alert is after-the-fact — but you now know to
+              add the path to <code>.claudeignore</code> (or rotate the secret) before the
+              next session.
+              <strong>Limit:</strong> watches the agent's own tool runtime — files exfiltrated
+              via spawned subprocesses (e.g. <code>python -c 'open(".env").read()'</code>) only
+              show up if the wrapping <code>Bash</code> command parses to a known reader.
             </p>
           </article>
           <article class="card">
