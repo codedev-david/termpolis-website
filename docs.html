@@ -562,10 +562,36 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
             <p>
               If you prefer the GUI: <em>Windows Security &rarr; Virus &amp; threat protection
               &rarr; Protection history</em>, click the Termpolis detection, choose
-              <strong>Actions &rarr; Allow</strong>, then reinstall from the
+              <strong>Actions &rarr; Allow on device</strong>, then reinstall from the
               <a href="index.html#downloads">downloads page</a>. Either way, please also
               <a href="https://www.microsoft.com/en-us/wdsi/filesubmission" target="_blank" rel="noreferrer">submit the binary as a false positive to Microsoft</a>
               &mdash; that&rsquo;s what builds reputation and stops it happening to other users.
+            </p>
+            <h4>If your machine is corporate-managed (Intune / Tamper Protection locked)</h4>
+            <p>
+              On Azure AD-joined or Intune-managed devices, the steps above may silently
+              fail &mdash; including <strong>Allow on device</strong> in Protection History.
+              You can confirm this by running in PowerShell:
+            </p>
+<pre><code>(Get-MpComputerStatus).TamperProtectionSource</code></pre>
+            <p>
+              If that returns <code>Intune</code> (or <code>EnterpriseClient</code>),
+              your IT department&rsquo;s policy outranks local admin for any Defender
+              modification. Open a ticket with your IT/security team and ask them to add
+              one of:
+            </p>
+            <ul class="docs-list">
+              <li>A <strong>per-machine folder exclusion</strong> for <code>%LOCALAPPDATA%\Programs\Termpolis</code>, <code>%LOCALAPPDATA%\termpolis-updater</code>, and <code>%APPDATA%\termpolis</code>.</li>
+              <li>A <strong>process exclusion</strong> for <code>Termpolis.exe</code>.</li>
+              <li>(Most durable) A <strong>publisher exclusion</strong> for code signed by <code>CN=David Engelhart, O=David Engelhart, L=Savannah, S=Georgia, C=US</code> &mdash; covers every future Termpolis release without per-version updates.</li>
+            </ul>
+            <p>
+              Until IT processes the exclusion, the working stop-gap is to install an older
+              release that hasn&rsquo;t been classified by Defender&rsquo;s cloud model:
+              browse <a href="https://github.com/codedev-david/termpolis/releases" target="_blank" rel="noreferrer">GitHub Releases</a>,
+              pick the version right before the one that got flagged, and disable
+              auto-update in Termpolis Settings so it doesn&rsquo;t re-pull the flagged
+              build.
             </p>
             <h3>Requirements</h3>
             <ul class="docs-list">
