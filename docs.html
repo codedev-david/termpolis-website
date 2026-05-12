@@ -72,7 +72,11 @@
           <ul class="docs-toc">
             <li><a href="#overview" class="docs-toc-link">Overview</a></li>
             <li><a href="#install">Installation</a></li>
-            <li><a href="#first-launch">First launch</a></li>
+            <li><a href="#install-windows-defender" class="docs-toc-sub">↳ Windows Defender FP recovery</a></li>
+            <li><a href="#api-keys">Before you begin · API keys</a></li>
+            <li><a href="#first-launch">First launch (5 steps)</a></li>
+            <li><a href="#first-agent">Launch your first AI agent</a></li>
+            <li><a href="#swarm-vs-single">Swarm vs. single agent</a></li>
           </ul>
 
           <p class="docs-sidebar-eyebrow">🛡 Security</p>
@@ -530,6 +534,39 @@
               <code>Exec=</code> line so the dock icon launches a working window on
               NVIDIA / Wayland setups without any manual flags.
             </p>
+            <h3 id="install-windows-defender">If Windows Defender quarantines Termpolis after install or auto-update</h3>
+            <p>
+              Termpolis is code-signed with an SSL.com OV certificate. Microsoft Defender&rsquo;s
+              cloud ML classifier occasionally false-positives newly-released Electron apps
+              that haven&rsquo;t yet accumulated SmartScreen reputation, typically flagging
+              <code>Termpolis.exe</code> as <em>Trojan:Win32/Cinjo.O!cl</em> or a similar
+              <code>!cl</code> (cloud) heuristic. Symptoms: the app refuses to launch, its
+              taskbar / Start Menu / Desktop shortcuts disappear, and the installed
+              <code>Termpolis.exe</code> shows blank version metadata.
+            </p>
+            <p>
+              To recover, open <strong>PowerShell as Administrator</strong> and run:
+            </p>
+<pre><code>Add-MpPreference -ExclusionPath "$env:LOCALAPPDATA\Programs\Termpolis"
+Add-MpPreference -ExclusionPath "$env:APPDATA\termpolis"
+Add-MpPreference -ExclusionPath "$env:LOCALAPPDATA\termpolis-updater"
+Add-MpPreference -ExclusionProcess "Termpolis.exe"
+&amp; "$env:ProgramFiles\Windows Defender\MpCmdRun.exe" -Restore -Name "Trojan:Win32/Cinjo.O!cl" -All
+Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe"</code></pre>
+            <p>
+              The first four lines tell Defender to stop scanning Termpolis (preventing the
+              same FP on future auto-updates). The <code>-Restore</code> line pulls any
+              already-quarantined Termpolis files back out. The final line re-runs the most
+              recent pending installer to repair anything that went missing.
+            </p>
+            <p>
+              If you prefer the GUI: <em>Windows Security &rarr; Virus &amp; threat protection
+              &rarr; Protection history</em>, click the Termpolis detection, choose
+              <strong>Actions &rarr; Allow</strong>, then reinstall from the
+              <a href="index.html#downloads">downloads page</a>. Either way, please also
+              <a href="https://www.microsoft.com/en-us/wdsi/filesubmission" target="_blank" rel="noreferrer">submit the binary as a false positive to Microsoft</a>
+              &mdash; that&rsquo;s what builds reputation and stops it happening to other users.
+            </p>
             <h3>Requirements</h3>
             <ul class="docs-list">
               <li>Windows 10 or 11 (x64)</li>
@@ -550,19 +587,291 @@
             </div>
           </section>
 
+          <!-- API KEYS / BEFORE YOU BEGIN -->
+          <section id="api-keys" class="docs-section">
+            <h2>Before you begin · API keys</h2>
+            <p>
+              Termpolis is a terminal — it doesn't talk to AI providers itself. Each AI agent
+              (Claude Code, Codex, Gemini CLI, Qwen Code) is a separate CLI tool you launch
+              <em>inside</em> a Termpolis terminal, and that tool needs its own credentials.
+              Termpolis never asks you for an API key, never sees one, and never stores one.
+            </p>
+            <div class="docs-callout">
+              <p>
+                <strong>The minimum to be productive: pick one provider, install its CLI, set
+                its API key once.</strong> You do not need all four. A single agent is enough
+                to use every Termpolis feature except the multi-agent swarm.
+              </p>
+            </div>
+            <h3>Pick the agent that matches the account you already have</h3>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead>
+                  <tr><th>If you have…</th><th>Use this agent</th><th>Install</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Anthropic / Claude.ai paid plan</td>
+                    <td>Claude Code</td>
+                    <td><code>npm install -g @anthropic-ai/claude-code</code></td>
+                  </tr>
+                  <tr>
+                    <td>OpenAI / ChatGPT paid plan</td>
+                    <td>Codex</td>
+                    <td><code>npm install -g @openai/codex</code></td>
+                  </tr>
+                  <tr>
+                    <td>Google AI Studio key, Vertex AI, or Code Assist (Workspace)</td>
+                    <td>Gemini CLI</td>
+                    <td><code>npm install -g @google/gemini-cli</code></td>
+                  </tr>
+                  <tr>
+                    <td>Alibaba DashScope key (or want to run Qwen locally with Ollama)</td>
+                    <td>Qwen Code</td>
+                    <td><code>npm install -g @qwen-code/qwen-code</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <h3>Setting the key (one-time, per provider)</h3>
+            <p>
+              Each CLI reads its key from an environment variable. Set it once in your shell's
+              startup file (<code>~/.bashrc</code>, <code>~/.zshrc</code>, or your PowerShell
+              profile) and Termpolis terminals will pick it up automatically. The exact variable
+              name per provider:
+            </p>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead>
+                  <tr><th>Provider</th><th>Variable</th><th>Where to get the key</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Anthropic (Claude Code)</td>
+                    <td><code>ANTHROPIC_API_KEY</code></td>
+                    <td><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer">console.anthropic.com</a></td>
+                  </tr>
+                  <tr>
+                    <td>OpenAI (Codex)</td>
+                    <td><code>OPENAI_API_KEY</code></td>
+                    <td><a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer">platform.openai.com</a></td>
+                  </tr>
+                  <tr>
+                    <td>Google AI Studio (Gemini)</td>
+                    <td><code>GEMINI_API_KEY</code></td>
+                    <td><a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">aistudio.google.com</a></td>
+                  </tr>
+                  <tr>
+                    <td>Alibaba DashScope (Qwen)</td>
+                    <td><code>DASHSCOPE_API_KEY</code></td>
+                    <td><a href="https://dashscope.console.aliyun.com/apiKey" target="_blank" rel="noreferrer">dashscope.console.aliyun.com</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Example, bash/zsh:
+            </p>
+            <pre class="docs-code"><code>echo 'export ANTHROPIC_API_KEY="sk-ant-..."' &gt;&gt; ~/.zshrc
+source ~/.zshrc</code></pre>
+            <p>
+              Example, PowerShell:
+            </p>
+            <pre class="docs-code"><code>[Environment]::SetEnvironmentVariable('ANTHROPIC_API_KEY', 'sk-ant-...', 'User')</code></pre>
+            <p>
+              <strong>Heads-up about Gemini.</strong> The <code>gemini</code> CLI defaults to a
+              free OAuth tier when no env var is set, and Google may use that traffic to
+              improve products. Termpolis flags this in <strong>Settings → Security</strong>
+              and offers a <a href="#security-gemini">Strict Mode</a> that blocks the launch
+              until you set <code>GEMINI_API_KEY</code> (or another paid-tier signal).
+            </p>
+            <h3>Verifying it worked</h3>
+            <p>
+              Open a Termpolis terminal (<kbd>Ctrl</kbd> + <kbd>T</kbd>) and type:
+            </p>
+            <pre class="docs-code"><code>echo $ANTHROPIC_API_KEY     # bash / zsh
+$env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
+            <p>
+              If the value prints, you're done. If it's empty, restart Termpolis after editing
+              your shell's startup file so the new environment is inherited.
+            </p>
+          </section>
+
           <!-- FIRST LAUNCH -->
           <section id="first-launch" class="docs-section">
-            <h2>First launch</h2>
+            <h2>First launch (5 steps)</h2>
+            <p>
+              The first time you start Termpolis you'll see a four-step onboarding tour:
+              <em>What Termpolis is</em> → <em>Set an API key</em> → <em>Launch your first agent
+              (or swarm)</em> → <em>Security &amp; crash reports</em> (opt-in checkbox). The
+              tour is one-time; you can revisit it any time from <strong>Help / Support →
+              Show tour again</strong>. After dismissing it you land on the welcome view. From
+              there:
+            </p>
+            <ol class="docs-list docs-list-ordered">
+              <li>
+                <strong>Pick a shell.</strong> Click any of the quick-launch buttons in the
+                center of the welcome view — bash, zsh, PowerShell, cmd, or whichever shells
+                Termpolis detected on your machine. A terminal pane opens.
+              </li>
+              <li>
+                <strong>(Optional) Open the AI Agents row.</strong> The sidebar has an
+                <strong>AI Agents</strong> section with one-click launchers for Claude Code,
+                Codex, Gemini CLI, and Qwen Code. A green check means the CLI is installed; a
+                red X means it isn't (click for install instructions). Skip this on the first
+                run if you just want to use Termpolis as a terminal.
+              </li>
+              <li>
+                <strong>Open Settings.</strong> Click the gear in the top-left of the sidebar
+                (or press <kbd>Ctrl</kbd> + <kbd>,</kbd>). Pick a theme, set your default shell,
+                and look at the Security tab if you launch any AI agent. Changes save instantly.
+              </li>
+              <li>
+                <strong>Save your first workspace.</strong> When you've got terminals you'd
+                want to come back to, click <strong>+ Save Workspace</strong> in the sidebar.
+                Termpolis snapshots the names, shells, themes, and working directories so they
+                restore the next time you open the app.
+              </li>
+              <li>
+                <strong>Press <kbd>Ctrl</kbd> + <kbd>/</kbd> any time</strong> to open the
+                in-app Help drawer — it covers every feature, every panel, and every keyboard
+                shortcut. You can also click <strong>Help / Support</strong> in the bottom
+                status bar.
+              </li>
+            </ol>
             <figure class="docs-shot">
               <img src="docs/screenshots/02-sidebar-default.png" alt="Termpolis sidebar in default state.">
               <figcaption>The sidebar as it appears immediately after first launch.</figcaption>
             </figure>
+          </section>
+
+          <!-- LAUNCH FIRST AI AGENT -->
+          <section id="first-agent" class="docs-section">
+            <h2>Launch your first AI agent</h2>
             <p>
-              The welcome view is what you see when no terminals are open. It has quick-launch
-              buttons for common shells and AI agents, recent workspaces on the left, and a tips row
-              at the bottom.
+              The fastest way to do something useful with Termpolis is to drive a single agent.
+              No swarm config, no MCP setup, no JSON. Once your <a href="#api-keys">API key</a>
+              is in place:
             </p>
-            <p>Press <kbd>Ctrl</kbd> + <kbd>T</kbd> (<kbd>⌘</kbd> + <kbd>T</kbd> on macOS) to open the new-terminal modal, or click a launch button to spawn a terminal immediately.</p>
+            <ol class="docs-list docs-list-ordered">
+              <li>
+                <strong>Open the AI Agents section</strong> in the sidebar (it's the row above
+                Workspaces, with the robot icon).
+              </li>
+              <li>
+                <strong>Click the agent you want to run</strong> — Claude Code, Codex, Gemini
+                CLI, or Qwen Code. Termpolis opens a fresh terminal, sets the right working
+                directory, runs the agent's interactive command, and color-codes the tab so
+                you can see at a glance which agent is in which pane.
+              </li>
+              <li>
+                <strong>Type your task in plain English.</strong> Examples:
+                <ul class="docs-list">
+                  <li><em>"Add a dark-mode toggle to the header component."</em></li>
+                  <li><em>"Refactor <code>userService.ts</code> to use async/await throughout and add tests."</em></li>
+                  <li><em>"Find every TODO in <code>src/</code> and tell me which ones look stale."</em></li>
+                </ul>
+              </li>
+              <li>
+                <strong>Watch the status bar.</strong> A colored badge appears next to the
+                agent name with running token cost. The
+                <a href="#observability-docs">Observability panels</a> light up the moment the
+                agent makes a tool call.
+              </li>
+              <li>
+                <strong>If the agent runs out of context</strong>, an amber banner offers a
+                <a href="#context-handoff">cross-AI handoff</a> — one click to continue the
+                same conversation in a different model with task, branch, and recent diff
+                already in scope.
+              </li>
+            </ol>
+            <p>
+              You don't need to configure MCP, edit any JSON, or set up tooling — Termpolis
+              auto-registers itself with each agent the first time you launch it. See
+              <a href="#mcp">MCP server</a> for what that actually unlocks.
+            </p>
+            <p>
+              Want to scale beyond one agent? Read <a href="#swarm-vs-single">Swarm vs. single
+              agent</a> next to decide whether your task is worth orchestrating.
+            </p>
+          </section>
+
+          <!-- SWARM VS SINGLE AGENT -->
+          <section id="swarm-vs-single" class="docs-section">
+            <h2>Swarm vs. single agent</h2>
+            <p>
+              Termpolis ships two ways to put AI to work. Pick the one that matches the shape
+              of your task — they're not interchangeable.
+            </p>
+            <h3>Quick decision tree</h3>
+            <ul class="docs-list">
+              <li>
+                <strong>Is the task one tight loop of "try → see → fix"?</strong>
+                → <strong>Single agent.</strong> You're the conductor. Open Claude Code (or
+                whichever agent you trust most for this domain) and iterate.
+              </li>
+              <li>
+                <strong>Does the task split into independent chunks that can run in parallel?</strong>
+                (e.g. "build the API + write the migration + add tests + write docs", or
+                "rewrite three unrelated modules in the same style.")
+                → <strong>Swarm.</strong> The conductor decomposes the task, hands subtasks to
+                the agents best-rated for each, and merges results.
+              </li>
+              <li>
+                <strong>Is the task a long spec rather than a single ask?</strong>
+                → <strong>Swarm.</strong> Drop the spec into the Start Swarm wizard and let
+                the conductor plan.
+              </li>
+              <li>
+                <strong>Are you exploring or debugging interactively?</strong>
+                → <strong>Single agent.</strong> Swarms are autonomous; an interactive back-and-forth
+                is the wrong shape for them.
+              </li>
+              <li>
+                <strong>Do you need different agents because they're individually best at
+                different sub-skills</strong> (e.g. Codex for tests, Gemini for docs)?
+                → <strong>Swarm.</strong> The capability ratings drive routing for you.
+              </li>
+            </ul>
+            <h3>What you get with each</h3>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead>
+                  <tr><th>&nbsp;</th><th>Single agent</th><th>Swarm</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Setup</strong></td>
+                    <td>Click an agent in the sidebar.</td>
+                    <td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> → fill the Start Swarm wizard.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Best for</strong></td>
+                    <td>Iteration, exploration, debugging, learning.</td>
+                    <td>Parallelizable specs, multi-skill tasks, autonomous runs.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>Just the agent you're using.</td>
+                    <td>Conductor + each agent it picks. Set a budget cap in the wizard.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Visibility</strong></td>
+                    <td>One terminal pane.</td>
+                    <td>Swarm Dashboard (Tasks · Messages · Trace tabs). Agent terminals are hidden by default — the conductor drives them.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>You drive</strong></td>
+                    <td>Every prompt.</td>
+                    <td>The first prompt; the conductor takes it from there.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              See <a href="#conductor">AI conductor</a> for the full swarm walkthrough or
+              <a href="#agents">AI agent profiles</a> for single-agent details.
+            </p>
           </section>
 
           <!-- SIDEBAR -->
@@ -1015,75 +1324,121 @@
           <section id="agents" class="docs-section">
             <h2>AI agent profiles</h2>
             <p>
-              Launch any AI CLI as a profiled terminal: Claude Code, Codex, Gemini CLI, Qwen Code.
-              Profiles come pre-configured with the right shell + startup command, a color + label,
-              an MCP bootstrap, and an optional dedicated working directory.
-              Custom profiles take any command: if it's in PATH, you can profile it.
+              An <strong>agent profile</strong> is a one-click launcher in the sidebar that
+              opens a terminal pre-wired for a specific AI CLI: Claude Code, Codex, Gemini CLI,
+              or Qwen Code. The profile owns the shell, the working directory, the MCP
+              registration, the tab color, and the label. Click the profile and you go from
+              "I want to use Claude" to "Claude is open and ready" in one step.
+            </p>
+            <p>
+              <strong>New here?</strong> Read <a href="#api-keys">Before you begin · API keys</a>
+              first to set the right env var, then follow
+              <a href="#first-agent">Launch your first AI agent</a> for the 5-step walkthrough.
+            </p>
+            <h3>What ships out of the box</h3>
+            <ul class="docs-list">
+              <li><strong>Claude Code</strong> — runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
+              <li><strong>Codex</strong> — runs <code>codex --full-auto</code>.</li>
+              <li><strong>Gemini CLI</strong> — runs <code>gemini</code>; respects Strict Mode (see <a href="#security-gemini">Gemini account-mode</a>).</li>
+              <li><strong>Qwen Code</strong> — runs <code>qwen</code> (Alibaba's Gemini-CLI fork).</li>
+            </ul>
+            <h3>Install status indicators</h3>
+            <p>
+              Each profile shows a green check if Termpolis can find the CLI on your PATH and a
+              red X if it can't. Click a missing one for the <code>npm install</code> command.
+              The check runs every launch — install the CLI, restart Termpolis, the indicator
+              flips green.
+            </p>
+            <h3>Custom profiles</h3>
+            <p>
+              Click <strong>+</strong> in the AI Agents row to add a profile for any other CLI.
+              You name it, point it at the binary (anything in PATH works), pick a shell, color,
+              and optional working directory. Custom profiles don't get MCP auto-registration,
+              so they participate as plain terminals — fine for tools that don't speak MCP.
+            </p>
+            <h3>Renaming an agent terminal</h3>
+            <p>
+              Agent terminals get default names ("Claude Code", "Codex", etc). Right-click the
+              terminal tab to rename it, change its color, or swap themes — the underlying
+              agent stays put.
             </p>
           </section>
 
           <!-- MCP -->
           <section id="mcp" class="docs-section">
             <h2>MCP server</h2>
+            <h3>What MCP is, in plain English</h3>
             <p>
-              Termpolis ships an MCP (Model Context Protocol) server so AI agents can control the
-              app from inside a conversation. It listens on <code>http://localhost:48211</code> by
-              default.
+              MCP (Model Context Protocol) is the channel that lets an AI agent <em>do things</em>
+              instead of just <em>print things</em>. With MCP wired up, when you ask Claude
+              "open a new terminal in the repo root and run the test suite," it can actually do
+              that — open a real Termpolis terminal, type the command, and stream the output back
+              into the conversation. Without MCP, the agent could only suggest the command and
+              ask you to copy/paste it.
             </p>
             <div class="docs-callout">
               <p>
-                <strong>These are not commands you type.</strong> The entries in the table below are
-                <strong>MCP tools</strong>, function calls that an AI agent (Claude, Codex, Gemini,
-                etc.) invokes through the Model Context Protocol, the same way an agent uses
-                <code>Read</code>, <code>Bash</code>, or <code>WebSearch</code>. You never type
-                <code>open_terminal</code> yourself; instead, you say something like
-                <em>"open a new PowerShell terminal in the repo root"</em> and the agent calls the
-                <code>open_terminal</code> tool to do it.
+                <strong>If you're launching agents from inside Termpolis, you don't have to do
+                anything.</strong> Termpolis auto-registers itself with each of the four
+                supported agents on first launch. The rest of this section is for people who
+                want to understand what's running, debug an integration, or wire up a custom
+                MCP client.
               </p>
             </div>
-            <h3>Connecting an agent to Termpolis MCP</h3>
+            <h3>How it's wired up</h3>
+            <p>
+              Termpolis runs an MCP server on <code>http://localhost:9315</code> (the port is
+              shown in the bottom status bar — if 9315 is taken, Termpolis falls back to the
+              next free port and writes the actual port to the data directory). It's bound to
+              the loopback interface only and rejects any request without the right bearer
+              token, so nothing on your network can reach it.
+            </p>
+            <h3>Connecting a custom client</h3>
             <p>
               Any MCP-aware client can talk to the server. Register it once in the client's MCP
-              config, for example, in <code>~/.config/claude/mcp.json</code> or Codex's
-              <code>mcp_config.json</code>:
+              config — Termpolis writes a fresh bearer token to <code>mcp-token</code> in the
+              data directory (Windows: <code>%APPDATA%\termpolis\</code>, macOS:
+              <code>~/Library/Application Support/termpolis/</code>, Linux:
+              <code>~/.config/termpolis/</code>) on every launch:
             </p>
             <pre class="docs-code"><code>{
   "mcpServers": {
     "termpolis": {
-      "url": "http://localhost:48211",
+      "url": "http://localhost:9315",
       "headers": {
-        "Authorization": "Bearer ${TERMPOLIS_MCP_TOKEN}"
+        "Authorization": "Bearer &lt;contents of mcp-token&gt;"
       }
     }
   }
 }</code></pre>
+            <h3>The 17 tools an agent can call</h3>
             <p>
-              The token is written to <code>~/.termpolis/mcp-token</code> on every launch. All four
-              official agent profiles (Claude Code, Codex, Gemini CLI, Qwen Code) are wired up
-              automatically when launched from inside Termpolis, nothing to configure.
-            </p>
-            <h3>Available tools</h3>
-            <p>
-              Once connected, the agent can call any of these tools. You'll see each invocation in
-              the <a href="#activity">Activity Feed</a> as an <code>mcp_audit</code> event.
+              Each entry below is a function call an MCP-aware agent makes through the protocol —
+              not a command you type. Every invocation shows up in the
+              <a href="#activity">Activity Feed</a>.
             </p>
             <div class="docs-table-wrap">
               <table class="docs-table">
                 <thead><tr><th>Tool</th><th>What the agent does when it calls this</th></tr></thead>
                 <tbody>
-                  <tr><td><code>list_terminals</code></td><td>Enumerate open terminals, agent uses this to find a working session.</td></tr>
-                  <tr><td><code>open_terminal</code></td><td>Spawn a new terminal with a chosen shell + cwd.</td></tr>
-                  <tr><td><code>close_terminal</code></td><td>Close a terminal by ID when its work is done.</td></tr>
-                  <tr><td><code>focus_terminal</code></td><td>Bring a terminal to the foreground in the UI.</td></tr>
-                  <tr><td><code>send_input</code></td><td>Type text or control chars into a terminal's stdin.</td></tr>
-                  <tr><td><code>read_buffer</code></td><td>Read the last N lines of output from a terminal.</td></tr>
-                  <tr><td><code>wait_for_prompt</code></td><td>Block until a regex appears in the buffer (e.g. wait for <code>$</code> to return).</td></tr>
-                  <tr><td><code>list_workspaces</code></td><td>Enumerate workspaces.</td></tr>
-                  <tr><td><code>switch_workspace</code></td><td>Change the active workspace.</td></tr>
-                  <tr><td><code>git_status</code></td><td>Get a JSON summary of the current repo (branch, ahead/behind, staged).</td></tr>
-                  <tr><td><code>broadcast_message</code></td><td>Send a swarm-wide notification to every active agent.</td></tr>
-                  <tr><td><code>get_session_id</code></td><td>Return the calling session's opaque ID for self-identification.</td></tr>
-                  <tr><td><code>post_activity</code></td><td>Push a custom event into the Activity Feed.</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Terminals</td></tr>
+                  <tr><td><code>list_terminals</code></td><td>Enumerate open terminals — find an existing session to work in.</td></tr>
+                  <tr><td><code>create_terminal</code></td><td>Spawn a new terminal with a chosen name, shell, and working directory.</td></tr>
+                  <tr><td><code>run_command</code></td><td>Run a one-shot command in a terminal (used to start a long-running agent CLI).</td></tr>
+                  <tr><td><code>write_to_terminal</code></td><td>Type arbitrary text or control chars into a terminal's stdin (this is how the conductor sends task prompts to other agents).</td></tr>
+                  <tr><td><code>read_output</code></td><td>Read the recent output buffer from a terminal.</td></tr>
+                  <tr><td><code>close_terminal</code></td><td>Kill the underlying pty and remove the terminal.</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Project context</td></tr>
+                  <tr><td><code>get_file_tree</code></td><td>Walk the workspace's working directory and return a JSON file tree.</td></tr>
+                  <tr><td><code>get_git_status</code></td><td>Summarise the active repo: branch, ahead/behind, staged + unstaged files.</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Swarm coordination</td></tr>
+                  <tr><td><code>swarm_send_message</code></td><td>Post an inter-agent message (broadcast or directed). Visible in the Messages tab of the Swarm Dashboard.</td></tr>
+                  <tr><td><code>swarm_read_messages</code></td><td>Read the message stream — agents poll this to check for handoffs.</td></tr>
+                  <tr><td><code>swarm_create_task</code></td><td>Create a task record in the swarm DAG (called by the conductor for every subtask).</td></tr>
+                  <tr><td><code>swarm_list_tasks</code></td><td>Enumerate tasks with status filters (pending / in-progress / completed / failed).</td></tr>
+                  <tr><td><code>swarm_update_task</code></td><td>Mark a task complete or failed and attach a result summary.</td></tr>
+                  <tr><td><code>swarm_list_agents</code></td><td>List the running swarm agent terminals so the conductor can route work.</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Shared memory</td></tr>
                   <tr><td><code>memory_write</code></td><td>Persist a labeled memory entry into the <a href="#memory">shared memory</a> store.</td></tr>
                   <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword) across shared memory.</td></tr>
                   <tr><td><code>memory_list</code></td><td>List recent memory entries with filters.</td></tr>
@@ -1092,10 +1447,11 @@
             </div>
             <h3>Security</h3>
             <ul class="docs-list">
-              <li><strong>Bearer token</strong>, a random token is generated per app launch and written to <code>~/.termpolis/mcp-token</code>. Every request must include it in the <code>Authorization</code> header.</li>
-              <li><strong>Origin checks</strong>, requests from browser origins are rejected unless explicitly allowlisted.</li>
-              <li><strong>Rate limits</strong>, 60 req/s per client, 10 req/s for destructive tools (<code>close_terminal</code>, <code>send_input</code>).</li>
-              <li><strong>Audit log</strong>, every tool call is written to <code>~/.termpolis/mcp-audit.jsonl</code> and emitted as an Activity Feed event.</li>
+              <li><strong>Bearer token.</strong> A random 256-bit token is generated per app launch and written to <code>mcp-token</code> in the data directory. Every request must include it in the <code>Authorization</code> header.</li>
+              <li><strong>Loopback only.</strong> The server binds to <code>127.0.0.1</code> and refuses non-loopback connections.</li>
+              <li><strong>Origin checks.</strong> Requests from browser origins are rejected unless explicitly allowlisted.</li>
+              <li><strong>Rate limits.</strong> Per-client rate limiting protects the host from a runaway agent loop.</li>
+              <li><strong>Audit log.</strong> Every tool call is written to the MCP audit JSONL and emitted as an Activity Feed event.</li>
             </ul>
           </section>
 
@@ -1182,11 +1538,10 @@
               <li>When a task completes, writes the result to shared memory and unblocks dependents.</li>
               <li>When the DAG is done, presents a summary and offers a <a href="#review">swarm review</a>.</li>
             </ol>
-            <h3>When to use a swarm vs. a single agent</h3>
-            <ul class="docs-list">
-              <li><strong>Single agent</strong>, tight iteration loops, quick fixes, interactive exploration. You're the conductor.</li>
-              <li><strong>Swarm</strong>, parallelizable tasks (build frontend + backend + tests simultaneously), long-running migrations, when you want cost-aware routing across agents, or when the task description reads like a spec more than a prompt.</li>
-            </ul>
+            <p>
+              Not sure whether your task fits a swarm or a single agent? See the
+              <a href="#swarm-vs-single">Swarm vs. single agent</a> decision tree.
+            </p>
           </section>
 
           <!-- ACTIVITY -->
