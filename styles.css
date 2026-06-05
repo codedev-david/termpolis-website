@@ -107,7 +107,9 @@ input {
 
 .site-nav {
   display: flex;
+  flex-wrap: nowrap;
   gap: 1.2rem;
+  white-space: nowrap;
   color: var(--muted);
 }
 
@@ -201,6 +203,7 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   min-height: 3rem;
   padding: 0.8rem 1.2rem;
   border: 0;
