@@ -1624,17 +1624,40 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
           <!-- MEMORY -->
           <section id="memory" class="docs-section">
-            <h2>Shared memory (RAG)</h2>
-            <p>A cross-agent memory store backed by JSONL + embeddings. Any agent can:</p>
+            <h2>Persistent memory that never forgets</h2>
+            <p>
+              A local, growing &ldquo;brain&rdquo; shared by every agent. It indexes your past AI
+              conversations (Claude Code, Codex, Gemini) and your repo&rsquo;s code into a vector
+              store on disk, so any agent can semantically recall what was decided or written weeks
+              ago, instead of you re-explaining context every session.
+            </p>
             <ul class="docs-list">
-              <li><strong>Write</strong> via <code>memory_write</code>, stores <code>{label, content, tags, terminalId, ts}</code> plus an embedding from Ollama's <code>nomic-embed-text</code>.</li>
-              <li><strong>Search</strong> via <code>memory_search</code>, cosine similarity over embeddings, blended with keyword overlap.</li>
+              <li><strong>Shared across all four agents.</strong> Claude, Codex, Gemini, and Qwen all
+                read and write the same store over MCP, so a fact one agent learns is instantly
+                available to the others.</li>
+              <li><strong>Survives close &amp; reopen.</strong> Stored as JSONL on disk
+                (<code>~/.termpolis/swarm-memory.jsonl</code>) and reloaded with its embeddings at
+                startup, your context isn&rsquo;t lost when you quit.</li>
+              <li><strong>Feeds itself.</strong> A background indexer ingests new sessions on a quiet
+                timer (idempotent, content-hash deduped), so the brain grows with no action from you.</li>
+              <li><strong>Fully offline, no server.</strong> Embeddings run in-process via WASM with a
+                bundled <code>bge-small-en-v1.5</code> model, no Ollama, no native binaries, nothing
+                leaves your machine.</li>
+              <li><strong>Secrets are never indexed.</strong> The code indexer reuses the same
+                sensitive-file denylist as the read watcher, so <code>.env</code> files, keys, and
+                cloud credentials are excluded.</li>
+            </ul>
+            <p>The MCP tools any agent can call:</p>
+            <ul class="docs-list">
+              <li><strong>Search</strong> via <code>memory_search</code>, semantic vector search blended with keyword overlap.</li>
+              <li><strong>Write</strong> via <code>memory_write</code>, persist a fact or decision for the others.</li>
               <li><strong>List</strong> via <code>memory_list</code>, recent entries with filters.</li>
             </ul>
             <p>
-              Why it matters: when Claude figures out your auth module, Codex shouldn't have to
-              figure it out again. Memory is context-sharing at the swarm level. Lives at
-              <code>~/.termpolis/swarm-memory.jsonl</code>, plain text.
+              Why it matters: when Claude figures out your auth module, Codex shouldn&rsquo;t have to
+              figure it out again, and you shouldn&rsquo;t burn tokens re-pasting context every
+              session. A pre-context primer can inject the most relevant memories at an agent&rsquo;s
+              first prompt so it starts already knowing the background.
             </p>
           </section>
 

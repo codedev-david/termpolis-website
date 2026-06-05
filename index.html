@@ -103,8 +103,9 @@
             Describe your task. A dedicated Claude Code conductor breaks it into subtasks and
             dispatches up to five agents in parallel, each picked by capability scores across ten
             skill categories, with a token-cost forecast you see <em>before</em> anything runs.
-            Agents share a memory store with semantic search, message each other for handoffs, and
-            stream every tool call into a live activity feed. Pause, cancel, or steer any agent
+            Agents share a persistent memory brain that indexes your past sessions and code so they
+            recall context across restarts instead of you re-explaining it, message each other for
+            handoffs, and stream every tool call into a live activity feed. Pause, cancel, or steer any agent
             mid-run without losing progress. When the swarm finishes, review the diff hunk-by-hunk,
             run the tests, and accept or reject each change before it lands. The built-in
             <strong>AI Security Center</strong> applies defense in depth around hosted models:
