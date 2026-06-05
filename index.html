@@ -78,6 +78,7 @@
         <a href="#security">Security</a>
         <a href="#swarm">Smart Swarm</a>
         <a href="#context-handoff">Context Handoff</a>
+        <a href="#memory">Shared Memory</a>
         <a href="#observability">Observability</a>
         <a href="#features">Features</a>
         <a href="#downloads">Downloads</a>
@@ -520,6 +521,74 @@
           <figure class="product-shot">
             <img src="assets/screenshot-past-sessions.png" alt="Past AI Sessions browser — every Claude transcript on the machine indexed by project, age, message count, and size.">
           </figure>
+        </div>
+      </section>
+
+      <!-- SHARED MEMORY -->
+      <section id="memory" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🧠 Persistent shared memory</p>
+          <h2>One memory across every agent — that survives closing the app</h2>
+          <p>
+            Every Claude session today starts cold: you re-explain what you're doing and burn
+            tokens reloading context. Termpolis keeps a local &ldquo;brain&rdquo; that <strong>all
+            four agents share</strong> and that <strong>lasts between terminals, between agents,
+            and between app restarts.</strong> Behind the scenes it parses your past AI
+            transcripts, embeds them locally and offline, and stores them in a durable on-disk
+            vector log; then Claude, Codex, Gemini, and Qwen all recall the most relevant context
+            on demand through the built-in MCP server. Nothing to set up, nothing to click.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>One memory, four agents</h3>
+            <p>
+              Every agent reads and writes the same store over the built-in MCP server
+              (<code>memory_search</code> / <code>memory_write</code> / <code>memory_list</code>).
+              A fact Claude figures out is instantly available to Codex &mdash; no copy-paste, no
+              re-discovery.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Survives close &amp; reopen</h3>
+            <p>
+              Memory is plain JSONL on disk (<code>~/.termpolis/swarm-memory.jsonl</code>) and
+              reloads with its embeddings at startup. Quit Termpolis, reopen it tomorrow &mdash;
+              the context is still there.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Feeds itself, automatically</h3>
+            <p>
+              A background indexer ingests your past Claude / Codex / Gemini transcripts on a quiet
+              timer (10&nbsp;s after launch, then every 30&nbsp;min). It's idempotent &mdash; only
+              genuinely new content is embedded &mdash; so the brain grows with zero effort.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Fully offline. No server. No secrets.</h3>
+            <p>
+              Embeddings run in-process via WASM with a bundled <code>bge-small-en-v1.5</code>
+              model &mdash; no Ollama, no native binaries, nothing leaves your machine. The indexer
+              reuses the sensitive-file denylist, so <code>.env</code> files, keys, and credentials
+              are never embedded.
+            </p>
+          </article>
+        </div>
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">How it works</p>
+          <h2>Capture → embed → store → recall</h2>
+          <p>
+            <strong>1. Capture</strong> &mdash; your on-disk AI transcripts are parsed (tool-call,
+            reasoning, and system-prompt noise stripped) and split into chunks.
+            <strong>2. Embed</strong> &mdash; each chunk becomes a 384-dim vector locally, in
+            process, via <code>onnxruntime-web</code> (WASM). <strong>3. Store</strong> &mdash;
+            chunks and vectors persist in a durable on-disk log, deduplicated by content hash so
+            re-indexing is cheap. <strong>4. Recall</strong> &mdash; any agent calls
+            <code>memory_search</code> over MCP and gets the most relevant past context back,
+            blending semantic vector search with keyword matching. The result: stop re-explaining
+            context every session, and stop paying to reload it.
+          </p>
         </div>
       </section>
 
