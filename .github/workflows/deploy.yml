@@ -44,7 +44,7 @@ jobs:
             n=$((n+1))
             if curl --ssl-reqd -k -sS --retry 5 --retry-all-errors --connect-timeout 30 \
                  --ftp-create-dirs --user "$FTP_USERNAME:$FTP_PASSWORD" \
-                 -T "$f" "ftp://$FTP_HOST/$f"; then
+                 -T "$f" "ftp://$FTP_HOST/${f// /%20}"; then # %20-encode spaces in remote path
               ok=$((ok+1))
             else
               echo "  FAILED: $f"; rc=1
