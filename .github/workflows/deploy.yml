@@ -13,15 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      # Deploy over EXPLICIT FTPS with curl (--ssl-reqd refuses plaintext) + retries.
-      # We previously used SamKirkland/FTP-Deploy-Action (basic-ftp), but this host
-      # intermittently resets the control socket during its TLS handshake
-      # (`read ECONNRESET`), failing the whole deploy. curl uses a different TLS
-      # stack and is already proven against this host (the app release mirrors the
-      # installer the same way), and --retry/--retry-all-errors rides out transient
-      # resets. We mirror every tracked file (stateless — no diff edge cases),
-      # creating remote dirs as needed; downloads/ is the installer mirror owned by
-      # the app release, and .github/ / LICENSE / .gitignore aren't web content.
+      # Deploy over EXPLICIT FTPS with curl (--ssl-reqd requires TLS — never plaintext)
+      # + retries. We previously used SamKirkland/FTP-Deploy-Action (basic-ftp), but
+      # this host intermittently resets the control socket during the FTPS handshake
+      # (`read ECONNRESET`), failing the whole deploy. curl uses a different TLS stack
+      # and --retry/--retry-all-errors rides out those transient resets.
+      #
+      # `-k` (insecure): this shared host serves an FTPS certificate that does NOT
+      # match FTP_HOST (curl error 60), so strict verification can't pass and the
+      # connect hostname's real cert name isn't known here. The transfer stays
+      # TLS-ENCRYPTED; -k only skips server-identity verification — the same posture
+      # the old basic-ftp action already used (it deployed fine against this cert).
+      # PROPER FIX (follow-up): move to SFTP (host SSH + key secret) or a cert that
+      # matches the connect host, then drop -k.
+      #
+      # Stateless full mirror of every tracked file (no diff edge cases), creating
+      # remote dirs as needed; downloads/ is the installer mirror owned by the app
+      # release, and .github/ / LICENSE / .gitignore aren't web content.
       - name: Deploy to termpolis.com (FTPS via curl, retried)
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
@@ -34,7 +42,7 @@ jobs:
           while IFS= read -r f; do
             [ -n "$f" ] && [ -f "$f" ] || continue
             n=$((n+1))
-            if curl --ssl-reqd -sS --retry 5 --retry-all-errors --connect-timeout 30 \
+            if curl --ssl-reqd -k -sS --retry 5 --retry-all-errors --connect-timeout 30 \
                  --ftp-create-dirs --user "$FTP_USERNAME:$FTP_PASSWORD" \
                  -T "$f" "ftp://$FTP_HOST/$f"; then
               ok=$((ok+1))
