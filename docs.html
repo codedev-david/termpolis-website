@@ -1629,7 +1629,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               A local, growing &ldquo;brain&rdquo; shared by every agent. It indexes your past AI
               conversations (Claude Code, Codex, Gemini) and your repo&rsquo;s code into a vector
               store on disk, so any agent can semantically recall what was decided or written weeks
-              ago, instead of you re-explaining context every session.
+              or even months ago, instead of you re-explaining context every session.
             </p>
             <ul class="docs-list">
               <li><strong>Shared across all four agents.</strong> Claude, Codex, Gemini, and Qwen all
@@ -1675,7 +1675,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Why it matters: when Claude figures out your auth module, Codex shouldn&rsquo;t have to
               figure it out again, and you shouldn&rsquo;t burn tokens re-pasting context every
               session. A pre-context primer can inject the most relevant memories at an agent&rsquo;s
-              first prompt so it starts already knowing the background.
+              first prompt so it starts already knowing the background. And because the brain lives
+              outside any model&rsquo;s context window, it holds months of history without forgetting:
+              when an agent&rsquo;s own window compacts, the detail isn&rsquo;t lost &mdash; it&rsquo;s
+              still in the store, one <code>memory_search</code> away. (Termpolis doesn&rsquo;t change
+              how a model compacts its own window; it makes compaction non-lossy and saves you from
+              reloading context.)
             </p>
             <p>
               <strong>Controls:</strong> open the Memory panel (<code>Ctrl+Shift+M</code>, or the
