@@ -1659,8 +1659,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Scales into six figures.</strong> Vectors are packed into a typed-array
                 store (about half the RAM of boxed arrays); past tens of thousands of entries an
                 <strong>HNSW</strong> approximate-nearest-neighbour index engages automatically so
-                search stays sub-linear. The graph lives off the JS heap, builds once in the
-                background, and persists to disk &mdash; it never blocks launch.</li>
+                search stays sub-linear (a few ms/query, measured). The graph lives off the JS heap
+                and persists to disk. It builds once, lazily, in the background <em>without blocking
+                your searches</em> &mdash; the first query after crossing the threshold returns
+                instantly from the exact fallback while the index builds (frame-budgeted so the UI
+                never stalls); every later search and launch uses the saved graph.</li>
             </ul>
             <p>The MCP tools any agent can call:</p>
             <ul class="docs-list">

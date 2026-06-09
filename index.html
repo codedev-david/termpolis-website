@@ -595,9 +595,11 @@
             <h3>Scales into six figures</h3>
             <p>
               Past tens of thousands of memories an <strong>HNSW</strong> approximate-nearest-neighbour
-              index engages automatically, keeping recall sub-linear so search stays fast. Vectors are
-              packed into a typed-array store (~half the RAM) and the graph lives off the JS heap; the
-              index builds once in the background and persists, so it never blocks startup.
+              index engages automatically, keeping recall sub-linear so search stays fast (a few
+              ms/query, measured). Vectors are packed into a typed-array store (~half the RAM) and the
+              graph lives off the JS heap. It builds once in the background <em>without blocking your
+              searches</em> &mdash; the first query while it builds is served instantly by the exact
+              fallback &mdash; then persists, so later searches and launches are instant.
             </p>
           </article>
         </div>
