@@ -13,16 +13,35 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Deploy to termpolis.com
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftps
-          exclude: |
-            **/.git*
-            **/.git*/**
-            downloads/**
-            LICENSE
+      # Deploy over EXPLICIT FTPS with curl (--ssl-reqd refuses plaintext) + retries.
+      # We previously used SamKirkland/FTP-Deploy-Action (basic-ftp), but this host
+      # intermittently resets the control socket during its TLS handshake
+      # (`read ECONNRESET`), failing the whole deploy. curl uses a different TLS
+      # stack and is already proven against this host (the app release mirrors the
+      # installer the same way), and --retry/--retry-all-errors rides out transient
+      # resets. We mirror every tracked file (stateless — no diff edge cases),
+      # creating remote dirs as needed; downloads/ is the installer mirror owned by
+      # the app release, and .github/ / LICENSE / .gitignore aren't web content.
+      - name: Deploy to termpolis.com (FTPS via curl, retried)
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          set -uo pipefail
+          files=$(git ls-files | grep -vE '^(downloads/|LICENSE$|\.github/|\.gitignore$)')
+          rc=0; n=0; ok=0
+          while IFS= read -r f; do
+            [ -n "$f" ] && [ -f "$f" ] || continue
+            n=$((n+1))
+            if curl --ssl-reqd -sS --retry 5 --retry-all-errors --connect-timeout 30 \
+                 --ftp-create-dirs --user "$FTP_USERNAME:$FTP_PASSWORD" \
+                 -T "$f" "ftp://$FTP_HOST/$f"; then
+              ok=$((ok+1))
+            else
+              echo "  FAILED: $f"; rc=1
+            fi
+          done <<< "$files"
+          echo "Uploaded $ok/$n files."
+          if [ "$rc" -ne 0 ]; then echo "::error::One or more files failed to upload after retries."; fi
+          exit $rc
