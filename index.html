@@ -573,6 +573,33 @@
               are never embedded.
             </p>
           </article>
+          <article class="card">
+            <h3>Syncs across your machines</h3>
+            <p>
+              Point the memory at any synced folder &mdash; Dropbox, OneDrive, iCloud&nbsp;Drive,
+              Google&nbsp;Drive (mirror mode), or Syncthing &mdash; and every device shares one
+              brain. Each machine writes its own shard, so there are no merge conflicts: the union
+              is conflict-free, even when two devices edit offline. No Termpolis cloud, no account.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Encrypted at rest, key in your keychain</h3>
+            <p>
+              Turn on encryption and every synced line is sealed with <strong>AES-256-GCM</strong>;
+              the key is derived with <code>scrypt</code> and held in your OS keychain (Windows
+              DPAPI / macOS Keychain / Linux libsecret) &mdash; never written to the synced folder.
+              Your cloud provider only ever sees ciphertext.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Scales into six figures</h3>
+            <p>
+              Past tens of thousands of memories an <strong>HNSW</strong> approximate-nearest-neighbour
+              index engages automatically, keeping recall sub-linear so search stays fast. Vectors are
+              packed into a typed-array store (~half the RAM) and the graph lives off the JS heap; the
+              index builds once in the background and persists, so it never blocks startup.
+            </p>
+          </article>
         </div>
         <div class="section-heading" style="margin-top:56px;">
           <p class="eyebrow">How it works</p>

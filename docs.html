@@ -1646,6 +1646,21 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Secrets are never indexed.</strong> The code indexer reuses the same
                 sensitive-file denylist as the read watcher, so <code>.env</code> files, keys, and
                 cloud credentials are excluded.</li>
+              <li><strong>Syncs across machines.</strong> Point the memory at any synced folder
+                (Dropbox, OneDrive, iCloud&nbsp;Drive, Google&nbsp;Drive in mirror mode, or
+                Syncthing) and every device shares one brain. Each machine writes its own shard
+                (<code>&lt;device-id&gt;.jsonl</code>), so the merge is conflict-free &mdash; a
+                grow-only union with tombstones, no central server and no Termpolis account.</li>
+              <li><strong>Optionally encrypted at rest.</strong> Enable encryption and every synced
+                line is sealed with <strong>AES-256-GCM</strong>; the key is derived with
+                <code>scrypt</code> and stored in your OS keychain (Windows DPAPI, macOS Keychain,
+                Linux libsecret), never in the synced folder. Your cloud provider only ever sees
+                ciphertext, and Termpolis transparently decrypts on read.</li>
+              <li><strong>Scales into six figures.</strong> Vectors are packed into a typed-array
+                store (about half the RAM of boxed arrays); past tens of thousands of entries an
+                <strong>HNSW</strong> approximate-nearest-neighbour index engages automatically so
+                search stays sub-linear. The graph lives off the JS heap, builds once in the
+                background, and persists to disk &mdash; it never blocks launch.</li>
             </ul>
             <p>The MCP tools any agent can call:</p>
             <ul class="docs-list">
@@ -1799,7 +1814,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
             <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Watch <code>~/.termpolis/logs/conductor.log</code> for startup output.</p>
             <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired, restart Termpolis for fresh tokens.</p>
-            <p><strong>Memory search returns nothing.</strong> Embeddings require Ollama with <code>nomic-embed-text</code> pulled. Run <code>ollama serve</code> and <code>ollama pull nomic-embed-text</code>. New writes will succeed; historical keyword-only entries still match.</p>
+            <p><strong>Memory search returns nothing.</strong> Embeddings run in-process via WASM (bundled <code>bge-small-en-v1.5</code>) &mdash; no Ollama required. If recall is empty, the brain may simply be unindexed: open the Memory panel (<code>Ctrl+Shift+M</code>) and run <em>Index past conversations</em> / <em>Index this repo&rsquo;s code</em>, or wait for the background indexer (first pass ~10&nbsp;s after launch). The first embed lazily unpacks the WASM model, so the very first search after a cold start can take a few seconds.</p>
 
             <h3>Updates &amp; performance</h3>
             <p><strong>Update notification appears but the update doesn't install.</strong> The auto-updater needs write access to the app bundle. On Windows, run the installer manually from GitHub Releases if the in-app updater fails. On macOS, drag the new DMG contents over the existing app. On Linux, download and replace the AppImage.</p>
