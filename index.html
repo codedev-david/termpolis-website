@@ -103,13 +103,21 @@
             Describe your task. A dedicated Claude Code conductor breaks it into subtasks and
             dispatches up to five agents in parallel, each picked by capability scores across ten
             skill categories, with a token-cost forecast you see <em>before</em> anything runs.
-            They share an <strong>effectively unlimited memory</strong> — a persistent brain that
-            indexes your entire history of past sessions and code on disk, scales into the six
-            figures with millisecond recall, and surfaces the most relevant slice on demand. So your agents remember everything across restarts instead of you re-explaining
-            it, and they're never capped by a single model's context window. They message each other
-            for handoffs and stream every tool call into a live activity feed; pause, cancel, or steer
-            any agent mid-run without losing progress, and when the swarm finishes, review the diff
-            hunk-by-hunk, run the tests, and accept or reject each change before it lands.
+            They message each other for handoffs and stream every tool call into a live activity
+            feed; pause, cancel, or steer any agent mid-run without losing progress, and when the
+            swarm finishes, review the diff hunk-by-hunk, run the tests, and accept or reject each
+            change before it lands.
+          </p>
+          <p class="hero-text">
+            Every agent shares one <strong>effectively unlimited memory</strong> — a local brain
+            that indexes your entire history of sessions and code on disk, holds <strong>months of
+            context without forgetting</strong>, and recalls the most relevant slice in milliseconds
+            even at six-figure scale. Agents pick up where you left off across restarts and across
+            each other instead of you re-explaining anything, and they're never boxed in by a single
+            model's context window. Because that history lives on disk and surfaces only when it's
+            relevant, you <strong>stop burning tokens reloading context every session</strong> —
+            and when an agent's own window compacts, the detail isn't lost; it's still in the brain,
+            a search away.
           </p>
           <p class="hero-text">
             The built-in <strong>AI Security Center</strong> applies defense in depth around hosted
