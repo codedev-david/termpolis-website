@@ -89,10 +89,11 @@
     <main id="top">
       <section class="hero reveal">
         <div class="hero-copy">
-          <p class="eyebrow">Secure AI-Assisted Development</p>
+          <p class="eyebrow">The one tool for secure AI-assisted development</p>
           <h1>Termpolis</h1>
-          <p class="tagline">where Claude, Codex, Gemini, and Qwen work as a team — under a security perimeter you control</p>
-          <ul class="hero-security-pills" aria-label="Security highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
+          <p class="tagline">Claude, Codex, Gemini, and Qwen share <strong>one long-term memory</strong> and work as a team — under a security perimeter you control</p>
+          <ul class="hero-security-pills" aria-label="Key highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
+            <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 Shared long-term memory · every agent, every session</li>
             <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🛡 Local-first app · no Termpolis backend · no telemetry</li>
             <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 No browser/IDE extension</li>
             <li style="background:#FFB74D22;color:#FFB74D;border:1px solid #FFB74D55;border-radius:999px;padding:4px 10px;">🔎 Auto-scan every prompt (70+ patterns)</li>
@@ -116,8 +117,9 @@
             each other instead of you re-explaining anything, and they're never boxed in by a single
             model's context window. Because that history lives on disk and surfaces only when it's
             relevant, you <strong>stop burning tokens reloading context every session</strong> —
-            and when an agent's own window compacts, the detail isn't lost; it's still in the brain,
-            a search away.
+            and when an agent's own window compacts, Termpolis <strong>automatically re-injects the
+            relevant memory</strong> the moment it settles, so the agent picks right back up instead
+            of losing the thread.
           </p>
           <p class="hero-text">
             The built-in <strong>AI Security Center</strong> applies defense in depth around hosted
@@ -612,6 +614,16 @@
               graph lives off the JS heap. It builds once in the background <em>without blocking your
               searches</em> &mdash; the first query while it builds is served instantly by the exact
               fallback &mdash; then persists, so later searches and launches are instant.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Survives compaction, automatically</h3>
+            <p>
+              When Claude compacts its conversation to fit the context window, it summarizes detail
+              away &mdash; but that detail still lives in the brain. Termpolis detects the compaction,
+              waits for it to settle, and <strong>auto-re-injects the most relevant memories</strong>
+              (ready to send, never forced) so your agent picks right back up. Your durable memory is
+              the large working set; the model&rsquo;s window only holds the active task.
             </p>
           </article>
         </div>

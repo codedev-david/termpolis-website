@@ -1664,6 +1664,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 your searches</em> &mdash; the first query after crossing the threshold returns
                 instantly from the exact fallback while the index builds (frame-budgeted so the UI
                 never stalls); every later search and launch uses the saved graph.</li>
+              <li><strong>Auto-recovers from compaction.</strong> When Claude Code compacts its
+                conversation to fit the context window, Termpolis watches the terminal, waits for the
+                compaction to settle, and re-injects the most relevant memories into the agent&rsquo;s
+                input (ready to send, never auto-submitted) so it picks right back up. Debounced
+                through the whole compaction and cooldown-guarded to fire once; opt-out in Settings.</li>
             </ul>
             <p>The MCP tools any agent can call:</p>
             <ul class="docs-list">
