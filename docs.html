@@ -1669,6 +1669,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 compaction to settle, and re-injects the most relevant memories into the agent&rsquo;s
                 input (ready to send, never auto-submitted) so it picks right back up. Debounced
                 through the whole compaction and cooldown-guarded to fire once; opt-out in Settings.</li>
+              <li><strong>See compaction coming.</strong> A live context-pressure pill in the status
+                bar shows how full the focused agent&rsquo;s window is &mdash; <em>healthy → filling
+                up → nearly full → compaction imminent</em> &mdash; from real token counts when the
+                agent reports them (Claude) or a labeled heuristic otherwise. You watch the pressure
+                build and know recovery is handled, instead of being surprised by a compaction.</li>
             </ul>
             <p>The MCP tools any agent can call:</p>
             <ul class="docs-list">
