@@ -106,6 +106,7 @@
             <li><a href="#settings">Settings</a></li>
             <li><a href="#themes">Themes</a></li>
             <li><a href="#keybindings">Keybindings</a></li>
+            <li><a href="#voice">Voice dictation</a></li>
           </ul>
 
           <p class="docs-sidebar-eyebrow">Productivity</p>
@@ -1062,6 +1063,29 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Bindings are platform-aware, <kbd>Ctrl</kbd> becomes <kbd>⌘</kbd> on macOS
               automatically. Conflicts are flagged inline when rebinding.
             </p>
+          </section>
+
+          <!-- VOICE -->
+          <section id="voice" class="docs-section">
+            <h2>Voice dictation</h2>
+            <p>
+              Talk instead of type. Transcription runs <strong>100% on-device</strong> — the
+              Whisper speech model (~77&nbsp;MB) and its onnxruntime-web runtime ship inside
+              Termpolis, so nothing downloads on first use and audio never leaves your machine.
+              Turn it on in <strong>Settings &rarr; Voice</strong> (off by default).
+            </p>
+            <h3>How to dictate</h3>
+            <ul class="docs-list">
+              <li><strong>Hold <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> and speak; release to send.</strong> Prefer hands-free? Switch to tap-to-start / tap-to-stop under <strong>Activation</strong>, or click the mic button on the terminal pane.</li>
+              <li><strong>In an AI-agent terminal</strong> (Claude &middot; Codex &middot; Gemini &middot; Qwen) your words are sent straight to the agent as a prompt &mdash; it absorbs minor mis-hearings, so just talk naturally.</li>
+              <li><strong>In a plain shell</strong> the transcript is inserted but <em>never run automatically</em> &mdash; you review it and press <kbd>Enter</kbd> yourself, so a mis-heard command is never executed for you.</li>
+              <li><strong>When dictation ends the caret returns to the terminal</strong> &mdash; keep typing or start another dictation without clicking back in.</li>
+            </ul>
+            <h3>Offline by default, cloud when you want it</h3>
+            <ul class="docs-list">
+              <li><strong>Local engine (default):</strong> the bundled Whisper model runs under the app's strict CSP with no network access &mdash; fully offline, zero egress.</li>
+              <li><strong>Cloud &ldquo;turbo&rdquo; mode</strong> (Settings &rarr; Voice &rarr; Engine) is an opt-in that sends audio to an endpoint you configure &mdash; off by default.</li>
+            </ul>
           </section>
 
           <!-- CAPABILITIES -->
