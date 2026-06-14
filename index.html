@@ -565,7 +565,7 @@
           <article class="card">
             <h3>Survives close &amp; reopen</h3>
             <p>
-              Memory is plain JSONL on disk (<code>~/.termpolis/swarm-memory.jsonl</code>) and
+              Memory is plain JSONL on disk (<code>swarm-memory.jsonl</code> in the Termpolis data directory) and
               reloads with its embeddings at startup. Quit Termpolis, reopen it tomorrow &mdash;
               the context is still there.
             </p>
@@ -667,7 +667,7 @@
           <article class="card">
             <h3>MCP server</h3>
             <p>
-              Built-in HTTP/SSE server on localhost:9315 with 17 tools. AI agents create terminals,
+              Built-in HTTP/SSE server on localhost:9315 with 21 tools. AI agents create terminals,
               run commands, read output, manage your workspace, and persist memory across sessions.
               Auto-registers with Claude Code, Codex, Gemini, and Qwen-Code.
             </p>
@@ -785,7 +785,7 @@
             <h3>Smart task routing</h3>
             <p>
               The orchestrator analyzes your task, breaks it into subtasks (refactoring, testing, docs, review),
-              and assigns each to the best agent based on a customizable capability matrix. Scores are transparent (0-100)
+              and assigns each to the best agent based on a customizable capability matrix. Scores are transparent (1–5)
               with reasons. Token-heavy work routed to cheaper agents. Every assignment can be overridden.
             </p>
           </article>
@@ -793,7 +793,7 @@
             <h3>Customizable agent ratings</h3>
             <p>
               4 agents scored across 10 categories. Default ratings are estimates based on general model capabilities.
-              Customize them in Settings &gt; Agent Capability Ratings based on your experience.
+              Customize them in Settings &gt; Agent Ratings based on your experience.
               The AI conductor uses ratings as hints but makes its own judgment calls.
             </p>
           </article>
@@ -1119,15 +1119,15 @@
           <p class="eyebrow">MCP integration</p>
           <h2>AI agents control your terminal</h2>
           <p>
-            Termpolis runs an MCP server on localhost:9315 with 17 tools. Claude Code,
+            Termpolis runs an MCP server on localhost:9315 with 21 tools. Claude Code,
             Codex, Gemini, and Qwen-Code all auto-discover it. Secured with a 256-bit auth token,
             localhost only, no plugins.
           </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>17 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 3 memory tools (write, search, list).</p>
+            <h3>21 MCP tools</h3>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 7 memory tools (write, search, list, related, link, graph, primer).</p>
           </article>
           <article class="card">
             <h3>Auto-registers with every agent</h3>
@@ -1221,7 +1221,7 @@
         <div class="feature-grid">
           <article class="card">
             <h3>3,800+ automated tests</h3>
-            <p>3,800+ unit &amp; component tests across 177 files (Vitest, 90%+ line / 85%+ branch coverage) plus a Playwright end-to-end suite that launches the real Electron app, with automated screenshots. CI/CD on every release.</p>
+            <p>3,800+ unit &amp; component tests across 180+ files (Vitest, 90%+ line / 85%+ branch coverage) plus a 40+-spec Playwright end-to-end suite that launches the real Electron app, with automated screenshots. CI/CD on every release.</p>
           </article>
           <article class="card">
             <h3>Output throttling</h3>

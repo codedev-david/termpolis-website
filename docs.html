@@ -714,7 +714,7 @@ source ~/.zshrc</code></pre>
             </p>
             <h3>Verifying it worked</h3>
             <p>
-              Open a Termpolis terminal (<kbd>Ctrl</kbd> + <kbd>T</kbd>) and type:
+              Open a Termpolis terminal (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>) and type:
             </p>
             <pre class="docs-code"><code>echo $ANTHROPIC_API_KEY     # bash / zsh
 $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
@@ -749,9 +749,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 run if you just want to use Termpolis as a terminal.
               </li>
               <li>
-                <strong>Open Settings.</strong> Click the gear in the top-left of the sidebar
-                (or press <kbd>Ctrl</kbd> + <kbd>,</kbd>). Pick a theme, set your default shell,
-                and look at the Security tab if you launch any AI agent. Changes save instantly.
+                <strong>Open Settings.</strong> Click the gear in the top-left of the sidebar.
+                Pick a theme, set your default shell, and look at the AI Security tab if you
+                launch any AI agent. Changes save instantly.
               </li>
               <li>
                 <strong>Save your first workspace.</strong> When you've got terminals you'd
@@ -760,10 +760,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 restore the next time you open the app.
               </li>
               <li>
-                <strong>Press <kbd>Ctrl</kbd> + <kbd>/</kbd> any time</strong> to open the
-                in-app Help drawer — it covers every feature, every panel, and every keyboard
-                shortcut. You can also click <strong>Help / Support</strong> in the bottom
-                status bar.
+                <strong>Press <kbd>Ctrl</kbd> + <kbd>/</kbd> any time</strong> to jump to the
+                full keyboard-shortcuts list (Settings &rarr; Keybindings), or click
+                <strong>Help / Support</strong> in the bottom status bar for the in-app help
+                drawer that covers every feature and panel.
               </li>
             </ol>
             <figure class="docs-shot">
@@ -957,8 +957,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
             <h3>Switching between workspaces</h3>
             <p>
-              Click a workspace row to activate it. Keyboard users can cycle with
-              <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>[</kbd> / <kbd>]</kbd>. Unsaved terminal
+              Click a workspace row in the sidebar to activate it. Unsaved terminal
               output in background workspaces keeps streaming, nothing is paused just because
               it's not visible.
             </p>
@@ -992,7 +991,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Every pane is a full pty-backed terminal powered by <code>node-pty</code>, real TTY
               semantics, xterm escapes, signal forwarding. Not a shim.
             </p>
-            <p>Create one with <kbd>Ctrl</kbd> + <kbd>T</kbd>. Pick a shell, a working directory, optionally an agent profile, plus a label and color.</p>
+            <p>Create one with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>. Pick a shell, a working directory, optionally an agent profile, plus a label and color.</p>
             <figure class="docs-shot">
               <img src="docs/screenshots/04-terminal-running.png" alt="A running PowerShell terminal in Termpolis.">
               <figcaption>A running terminal, copy on selection, 256-color palette, mouse scroll.</figcaption>
@@ -1019,10 +1018,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>Split view, recursive, drag the divider to resize.</figcaption>
             </figure>
             <ul class="docs-list">
-              <li><kbd>Ctrl</kbd> + <kbd>\</kbd>, split horizontally</li>
-              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>\</kbd>, split vertically</li>
-              <li><kbd>Alt</kbd> + <kbd>Arrow</kbd>, focus adjacent pane</li>
-              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>, close focused pane</li>
+              <li>Right-click a pane &rarr; <strong>Split right</strong> / <strong>Split down</strong>, or use the <a href="#command-palette">command palette</a>, to split.</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>, toggle split / grid view</li>
+              <li><kbd>Alt</kbd> + <kbd>1…9</kbd>, jump straight to terminal N</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>, close the focused terminal</li>
             </ul>
           </section>
 
@@ -1033,8 +1032,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <img src="docs/screenshots/07-settings-panel.png" alt="Settings panel.">
               <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
-            <p>Open with the gear icon or <kbd>Ctrl</kbd> + <kbd>,</kbd>. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>Themes</strong>, <strong>Keybindings</strong>, <strong>Agent Capability</strong>, <strong>Shells</strong>, <strong>Behavior</strong>, <strong>Advanced</strong>.</p>
+            <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in), <strong>AI Security</strong>, <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
           </section>
 
           <!-- THEMES -->
@@ -1069,22 +1068,40 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="voice" class="docs-section">
             <h2>Voice dictation</h2>
             <p>
-              Talk instead of type. Transcription runs <strong>100% on-device</strong> — the
-              Whisper speech model (~77&nbsp;MB) and its onnxruntime-web runtime ship inside
-              Termpolis, so nothing downloads on first use and audio never leaves your machine.
-              Turn it on in <strong>Settings &rarr; Voice</strong> (off by default).
+              Talk instead of type. Transcription uses <strong>Groq's hosted Whisper
+              API</strong> &mdash; the few seconds you dictate are sent to Groq's cloud for
+              transcription, and the text comes back into your terminal. It is
+              <strong>opt-in and off by default</strong>, and it requires your own Groq API
+              key. (There is no local/on-device engine; voice went Groq-only in v1.13.0.)
             </p>
+            <h3>Turn it on (one-time setup)</h3>
+            <ol class="docs-list docs-list-ordered">
+              <li>Open <strong>Settings &rarr; Voice</strong> and toggle <strong>Enable voice input</strong> on (it's off by default).</li>
+              <li>Click <strong>Connect Groq</strong>, accept the consent notice (your recorded audio is sent to Groq), and paste a free Groq API key from <a href="https://console.groq.com/keys" target="_blank" rel="noreferrer">console.groq.com/keys</a>. The key is validated against Groq before it's saved.</li>
+              <li>Optionally pick your microphone and hit <strong>Test microphone</strong> to confirm the level meter jumps when you speak, and choose the transcription model.</li>
+            </ol>
+            <div class="docs-callout">
+              <p>
+                <strong>Your API key never enters the renderer.</strong> It's stored
+                encrypted in your OS keychain (Windows DPAPI, macOS Keychain, Linux
+                libsecret) and used only in the main process to call Groq &mdash; it never
+                lands in <code>session.json</code>, settings, or any log. The renderer only
+                ever sees a masked hint (<code>gsk_&bull;&bull;&bull;&bull;abcd</code>) and a
+                connected flag.
+              </p>
+            </div>
             <h3>How to dictate</h3>
             <ul class="docs-list">
-              <li><strong>Hold <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> and speak; release to send.</strong> Prefer hands-free? Switch to tap-to-start / tap-to-stop under <strong>Activation</strong>, or click the mic button on the terminal pane.</li>
-              <li><strong>In an AI-agent terminal</strong> (Claude &middot; Codex &middot; Gemini &middot; Qwen) your words are sent straight to the agent as a prompt &mdash; it absorbs minor mis-hearings, so just talk naturally.</li>
+              <li><strong>Tap <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> to start, tap again to stop &mdash; or hold it to talk and release to send.</strong> Both work on the same key by default (<em>tap-or-hold</em>). Pure-hold, tap-to-toggle, and tap-then-press-a-key-to-send modes are selectable under <strong>Activation</strong>; the hotkey and the send key are both rebindable. You can also click the mic button on the terminal pane, or the <strong>Listening&hellip;</strong> badge, to start/stop.</li>
+              <li><strong>In an AI-agent terminal</strong> (Claude &middot; Codex &middot; Gemini &middot; Qwen) your words are sent straight to the agent as a prompt &mdash; it absorbs minor mis-hearings, so just talk naturally. (Auto-submitting that prompt is an opt-in toggle, off by default, so you can still review before pressing <kbd>Enter</kbd>.)</li>
               <li><strong>In a plain shell</strong> the transcript is inserted but <em>never run automatically</em> &mdash; you review it and press <kbd>Enter</kbd> yourself, so a mis-heard command is never executed for you.</li>
               <li><strong>When dictation ends the caret returns to the terminal</strong> &mdash; keep typing or start another dictation without clicking back in.</li>
             </ul>
-            <h3>Offline by default, cloud when you want it</h3>
+            <h3>Accuracy, no-speech handling &amp; privacy</h3>
             <ul class="docs-list">
-              <li><strong>Local engine (default):</strong> the bundled Whisper model runs under the app's strict CSP with no network access &mdash; fully offline, zero egress.</li>
-              <li><strong>Cloud &ldquo;turbo&rdquo; mode</strong> (Settings &rarr; Voice &rarr; Engine) is an opt-in that sends audio to an endpoint you configure &mdash; off by default.</li>
+              <li><strong>Tuned for English.</strong> Groq's model defaults to <code>whisper-large-v3-turbo</code>; you can switch to <code>whisper-large-v3</code> in Settings &rarr; Voice.</li>
+              <li><strong>Never types a phantom word.</strong> Termpolis energy-gates your audio before sending and backstops the reply, so background noise or silence never reaches Groq and a hallucinated filler is never injected &mdash; you get a <strong>&ldquo;No speech detected&rdquo;</strong> notice with the measured mic level instead. If that keeps happening, pick the right mic and run <strong>Test microphone</strong>.</li>
+              <li><strong>Only what you dictate leaves the machine, and only to Groq.</strong> By default Groq does not train on or retain it; for the hardened setup, enable <strong>Zero Data Retention</strong> in your Groq console (the Connect dialog links you there). The free tier covers everyday use; paid is roughly <strong>$0.04 per hour</strong> of audio. If a transcription fails, a red error bar says exactly what went wrong (most often a missing/invalid key or no internet).</li>
             </ul>
           </section>
 
@@ -1097,11 +1114,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </figure>
             <p>
               The heart of smart swarm routing. Score each agent (Claude Code, Codex, Gemini CLI,
-              Qwen Code) from 0–100 across 10 categories: Refactoring, Testing, Documentation,
-              Code review, DevOps/Infra, Debugging, Frontend, Backend/API, Data/SQL, Bulk work.
-              Defaults reflect model-family strengths; tune them to match your experience.
+              Qwen Code) from <strong>1&ndash;5</strong> (5 = strongest) across 10 categories:
+              Refactoring, Architecture, Testing, Documentation, Code Review, Debugging, Frontend,
+              DevOps, Data Analysis, and Bulk Tasks. Defaults reflect model-family strengths; tune
+              them to match your experience under <strong>Settings &rarr; Agent Ratings</strong>.
             </p>
-            <p>The <strong>Token Cost</strong> column ($, $$, $$$) drives cost-aware routing.</p>
+            <p>A per-agent <strong>Token Cost</strong> indicator (Free&nbsp;/&nbsp;Low&nbsp;/&nbsp;Medium&nbsp;/&nbsp;High) drives cost-aware routing, so the conductor can hand token-heavy bulk work to a cheaper agent.</p>
           </section>
 
           <!-- COMMAND PALETTE -->
@@ -1256,7 +1274,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>Click <strong>File tree</strong> to browse; right-click a file → <strong>Pin to context</strong> to make it permanent.</li>
               <li>Right-click any activity feed event → <strong>Pin</strong> to float it to the top.</li>
               <li>When an agent asks "what am I looking at?", it reads from this pane directly via MCP.</li>
-              <li>Click the <strong>×</strong> on any pin to remove it; pins save to <code>~/.termpolis/context-pins.json</code>.</li>
+              <li>Click the <strong>×</strong> on any pin to remove it; pins are saved per directory under <code>context-pins/</code> in the Termpolis <a href="#install">data directory</a>.</li>
             </ol>
           </section>
 
@@ -1314,7 +1332,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>. Every AI agent session in
               Termpolis, Claude Code, Codex, Gemini CLI, Qwen Code, swarm runs, and the conductor
-              itself, is recorded event-by-event to <code>~/.termpolis/activity.jsonl</code>.
+              itself, is recorded event-by-event to <code>agent-events.jsonl</code> in the Termpolis <a href="#install">data directory</a>.
               Conversation search is the UI on top of that log.
             </p>
             <h3>What's indexed</h3>
@@ -1392,6 +1410,21 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Gemini CLI</strong> — runs <code>gemini</code>; respects Strict Mode (see <a href="#security-gemini">Gemini account-mode</a>).</li>
               <li><strong>Qwen Code</strong> — runs <code>qwen</code> (Alibaba's Gemini-CLI fork).</li>
             </ul>
+            <h3>Pick a model per profile (Claude)</h3>
+            <p>
+              When you add or edit an AI profile, a <strong>Model</strong> dropdown lets you choose
+              which Claude tier that profile launches with &mdash; <strong>Opus</strong>,
+              <strong>Sonnet</strong>, or <strong>Haiku</strong> &mdash; appended to the launch
+              command as <code>claude --model &lt;tier&gt;</code>. You pass the <em>alias</em>, not
+              a pinned version number, so you always get the newest model in that tier
+              automatically (for example, the latest Opus): Termpolis never hard-codes a version,
+              so a newer release is picked up with no app update. Cheaper tiers show their token
+              savings so you can trade cost for capability, and the same alias drives the subtasks
+              the <a href="#conductor">conductor</a> assigns in a swarm. Leave it on
+              <em>default</em> to run whatever Claude Code is already configured to use. The Model
+              dropdown applies to <strong>Claude Code only</strong> &mdash; Codex, Gemini, and Qwen
+              run their own default models.
+            </p>
             <h3>Install status indicators</h3>
             <p>
               Each profile shows a green check if Termpolis can find the CLI on your PATH and a
@@ -1461,7 +1494,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
     }
   }
 }</code></pre>
-            <h3>The 17 tools an agent can call</h3>
+            <h3>The 21 tools an agent can call</h3>
             <p>
               Each entry below is a function call an MCP-aware agent makes through the protocol —
               not a command you type. Every invocation shows up in the
@@ -1492,6 +1525,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_write</code></td><td>Persist a labeled memory entry into the <a href="#memory">shared memory</a> store.</td></tr>
                   <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword) across shared memory.</td></tr>
                   <tr><td><code>memory_list</code></td><td>List recent memory entries with filters.</td></tr>
+                  <tr><td><code>memory_related</code></td><td>One-hop traversal — jump from a memory entry (or a query) to its nearest neighbours.</td></tr>
+                  <tr><td><code>memory_link</code></td><td>Record a typed edge between two memories — builds the knowledge graph.</td></tr>
+                  <tr><td><code>memory_graph</code></td><td>Multi-hop walk of the knowledge graph from a seed memory.</td></tr>
+                  <tr><td><code>memory_primer</code></td><td>Load a ranked background-memory digest for the current project at session start.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1660,7 +1697,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 read and write the same store over MCP, so a fact one agent learns is instantly
                 available to the others.</li>
               <li><strong>Survives close &amp; reopen.</strong> Stored as JSONL on disk
-                (<code>~/.termpolis/swarm-memory.jsonl</code>) and reloaded with its embeddings at
+                (<code>swarm-memory.jsonl</code> in the <a href="#install">data directory</a>) and reloaded with its embeddings at
                 startup, your context isn&rsquo;t lost when you quit.</li>
               <li><strong>Feeds itself.</strong> A background indexer ingests new sessions on a quiet
                 timer (idempotent, content-hash deduped), so the brain grows with no action from you.</li>
@@ -1773,28 +1810,30 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><th>Action</th><th>Windows / Linux</th><th>macOS</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>New terminal</td><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td><kbd>⌘</kbd>+<kbd>T</kbd></td></tr>
-                  <tr><td>Close focused terminal</td><td><kbd>Ctrl</kbd>+<kbd>W</kbd></td><td><kbd>⌘</kbd>+<kbd>W</kbd></td></tr>
-                  <tr><td>Next tab</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd></td><td><kbd>⌘</kbd>+<kbd>]</kbd></td></tr>
-                  <tr><td>Previous tab</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td><kbd>⌘</kbd>+<kbd>[</kbd></td></tr>
-                  <tr><td>Jump to tab N</td><td><kbd>Ctrl</kbd>+<kbd>1…9</kbd></td><td><kbd>⌘</kbd>+<kbd>1…9</kbd></td></tr>
-                  <tr><td>Split horizontal</td><td><kbd>Ctrl</kbd>+<kbd>\</kbd></td><td><kbd>⌘</kbd>+<kbd>\</kbd></td></tr>
-                  <tr><td>Split vertical</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>\</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>\</kbd></td></tr>
-                  <tr><td>Focus adjacent pane</td><td><kbd>Alt</kbd>+<kbd>Arrow</kbd></td><td><kbd>⌥</kbd>+<kbd>Arrow</kbd></td></tr>
                   <tr><td>Command palette</td><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td><kbd>⌘</kbd>+<kbd>K</kbd></td></tr>
-                  <tr><td>Settings</td><td><kbd>Ctrl</kbd>+<kbd>,</kbd></td><td><kbd>⌘</kbd>+<kbd>,</kbd></td></tr>
+                  <tr><td>New terminal</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>T</kbd></td></tr>
+                  <tr><td>New terminal (global — works when minimized)</td><td><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>T</kbd></td></tr>
+                  <tr><td>Close focused terminal</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>W</kbd></td></tr>
+                  <tr><td>Next / previous terminal</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td><kbd>⌘</kbd>+<kbd>Tab</kbd> / <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Tab</kbd></td></tr>
+                  <tr><td>Jump to terminal N</td><td><kbd>Alt</kbd>+<kbd>1…9</kbd></td><td><kbd>⌥</kbd>+<kbd>1…9</kbd></td></tr>
+                  <tr><td>Launch agent 1–4 (Claude / Codex / Gemini / Qwen)</td><td><kbd>Ctrl</kbd>+<kbd>1…4</kbd></td><td><kbd>⌘</kbd>+<kbd>1…4</kbd></td></tr>
+                  <tr><td>Toggle sidebar</td><td><kbd>Ctrl</kbd>+<kbd>B</kbd></td><td><kbd>⌘</kbd>+<kbd>B</kbd></td></tr>
+                  <tr><td>Toggle split / grid view</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>G</kbd></td></tr>
                   <tr><td>Prompt templates</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd></td></tr>
-                  <tr><td>Workflow templates</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>F</kbd></td></tr>
                   <tr><td>Context panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>E</kbd></td></tr>
                   <tr><td>History search</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>H</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>H</kbd></td></tr>
                   <tr><td>Conversation search</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>I</kbd></td></tr>
-                  <tr><td>Git panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>G</kbd></td></tr>
                   <tr><td>Activity feed</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>A</kbd></td></tr>
+                  <tr><td>Context pins</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>B</kbd></td></tr>
+                  <tr><td>Redundancy panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>D</kbd></td></tr>
+                  <tr><td>Efficiency panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Y</kbd></td></tr>
                   <tr><td>Swarm dashboard</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>S</kbd></td></tr>
-                  <tr><td>New workspace</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>N</kbd></td></tr>
-                  <tr><td>Paste</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td><kbd>⌘</kbd>+<kbd>V</kbd></td></tr>
-                  <tr><td>Zoom in / out</td><td><kbd>Ctrl</kbd>+<kbd>=</kbd> / <kbd>Ctrl</kbd>+<kbd>-</kbd></td><td><kbd>⌘</kbd>+<kbd>=</kbd> / <kbd>⌘</kbd>+<kbd>-</kbd></td></tr>
-                  <tr><td>Reset zoom</td><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td><td><kbd>⌘</kbd>+<kbd>0</kbd></td></tr>
+                  <tr><td>Memory panel <em>(copies the selection as a code block when a terminal is focused)</em></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>M</kbd></td></tr>
+                  <tr><td>Voice dictation (push-to-talk)</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>L</kbd></td></tr>
+                  <tr><td>Copy / paste (in terminal)</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td><kbd>⌘</kbd>+<kbd>C</kbd> / <kbd>⌘</kbd>+<kbd>V</kbd></td></tr>
+                  <tr><td>Keyboard select / copy mode</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Space</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Space</kbd></td></tr>
+                  <tr><td>Trigger autocomplete</td><td><kbd>Ctrl</kbd>+<kbd>Space</kbd></td><td><kbd>⌘</kbd>+<kbd>Space</kbd></td></tr>
+                  <tr><td>Keyboard-shortcuts list (Settings → Keybindings)</td><td><kbd>Ctrl</kbd>+<kbd>/</kbd></td><td><kbd>⌘</kbd>+<kbd>/</kbd></td></tr>
                 </tbody>
               </table>
             </div>
@@ -1821,12 +1860,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  ├── AI conductor (spawns Claude Code as a child)   │
 │  └── Watchers (event bus + alerts)                  │
 └──────────────────┬──────────────────────────────────┘
-                   │  localhost:48211 (MCP)
+                   │  localhost:9315 (MCP)
 ┌──────────────────▼──────────────────────────────────┐
 │  AI agents (Claude, Codex, Gemini, Qwen Code)       │
 │  Each in its own pty-backed terminal                │
 └─────────────────────────────────────────────────────┘</pre>
-            <p><strong>Tech stack:</strong> Electron 29, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (3,800+ tests across 177 files, 90%+ line coverage), Playwright, electron-builder, Azure Trusted Signing, notarytool.</p>
+            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (3,800+ tests across 180+ files, 90%+ line / 85%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
           </section>
 
           <!-- TROUBLESHOOTING -->
@@ -1835,7 +1874,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p class="docs-callout">
               <strong>Found a bug that isn't here?</strong>
               <a href="https://github.com/codedev-david/termpolis/issues/new?template=bug_report.md" target="_blank" rel="noreferrer">Open an issue on GitHub →</a>
-              Include your OS + version, Termpolis version (Settings → About), and the most recent entries from <code>~/.termpolis/logs/</code>.
+              Include your OS + version, your Termpolis version (shown in the bottom status-bar footer, or under <strong>Help / Support</strong>), and any relevant audit logs from your <a href="#install">data directory</a> (e.g. <code>mcp-audit.log</code>).
             </p>
 
             <h3>Installation &amp; first-run</h3>
@@ -1860,13 +1899,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
             <h3>Swarm, MCP, and memory</h3>
-            <p><strong>MCP indicator in status bar is red.</strong> The MCP server failed to start. Check <code>~/.termpolis/logs/mcp.log</code>. Common causes:</p>
+            <p><strong>MCP indicator in status bar is red.</strong> The MCP server failed to start. Common causes:</p>
             <ul class="docs-list">
-              <li><strong>Port 48211 already in use</strong>, another instance or a crashed process still owns it. Kill stray <code>termpolis</code> processes, or change the port in Settings → Advanced.</li>
+              <li><strong>Port 9315 already in use</strong>, another instance or a crashed process still owns it. Termpolis automatically tries the next free port (9315&ndash;9319) and writes the one it bound to <code>mcp-port</code> in the data directory; the status bar shows the active port. Kill stray <code>termpolis</code> processes if none can bind.</li>
               <li><strong>Firewall blocking localhost</strong>, rare but possible. Add an exception for the Termpolis binary.</li>
-              <li><strong>Token file write failed</strong>, <code>~/.termpolis/mcp-token</code> couldn't be written. Fix directory permissions (<code>chmod 700 ~/.termpolis</code>).</li>
+              <li><strong>Token file write failed</strong>, <code>mcp-token</code> couldn&rsquo;t be written to the data directory. Make sure your <a href="#install">data directory</a> is writable.</li>
             </ul>
-            <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Watch <code>~/.termpolis/logs/conductor.log</code> for startup output.</p>
+            <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Open the conductor&rsquo;s terminal (Swarm Dashboard &rarr; right-click the task &rarr; <strong>Open agent terminal</strong>), or use <a href="#conversation">Conversation search</a> (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>), to see its startup output.</p>
             <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired, restart Termpolis for fresh tokens.</p>
             <p><strong>Memory search returns nothing.</strong> Embeddings run in-process via WASM (bundled <code>bge-small-en-v1.5</code>) &mdash; no Ollama required. If recall is empty, the brain may simply be unindexed: open the Memory panel (<code>Ctrl+Shift+M</code>) and run <em>Index past conversations</em> / <em>Index this repo&rsquo;s code</em>, or wait for the background indexer (first pass ~10&nbsp;s after launch). The first embed lazily unpacks the WASM model, so the very first search after a cold start can take a few seconds.</p>
 
@@ -1883,9 +1922,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>If none of the above fixes your problem, <a href="https://github.com/codedev-david/termpolis/issues/new?template=bug_report.md" target="_blank" rel="noreferrer">open an issue</a>. Please include:</p>
             <ol class="docs-list docs-list-ordered">
               <li>OS + version (e.g., Windows 11 23H2, macOS 14.3, Ubuntu 22.04).</li>
-              <li>Termpolis version (Settings → About).</li>
+              <li>Termpolis version (shown in the bottom status-bar footer, or under Help / Support).</li>
               <li>Steps to reproduce, as minimal as you can make them.</li>
-              <li>Relevant log tail from <code>~/.termpolis/logs/</code> (main log plus <code>mcp.log</code> or <code>conductor.log</code> if swarm/MCP-related).</li>
+              <li>Relevant audit logs from your <a href="#install">data directory</a> (<code>mcp-audit.log</code>, <code>ai-security-audit.jsonl</code>) and, for swarm/agent issues, the agent&rsquo;s terminal output or a <a href="#conversation">Conversation search</a> result.</li>
               <li>A screenshot or short screen recording if it's a UI bug.</li>
             </ol>
           </section>
