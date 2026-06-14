@@ -226,6 +226,14 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — agents via MCP plugin</td>
               </tr>
               <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Persistent shared memory across agents &amp; sessions</strong><br><span style="opacity:0.7;font-size:12px;">One local brain Claude · Codex · Gemini · Qwen all read/write; auto-indexes past chats + the code of repos you open; semantic recall + knowledge graph; encrypted cross-machine sync</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, cross-agent, auto-indexed</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Agent Memory: cloud, preview-only</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Per-chat history only</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Manual rules files, no auto-memory</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — no AI memory</td>
+              </tr>
+              <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Pre-send secret scanner (70+ patterns)</strong><br><span style="opacity:0.7;font-size:12px;">Redacts AWS keys, GitHub PATs, etc. before they hit the AI provider</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, every prompt</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
@@ -307,7 +315,8 @@
           agent-first JetBrains IDE; Tabby ships a fast self-hostable terminal with an MCP
           plugin. Termpolis trades all of that polish for security primitives that hosted-model
           users currently have to build by hand: secret redaction, egress audit, ToS drift,
-          sensitive-file alerts, and parallel multi-agent orchestration with a local conductor.
+          sensitive-file alerts, parallel multi-agent orchestration with a local conductor, and a
+          persistent cross-agent memory brain that lives on your machine (no cloud, no account).
           Pick the one that maps to your threat model. If something here is wrong, please file
           a GitHub issue and we'll fix it.
         </p>
@@ -323,6 +332,12 @@
           <a href="https://github.com/Eugeny/tabby" target="_blank" rel="noreferrer">github.com/Eugeny/tabby</a>;
           AI agents reach it via the Tabby MCP server plugin (terminal sessions are not
           orchestrated end-to-end the way a Termpolis swarm is).
+          <strong>On the memory row:</strong> Warp's cross-agent <em>Agent Memory</em> (Oz) is the
+          closest equivalent but is cloud-hosted, account/team-bound, and in research preview as of
+          June&nbsp;2026 (its GA persistent context is manually-authored Rules); Wave keeps only
+          per-chat history; JetBrains Air uses manual instruction/rules files with no auto-memory;
+          Tabby is a terminal with no AI memory. Termpolis's brain is local, automatic, cross-agent,
+          and semantic (<a href="docs.html#memory">see the docs</a>).
         </p>
       </section>
 
