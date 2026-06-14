@@ -1664,6 +1664,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 startup, your context isn&rsquo;t lost when you quit.</li>
               <li><strong>Feeds itself.</strong> A background indexer ingests new sessions on a quiet
                 timer (idempotent, content-hash deduped), so the brain grows with no action from you.</li>
+              <li><strong>Never stores the same thing twice.</strong> Every write is content-addressed
+                (SHA-256 over normalized text), so identical information is a no-op &mdash; the vector
+                store and the on-disk log never accumulate duplicates, and nothing the brain already
+                holds is re-embedded.</li>
               <li><strong>Fully offline, no server.</strong> Embeddings run in-process via WASM with a
                 bundled <code>bge-small-en-v1.5</code> model, no Ollama, no native binaries, nothing
                 leaves your machine.</li>
@@ -1688,6 +1692,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 your searches</em> &mdash; the first query after crossing the threshold returns
                 instantly from the exact fallback while the index builds (frame-budgeted so the UI
                 never stalls); every later search and launch uses the saved graph.</li>
+              <li><strong>It learns the connections.</strong> Beyond storing facts, the brain builds a
+                <strong>knowledge graph</strong> &mdash; typed links between memories (<em>bug &rarr;
+                solved-by &rarr; fix</em>, <em>decision &rarr; supersedes &rarr; &hellip;</em>). Agents
+                record links explicitly with <code>memory_link</code> and follow the chain across hops
+                with <code>memory_graph</code>; curated writes auto-link to their nearest neighbours, so
+                the graph gets denser &mdash; and recall gets smarter &mdash; the more you use it.</li>
               <li><strong>Auto-recovers from compaction.</strong> When Claude Code compacts its
                 conversation to fit the context window, Termpolis watches the terminal, waits for the
                 compaction to settle, and re-injects the most relevant memories into the agent&rsquo;s
@@ -1704,6 +1714,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Search</strong> via <code>memory_search</code>, semantic vector search blended with keyword overlap.</li>
               <li><strong>Write</strong> via <code>memory_write</code>, persist a fact or decision for the others.</li>
               <li><strong>List</strong> via <code>memory_list</code>, recent entries with filters.</li>
+              <li><strong>Relate</strong> via <code>memory_related</code>, jump from one memory to its nearest neighbours.</li>
+              <li><strong>Link &amp; walk</strong> via <code>memory_link</code> and <code>memory_graph</code>, record typed connections and follow the chain across hops.</li>
             </ul>
             <p>
               Why it matters: when Claude figures out your auth module, Codex shouldn&rsquo;t have to
@@ -1804,7 +1816,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  ├── Terminal manager (node-pty)                    │
 │  ├── Session persistence (session.json)             │
 │  ├── Git adapter                                    │
-│  ├── MCP server (HTTP, 17 tools)                    │
+│  ├── MCP server (HTTP, 21 tools)                    │
 │  ├── Swarm memory (JSONL + embeddings)              │
 │  ├── AI conductor (spawns Claude Code as a child)   │
 │  └── Watchers (event bus + alerts)                  │
