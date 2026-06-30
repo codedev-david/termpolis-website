@@ -1745,6 +1745,17 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 up → nearly full → compaction imminent</em> &mdash; from real token counts when the
                 agent reports them (Claude) or a labeled heuristic otherwise. You watch the pressure
                 build and know recovery is handled, instead of being surprised by a compaction.</li>
+              <li><strong>Observable, fresh &amp; trustworthy recall (v1.16.7).</strong> Memory
+                priming is invisible by design (a system-prompt file plus a SessionStart hook), so a
+                working recall used to look identical to nothing happening. Now every primed launch
+                shows a banner &mdash; <code>🧠 Loaded N memories</code>, or a clear warning if the
+                brain was unreachable. A fast indexer tier (~90&nbsp;s cadence, freshness-limited)
+                makes the <em>active</em> session searchable within seconds instead of waiting the
+                full 30-minute pass; recall flags any code reference whose file has since been
+                deleted as <code>⚠ STALE</code> rather than handing it back as fact; the memory hook
+                resolves an absolute Node path so it still fires under thin-PATH login shells (NVM
+                and friends); and an adaptive relevance floor keeps weak, off-topic hits out of the
+                digest entirely.</li>
             </ul>
             <p>The MCP tools any agent can call:</p>
             <ul class="docs-list">
