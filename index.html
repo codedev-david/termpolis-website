@@ -151,6 +151,163 @@
         </article>
       </section>
 
+      <!-- SHARED MEMORY -->
+      <section id="memory" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🧠 Persistent shared memory</p>
+          <h2>One memory across every agent — that survives closing the app</h2>
+          <p>
+            Every AI session normally starts cold: you re-explain what you're doing and burn
+            tokens reloading context. Termpolis keeps a local &ldquo;brain&rdquo; that <strong>all
+            four agents share</strong>, that <strong>learns from every session</strong>, and that
+            <strong>lasts between terminals, agents, and app restarts.</strong> It parses your past
+            AI transcripts, embeds them locally and offline, and &mdash; when an agent finishes a
+            task &mdash; distills the lesson (the fix, the decision, the gotcha) into the shared
+            store; then Claude, Codex, Gemini, and Qwen all recall the most relevant context on
+            demand over the built-in MCP server. Nothing to set up, nothing to click.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Learns from every session</h3>
+            <p>
+              When an agent finishes a chunk of work, Termpolis quietly distills what it learned
+              &mdash; the fix, the decision, the gotcha &mdash; plus its own track record into the
+              brain, so the fleet gets smarter the more you use it. Automatic for Claude, Codex, and
+              Gemini (from their session transcripts); Qwen records its own.
+            </p>
+          </article>
+          <article class="card">
+            <h3>One memory, four agents</h3>
+            <p>
+              Every agent reads and writes the same store over the built-in MCP server
+              (<code>memory_search</code> / <code>memory_write</code> / <code>memory_list</code>).
+              A fact Claude figures out is instantly available to Codex &mdash; no copy-paste, no
+              re-discovery.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Survives close &amp; reopen</h3>
+            <p>
+              Memory is plain JSONL on disk (<code>swarm-memory.jsonl</code> in the Termpolis data directory) and
+              reloads with its embeddings at startup. Quit Termpolis, reopen it tomorrow &mdash;
+              the context is still there.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Feeds itself, automatically</h3>
+            <p>
+              A background indexer ingests your past Claude / Codex / Gemini transcripts on a quiet
+              timer (10&nbsp;s after launch, then every 30&nbsp;min). It's idempotent &mdash; only
+              genuinely new content is embedded &mdash; so the brain grows with zero effort.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Fully offline. No server. No secrets.</h3>
+            <p>
+              Embeddings run in-process via WASM with a bundled <code>bge-small-en-v1.5</code>
+              model &mdash; no Ollama, no native binaries, nothing leaves your machine. The indexer
+              reuses the sensitive-file denylist, so <code>.env</code> files, keys, and credentials
+              are never embedded.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Syncs across your machines</h3>
+            <p>
+              Point the memory at any synced folder &mdash; Dropbox, OneDrive, iCloud&nbsp;Drive,
+              Google&nbsp;Drive (mirror mode), or Syncthing &mdash; and every device shares one
+              brain. Each machine writes its own shard, so there are no merge conflicts: the union
+              is conflict-free, even when two devices edit offline. No Termpolis cloud, no account.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Encrypted at rest, key in your keychain</h3>
+            <p>
+              Turn on encryption and every synced line is sealed with <strong>AES-256-GCM</strong>;
+              the key is derived with <code>scrypt</code> and held in your OS keychain (Windows
+              DPAPI / macOS Keychain / Linux libsecret) &mdash; never written to the synced folder.
+              Your cloud provider only ever sees ciphertext.
+            </p>
+          </article>
+        </div>
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">How it works</p>
+          <h2>Capture → embed → store → recall → learn</h2>
+          <p>
+            <strong>1. Capture</strong> &mdash; your on-disk AI transcripts are parsed (tool-call,
+            reasoning, and system-prompt noise stripped) and split into chunks.
+            <strong>2. Embed</strong> &mdash; each chunk becomes a 384-dim vector locally, in
+            process, via <code>onnxruntime-web</code> (WASM). <strong>3. Store</strong> &mdash;
+            chunks and vectors persist in a durable on-disk log, deduplicated by content hash so
+            re-indexing is cheap. <strong>4. Recall</strong> &mdash; any agent calls
+            <code>memory_search</code> over MCP and gets the most relevant past context back,
+            blending semantic vector search with keyword matching. <strong>5. Learn</strong> &mdash;
+            on task boundaries, sessions are distilled into reusable lessons and per-domain
+            self-competence, so what the fleet recalls keeps getting better. The result: stop
+            re-explaining context every session, and stop paying to reload it.
+          </p>
+        </div>
+      </section>
+
+      <!-- CONTEXT HANDOFF -->
+      <section id="context-handoff" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🔁 Cross-AI context handoff</p>
+          <h2>Move a Claude session to Codex, Gemini, or Qwen — without re-explaining</h2>
+          <p>
+            Open <strong>Past AI Sessions</strong> from the sidebar. Termpolis indexes every
+            <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
+            them with project label, age, message count, and size, and lets you continue
+            the work in any of the four supported agents — without manually copy-pasting
+            anything.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Resume natively</h3>
+            <p>
+              Spawns a new terminal at the original cwd and runs
+              <code>claude --resume &lt;session-id&gt;</code>. Or, if you already have a
+              plain shell focused, "Resume in active shell" runs the resume command in
+              the focused terminal — no new tab.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Continue in another AI</h3>
+            <p>
+              Pick Codex, Gemini, or Qwen from the Continue ▾ menu. Termpolis spawns a fresh
+              terminal at the same cwd, boots the chosen agent, and pastes a synthesised
+              <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the
+              new agent picks up exactly where the old one left off.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Inject into the focused AI</h3>
+            <p>
+              Already have an AI shell open? "Inject context into active shell" pastes the
+              handoff prompt straight into that agent's input box. The button is disabled
+              for plain shells (where it would just splat into the command line) and the
+              tooltip explains why.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Pasted as one blob, not a stream of commands</h3>
+            <p>
+              The handoff prompt is wrapped in xterm bracketed-paste markers
+              (<code>ESC[200~ … ESC[201~</code>) so the receiving agent treats it as a
+              single paste rather than dispatching one keypress / submit per embedded
+              newline. Result: the agent sees one coherent context block, not what looks
+              like a flurry of random commands.
+            </p>
+          </article>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot-past-sessions.png" alt="Past AI Sessions browser — every Claude transcript on the machine indexed by project, age, message count, and size.">
+          </figure>
+        </div>
+      </section>
+
       <!-- COMPARISON TABLE -->
       <section id="compare" class="section reveal">
         <div class="section-heading">
@@ -469,302 +626,6 @@
         </p>
       </section>
 
-      <!-- CONTEXT HANDOFF -->
-      <section id="context-handoff" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🔁 Cross-AI context handoff</p>
-          <h2>Move a Claude session to Codex, Gemini, or Qwen — without re-explaining</h2>
-          <p>
-            Open <strong>Past AI Sessions</strong> from the sidebar. Termpolis indexes every
-            <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
-            them with project label, age, message count, and size, and lets you continue
-            the work in any of the four supported agents — without manually copy-pasting
-            anything.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Resume natively</h3>
-            <p>
-              Spawns a new terminal at the original cwd and runs
-              <code>claude --resume &lt;session-id&gt;</code>. Or, if you already have a
-              plain shell focused, "Resume in active shell" runs the resume command in
-              the focused terminal — no new tab.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Continue in another AI</h3>
-            <p>
-              Pick Codex, Gemini, or Qwen from the Continue ▾ menu. Termpolis spawns a fresh
-              terminal at the same cwd, boots the chosen agent, and pastes a synthesised
-              <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the
-              new agent picks up exactly where the old one left off.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Inject into the focused AI</h3>
-            <p>
-              Already have an AI shell open? "Inject context into active shell" pastes the
-              handoff prompt straight into that agent's input box. The button is disabled
-              for plain shells (where it would just splat into the command line) and the
-              tooltip explains why.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Pasted as one blob, not a stream of commands</h3>
-            <p>
-              The handoff prompt is wrapped in xterm bracketed-paste markers
-              (<code>ESC[200~ … ESC[201~</code>) so the receiving agent treats it as a
-              single paste rather than dispatching one keypress / submit per embedded
-              newline. Result: the agent sees one coherent context block, not what looks
-              like a flurry of random commands.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-past-sessions.png" alt="Past AI Sessions browser — every Claude transcript on the machine indexed by project, age, message count, and size.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- SHARED MEMORY -->
-      <section id="memory" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🧠 Persistent shared memory</p>
-          <h2>One memory across every agent — that survives closing the app</h2>
-          <p>
-            Every Claude session today starts cold: you re-explain what you're doing and burn
-            tokens reloading context. Termpolis keeps a local &ldquo;brain&rdquo; that <strong>all
-            four agents share</strong> and that <strong>lasts between terminals, between agents,
-            and between app restarts.</strong> Behind the scenes it parses your past AI
-            transcripts, embeds them locally and offline, and stores them in a durable on-disk
-            vector log; then Claude, Codex, Gemini, and Qwen all recall the most relevant context
-            on demand through the built-in MCP server. Nothing to set up, nothing to click.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>One memory, four agents</h3>
-            <p>
-              Every agent reads and writes the same store over the built-in MCP server
-              (<code>memory_search</code> / <code>memory_write</code> / <code>memory_list</code>).
-              A fact Claude figures out is instantly available to Codex &mdash; no copy-paste, no
-              re-discovery.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Survives close &amp; reopen</h3>
-            <p>
-              Memory is plain JSONL on disk (<code>swarm-memory.jsonl</code> in the Termpolis data directory) and
-              reloads with its embeddings at startup. Quit Termpolis, reopen it tomorrow &mdash;
-              the context is still there.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Feeds itself, automatically</h3>
-            <p>
-              A background indexer ingests your past Claude / Codex / Gemini transcripts on a quiet
-              timer (10&nbsp;s after launch, then every 30&nbsp;min). It's idempotent &mdash; only
-              genuinely new content is embedded &mdash; so the brain grows with zero effort.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Fully offline. No server. No secrets.</h3>
-            <p>
-              Embeddings run in-process via WASM with a bundled <code>bge-small-en-v1.5</code>
-              model &mdash; no Ollama, no native binaries, nothing leaves your machine. The indexer
-              reuses the sensitive-file denylist, so <code>.env</code> files, keys, and credentials
-              are never embedded.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Syncs across your machines</h3>
-            <p>
-              Point the memory at any synced folder &mdash; Dropbox, OneDrive, iCloud&nbsp;Drive,
-              Google&nbsp;Drive (mirror mode), or Syncthing &mdash; and every device shares one
-              brain. Each machine writes its own shard, so there are no merge conflicts: the union
-              is conflict-free, even when two devices edit offline. No Termpolis cloud, no account.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Encrypted at rest, key in your keychain</h3>
-            <p>
-              Turn on encryption and every synced line is sealed with <strong>AES-256-GCM</strong>;
-              the key is derived with <code>scrypt</code> and held in your OS keychain (Windows
-              DPAPI / macOS Keychain / Linux libsecret) &mdash; never written to the synced folder.
-              Your cloud provider only ever sees ciphertext.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Scales into six figures</h3>
-            <p>
-              Past tens of thousands of memories an <strong>HNSW</strong> approximate-nearest-neighbour
-              index engages automatically, keeping recall sub-linear so search stays fast (a few
-              ms/query, measured). Vectors are packed into a typed-array store (~half the RAM) and the
-              graph lives off the JS heap. It builds once in the background <em>without blocking your
-              searches</em> &mdash; the first query while it builds is served instantly by the exact
-              fallback &mdash; then persists, so later searches and launches are instant.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Survives compaction, automatically</h3>
-            <p>
-              A live context-pressure pill in the status bar shows how full the agent&rsquo;s window
-              is, so you see compaction coming. And when it happens &mdash; Claude summarizing detail
-              away to make room &mdash; Termpolis detects it, waits for it to settle, and
-              <strong>auto-re-injects the most relevant memories</strong> (ready to send, never
-              forced) so your agent picks right back up. Your durable memory is the large working
-              set; the model&rsquo;s window only holds the active task.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Observable, fresh &amp; trustworthy <span style="opacity:0.6;font-weight:400;">(v1.16.7)</span></h3>
-            <p>
-              Memory used to load invisibly &mdash; a working recall looked exactly like nothing
-              happening. Now every primed launch shows a banner
-              (<code>🧠 Loaded N memories</code>, or a clear warning if the brain was unreachable),
-              so you always know context loaded. A fast indexer tier makes your <em>current</em>
-              conversation searchable within seconds; recall flags any code reference whose file was
-              since deleted as <code>⚠ STALE</code> instead of asserting it; and an adaptive
-              relevance floor keeps weak, off-topic hits out of the digest &mdash; the agent gets the
-              relevant slice, never noise.
-            </p>
-          </article>
-        </div>
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">How it works</p>
-          <h2>Capture → embed → store → recall</h2>
-          <p>
-            <strong>1. Capture</strong> &mdash; your on-disk AI transcripts are parsed (tool-call,
-            reasoning, and system-prompt noise stripped) and split into chunks.
-            <strong>2. Embed</strong> &mdash; each chunk becomes a 384-dim vector locally, in
-            process, via <code>onnxruntime-web</code> (WASM). <strong>3. Store</strong> &mdash;
-            chunks and vectors persist in a durable on-disk log, deduplicated by content hash so
-            re-indexing is cheap. <strong>4. Recall</strong> &mdash; any agent calls
-            <code>memory_search</code> over MCP and gets the most relevant past context back,
-            blending semantic vector search with keyword matching. The result: stop re-explaining
-            context every session, and stop paying to reload it.
-          </p>
-        </div>
-      </section>
-
-      <!-- AI NATIVE -->
-      <section id="ai-native" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">AI-native features</p>
-          <h2>Built from the ground up for AI coding workflows</h2>
-          <p>
-            Termpolis isn't just a terminal that runs AI tools. It's designed around them.
-            Launch agents with one click, orchestrate swarms, track costs, record sessions,
-            search conversations, and let AI agents control your workspace through MCP.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>AI agent profiles</h3>
-            <p>
-              One-click launch for Claude Code, Codex, Gemini CLI, and Qwen Code. Add custom profiles
-              for any AI tool. Each gets its own terminal with the right shell, color, and startup command.
-            </p>
-          </article>
-          <article class="card">
-            <h3>MCP server</h3>
-            <p>
-              Built-in HTTP/SSE server on localhost:9315 with 21 tools. AI agents create terminals,
-              run commands, read output, manage your workspace, and persist memory across sessions.
-              Auto-registers with Claude Code, Codex, Gemini, and Qwen-Code.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Context handoff</h3>
-            <p>
-              When an AI agent runs out of context, an amber banner offers to switch to another agent.
-              Your task, git state, recent commands, and diff summary transfer automatically.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Command palette</h3>
-            <p>
-              Ctrl+K opens a natural language command bar. Type "new terminal", "launch claude",
-              "split right". 17 commands, all local pattern matching, no API keys needed.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Prompt templates</h3>
-            <p>
-              Save reusable prompts (Fix Tests, Code Review, Refactor) and insert them into any
-              terminal with Ctrl+Shift+P. Create custom templates for your workflows.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Workflow templates</h3>
-            <p>
-              Pre-built multi-terminal layouts: "Claude + Shell" (2 panes), "Full Stack Dev" (4 panes),
-              "Code Review" (2 panes). One click launches the full split-pane setup.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Agent detection &amp; cost tracking</h3>
-            <p>
-              Automatically detects Claude Code, Codex, Gemini, or Qwen Code running in a terminal. Shows
-              a colored badge with token usage and estimated cost in the status bar.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Session recording</h3>
-            <p>
-              Record AI coding sessions with timestamps. Export as shareable text logs for
-              documentation, review, or auditing what an agent did.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Output pinning</h3>
-            <p>
-              Pin important output to a persistent panel at the top of the terminal. Stays
-              visible as the terminal scrolls, so AI-generated code stays in view while you test it.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Smart context panel</h3>
-            <p>
-              Ctrl+Shift+E opens a side panel showing file tree, git status, and recent commits.
-              See what the AI agent sees. Refreshes every 5 seconds.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Diff viewer</h3>
-            <p>
-              Detects git diff output and renders it with syntax highlighting: green for additions,
-              red for deletions, file headers, line numbers. Built right in.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Conversation search</h3>
-            <p>
-              Ctrl+Shift+I searches across all AI conversations indexed from terminal output.
-              Find when Claude suggested that migration or Codex wrote that function.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Git panel</h3>
-            <p>
-              Built-in git panel accessible from the sidebar. Stage, unstage, commit, pull, push,
-              view inline diffs, all without leaving Termpolis. Auto-detects repos or pick any
-              folder. Like VS Code's source control but built into your terminal.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-command-palette.png" alt="Termpolis command palette with natural language commands.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-prompt-templates.png" alt="Termpolis prompt templates panel.">
-          </figure>
-        </div>
-      </section>
-
       <!-- SWARM -->
       <section id="swarm" class="section reveal">
         <div class="section-heading">
@@ -814,51 +675,6 @@
               Pick agents → describe task → review smart-routed assignments → launch → conductor
               initializes (~30s) and begins delegating. Each agent gets a split pane with their
               optimized task prompt. The conductor monitors and adapts as work progresses.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Swarm Complete dialog</h3>
-            <p>
-              When the conductor determines all work is done, a summary dialog appears: tasks completed,
-              tasks failed, per-agent results, and a full message log. No manual polling. The conductor
-              signals completion automatically.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Interactive Agent Mode</h3>
-            <p>
-              Gemini runs in interactive mode so it has full tool access during swarm execution,
-              not just output parsing. Each agent runs in its own terminal pane with real shell access.
-            </p>
-          </article>
-          <article class="card">
-            <h3>MCP-native communication</h3>
-            <p>
-              Claude Code, Codex, Gemini CLI, and Qwen Code all connect to Termpolis via MCP natively.
-              6 swarm tools for inter-agent messaging, task management, and coordination.
-              No terminal-output bridges or parser glue.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Open-weight Qwen option</h3>
-            <p>
-              Qwen Code is Alibaba's MCP-native CLI for the Qwen3-Coder family. Cloud API
-              by default, drop-in alternative when you want a non-Anthropic, non-Google option
-              in the swarm.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Swarm dashboard</h3>
-            <p>
-              Real-time view: agents with health status, tasks in kanban columns (Pending → In Progress →
-              Completed), and a chronological message log. Ctrl+Shift+S to open.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Context handoff</h3>
-            <p>
-              When an agent hits its token limit, seamlessly switch to another with your full
-              working context. Task, git state, modified files, and diff summary transfer automatically.
             </p>
           </article>
         </div>
@@ -979,20 +795,6 @@
               bad listener can't kill the bus.
             </p>
           </article>
-          <article class="card">
-            <h3>Transcript watchers</h3>
-            <p>
-              Native JSONL readers for Claude Code, Codex, and Gemini transcripts. Tail-with-rotation: if the agent rotates its
-              log mid-run, the watcher follows. Path traversal is blocked at the watcher boundary.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Swarm dashboard</h3>
-            <p>
-              Live token burn per agent, tasks in kanban columns, and the full conductor message log. Every panel streams
-              from the same event bus. No polling lag, no duplicated state.
-            </p>
-          </article>
         </div>
         <div class="feature-media-grid">
           <figure class="product-shot">
@@ -1006,6 +808,72 @@
           </figure>
           <figure class="product-shot">
             <img src="assets/screenshot-efficiency.png" alt="Efficiency panel (Ctrl+Shift+Y) — rolling token-cost-per-task averages and which agent is best at what.">
+          </figure>
+        </div>
+      </section>
+
+      <!-- AI NATIVE -->
+      <section id="ai-native" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">AI-native features</p>
+          <h2>Built from the ground up for AI coding workflows</h2>
+          <p>
+            Termpolis isn't just a terminal that runs AI tools. It's designed around them.
+            Launch agents with one click, orchestrate swarms, track costs, record sessions,
+            search conversations, and let AI agents control your workspace through MCP.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>AI agent profiles</h3>
+            <p>
+              One-click launch for Claude Code, Codex, Gemini CLI, and Qwen Code. Add custom profiles
+              for any AI tool. Each gets its own terminal with the right shell, color, and startup command.
+            </p>
+          </article>
+          <article class="card">
+            <h3>MCP server</h3>
+            <p>
+              Built-in HTTP/SSE server on localhost:9315 with 21 tools. AI agents create terminals,
+              run commands, read output, manage your workspace, and persist memory across sessions.
+              Auto-registers with Claude Code, Codex, Gemini, and Qwen-Code.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Context handoff</h3>
+            <p>
+              When an AI agent runs out of context, an amber banner offers to switch to another agent.
+              Your task, git state, recent commands, and diff summary transfer automatically.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Command palette</h3>
+            <p>
+              Ctrl+K opens a natural language command bar. Type "new terminal", "launch claude",
+              "split right". 17 commands, all local pattern matching, no API keys needed.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Prompt templates</h3>
+            <p>
+              Save reusable prompts (Fix Tests, Code Review, Refactor) and insert them into any
+              terminal with Ctrl+Shift+P. Create custom templates for your workflows.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Workflow templates</h3>
+            <p>
+              Pre-built multi-terminal layouts: "Claude + Shell" (2 panes), "Full Stack Dev" (4 panes),
+              "Code Review" (2 panes). One click launches the full split-pane setup.
+            </p>
+          </article>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot-command-palette.png" alt="Termpolis command palette with natural language commands.">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot-prompt-templates.png" alt="Termpolis prompt templates panel.">
           </figure>
         </div>
       </section>
@@ -1094,18 +962,6 @@
             <h3>Configurable keybindings</h3>
             <p>18 keyboard shortcuts, all customizable with a recording UI in Settings.</p>
           </article>
-          <article class="card">
-            <h3>Status bar</h3>
-            <p>Shell type, directory, git branch, AI agent badge, cost tracking. Updates live.</p>
-          </article>
-          <article class="card">
-            <h3>Built-in tools</h3>
-            <p>jq, yq, and nano bundled. Available in every terminal, even if not installed on your system.</p>
-          </article>
-          <article class="card">
-            <h3>Export &amp; drag-drop</h3>
-            <p>Export scrollback to text files. Drag files onto terminals to paste paths. Clickable URLs.</p>
-          </article>
         </div>
         <div class="feature-media-grid">
           <figure class="product-shot">
@@ -1145,22 +1001,6 @@
             <h3>Security hardened</h3>
             <p>256-bit auth token, localhost only, CORS restricted, no plugins, no telemetry. Atomic file writes.</p>
           </article>
-        </div>
-      </section>
-
-      <!-- APP SHOWCASE -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">In action</p>
-          <h2>See Termpolis in action</h2>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-split-view.png" alt="Termpolis split view with Git Bash and PowerShell side by side.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-workspace-info.png" alt="Termpolis workspaces info modal.">
-          </figure>
         </div>
       </section>
 
@@ -1263,20 +1103,19 @@
         </div>
       </section>
 
-      <!-- SPONSOR -->
+      <!-- APP SHOWCASE -->
       <section class="section reveal">
         <div class="section-heading">
-          <p class="eyebrow">Support the project</p>
-          <h2>Sponsor Termpolis</h2>
-          <p>
-            Termpolis is free, open source, and Apache 2.0 licensed. Building it (including AI token
-            costs for development) takes time and resources. If you find it useful, please consider sponsoring.
-          </p>
+          <p class="eyebrow">In action</p>
+          <h2>See Termpolis in action</h2>
         </div>
-        <div style="text-align: center; padding: 2rem 0;">
-          <a class="button" href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
-            ❤️ Sponsor on GitHub
-          </a>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot-split-view.png" alt="Termpolis split view with Git Bash and PowerShell side by side.">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot-workspace-info.png" alt="Termpolis workspaces info modal.">
+          </figure>
         </div>
       </section>
 
@@ -1301,6 +1140,23 @@
           <figure class="product-shot">
             <img src="assets/screenshot-prompt-templates.png" alt="Prompt templates for AI coding workflows.">
           </figure>
+        </div>
+      </section>
+
+      <!-- SPONSOR -->
+      <section class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Support the project</p>
+          <h2>Sponsor Termpolis</h2>
+          <p>
+            Termpolis is free, open source, and Apache 2.0 licensed. Building it (including AI token
+            costs for development) takes time and resources. If you find it useful, please consider sponsoring.
+          </p>
+        </div>
+        <div style="text-align: center; padding: 2rem 0;">
+          <a class="button" href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
+            ❤️ Sponsor on GitHub
+          </a>
         </div>
       </section>
 

@@ -1494,7 +1494,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
     }
   }
 }</code></pre>
-            <h3>The 21 tools an agent can call</h3>
+            <h3>The 25 tools an agent can call</h3>
             <p>
               Each entry below is a function call an MCP-aware agent makes through the protocol —
               not a command you type. Every invocation shows up in the
@@ -1529,6 +1529,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_link</code></td><td>Record a typed edge between two memories — builds the knowledge graph.</td></tr>
                   <tr><td><code>memory_graph</code></td><td>Multi-hop walk of the knowledge graph from a seed memory.</td></tr>
                   <tr><td><code>memory_primer</code></td><td>Load a ranked background-memory digest for the current project at session start.</td></tr>
+                  <tr><td><code>memory_anticipate</code></td><td>Before solving a task, surface the procedural lessons the fleet already found for it — the anti-re-derivation tool.</td></tr>
+                  <tr><td><code>memory_pool</code></td><td>Pool the cross-agent lessons two or more agents independently arrived at — the fleet's most-corroborated knowledge.</td></tr>
+                  <tr><td><code>memory_selfcheck</code></td><td>Report the brain's calibrated self-competence in a domain (confidence + track record) so the agent knows what it knows.</td></tr>
+                  <tr><td><code>memory_feedback</code></td><td>Mark a recalled memory as helpful so repeatedly-useful entries rank a little higher for everyone.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1687,12 +1691,20 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="memory" class="docs-section">
             <h2>Persistent memory that never forgets</h2>
             <p>
-              A local, growing &ldquo;brain&rdquo; shared by every agent. It indexes your past AI
-              conversations (Claude Code, Codex, Gemini) and your repo&rsquo;s code into a vector
-              store on disk, so any agent can semantically recall what was decided or written weeks
-              or even months ago, instead of you re-explaining context every session.
+              A local, growing &ldquo;brain&rdquo; shared by every agent that <strong>learns as you
+              work</strong>. It indexes your past AI conversations (Claude Code, Codex, Gemini) and
+              your repo&rsquo;s code into a vector store on disk, distills a reusable lesson from each
+              finished task, and lets any agent semantically recall what was decided or written weeks
+              or even months ago &mdash; instead of you re-explaining context every session.
             </p>
             <ul class="docs-list">
+              <li><strong>Learns from every session (v1.17.2&ndash;v1.17.4).</strong> When an agent
+                finishes a chunk of work, Termpolis distills what happened into a reusable lesson
+                &mdash; the problem, the fix or decision, the gotcha &mdash; and records the
+                fleet&rsquo;s self-competence per project, so recall keeps improving. Automatic for
+                Claude, Codex, and Gemini (read from their session transcripts on a task pause or when
+                the terminal closes); Qwen keeps no parseable on-disk transcript, so it&rsquo;s
+                prompted to record its own lesson over MCP. Opt-out in Settings.</li>
               <li><strong>Shared across all four agents.</strong> Claude, Codex, Gemini, and Qwen all
                 read and write the same store over MCP, so a fact one agent learns is instantly
                 available to the others.</li>
@@ -1764,6 +1776,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>List</strong> via <code>memory_list</code>, recent entries with filters.</li>
               <li><strong>Relate</strong> via <code>memory_related</code>, jump from one memory to its nearest neighbours.</li>
               <li><strong>Link &amp; walk</strong> via <code>memory_link</code> and <code>memory_graph</code>, record typed connections and follow the chain across hops.</li>
+              <li><strong>Anticipate</strong> via <code>memory_anticipate</code>, surface solutions the fleet already found for the task at hand before you start solving it.</li>
+              <li><strong>Pool</strong> via <code>memory_pool</code>, gather the cross-agent lessons that two or more agents independently arrived at &mdash; the fleet&rsquo;s most-corroborated knowledge.</li>
+              <li><strong>Self-check</strong> via <code>memory_selfcheck</code>, ask the brain how reliable it has been in a domain (calibrated confidence from past outcomes).</li>
+              <li><strong>Reinforce</strong> via <code>memory_feedback</code>, mark a recalled memory as helpful so the ones that keep paying off rank a little higher for everyone.</li>
             </ul>
             <p>
               Why it matters: when Claude figures out your auth module, Codex shouldn&rsquo;t have to
@@ -1866,7 +1882,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  ├── Terminal manager (node-pty)                    │
 │  ├── Session persistence (session.json)             │
 │  ├── Git adapter                                    │
-│  ├── MCP server (HTTP, 21 tools)                    │
+│  ├── MCP server (HTTP, 25 tools)                    │
 │  ├── Swarm memory (JSONL + embeddings)              │
 │  ├── AI conductor (spawns Claude Code as a child)   │
 │  └── Watchers (event bus + alerts)                  │
