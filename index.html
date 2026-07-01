@@ -74,7 +74,8 @@
         <span class="brand-text">Termpolis</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
-        <a href="#memory">Memory</a>
+        <a href="#memory">Mneme</a>
+        <a href="#why">Why us</a>
         <a href="#context-handoff">Handoff</a>
         <a href="#swarm">Swarm</a>
         <a href="#security">Security</a>
@@ -93,15 +94,16 @@
           <h1>Termpolis</h1>
           <p class="tagline">Stop re-explaining your codebase to AI.</p>
           <ul class="hero-security-pills" aria-label="Key highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
-            <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 One shared memory · all 4 agents</li>
+            <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 Mneme · one memory, all 4 agents</li>
             <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🌱 Learns from every session</li>
             <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 100% local · no cloud · no telemetry</li>
             <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📦 Free &amp; open source</li>
           </ul>
           <p class="hero-text">
-            Claude, Codex, Gemini, and Qwen share <strong>one local memory that learns as you work</strong>.
-            Every agent already knows your project, your decisions, and what got figured out yesterday — and
-            when an agent finishes a task, Termpolis quietly distills the lesson into the shared brain, so your
+            At the heart of Termpolis is <strong>Mneme</strong> &mdash; a local memory brain that
+            Claude, Codex, Gemini, and Qwen all share, and that <strong>learns as you work</strong>.
+            Every agent already knows your project, your decisions, and what got figured out yesterday; and
+            when an agent finishes a task, Mneme quietly distills the lesson into the shared brain, so your
             whole fleet gets smarter the more you use it. <strong>No re-explaining, no reloading context, and
             nothing leaves your machine.</strong>
           </p>
@@ -111,7 +113,7 @@
           </p>
           <div class="hero-actions">
             <a class="button" href="#downloads">Download</a>
-            <a class="button button-secondary" href="#memory">How the memory works</a>
+            <a class="button button-secondary" href="#memory">Meet Mneme</a>
             <a class="button button-sponsor" href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer" aria-label="Sponsor Termpolis on GitHub">
               <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" style="vertical-align:-3px;margin-right:6px;">
                 <path fill="currentColor" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -154,17 +156,19 @@
       <!-- SHARED MEMORY -->
       <section id="memory" class="section reveal">
         <div class="section-heading">
-          <p class="eyebrow">🧠 Persistent shared memory</p>
-          <h2>One memory across every agent — that survives closing the app</h2>
+          <p class="eyebrow">🧠 Meet Mneme · the memory that learns</p>
+          <h2>Mneme: one memory across every agent — that learns as you work</h2>
           <p>
-            Every AI session normally starts cold: you re-explain what you're doing and burn
-            tokens reloading context. Termpolis keeps a local &ldquo;brain&rdquo; that <strong>all
-            four agents share</strong>, that <strong>learns from every session</strong>, and that
-            <strong>lasts between terminals, agents, and app restarts.</strong> It parses your past
-            AI transcripts, embeds them locally and offline, and &mdash; when an agent finishes a
-            task &mdash; distills the lesson (the fix, the decision, the gotcha) into the shared
-            store; then Claude, Codex, Gemini, and Qwen all recall the most relevant context on
-            demand over the built-in MCP server. Nothing to set up, nothing to click.
+            <strong>Mneme</strong> &mdash; named for the Greek muse of memory &mdash; is the local
+            brain at the heart of Termpolis, and it does more than remember: <strong>it learns</strong>.
+            Every AI session normally starts cold: you re-explain what you're doing and burn tokens
+            reloading context. Mneme is a local &ldquo;brain&rdquo; that <strong>all four agents
+            share</strong>, that <strong>learns from every session</strong>, and that <strong>lasts
+            between terminals, agents, and app restarts.</strong> It parses your past AI transcripts,
+            embeds them locally and offline, and &mdash; when an agent finishes a task &mdash; distills
+            the lesson (the fix, the decision, the gotcha) into the shared store; then Claude, Codex,
+            Gemini, and Qwen all recall the most relevant context on demand over the built-in MCP
+            server. Nothing to set up, nothing to click.
           </p>
         </div>
         <div class="feature-grid">
@@ -247,6 +251,64 @@
             re-explaining context every session, and stop paying to reload it.
           </p>
         </div>
+      </section>
+
+      <!-- WHY TERMPOLIS vs THE BARE CLIs -->
+      <section id="why" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Why not just use Claude Code or Codex?</p>
+          <h2>The same agents &mdash; but with one memory that remembers and learns</h2>
+          <p>
+            Claude Code, OpenAI Codex, Gemini CLI, and Qwen Code are excellent, and you'll keep using
+            them &mdash; Termpolis <strong>runs those exact CLIs, unchanged</strong>. On their own,
+            though, each one <strong>starts cold every session</strong>, <strong>can't see what the
+            others did</strong>, and <strong>never learns</strong>. Termpolis wraps them in one shared,
+            local, long-term memory &mdash; <strong>Mneme</strong> &mdash; so your whole fleet remembers
+            your project and gets smarter the more you use it.
+          </p>
+        </div>
+        <div class="compare-table-wrapper" style="overflow-x:auto;border:1px solid #2a2a2e;border-radius:14px;">
+          <table class="compare-table" style="width:100%;border-collapse:collapse;font-size:14px;min-width:720px;">
+            <thead>
+              <tr style="background:#1a1a1e;text-align:left;">
+                <th scope="col" style="padding:14px 18px;border-bottom:1px solid #2a2a2e;">What you get</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Claude Code / Codex on their own</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">The same agent inside Termpolis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Long-term memory</strong></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">Starts cold every launch &mdash; you re-explain the task and re-pay the tokens to reload context</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;"><strong>Mneme</strong>: a local brain that holds months of context and survives restarts &mdash; recall in milliseconds</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Shared across your tools</strong></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">Each app is siloed &mdash; Codex has no idea what Claude just figured out</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">All four agents read &amp; write <strong>one memory</strong> &mdash; a fact one learns, the others instantly recall</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>It learns</strong></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">No learning &mdash; every session is a blank slate, forever</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">Distills a reusable lesson from every finished task and tracks its own competence, so recall keeps improving</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Every new session</strong></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">Re-explain your codebase and conventions from scratch</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">Opens already knowing the project; one-click handoff moves a task between agents with no re-explaining</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Your data &amp; lock-in</strong></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">One vendor's account and cloud; retention/telemetry vary</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">100% local, Apache-2.0, no account or backend; prompts scanned for secrets before they ever leave</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:18px;opacity:0.85;font-size:15px;">
+          <strong>Same agents, same accounts you already pay for</strong> &mdash; Termpolis is the workspace around
+          them that remembers, learns, and keeps you out of the cold-start loop.
+        </p>
       </section>
 
       <!-- CONTEXT HANDOFF -->
