@@ -193,9 +193,10 @@
           <article class="card">
             <h3>Survives close &amp; reopen</h3>
             <p>
-              Memory is plain JSONL on disk (<code>swarm-memory.jsonl</code> in the Termpolis data directory) and
-              reloads with its embeddings at startup. Quit Termpolis, reopen it tomorrow &mdash;
-              the context is still there.
+              The vector index and knowledge graph are persisted as plain JSONL on disk
+              (<code>swarm-memory.jsonl</code> in the Termpolis data directory) &mdash; a portable,
+              human-readable log, no native database to install. Embeddings and edges reload at
+              startup, so you can quit Termpolis, reopen it tomorrow &mdash; the context is still there.
             </p>
           </article>
           <article class="card">
@@ -250,6 +251,65 @@
             self-competence, so what the fleet recalls keeps getting better. The result: stop
             re-explaining context every session, and stop paying to reload it.
           </p>
+        </div>
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">The learning loop</p>
+          <h2>Not just storage &mdash; a memory that gets smarter</h2>
+          <p>
+            Most &ldquo;AI memory&rdquo; is a bucket you write to and read from. Mneme runs a full
+            learning cycle on top of the store: it <strong>reflects</strong> on finished work,
+            <strong>consolidates</strong> while idle, <strong>reasons</strong> over how memories
+            connect, and <strong>ranks</strong> recall by what has actually helped before &mdash; all
+            local, all automatic.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>1 &middot; Reflect</h3>
+            <p>
+              When a task finishes &mdash; or a solo session pauses &mdash; Mneme distills the episode
+              into a reusable lesson (the problem, the fix or decision, the gotcha) and updates its own
+              per-domain track record. A high-precision gate means only substantive work is distilled,
+              and a flaky distiller model can never block the task.
+            </p>
+          </article>
+          <article class="card">
+            <h3>2 &middot; Consolidate &mdash; the &ldquo;sleep&rdquo; pass</h3>
+            <p>
+              Between tasks Mneme compresses the brain the way sleep consolidates memory: stale,
+              untagged, unconnected chatter decays out, near-duplicates merge, and dense clusters roll
+              up into summaries. It only ever <em>plans</em> compression and writes archival edges
+              &mdash; a tagged, linked, or important memory is never forgotten.
+            </p>
+          </article>
+          <article class="card">
+            <h3>3 &middot; Connect &mdash; reason over the graph</h3>
+            <p>
+              Typed edges aren&rsquo;t inert labels. At recall time a <em>solves</em> or
+              <em>caused-by</em> link pulls its neighbour up, a memory a newer one <em>supersedes</em>
+              is dropped so stale answers stop resurfacing, and a connection outside its valid time
+              window is skipped.
+            </p>
+          </article>
+          <article class="card">
+            <h3>4 &middot; Rank by what actually helped</h3>
+            <p>
+              Recall doesn&rsquo;t rank on similarity alone. It fuses semantic relevance, recency,
+              <strong>importance</strong> (a distilled lesson outranks raw chatter), and how often a
+              memory has proven useful &mdash; then a diversity rerank keeps near-identical hits from
+              crowding out varied context, with a floor so a thin recall never starves the agent.
+            </p>
+          </article>
+          <article class="card">
+            <h3>5 &middot; Anticipate</h3>
+            <p>
+              Before you solve a task, <code>memory_anticipate</code> surfaces the solutions the fleet
+              already found for it, <code>memory_pool</code> gathers what two or more agents
+              independently arrived at (the most-corroborated knowledge), and
+              <code>memory_selfcheck</code> reports calibrated confidence from past outcomes &mdash; so
+              the agent starts already knowing what the fleet knows.
+            </p>
+          </article>
         </div>
       </section>
 

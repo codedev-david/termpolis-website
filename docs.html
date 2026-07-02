@@ -1748,6 +1748,23 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 record links explicitly with <code>memory_link</code> and follow the chain across hops
                 with <code>memory_graph</code>; curated writes auto-link to their nearest neighbours, so
                 the graph gets denser &mdash; and recall gets smarter &mdash; the more you use it.</li>
+              <li><strong>Consolidates while idle &mdash; the &ldquo;sleep&rdquo; pass (v1.17).</strong>
+                Between tasks a planner compresses the brain the way sleep consolidates memory: stale,
+                untagged, edge-free episodic chatter decays out, near-duplicates merge, and dense
+                clusters roll up into a summary. It only ever <em>plans</em> compression and writes
+                archival edges &mdash; the &ldquo;forgettable&rdquo; gate is deliberately narrow, so a
+                tagged, linked, or important memory is never destroyed.</li>
+              <li><strong>Reasons over the edges, not just stores them (v1.17).</strong> Relation
+                <em>types</em> matter at recall time: a <code>solves</code> or <code>caused-by</code>
+                edge pulls its neighbour up, a memory a newer one <code>supersedes</code> is dropped so
+                stale answers stop resurfacing, and an edge outside its <em>valid-from / valid-to</em>
+                window is excluded from traversal.</li>
+              <li><strong>Ranks by learned utility, not raw similarity (v1.17).</strong> A hit&rsquo;s
+                score fuses semantic relevance, recency, per-kind weight, <strong>importance</strong>
+                (reflection scores a distilled lesson high), and how often that memory has actually
+                proven useful (reinforced via <code>memory_feedback</code>) &mdash; then an
+                <strong>MMR</strong> diversity rerank keeps a cluster of near-identical hits from
+                crowding out varied context, with a floor so a thin recall never starves the agent.</li>
               <li><strong>Auto-recovers from compaction.</strong> When Claude Code compacts its
                 conversation to fit the context window, Termpolis watches the terminal, waits for the
                 compaction to settle, and re-injects the most relevant memories into the agent&rsquo;s
