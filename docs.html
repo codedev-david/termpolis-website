@@ -1698,6 +1698,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               finished task, and lets any agent semantically recall what was decided or written weeks
               or even months ago &mdash; instead of you re-explaining context every session.
             </p>
+            <figure class="docs-shot">
+              <img src="assets/diagram-mneme.svg" alt="How Mneme works: every agent's work is captured, embedded locally into vectors, and stored in a vector database (find by meaning) plus a knowledge graph (find by connection) persisted as JSONL — then recalled and ranked, getting smarter over time.">
+              <figcaption>How Mneme works: it files each memory by <em>meaning</em> (a local vector database) and by <em>connection</em> (a knowledge graph), both persisted as plain JSONL on your disk &mdash; then recalls and ranks them on demand.</figcaption>
+            </figure>
+            <figure class="docs-shot">
+              <img src="assets/diagram-learning-loop.svg" alt="Mneme's learning loop: reflect, consolidate, connect, rank, anticipate — repeating after every finished task so the shared memory keeps getting smarter.">
+              <figcaption>The learning loop that runs after every finished task &mdash; reflect, consolidate (a &ldquo;sleep&rdquo; pass), connect, rank by what actually helped, and anticipate.</figcaption>
+            </figure>
             <ul class="docs-list">
               <li><strong>Learns from every session (v1.17.2&ndash;v1.17.4).</strong> When an agent
                 finishes a chunk of work, Termpolis distills what happened into a reusable lesson

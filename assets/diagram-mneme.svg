@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="How Mneme works: every agent's work is captured, turned into meaning, stored in a vector database and a knowledge graph on your disk, and recalled — getting smarter over time.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16161d"/>
+      <stop offset="1" stop-color="#101015"/>
+    </linearGradient>
+    <linearGradient id="brainGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.10"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#6b6b82"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#7ee2a3"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="798" rx="22" fill="url(#bg)" stroke="#2a2a38" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="40" y="52" fill="#f4f4fa" font-size="30" font-weight="700">How Mneme remembers &#8212; and gets smarter</text>
+  <text x="40" y="84" fill="#a6a6bd" font-size="17">One local &#8220;brain&#8221; that all four AI agents share. It files every lesson by <tspan fill="#a78bfa" font-weight="600">meaning</tspan> and by <tspan fill="#7ee2a3" font-weight="600">connection</tspan> &#8212; so nothing is re-explained twice.</text>
+
+  <!-- Step badges -->
+  <g font-size="12" font-weight="700" letter-spacing="1.5">
+    <text x="46" y="132" fill="#8b8ba3">1 &#183; CAPTURE</text>
+    <text x="330" y="132" fill="#8b8ba3">2 &#183; UNDERSTAND</text>
+    <text x="600" y="132" fill="#8b8ba3">3 &#183; STORE ON YOUR DISK</text>
+    <text x="1000" y="132" fill="#8b8ba3">4 &#183; RECALL</text>
+  </g>
+
+  <!-- STEP 1: Capture — 4 agents + code -->
+  <g>
+    <!-- agent pills -->
+    <g font-size="14" font-weight="600">
+      <rect x="40" y="150" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
+      <circle cx="62" cy="170" r="7" fill="#d97757"/><text x="80" y="175" fill="#e9e9f2">Claude Code</text>
+      <rect x="40" y="198" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
+      <circle cx="62" cy="218" r="7" fill="#cfcfe0"/><text x="80" y="223" fill="#e9e9f2">OpenAI Codex</text>
+      <rect x="40" y="246" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
+      <circle cx="62" cy="266" r="7" fill="#4f8cff"/><text x="80" y="271" fill="#e9e9f2">Gemini CLI</text>
+      <rect x="40" y="294" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
+      <circle cx="62" cy="314" r="7" fill="#a78bfa"/><text x="80" y="319" fill="#e9e9f2">Qwen Code</text>
+      <rect x="40" y="342" width="210" height="40" rx="10" fill="#16241c" stroke="#2f5741"/>
+      <circle cx="62" cy="362" r="7" fill="#7ee2a3"/><text x="80" y="367" fill="#c7f5da">Your repo&#8217;s code</text>
+    </g>
+    <text x="40" y="410" fill="#8b8ba3" font-size="13">Their finished work + your</text>
+    <text x="40" y="428" fill="#8b8ba3" font-size="13">code flow into one brain.</text>
+  </g>
+
+  <!-- merge bracket + arrow to Understand -->
+  <path d="M250 266 C 280 266, 280 266, 300 266" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- STEP 2: Understand / Embed -->
+  <g>
+    <rect x="300" y="180" width="250" height="180" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="425" y="212" text-anchor="middle" fill="#f4f4fa" font-size="16" font-weight="700">Turn words into meaning</text>
+    <text x="425" y="238" text-anchor="middle" fill="#a6a6bd" font-size="13">A tiny model on your machine</text>
+    <text x="425" y="256" text-anchor="middle" fill="#a6a6bd" font-size="13">reads the text and writes it as</text>
+    <text x="425" y="274" text-anchor="middle" fill="#a6a6bd" font-size="13">a list of numbers (a &#8220;vector&#8221;).</text>
+    <rect x="322" y="290" width="206" height="30" rx="7" fill="#101018" stroke="#2c2c3a"/>
+    <text x="425" y="310" text-anchor="middle" fill="#7ee2a3" font-size="13" font-family="ui-monospace, monospace">[0.12, -0.48, 0.91, &#8230;]</text>
+    <text x="425" y="342" text-anchor="middle" fill="#7c8" font-size="12">100% offline &#183; no cloud, no server</text>
+  </g>
+  <path d="M550 266 C 575 266, 575 266, 596 266" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- STEP 3: Store — the brain with two parts -->
+  <g>
+    <rect x="596" y="150" width="336" height="300" rx="16" fill="url(#brainGrad)" stroke="#3a3a55" stroke-width="1.5"/>
+    <text x="764" y="178" text-anchor="middle" fill="#e9e9f2" font-size="14" font-weight="700">THE BRAIN &#183; saved as one plain text file</text>
+    <text x="764" y="197" text-anchor="middle" fill="#8b8ba3" font-size="12" font-family="ui-monospace, monospace">swarm-memory.jsonl</text>
+
+    <!-- Vector DB card -->
+    <rect x="616" y="212" width="296" height="98" rx="12" fill="#1a1626" stroke="#5b46a8"/>
+    <text x="632" y="238" fill="#c4b5fd" font-size="15" font-weight="700">Vector database</text>
+    <text x="632" y="258" fill="#cfc8ea" font-size="12.5">Finds notes by what they MEAN &#8212;</text>
+    <text x="632" y="276" fill="#cfc8ea" font-size="12.5">&#8220;login is broken&#8221; matches &#8220;auth fails&#8221;</text>
+    <text x="632" y="294" fill="#8b8ba3" font-size="12">even with no words in common.</text>
+
+    <!-- Knowledge graph card -->
+    <rect x="616" y="322" width="296" height="108" rx="12" fill="#16241f" stroke="#2f7d55"/>
+    <text x="632" y="348" fill="#7ee2a3" font-size="15" font-weight="700">Knowledge graph</text>
+    <text x="632" y="368" fill="#cfe9dc" font-size="12.5">Remembers how facts CONNECT.</text>
+    <!-- mini graph -->
+    <g>
+      <circle cx="648" cy="398" r="6" fill="#7ee2a3"/><text x="638" y="420" fill="#9fd8bb" font-size="10">bug</text>
+      <line x1="654" y1="398" x2="736" y2="398" stroke="#3f8f65" stroke-width="1.5"/>
+      <text x="695" y="392" text-anchor="middle" fill="#7ee2a3" font-size="9">solved&#8209;by</text>
+      <circle cx="742" cy="398" r="6" fill="#7ee2a3"/><text x="734" y="420" fill="#9fd8bb" font-size="10">fix</text>
+      <line x1="748" y1="398" x2="830" y2="398" stroke="#3f8f65" stroke-width="1.5"/>
+      <text x="789" y="392" text-anchor="middle" fill="#7ee2a3" font-size="9">in</text>
+      <circle cx="836" cy="398" r="6" fill="#7ee2a3"/><text x="820" y="420" fill="#9fd8bb" font-size="10">commit</text>
+    </g>
+  </g>
+  <path d="M932 300 C 962 300, 962 300, 984 300" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- STEP 4: Recall -->
+  <g>
+    <rect x="984" y="180" width="176" height="240" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="1072" y="210" text-anchor="middle" fill="#f4f4fa" font-size="15" font-weight="700">Any agent asks</text>
+    <rect x="1004" y="226" width="136" height="34" rx="8" fill="#101018" stroke="#2c2c3a"/>
+    <text x="1072" y="248" text-anchor="middle" fill="#cbd5e1" font-size="11.5">&#8220;how does auth work?&#8221;</text>
+    <text x="1072" y="292" text-anchor="middle" fill="#a6a6bd" font-size="12.5">Mneme returns the</text>
+    <text x="1072" y="310" text-anchor="middle" fill="#a6a6bd" font-size="12.5">most relevant + most</text>
+    <text x="1072" y="328" text-anchor="middle" fill="#a6a6bd" font-size="12.5">connected memories,</text>
+    <text x="1072" y="352" text-anchor="middle" fill="#7ee2a3" font-size="12.5" font-weight="600">ranked by what has</text>
+    <text x="1072" y="370" text-anchor="middle" fill="#7ee2a3" font-size="12.5" font-weight="600">actually helped before.</text>
+    <text x="1072" y="400" text-anchor="middle" fill="#8b8ba3" font-size="11">No re-explaining. No re-paying.</text>
+  </g>
+
+  <!-- learning loop hook: Recall back to Store -->
+  <path d="M1072 420 C 1072 470, 764 470, 764 452" fill="none" stroke="#7ee2a3" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrowG)"/>
+  <text x="900" y="486" text-anchor="middle" fill="#7ee2a3" font-size="13" font-weight="600">&#8230; and every finished task teaches the brain something new &#8594; it learns over time</text>
+
+  <!-- Analogy band -->
+  <rect x="40" y="518" width="1120" height="120" rx="16" fill="#15151d" stroke="#2a2a38"/>
+  <text x="64" y="552" fill="#f4f4fa" font-size="16" font-weight="700">Think of it like a study group&#8217;s shared, self-organizing notebook</text>
+  <text x="64" y="580" fill="#b9b9cc" font-size="14">Everyone writes in the same notebook. It files each note by what it <tspan fill="#c4b5fd" font-weight="600">means</tspan> (not just the exact words), draws lines</text>
+  <text x="64" y="602" fill="#b9b9cc" font-size="14">between notes that <tspan fill="#7ee2a3" font-weight="600">connect</tspan>, quietly throws out duplicates and stale notes, and hands you the best ones the moment</text>
+  <text x="64" y="624" fill="#b9b9cc" font-size="14">you ask &#8212; so the group never solves the same problem twice, and it all stays on your own machine.</text>
+
+  <!-- footer -->
+  <text x="600" y="676" text-anchor="middle" fill="#6f6f88" font-size="12.5">100% local &#183; offline embeddings &#183; encrypted at rest (optional) &#183; syncs across your machines with no server &#183; nothing leaves your computer</text>
+</svg>

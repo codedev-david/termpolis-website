@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="How a swarm works: you describe a goal, an AI conductor plans and splits it, runs the best agent for each piece in parallel, all sharing one memory, then merges the results.">
+  <defs>
+    <linearGradient id="bgS" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16161d"/>
+      <stop offset="1" stop-color="#101015"/>
+    </linearGradient>
+    <linearGradient id="memBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.14"/>
+    </linearGradient>
+    <marker id="aS" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#7a7a95"/>
+    </marker>
+    <marker id="aM" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#7ee2a3"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="638" rx="22" fill="url(#bgS)" stroke="#2a2a38" stroke-width="1.5"/>
+
+  <text x="40" y="50" fill="#f4f4fa" font-size="28" font-weight="700">How a swarm works &#8212; one conductor, many agents, one memory</text>
+  <text x="40" y="80" fill="#a6a6bd" font-size="16">You describe the goal. An AI conductor plans it, splits it, and runs the right agent for each piece &#8212; in parallel.</text>
+
+  <!-- You -->
+  <rect x="40" y="120" width="150" height="92" rx="12" fill="#16241c" stroke="#2f5741"/>
+  <text x="115" y="150" text-anchor="middle" fill="#7ee2a3" font-size="16" font-weight="700">You</text>
+  <text x="115" y="174" text-anchor="middle" fill="#c7f5da" font-size="12">Describe the goal,</text>
+  <text x="115" y="191" text-anchor="middle" fill="#c7f5da" font-size="12">set a token budget</text>
+  <text x="115" y="208" text-anchor="middle" fill="#c7f5da" font-size="12">&amp; pick a folder.</text>
+  <path d="M190 166 L 226 166" stroke="#7a7a95" stroke-width="2" fill="none" marker-end="url(#aS)"/>
+
+  <!-- Conductor -->
+  <rect x="228" y="112" width="372" height="176" rx="14" fill="#1a1626" stroke="#5b46a8"/>
+  <text x="250" y="142" fill="#c4b5fd" font-size="17" font-weight="700">AI Conductor</text>
+  <text x="250" y="170" fill="#d7d3ea" font-size="13">&#9312; Reads the goal &amp; checks shared memory</text>
+  <text x="250" y="194" fill="#d7d3ea" font-size="13">&#9313; Splits it into subtasks with dependencies</text>
+  <text x="250" y="218" fill="#d7d3ea" font-size="13">&#9314; Picks the best agent for each subtask</text>
+  <text x="250" y="242" fill="#d7d3ea" font-size="13">&#9315; Cheap models for easy parts, premium</text>
+  <text x="266" y="260" fill="#8b8ba3" font-size="12">for the hard ones &#8212; automatic, to save tokens</text>
+
+  <!-- delegate rail -->
+  <text x="828" y="128" text-anchor="middle" fill="#8b8ba3" font-size="12" font-weight="700" letter-spacing="1">RUN IN PARALLEL</text>
+  <path d="M600 200 L 828 200" stroke="#7a7a95" stroke-width="2" fill="none"/>
+  <path d="M828 200 L 828 214" stroke="#7a7a95" stroke-width="2" fill="none"/>
+  <path d="M636 214 L 636 236" stroke="#7a7a95" stroke-width="2" fill="none" marker-end="url(#aS)"/>
+  <path d="M764 214 L 764 236" stroke="#7a7a95" stroke-width="2" fill="none" marker-end="url(#aS)"/>
+  <path d="M892 214 L 892 236" stroke="#7a7a95" stroke-width="2" fill="none" marker-end="url(#aS)"/>
+  <path d="M1020 214 L 1020 236" stroke="#7a7a95" stroke-width="2" fill="none" marker-end="url(#aS)"/>
+  <path d="M636 214 L 1020 214" stroke="#7a7a95" stroke-width="2" fill="none"/>
+
+  <!-- 4 agents -->
+  <g font-size="13" font-weight="600">
+    <rect x="572" y="238" width="128" height="52" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <circle cx="596" cy="264" r="6" fill="#d97757"/><text x="610" y="262" fill="#e9e9f2" font-size="12">Claude</text><text x="610" y="278" fill="#8b8ba3" font-size="10">Code</text>
+    <rect x="700" y="238" width="128" height="52" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <circle cx="724" cy="264" r="6" fill="#cfcfe0"/><text x="738" y="262" fill="#e9e9f2" font-size="12">OpenAI</text><text x="738" y="278" fill="#8b8ba3" font-size="10">Codex</text>
+    <rect x="828" y="238" width="128" height="52" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <circle cx="852" cy="264" r="6" fill="#4f8cff"/><text x="866" y="262" fill="#e9e9f2" font-size="12">Gemini</text><text x="866" y="278" fill="#8b8ba3" font-size="10">CLI</text>
+    <rect x="956" y="238" width="128" height="52" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <circle cx="980" cy="264" r="6" fill="#a78bfa"/><text x="994" y="262" fill="#e9e9f2" font-size="12">Qwen</text><text x="994" y="278" fill="#8b8ba3" font-size="10">Code</text>
+  </g>
+
+  <!-- shared memory bus -->
+  <g stroke="#7ee2a3" stroke-width="1.5" fill="none" stroke-dasharray="4 4">
+    <path d="M636 290 L 636 360" marker-end="url(#aM)"/>
+    <path d="M764 290 L 764 360" marker-end="url(#aM)"/>
+    <path d="M892 290 L 892 360" marker-end="url(#aM)"/>
+    <path d="M1020 290 L 1020 360" marker-end="url(#aM)"/>
+  </g>
+  <rect x="40" y="362" width="1120" height="74" rx="14" fill="url(#memBar)" stroke="#3a3a55" stroke-width="1.5"/>
+  <text x="600" y="392" text-anchor="middle" fill="#e9e9f2" font-size="16" font-weight="700">Shared memory (Mneme) &#8212; one local brain every agent reads &amp; writes</text>
+  <text x="600" y="416" text-anchor="middle" fill="#b9b9cc" font-size="13">A fact one agent learns is instantly available to the others &#8212; no copy-paste, no re-discovery, during the run and long after it.</text>
+
+  <!-- merge → done -->
+  <path d="M600 462 L 636 462" stroke="#7a7a95" stroke-width="2" fill="none" marker-end="url(#aS)"/>
+  <rect x="40" y="470" width="556" height="120" rx="14" fill="#15151d" stroke="#2a2a38"/>
+  <text x="64" y="502" fill="#f4f4fa" font-size="16" font-weight="700">The conductor watches &amp; merges</text>
+  <text x="64" y="528" fill="#b9b9cc" font-size="13">It tracks each subtask, unblocks the next steps as dependencies</text>
+  <text x="64" y="547" fill="#b9b9cc" font-size="13">finish, and stitches the results together &#8212; while you watch it live</text>
+  <text x="64" y="566" fill="#b9b9cc" font-size="13">in the Swarm Dashboard (tasks, messages, and a conductor trace).</text>
+
+  <rect x="620" y="470" width="540" height="120" rx="14" fill="#16241c" stroke="#2f5741"/>
+  <text x="644" y="502" fill="#7ee2a3" font-size="16" font-weight="700">&#10003; Done &#8212; and the fleet is smarter</text>
+  <text x="644" y="528" fill="#c7f5da" font-size="13">Every subtask&#8217;s outcome is written back to the shared memory, so the</text>
+  <text x="644" y="547" fill="#c7f5da" font-size="13">next swarm &#8212; or any single agent &#8212; already knows what was decided,</text>
+  <text x="644" y="566" fill="#c7f5da" font-size="13">what worked, and what to avoid. Nothing is solved twice.</text>
+</svg>
