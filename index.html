@@ -319,9 +319,12 @@
             </p>
           </article>
         </div>
-        <figure style="margin:34px auto 0;max-width:940px;">
-          <img src="assets/screenshot-memory-dashboard.png" alt="Termpolis Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." style="width:100%;height:auto;display:block;border:1px solid #2a2a2e;border-radius:14px;">
-          <figcaption style="text-align:center;color:#9eb2c3;font-size:13px;margin-top:10px;">The <strong>Memory &amp; Learning</strong> dashboard (Settings) &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability, cross-agent teaching, and receipts. <strong>Every number is computed on your machine, offline, from the local store.</strong></figcaption>
+        <figure class="dashboard-preview">
+          <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-memory-dashboard.png" data-lightbox-alt="Termpolis Memory & Learning dashboard, full view — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." aria-label="Open the full Memory &amp; Learning dashboard screenshot">
+            <img src="assets/screenshot-memory-dashboard.png" width="2096" height="5162" loading="lazy" alt="Termpolis Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
+            <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View the full dashboard</span>
+          </button>
+          <figcaption class="dashboard-caption">The <strong>Memory &amp; Learning</strong> dashboard (Settings) &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability, cross-agent teaching, and receipts. <strong>Every number is computed on your machine, offline, from the local store.</strong></figcaption>
         </figure>
       </section>
 
@@ -1341,5 +1344,6 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="lightbox.js"></script>
 </body>
 </html>

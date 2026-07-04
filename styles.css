@@ -434,6 +434,16 @@ h3 {
   border-radius: var(--radius-md);
   background: var(--surface-strong);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+  /* Let cards shrink inside a grid/flex track on narrow screens instead
+     of forcing a min-content width that overflows the page. */
+  min-width: 0;
+}
+
+/* Long inline code tokens (e.g. GOOGLE_CLOUD_PROJECT) have no natural
+   break points — allow them to wrap so they never push the page wider
+   than the viewport on small screens. */
+code {
+  overflow-wrap: anywhere;
 }
 
 .split {
@@ -755,7 +765,10 @@ h3 {
   .feature-media-grid,
   .shortcut-strip,
   .utility-strip {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr) — not bare 1fr (= minmax(auto,1fr)) — so a single
+       column can shrink below its content's min-content and never blow
+       out the page width on narrow screens. */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .site-header {
@@ -786,6 +799,11 @@ h3 {
     padding: 0.9rem;
   }
 
+  .brand-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
   .brand-text {
     font-size: 1rem;
   }
@@ -807,5 +825,172 @@ h3 {
   .site-footer {
     flex-direction: column;
     padding-top: 2rem;
+  }
+}
+
+/* ---- Clickable dashboard preview + lightbox modal --------------- */
+/* The Memory & Learning dashboard shot is a very tall full-page
+   capture. Inline at full height it dominated the page ("huge gap"
+   on scroll), so it renders as a cropped, responsive thumbnail that
+   opens the full image in a lightbox (see lightbox.js). */
+
+.dashboard-preview {
+  max-width: 940px;
+  margin: 34px auto 0;
+}
+
+.dashboard-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+  cursor: zoom-in;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.dashboard-preview .dashboard-thumb img {
+  display: block;
+  width: 100%;
+  height: clamp(220px, 40vw, 440px);
+  object-fit: cover;
+  object-position: top center;
+}
+
+.dashboard-thumb::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 46%;
+  background: linear-gradient(to top, rgba(7, 17, 24, 0.94), rgba(7, 17, 24, 0));
+  pointer-events: none;
+}
+
+.dashboard-thumb-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(10, 18, 26, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dashboard-thumb:hover,
+.dashboard-thumb:focus-visible {
+  border-color: rgba(102, 167, 255, 0.55);
+  transform: translateY(-1px);
+}
+
+.dashboard-caption {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  padding: clamp(10px, 3vw, 44px);
+  background: rgba(3, 8, 12, 0.86);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.lightbox.is-open {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.lightbox-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  max-height: 92vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--bg-alt);
+  box-shadow: var(--shadow);
+}
+
+.lightbox-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  z-index: 1001;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(12, 20, 28, 0.92);
+  color: var(--text);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  border-color: rgba(102, 167, 255, 0.6);
+  color: #fff;
+}
+
+.lightbox-hint {
+  position: fixed;
+  left: 50%;
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 1001;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(12, 20, 28, 0.8);
+  color: var(--muted);
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-thumb {
+    transition: none;
+  }
+
+  .dashboard-thumb:hover,
+  .dashboard-thumb:focus-visible {
+    transform: none;
   }
 }

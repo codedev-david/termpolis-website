@@ -1736,9 +1736,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <img src="assets/diagram-learning-loop.svg" alt="Mneme's learning loop: reflect, consolidate, connect, rank, anticipate — repeating after every finished task so the shared memory keeps getting smarter.">
               <figcaption>The learning loop that runs after every finished task &mdash; reflect, consolidate (a &ldquo;sleep&rdquo; pass), connect, rank by what actually helped, and anticipate.</figcaption>
             </figure>
-            <figure class="docs-shot">
-              <img src="docs/screenshots/35-memory-dashboard.png" alt="The Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
-              <figcaption>The <strong>Memory &amp; Learning</strong> dashboard (Settings) proves it's working &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts. Every number is computed on your machine, offline, from the append-only store.</figcaption>
+            <figure class="dashboard-preview">
+              <button type="button" class="dashboard-thumb" data-lightbox="docs/screenshots/35-memory-dashboard.png" data-lightbox-alt="The Memory & Learning dashboard, full view — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." aria-label="Open the full Memory &amp; Learning dashboard screenshot">
+                <img src="docs/screenshots/35-memory-dashboard.png" width="2096" height="5162" loading="lazy" alt="The Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
+                <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View the full dashboard</span>
+              </button>
+              <figcaption class="dashboard-caption">The <strong>Memory &amp; Learning</strong> dashboard (Settings) proves it's working &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts. Every number is computed on your machine, offline, from the append-only store.</figcaption>
             </figure>
             <ul class="docs-list">
               <li><strong>Learns from every session (v1.17.2&ndash;v1.17.4).</strong> When an agent
@@ -2025,5 +2028,6 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
   </div>
 
   <script src="docs.js"></script>
+  <script src="lightbox.js"></script>
 </body>
 </html>
