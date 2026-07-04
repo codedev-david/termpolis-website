@@ -124,6 +124,7 @@
           <p class="docs-sidebar-eyebrow">AI &amp; swarm</p>
           <ul class="docs-toc">
             <li><a href="#agents">AI agent profiles</a></li>
+            <li><a href="#second-opinion">Second Opinion</a></li>
             <li><a href="#capabilities">Capability ratings</a></li>
             <li><a href="#mcp">MCP server</a></li>
             <li><a href="#swarm">Swarm dashboard</a></li>
@@ -1447,6 +1448,35 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
           </section>
 
+          <!-- SECOND OPINION -->
+          <section id="second-opinion" class="docs-section">
+            <h2>Second Opinion</h2>
+            <p>
+              From any AI terminal, hand the <strong>most recent answer</strong> to a
+              <strong>different</strong> agent for a quick, read-only critique. Its feedback is pasted
+              back into the same terminal as an <em>unsent</em> block &mdash; you decide whether to send
+              it to your primary agent or just read it and move on.
+            </p>
+            <div class="docs-callout">
+              <p>
+                <strong>Every model has blind spots.</strong> Second Opinion lets a second model
+                sanity-check the last solution before you act on it &mdash; e.g. drive <strong>Opus</strong>
+                and ask <strong>Fable</strong>, or have <strong>Codex</strong> review what <strong>Gemini</strong> just proposed.
+              </p>
+            </div>
+            <h3>How to use it</h3>
+            <ul class="docs-list">
+              <li><strong>Open the <em>Second Opinion&hellip;</em> dropdown</strong> at the top-right of any AI terminal (it appears whenever an agent is running there).</li>
+              <li><strong>Pick a reviewer.</strong> The menu lists only the agents you have installed &mdash; <strong>OpenAI Codex</strong>, <strong>Gemini</strong>, <strong>Qwen</strong> &mdash; with <strong>Claude</strong> and its models (<strong>Fable</strong>, <strong>Opus</strong>, <strong>Sonnet</strong>, <strong>Haiku</strong>) nested underneath.</li>
+              <li><strong>Read the feedback.</strong> Termpolis captures the terminal's recent output, runs the chosen agent over it, and pastes a concise review back into the terminal &mdash; unsent, so you stay in control.</li>
+            </ul>
+            <h3>What it does under the hood</h3>
+            <ul class="docs-list">
+              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode &mdash; nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong> (never on a command line), so a prompt scraped from your terminal can't inject a command.</li>
+              <li><strong>Install-gated.</strong> Only installed agents appear. Gemini is accessed through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</li>
+            </ul>
+          </section>
+
           <!-- MCP -->
           <section id="mcp" class="docs-section">
             <h2>MCP server</h2>
@@ -1705,6 +1735,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <figure class="docs-shot">
               <img src="assets/diagram-learning-loop.svg" alt="Mneme's learning loop: reflect, consolidate, connect, rank, anticipate — repeating after every finished task so the shared memory keeps getting smarter.">
               <figcaption>The learning loop that runs after every finished task &mdash; reflect, consolidate (a &ldquo;sleep&rdquo; pass), connect, rank by what actually helped, and anticipate.</figcaption>
+            </figure>
+            <figure class="docs-shot">
+              <img src="docs/screenshots/35-memory-dashboard.png" alt="The Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
+              <figcaption>The <strong>Memory &amp; Learning</strong> dashboard (Settings) proves it's working &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts. Every number is computed on your machine, offline, from the append-only store.</figcaption>
             </figure>
             <ul class="docs-list">
               <li><strong>Learns from every session (v1.17.2&ndash;v1.17.4).</strong> When an agent

@@ -75,6 +75,7 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a href="#memory">Mneme</a>
+        <a href="#second-opinion">Second Opinion</a>
         <a href="#why">Why us</a>
         <a href="#context-handoff">Handoff</a>
         <a href="#swarm">Swarm</a>
@@ -96,6 +97,7 @@
           <ul class="hero-security-pills" aria-label="Key highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
             <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 Mneme · one memory, all 4 agents</li>
             <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🌱 Learns from every session</li>
+            <li style="background:#f2b94b22;color:#f2b94b;border:1px solid #f2b94b55;border-radius:999px;padding:4px 10px;">🔀 Second Opinion · agents review each other</li>
             <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 100% local · no cloud · no telemetry</li>
             <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📦 Free &amp; open source</li>
           </ul>
@@ -315,6 +317,41 @@
               <code>memory_selfcheck</code> reports calibrated confidence from past outcomes &mdash; so
               the agent starts already knowing what the fleet knows.
             </p>
+          </article>
+        </div>
+        <figure style="margin:34px auto 0;max-width:940px;">
+          <img src="assets/screenshot-memory-dashboard.png" alt="Termpolis Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." style="width:100%;height:auto;display:block;border:1px solid #2a2a2e;border-radius:14px;">
+          <figcaption style="text-align:center;color:#9eb2c3;font-size:13px;margin-top:10px;">The <strong>Memory &amp; Learning</strong> dashboard (Settings) &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability, cross-agent teaching, and receipts. <strong>Every number is computed on your machine, offline, from the local store.</strong></figcaption>
+        </figure>
+      </section>
+
+      <!-- SECOND OPINION -->
+      <section id="second-opinion" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🔀 Second Opinion</p>
+          <h2>Have a different agent double-check the last answer</h2>
+          <p>
+            Every model has blind spots. From any AI terminal, hand the most recent answer to a
+            <strong>different</strong> agent for a fast, read-only critique &mdash; the feedback is pasted
+            right back into your terminal, ready to send to your primary agent or just read and discard.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Pick any installed agent</h3>
+            <p>A <strong>Second Opinion</strong> dropdown on each AI terminal lists exactly what you have installed &mdash; <strong>OpenAI Codex, Gemini, Qwen</strong> &mdash; with <strong>Claude</strong> and its models (<strong>Fable &middot; Opus &middot; Sonnet &middot; Haiku</strong>) nested underneath. So while you drive Opus, you can have <strong>Fable</strong> &mdash; or Codex, or Gemini &mdash; sanity-check the last solution.</p>
+          </article>
+          <article class="card">
+            <h3>It reviews the real, recent work</h3>
+            <p>Termpolis captures the terminal's most recent output, asks the chosen agent to review the latest solution or approach, and injects its concise feedback back as an <strong>unsent block</strong> &mdash; you decide whether to act on it.</p>
+          </article>
+          <article class="card">
+            <h3>Read-only &amp; safe by design</h3>
+            <p>A review needs no file access, so it runs the agent in one-shot headless mode &mdash; nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong>, never on a command line, so a prompt scraped from your terminal can't inject a command.</p>
+          </article>
+          <article class="card">
+            <h3>Only what's installed shows up</h3>
+            <p>The menu reflects real install detection and appears only on AI terminals. Gemini runs through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</p>
           </article>
         </div>
       </section>
