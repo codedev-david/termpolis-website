@@ -11,8 +11,13 @@ if ("IntersectionObserver" in window) {
       });
     },
     {
-      threshold: 0.16,
-      rootMargin: "0px 0px -24px 0px",
+      // threshold:0 fires as soon as ANY part of the section intersects, so it
+      // works for sections of any height. (A positive threshold like 0.16 is
+      // geometrically unsatisfiable for sections taller than viewport/0.16 —
+      // e.g. the tall Memory/Security sections on mobile — leaving them stuck
+      // at opacity:0 forever, which reads as a huge blank gap while scrolling.)
+      threshold: 0,
+      rootMargin: "0px 0px -10% 0px",
     }
   );
 
