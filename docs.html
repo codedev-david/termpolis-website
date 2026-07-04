@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Termpolis Documentation — Secure AI-Assisted Development</title>
+  <title>Termpolis Documentation — the multi-agent AI terminal with shared learning memory</title>
   <meta
     name="description"
-    content="Complete guide to Termpolis: AI Security Center (pre-paste secret scanner, Gemini paid-tier enforcement, audit log), copy-for-Slack/Teams output, multi-agent swarm orchestration, MCP server, shared memory, and live observability."
+    content="Complete guide to Termpolis: the shared memory brain that learns across Claude, Codex, Gemini, and Qwen, Second Opinion cross-agent review, multi-agent swarm orchestration, the MCP server, the AI Security Center, and live observability."
   >
   <meta name="author" content="Termpolis">
   <link rel="canonical" href="https://termpolis.com/docs.html">
@@ -17,7 +17,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Termpolis">
   <meta property="og:url" content="https://termpolis.com/docs.html">
-  <meta property="og:title" content="Termpolis Documentation — Secure AI-Assisted Development">
+  <meta property="og:title" content="Termpolis Documentation — the multi-agent AI terminal with shared learning memory">
   <meta property="og:description" content="Every feature, panel, and keyboard shortcut in Termpolis — the terminal where Claude, Codex, Gemini, and Qwen work as a team.">
   <meta property="og:image" content="https://termpolis.com/assets/screenshot-welcome.png">
   <meta property="og:image:width" content="1368">
@@ -1034,7 +1034,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
             <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in), <strong>AI Security</strong>, <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in), <strong>AI Security</strong>, <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
           </section>
 
           <!-- THEMES -->
@@ -1414,8 +1414,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Pick a model per profile (Claude)</h3>
             <p>
               When you add or edit an AI profile, a <strong>Model</strong> dropdown lets you choose
-              which Claude tier that profile launches with &mdash; <strong>Opus</strong>,
-              <strong>Sonnet</strong>, or <strong>Haiku</strong> &mdash; appended to the launch
+              which Claude tier that profile launches with &mdash; <strong>Fable</strong>,
+              <strong>Opus</strong>, <strong>Sonnet</strong>, or <strong>Haiku</strong> &mdash; appended to the launch
               command as <code>claude --model &lt;tier&gt;</code>. You pass the <em>alias</em>, not
               a pinned version number, so you always get the newest model in that tier
               automatically (for example, the latest Opus): Termpolis never hard-codes a version,
@@ -1654,7 +1654,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>Conductor reads your task → queries <a href="#memory">shared memory</a> for related prior work.</li>
               <li>Decomposes into a DAG of subtasks with explicit dependencies.</li>
               <li>For each subtask, picks an agent: capability rating × inverse cost × current load.</li>
-              <li>Spawns the agent terminal via <code>open_terminal</code> (MCP) and sends the prompt via <code>send_input</code>.</li>
+              <li>Spawns the agent terminal via <code>create_terminal</code> (MCP) and sends the prompt via <code>write_to_terminal</code>.</li>
               <li>Watches tool calls + token usage via the Activity Feed; intervenes if an agent stalls or errors out.</li>
               <li>When a task completes, writes the result to shared memory and unblocks dependents.</li>
               <li>When the DAG is done, presents a summary and offers a <a href="#review">swarm review</a>.</li>
@@ -1744,7 +1744,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption class="dashboard-caption">The <strong>Memory &amp; Learning</strong> dashboard (Settings) proves it's working &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts. Every number is computed on your machine, offline, from the append-only store.</figcaption>
             </figure>
             <ul class="docs-list">
-              <li><strong>Learns from every session (v1.17.2&ndash;v1.17.4).</strong> When an agent
+              <li><strong>Learns from every session (since v1.17).</strong> When an agent
                 finishes a chunk of work, Termpolis distills what happened into a reusable lesson
                 &mdash; the problem, the fix or decision, the gotcha &mdash; and records the
                 fleet&rsquo;s self-competence per project, so recall keeps improving. Automatic for
@@ -1955,7 +1955,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  AI agents (Claude, Codex, Gemini, Qwen Code)       │
 │  Each in its own pty-backed terminal                │
 └─────────────────────────────────────────────────────┘</pre>
-            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (3,800+ tests across 180+ files, 90%+ line / 85%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
+            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (4,500+ tests across 180+ files, 90%+ line / 85%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
           </section>
 
           <!-- TROUBLESHOOTING -->
