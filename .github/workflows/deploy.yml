@@ -3,6 +3,21 @@ name: Deploy Website
 on:
   push:
     branches: [main]
+  # Every 2h: catch app releases the site hasn't tracked yet (David ships several
+  # times a day, so a manual audit always lags). The sync step no-ops when the site
+  # already matches the published release, so an in-sync tick does nothing.
+  schedule:
+    - cron: '0 */2 * * *'
+  # Manual "sync + deploy now".
+  workflow_dispatch:
+  # Optional instant path: the app's release workflow can fire this once a
+  # WEB_SYNC_TOKEN PAT is added (see scripts/sync-app-facts.mjs header / README).
+  repository_dispatch:
+    types: [app-released]
+
+# Needed so the sync step can commit the version/tool-count bump back to main.
+permissions:
+  contents: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -12,6 +27,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Pull the marketing site's app-derived facts (release version + MCP tool
+      # count) up to the LATEST PUBLISHED release. Idempotent + targeted — it only
+      # rewrites the specific version/count strings, and writes nothing when the
+      # site is already in sync. On drift it commits the bump back to main (that
+      # push is authored by GITHUB_TOKEN so it does NOT re-trigger this workflow —
+      # no loop — but the current run still deploys the freshly-updated files below).
+      - name: Sync version + MCP tool count from the latest app release
+        id: sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/sync-app-facts.mjs
+          if [ -n "$(git status --porcelain -- index.html docs.html)" ]; then
+            ver=$(grep -oE '"softwareVersion": "[0-9]+\.[0-9]+\.[0-9]+"' index.html | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+            git config user.name "termpolis-site-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html docs.html
+            git commit -m "chore(site): sync app facts to v${ver} [skip ci]"
+            git push || echo "::warning::commit-back push failed; site still deployed from the working tree below"
+          fi
 
       # Deploy over EXPLICIT FTPS with curl (--ssl-reqd requires TLS — never plaintext)
       # + retries. We previously used SamKirkland/FTP-Deploy-Action (basic-ftp), but
@@ -30,14 +69,18 @@ jobs:
       # Stateless full mirror of every tracked file (no diff edge cases), creating
       # remote dirs as needed; downloads/ is the installer mirror owned by the app
       # release, and .github/ / LICENSE / .gitignore aren't web content.
+      #
+      # Skipped only on a scheduled tick that found nothing to sync (nothing changed
+      # since the last deploy) — every other trigger deploys as before.
       - name: Deploy to termpolis.com (FTPS via curl, retried)
+        if: github.event_name != 'schedule' || steps.sync.outputs.changed == 'true'
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           set -uo pipefail
-          files=$(git ls-files | grep -vE '^(downloads/|LICENSE$|\.github/|\.gitignore$)')
+          files=$(git ls-files | grep -vE '^(downloads/|scripts/|LICENSE$|\.github/|\.gitignore$)')
           rc=0; n=0; ok=0
           while IFS= read -r f; do
             [ -n "$f" ] && [ -f "$f" ] || continue
