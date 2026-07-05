@@ -43,7 +43,7 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.19.5",
+    "softwareVersion": "1.20.0",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -1058,9 +1058,19 @@
           <article class="card">
             <h3>MCP server</h3>
             <p>
-              Built-in HTTP/SSE server on localhost:9315 with 26 tools. AI agents create terminals,
+              Built-in HTTP/SSE server on localhost:9315 with 31 tools. AI agents create terminals,
               run commands, read output, manage your workspace, and tap a shared memory that learns
               from every session. Auto-registers with Claude Code, Codex, Gemini, and Qwen-Code.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Native code graph</h3>
+            <p>
+              New in <strong>v1.20.0</strong>: agents navigate your codebase by structure, not grep. A
+              local, pre-indexed symbol graph answers <code>code_explore</code> (a symbol&rsquo;s source
+              plus its callers and callees), <code>code_callers</code> / <code>code_callees</code>, and
+              <code>code_impact</code> &mdash; the blast radius before you touch a shared function. No
+              tree-sitter, no cloud; secrets are excluded.
             </p>
           </article>
           <article class="card">
@@ -1212,15 +1222,15 @@
           <p class="eyebrow">MCP integration</p>
           <h2>AI agents control your terminal</h2>
           <p>
-            Termpolis runs an MCP server on localhost:9315 with 26 tools. Claude Code,
+            Termpolis runs an MCP server on localhost:9315 with 31 tools. Claude Code,
             Codex, Gemini, and Qwen-Code all auto-discover it. Secured with a 256-bit auth token,
             localhost only, no plugins.
           </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>26 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 12 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts).</p>
+            <h3>31 MCP tools</h3>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 12 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts) + 5 code-graph tools (explore, callers, callees, impact, search).</p>
           </article>
           <article class="card">
             <h3>Auto-registers with every agent</h3>

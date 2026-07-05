@@ -32,7 +32,7 @@
   <meta name="twitter:image" content="https://termpolis.com/assets/screenshot-welcome.png">
 
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="docs.css?v=20260705">
 
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "69e1842746294b5bbb72378c748cb522"}'></script>
@@ -1524,11 +1524,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
     }
   }
 }</code></pre>
-            <h3>The 26 tools an agent can call</h3>
+            <h3>The 31 tools an agent can call</h3>
             <p>
               Each entry below is a function call an MCP-aware agent makes through the protocol —
               not a command you type. Every invocation shows up in the
-              <a href="#activity">Activity Feed</a>.
+              <a href="#activity">Activity Feed</a>. The <strong>code-graph</strong> tools (new in
+              v1.20.0) are backed by a local symbol index Termpolis builds from your workspace on a
+              background timer &mdash; heuristic and multi-language, no external parser, with the same
+              secret denylist as the memory indexer.
             </p>
             <div class="docs-table-wrap">
               <table class="docs-table">
@@ -1564,6 +1567,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_selfcheck</code></td><td>Report the brain's calibrated self-competence in a domain (confidence + track record) so the agent knows what it knows.</td></tr>
                   <tr><td><code>memory_feedback</code></td><td>Mark a recalled memory as helpful so repeatedly-useful entries rank a little higher for everyone.</td></tr>
                   <tr><td><code>memory_conflicts</code></td><td>Surface pairs of lessons that <em>different</em> agents learned that assert opposite things about the same subject, so the fleet&rsquo;s disagreements can be found and resolved. Read-only and deliberately high-precision.</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Code graph <span style="font-weight:400;opacity:0.7;">(local symbol index &mdash; new in v1.20.0)</span></td></tr>
+                  <tr><td><code>code_explore</code></td><td>Ask one structural question and get the matching symbol&rsquo;s verbatim source plus its direct callers and callees &mdash; instead of grepping and reading files. Backed by a pre-indexed local code graph.</td></tr>
+                  <tr><td><code>code_callers</code></td><td>List the symbols that call a given symbol &mdash; &ldquo;who uses this?&rdquo; &mdash; straight from the code graph, no grep.</td></tr>
+                  <tr><td><code>code_callees</code></td><td>List the symbols a given symbol calls &mdash; &ldquo;what does this depend on?&rdquo;</td></tr>
+                  <tr><td><code>code_impact</code></td><td>Blast radius: the transitive set of symbols that directly or indirectly call a symbol &mdash; what could break if you change it. Run it before editing a shared function.</td></tr>
+                  <tr><td><code>code_search</code></td><td>Find symbols (functions, classes, types) whose name matches a substring across the indexed codebase &mdash; a fast structural lookup.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1955,7 +1964,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  ├── Terminal manager (node-pty)                    │
 │  ├── Session persistence (session.json)             │
 │  ├── Git adapter                                    │
-│  ├── MCP server (HTTP, 26 tools)                    │
+│  ├── MCP server (HTTP, 31 tools)                    │
 │  ├── Swarm memory (JSONL + embeddings)              │
 │  ├── AI conductor (spawns Claude Code as a child)   │
 │  └── Watchers (event bus + alerts)                  │

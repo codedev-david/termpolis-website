@@ -402,6 +402,14 @@
   white-space: pre;
 }
 
+/* Long code lines (env-var exports, Defender commands, the architecture
+   diagram) scroll inside their own block on narrow screens instead of pushing
+   the whole page sideways. Fixes horizontal overflow on mobile. */
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Keys */
 
 kbd {
