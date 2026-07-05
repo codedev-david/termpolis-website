@@ -133,6 +133,7 @@
             <li><a href="#intervention">Intervention controls</a></li>
             <li><a href="#review">Swarm review</a></li>
             <li><a href="#memory">Shared memory</a></li>
+            <li><a href="#code-graph">Code graph</a></li>
             <li><a href="#observability-docs">Observability</a></li>
           </ul>
 
@@ -1880,6 +1881,46 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               feed it on demand (&ldquo;Index past conversations&rdquo; / &ldquo;Index this
               repo&rsquo;s code&rdquo;), and inject the most relevant context into the active agent
               with one click.
+            </p>
+          </section>
+
+          <!-- CODE GRAPH -->
+          <section id="code-graph" class="docs-section">
+            <h2>Code graph &mdash; structural code understanding (automatic)</h2>
+            <p>
+              Alongside the semantic memory, Termpolis builds a native <strong>code graph</strong> of your
+              repository &mdash; every function, class, method, and the calls between them &mdash; so your AI
+              agents can answer <em>&ldquo;who calls this?&rdquo;</em>, <em>&ldquo;what would this change
+              break?&rdquo;</em>, and <em>&ldquo;where is X defined?&rdquo;</em> in one step instead of grepping
+              the same files over and over.
+            </p>
+            <p>
+              <strong>It&rsquo;s automatic.</strong> Opening a terminal in a Git repo indexes that repo&rsquo;s
+              code once per session, and a periodic re-sweep keeps it current as you edit &mdash; the same
+              setting (<em>Auto-index everything</em>, on by default) that powers semantic recall. No clicks;
+              opt out in Settings.
+            </p>
+            <p>
+              <strong>How agents use it.</strong> The graph is exposed to every launched agent (Claude Code,
+              Codex, Gemini CLI, Qwen Code) over MCP as five read-only tools, and Termpolis nudges them to
+              prefer these over grepping:
+            </p>
+            <ul class="docs-list">
+              <li><code>code_explore</code> &mdash; a symbol&rsquo;s source plus its direct callers and callees, in one call.</li>
+              <li><code>code_callers</code> / <code>code_callees</code> &mdash; who uses this / what it depends on.</li>
+              <li><code>code_impact</code> &mdash; the transitive <em>blast radius</em> of a change, before you make it.</li>
+              <li><code>code_search</code> &mdash; locate any symbol by name across the codebase.</li>
+            </ul>
+            <p>
+              <strong>Browse it yourself.</strong> The Memory panel (<code>Ctrl+Shift+M</code>) includes a
+              <em>Code Graph</em> browser &mdash; search a symbol to see its source, callers, callees, and blast
+              radius, or force a rebuild.
+            </p>
+            <p>
+              <strong>Languages.</strong> Deep support (symbols + methods + call edges) for
+              TypeScript/JavaScript, Python, Go, Rust, Java, C#, Ruby, and Swift; symbol discovery for
+              Terraform and Bicep. Fully local and native-free &mdash; no tree-sitter, no external services,
+              and secrets (<code>.env</code>, keys) are never indexed.
             </p>
           </section>
 
