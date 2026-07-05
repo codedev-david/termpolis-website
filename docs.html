@@ -1408,7 +1408,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Claude Code</strong> — runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
               <li><strong>Codex</strong> — runs <code>codex --full-auto</code>.</li>
-              <li><strong>Gemini CLI</strong> — runs <code>gemini</code>; respects Strict Mode (see <a href="#security-gemini">Gemini account-mode</a>).</li>
+              <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point); Strict Mode still guards a manually-typed <code>gemini</code> (see <a href="#security-gemini">Gemini account-mode</a>).</li>
               <li><strong>Qwen Code</strong> — runs <code>qwen</code> (Alibaba's Gemini-CLI fork).</li>
             </ul>
             <h3>Pick a model per profile (Claude)</h3>
@@ -1524,7 +1524,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
     }
   }
 }</code></pre>
-            <h3>The 25 tools an agent can call</h3>
+            <h3>The 26 tools an agent can call</h3>
             <p>
               Each entry below is a function call an MCP-aware agent makes through the protocol —
               not a command you type. Every invocation shows up in the
@@ -1563,6 +1563,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_pool</code></td><td>Pool the cross-agent lessons two or more agents independently arrived at — the fleet's most-corroborated knowledge.</td></tr>
                   <tr><td><code>memory_selfcheck</code></td><td>Report the brain's calibrated self-competence in a domain (confidence + track record) so the agent knows what it knows.</td></tr>
                   <tr><td><code>memory_feedback</code></td><td>Mark a recalled memory as helpful so repeatedly-useful entries rank a little higher for everyone.</td></tr>
+                  <tr><td><code>memory_conflicts</code></td><td>Surface pairs of lessons that <em>different</em> agents learned that assert opposite things about the same subject, so the fleet&rsquo;s disagreements can be found and resolved. Read-only and deliberately high-precision.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1754,6 +1755,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Shared across all four agents.</strong> Claude, Codex, Gemini, and Qwen all
                 read and write the same store over MCP, so a fact one agent learns is instantly
                 available to the others.</li>
+              <li><strong>Flags cross-agent contradictions (new in v1.19.5).</strong> When two
+                agents record lessons that assert opposite things about the same subject &mdash; a
+                Claude lesson says &ldquo;always run migrations before seeding,&rdquo; a Codex lesson
+                says &ldquo;never&rdquo; &mdash; the <code>memory_conflicts</code> MCP tool surfaces
+                the pair so you can investigate and resolve it (record the winner, mark the loser with
+                a <code>supersedes</code> link). Read-only and deliberately high-precision &mdash; it
+                would rather miss a subtle conflict than raise a false one.</li>
               <li><strong>Survives close &amp; reopen.</strong> Stored as JSONL on disk
                 (<code>swarm-memory.jsonl</code> in the <a href="#install">data directory</a>) and reloaded with its embeddings at
                 startup, your context isn&rsquo;t lost when you quit.</li>
@@ -1765,7 +1773,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 holds is re-embedded.</li>
               <li><strong>Fully offline, no server.</strong> Embeddings run in-process via WASM with a
                 bundled <code>bge-small-en-v1.5</code> model, no Ollama, no native binaries, nothing
-                leaves your machine.</li>
+                leaves your machine. And since v1.19.4 the embedding runs on a background worker
+                thread &mdash; not the one echoing your keystrokes &mdash; so typing stays smooth while
+                the brain loads its model and indexes.</li>
               <li><strong>Secrets are never indexed.</strong> The code indexer reuses the same
                 sensitive-file denylist as the read watcher, so <code>.env</code> files, keys, and
                 cloud credentials are excluded.</li>
@@ -1945,7 +1955,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  ├── Terminal manager (node-pty)                    │
 │  ├── Session persistence (session.json)             │
 │  ├── Git adapter                                    │
-│  ├── MCP server (HTTP, 25 tools)                    │
+│  ├── MCP server (HTTP, 26 tools)                    │
 │  ├── Swarm memory (JSONL + embeddings)              │
 │  ├── AI conductor (spawns Claude Code as a child)   │
 │  └── Watchers (event bus + alerts)                  │
@@ -1955,7 +1965,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  AI agents (Claude, Codex, Gemini, Qwen Code)       │
 │  Each in its own pty-backed terminal                │
 └─────────────────────────────────────────────────────┘</pre>
-            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (4,500+ tests across 180+ files, 90%+ line / 85%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
+            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (4,500+ tests across 260+ files, 90%+ line / 85%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
           </section>
 
           <!-- TROUBLESHOOTING -->

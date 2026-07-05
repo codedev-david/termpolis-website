@@ -43,7 +43,7 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.19.3",
+    "softwareVersion": "1.19.5",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -264,7 +264,8 @@
             Most &ldquo;AI memory&rdquo; is a bucket you write to and read from. Mneme runs a full
             learning cycle on top of the store: it <strong>reflects</strong> on finished work,
             <strong>consolidates</strong> while idle, <strong>reasons</strong> over how memories
-            connect, and <strong>ranks</strong> recall by what has actually helped before &mdash; all
+            connect, <strong>ranks</strong> recall by what has actually helped before, and
+            <strong>reconciles</strong> when two agents learn contradictory lessons &mdash; all
             local, all automatic.
           </p>
         </div>
@@ -316,6 +317,18 @@
               independently arrived at (the most-corroborated knowledge), and
               <code>memory_selfcheck</code> reports calibrated confidence from past outcomes &mdash; so
               the agent starts already knowing what the fleet knows.
+            </p>
+          </article>
+          <article class="card">
+            <h3>6 &middot; Reconcile &mdash; catch cross-agent contradictions</h3>
+            <p>
+              New in <strong>v1.19.5</strong>: <code>memory_conflicts</code> scans the shared brain
+              for pairs of lessons that <em>different</em> agents learned that assert opposite things
+              about the same subject &mdash; one agent says &ldquo;always run migrations before
+              seeding,&rdquo; another &ldquo;never.&rdquo; It surfaces the disagreement so you can
+              resolve it (keep the winner, mark the loser with a <code>supersedes</code> link).
+              Read-only and deliberately high-precision &mdash; it would rather miss a subtle conflict
+              than raise a false one.
             </p>
           </article>
         </div>
@@ -514,7 +527,7 @@
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>No required cloud account</strong><br><span style="opacity:0.7;font-size:12px;">Works the day you install it, no signup</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ No Termpolis account</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ No login to install; account for full AI/sync</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">✅ Optional sign-in for AI</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">✅ No account; free AI needs telemetry</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ JetBrains Account for AI features</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">✅ No account</td>
               </tr>
@@ -522,7 +535,7 @@
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Multi-agent swarm (parallel agents w/ live conductor)</strong><br><span style="opacity:0.7;font-size:12px;">Runs Claude + Codex + Gemini + Qwen together</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Up to 8, local conductor</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Oz: parallel subagents, cloud conductor</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ AI block per workspace</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Parallel agent blocks; no conductor</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Parallel agents in Git worktrees; no live conductor</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — agents via MCP plugin</td>
               </tr>
@@ -603,7 +616,7 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ None by default · opt-in crash reports only</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Product analytics</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Anonymized telemetry (opt-out)</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ JetBrains EAP / product analytics</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Anonymous usage stats, opt-out</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Mixpanel analytics on by default, opt-out</td>
               </tr>
               <tr>
@@ -646,7 +659,7 @@
           via a third-party MCP plugin (sessions are not orchestrated end-to-end the way a Termpolis swarm is).
           <strong>On the memory row:</strong> Warp's cross-agent <em>Agent Memory</em> (Oz) is the
           closest equivalent but is cloud-hosted, account/team-bound, and in research preview as of
-          July&nbsp;2026 — it stores and retrieves, without the reflect&nbsp;/ decay&nbsp;/ causal-rank&nbsp;/ adapt learning
+          July&nbsp;2026 — it auto-extracts facts and supersedes contradictions, but lacks the decay&nbsp;/ causal-rank&nbsp;/ self-adaptation learning
           loop Mneme runs; Wave keeps only per-chat history; JetBrains Air uses manual instruction/rules files with no
           auto-memory; Tabby is a terminal with no AI memory. Termpolis's brain is local, automatic, cross-agent, semantic,
           and <em>learning</em> — it distills a reusable lesson from every substantive session and tracks its own
@@ -1045,7 +1058,7 @@
           <article class="card">
             <h3>MCP server</h3>
             <p>
-              Built-in HTTP/SSE server on localhost:9315 with 25 tools. AI agents create terminals,
+              Built-in HTTP/SSE server on localhost:9315 with 26 tools. AI agents create terminals,
               run commands, read output, manage your workspace, and tap a shared memory that learns
               from every session. Auto-registers with Claude Code, Codex, Gemini, and Qwen-Code.
             </p>
@@ -1199,15 +1212,15 @@
           <p class="eyebrow">MCP integration</p>
           <h2>AI agents control your terminal</h2>
           <p>
-            Termpolis runs an MCP server on localhost:9315 with 25 tools. Claude Code,
+            Termpolis runs an MCP server on localhost:9315 with 26 tools. Claude Code,
             Codex, Gemini, and Qwen-Code all auto-discover it. Secured with a 256-bit auth token,
             localhost only, no plugins.
           </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>25 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 11 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback).</p>
+            <h3>26 MCP tools</h3>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 12 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts).</p>
           </article>
           <article class="card">
             <h3>Auto-registers with every agent</h3>
@@ -1285,7 +1298,7 @@
         <div class="feature-grid">
           <article class="card">
             <h3>4,500+ automated tests</h3>
-            <p>4,500+ unit &amp; component tests across 180+ files (Vitest, 90%+ line / 85%+ branch coverage) plus a 40+-spec Playwright end-to-end suite that launches the real Electron app, with automated screenshots. CI/CD on every release.</p>
+            <p>4,500+ unit &amp; component tests across 260+ files (Vitest, 90%+ line / 85%+ branch coverage) plus a 40+-spec Playwright end-to-end suite that launches the real Electron app, with automated screenshots. CI/CD on every release.</p>
           </article>
           <article class="card">
             <h3>Output throttling</h3>
