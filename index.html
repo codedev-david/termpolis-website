@@ -1083,8 +1083,8 @@
               <strong>Bicep</strong> for infrastructure &mdash; answers <code>code_explore</code> (a
               symbol&rsquo;s source, callers, and callees), <code>code_callers</code> /
               <code>code_callees</code>, and <code>code_impact</code> (the blast radius before you touch
-              a shared function). Built in-process from per-language regex: no tree-sitter, no cloud;
-              secrets excluded.
+              a shared function). Parsing is AST-precise via <strong>web-tree-sitter</strong> (WASM),
+              so it&rsquo;s still fully native-free and on your machine &mdash; no cloud, secrets excluded.
             </p>
           </article>
           <article class="card">

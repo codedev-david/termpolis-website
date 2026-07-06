@@ -1928,10 +1928,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               radius, or force a rebuild.
             </p>
             <p>
-              <strong>Languages.</strong> Deep support (symbols + methods + call edges) for
-              TypeScript/JavaScript, Python, Go, Rust, Java, C#, Ruby, and Swift; symbol discovery for
-              Terraform and Bicep. Fully local and native-free &mdash; no tree-sitter, no external services,
-              and secrets (<code>.env</code>, keys) are never indexed.
+              <strong>Languages.</strong> Deep, AST-precise support (symbols + methods + call edges) for
+              TypeScript/JavaScript, Python, Go, Rust, Java, C#, Ruby, and Swift &mdash; parsed by
+              <strong>web-tree-sitter</strong> (WebAssembly) with pre-built grammars; Terraform and Bicep
+              fall back to a regex heuristic for symbol discovery. Still fully local and
+              <strong>native-free</strong> &mdash; the parser is WASM, not a native binary, so nothing is
+              compiled and nothing leaves your machine; secrets (<code>.env</code>, keys) are never indexed.
             </p>
           </section>
 
