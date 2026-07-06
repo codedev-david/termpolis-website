@@ -1794,6 +1794,17 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 Syncthing) and every device shares one brain. Each machine writes its own shard
                 (<code>&lt;device-id&gt;.jsonl</code>), so the merge is conflict-free &mdash; a
                 grow-only union with tombstones, no central server and no Termpolis account.</li>
+              <li><strong>Portable &mdash; export / import the whole brain (v1.21).</strong>
+                <strong>Export Memory</strong> (app menu) writes a
+                <code>termpolis-brain-&lt;date&gt;.zip</code> holding your memories, the knowledge
+                graph, per-domain competence, identity, metrics, and the code graph &mdash; each
+                SHA-256&rsquo;d in a manifest. <strong>Import Memory</strong> verifies the zip CRCs
+                <em>and</em> every hash before applying anything (a corrupt or tampered archive is
+                refused whole, never half-merged), then grow-only-merges: memories and edges union in;
+                the device-local learning files restore only on a fresh machine, never overwriting an
+                existing brain. Your per-machine identity, sync config, and encryption salt are
+                deliberately excluded. Back up, seed a new machine, or move your brain over any
+                transport you like.</li>
               <li><strong>Optionally encrypted at rest.</strong> Enable encryption and every synced
                 line is sealed with <strong>AES-256-GCM</strong>; the key is derived with
                 <code>scrypt</code> and stored in your OS keychain (Windows DPAPI, macOS Keychain,
