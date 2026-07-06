@@ -1066,11 +1066,14 @@
           <article class="card">
             <h3>Native code graph</h3>
             <p>
-              New in <strong>v1.20.0</strong>: agents navigate your codebase by structure, not grep. A
-              local, pre-indexed symbol graph answers <code>code_explore</code> (a symbol&rsquo;s source
-              plus its callers and callees), <code>code_callers</code> / <code>code_callees</code>, and
-              <code>code_impact</code> &mdash; the blast radius before you touch a shared function. No
-              tree-sitter, no cloud; secrets are excluded.
+              New in <strong>v1.20</strong>: agents navigate your codebase by structure, not grep. A
+              local, pre-indexed symbol graph &mdash; spanning <strong>TypeScript/JavaScript, Python,
+              Go, Rust, Java, C#, Ruby, and Swift</strong>, plus <strong>Terraform</strong> and
+              <strong>Bicep</strong> for infrastructure &mdash; answers <code>code_explore</code> (a
+              symbol&rsquo;s source, callers, and callees), <code>code_callers</code> /
+              <code>code_callees</code>, and <code>code_impact</code> (the blast radius before you touch
+              a shared function). Built in-process from per-language regex: no tree-sitter, no cloud;
+              secrets excluded.
             </p>
           </article>
           <article class="card">
