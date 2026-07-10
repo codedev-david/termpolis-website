@@ -1138,7 +1138,8 @@
               so it&rsquo;s still fully native-free and on your machine &mdash; no cloud, secrets excluded.
               <strong>New in v1.23</strong>: the graph is keyed <strong>per repository</strong> &mdash; a
               second repo no longer clobbers the first, and each repo&rsquo;s graph is a durable on-disk
-              store, so a transient non-git directory won&rsquo;t wipe one you&rsquo;ve already built.
+              store, so a transient non-git directory won&rsquo;t wipe one you&rsquo;ve already built. An edit
+              re-indexes just the changed file (debounced), so the graph stays fresh in seconds.
             </p>
           </article>
           <article class="card">

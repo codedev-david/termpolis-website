@@ -1957,8 +1957,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <p>
               <strong>It&rsquo;s automatic.</strong> Opening a terminal in a repo indexes that repo&rsquo;s
-              code, and edits keep it current &mdash; the same setting (<em>Auto-index everything</em>, on by
-              default) that powers semantic recall. No clicks; opt out in Settings. <strong>As of v1.23</strong>
+              code, and an edit re-indexes <strong>just the changed file</strong> (debounced, AST-first) &mdash;
+              the same setting (<em>Auto-index everything</em>, on by default) that powers semantic recall. No clicks; opt out in Settings. <strong>As of v1.23</strong>
               the graph is <strong>keyed per repository</strong> &mdash; a durable on-disk store per repo, so
               opening a second repo no longer clobbers the first, and a transient non-git directory (or git off
               the PATH) won&rsquo;t wipe a graph you&rsquo;ve already built.
