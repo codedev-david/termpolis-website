@@ -133,6 +133,7 @@
             <li><a href="#intervention">Intervention controls</a></li>
             <li><a href="#review">Swarm review</a></li>
             <li><a href="#memory">Shared memory</a></li>
+            <li><a href="#weave">The Weave</a></li>
             <li><a href="#code-graph">Code graph</a></li>
             <li><a href="#observability-docs">Observability</a></li>
           </ul>
@@ -1559,7 +1560,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_write</code></td><td>Persist a labeled memory entry into the <a href="#memory">shared memory</a> store.</td></tr>
                   <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword) across shared memory.</td></tr>
                   <tr><td><code>memory_list</code></td><td>List recent memory entries with filters.</td></tr>
-                  <tr><td><code>memory_related</code></td><td>One-hop traversal — jump from a memory entry (or a query) to its nearest neighbours.</td></tr>
+                  <tr><td><code>memory_related</code></td><td>Undirected one-hop traversal &mdash; from a memory entry (or a query) to its neighbours, blending its typed graph edges with nearest semantic neighbours (undirected since v1.23).</td></tr>
                   <tr><td><code>memory_link</code></td><td>Record a typed edge between two memories — builds the knowledge graph.</td></tr>
                   <tr><td><code>memory_graph</code></td><td>Multi-hop walk of the knowledge graph from a seed memory.</td></tr>
                   <tr><td><code>memory_primer</code></td><td>Load a ranked background-memory digest for the current project at session start.</td></tr>
@@ -1574,6 +1575,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>code_callees</code></td><td>List the symbols a given symbol calls &mdash; &ldquo;what does this depend on?&rdquo;</td></tr>
                   <tr><td><code>code_impact</code></td><td>Blast radius: the transitive set of symbols that directly or indirectly call a symbol &mdash; what could break if you change it. Run it before editing a shared function.</td></tr>
                   <tr><td><code>code_search</code></td><td>Find symbols (functions, classes, types) whose name matches a substring across the indexed codebase &mdash; a fast structural lookup.</td></tr>
+                  <tr><td><code>code_locate</code></td><td>Predict <em>where</em> an issue lives &mdash; give it an error or problem description and get back a ranked list of <code>{file, symbol, why:[past&nbsp;lessons]}</code>, the code most likely responsible with the fixes/decisions that point there. Crosses the memory&harr;code bridge (new in v1.23.0).</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1868,7 +1870,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Search</strong> via <code>memory_search</code>, semantic vector search blended with keyword overlap.</li>
               <li><strong>Write</strong> via <code>memory_write</code>, persist a fact or decision for the others.</li>
               <li><strong>List</strong> via <code>memory_list</code>, recent entries with filters.</li>
-              <li><strong>Relate</strong> via <code>memory_related</code>, jump from one memory to its nearest neighbours.</li>
+              <li><strong>Relate</strong> via <code>memory_related</code>, jump from one memory to its neighbours &mdash; undirected since v1.23, blending typed edges with nearest neighbours.</li>
               <li><strong>Link &amp; walk</strong> via <code>memory_link</code> and <code>memory_graph</code>, record typed connections and follow the chain across hops.</li>
               <li><strong>Anticipate</strong> via <code>memory_anticipate</code>, surface solutions the fleet already found for the task at hand before you start solving it.</li>
               <li><strong>Pool</strong> via <code>memory_pool</code>, gather the cross-agent lessons that two or more agents independently arrived at &mdash; the fleet&rsquo;s most-corroborated knowledge.</li>
@@ -1895,6 +1897,54 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
           </section>
 
+          <!-- THE WEAVE -->
+          <section id="weave" class="docs-section">
+            <h2>The Weave &mdash; one fabric across memory, code, and every repo (v1.23)</h2>
+            <p>
+              <strong>v1.23 &ldquo;The Weave&rdquo;</strong> joins the shared memory and the
+              <a href="#code-graph">code graph</a> into a single self-weaving fabric. Recall stops at
+              <em>text</em> &mdash; it points at the <em>code</em> a lesson is about &mdash; and the
+              non-obvious connections across your whole workspace are drawn <strong>ahead of time</strong>,
+              so agents reason faster. Everything below is local-first, append-only, and native-free, and
+              forms as you work &mdash; nothing to set up.
+            </p>
+            <ul class="docs-list">
+              <li><strong>Memory &harr; code bridge.</strong> Stored lessons and decisions now carry
+                structured <strong>code anchors</strong> (file + symbol), resolved from the code graph when
+                the lesson is written. Recall can cross straight from a fix to the exact function it lives
+                in, and a reverse lookup surfaces everything the brain knows about a given symbol. The two
+                stores used to have disjoint id spaces; now they share a join key.</li>
+              <li><strong>Predict <em>where</em> to fix it &mdash; <code>code_locate</code>.</strong> Give it
+                an error or a problem description and it returns a ranked list of
+                <code>{file, symbol, why:[past&nbsp;lessons]}</code> &mdash; the code sites most likely
+                responsible, each with the fixes and decisions anchored there, scored by code-graph
+                centrality &times; the utility of those lessons. It&rsquo;s the 32nd MCP tool, so an agent
+                reaches for it first when debugging instead of grepping. The <code>why</code> list grows
+                richer over time as new lessons are anchored and the weaver backfills older ones.</li>
+              <li><strong>The Weave &mdash; an always-on background connection-miner (flagship).</strong>
+                Between tasks, a weaver continuously draws connections across the <em>entire</em> unified
+                brain: <strong>cross-repo code-structure analogies</strong> (a pattern in one repo that
+                echoes one in another), <strong>cross-repo answer/decision analogies</strong>, and the
+                memory&harr;code bridge edges above &mdash; each materialized ahead of time with provenance
+                and a confidence/weight floor so the graph stays high-signal rather than flooded. It runs on
+                the same idle indexer tick that powers semantic recall.</li>
+              <li><strong>Automatic bug &rarr; fix edges.</strong> When a task that hit a problem finishes,
+                Mneme now mints the causal <code>solves</code> edge to an entity node for the error
+                automatically, so <em>&ldquo;this error &rarr; that fix&rdquo;</em> is traversable later
+                without anyone hand-linking it.</li>
+              <li><strong>Rock-solid, never-delete memory.</strong> Idle consolidation moves aged memories
+                to a <strong>cold-archive tier</strong> instead of deleting them &mdash; nothing curated is
+                ever permanently lost &mdash; and <strong>deep recall</strong> can still reach archived
+                entries and history beyond the hot search window. Cross-repo transfer is
+                <strong>relevance-scoped</strong>, so one unified brain gives cross-project reuse without
+                the noise.</li>
+              <li><strong>Sharper learning.</strong> An <strong>opt-in LLM distiller</strong> (set
+                <code>TERMPOLIS_MNEME_DISTILLER=1</code>) writes richer, more precise lessons than the
+                default heuristic; <code>memory_related</code> is now <strong>undirected</strong>, so a
+                typed connection surfaces from either end.</li>
+            </ul>
+          </section>
+
           <!-- CODE GRAPH -->
           <section id="code-graph" class="docs-section">
             <h2>Code graph &mdash; structural code understanding (automatic)</h2>
@@ -1906,14 +1956,16 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               the same files over and over.
             </p>
             <p>
-              <strong>It&rsquo;s automatic.</strong> Opening a terminal in a Git repo indexes that repo&rsquo;s
-              code once per session, and a periodic re-sweep keeps it current as you edit &mdash; the same
-              setting (<em>Auto-index everything</em>, on by default) that powers semantic recall. No clicks;
-              opt out in Settings.
+              <strong>It&rsquo;s automatic.</strong> Opening a terminal in a repo indexes that repo&rsquo;s
+              code, and edits keep it current &mdash; the same setting (<em>Auto-index everything</em>, on by
+              default) that powers semantic recall. No clicks; opt out in Settings. <strong>As of v1.23</strong>
+              the graph is <strong>keyed per repository</strong> &mdash; a durable on-disk store per repo, so
+              opening a second repo no longer clobbers the first, and a transient non-git directory (or git off
+              the PATH) won&rsquo;t wipe a graph you&rsquo;ve already built.
             </p>
             <p>
               <strong>How agents use it.</strong> The graph is exposed to every launched agent (Claude Code,
-              Codex, Gemini CLI, Qwen Code) over MCP as five read-only tools, and Termpolis nudges them to
+              Codex, Gemini CLI, Qwen Code) over MCP as six read-only tools, and Termpolis nudges them to
               prefer these over grepping:
             </p>
             <ul class="docs-list">
@@ -1921,6 +1973,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><code>code_callers</code> / <code>code_callees</code> &mdash; who uses this / what it depends on.</li>
               <li><code>code_impact</code> &mdash; the transitive <em>blast radius</em> of a change, before you make it.</li>
               <li><code>code_search</code> &mdash; locate any symbol by name across the codebase.</li>
+              <li><code>code_locate</code> &mdash; predict <em>where</em> an issue lives (file + symbol + the past lessons that point there), crossing the <a href="#weave">memory&harr;code bridge</a>. New in v1.23.</li>
             </ul>
             <p>
               <strong>Browse it yourself.</strong> The Memory panel (<code>Ctrl+Shift+M</code>) includes a

@@ -343,6 +343,56 @@
             </p>
           </article>
         </div>
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">🕸 New in v1.23 &middot; The Weave</p>
+          <h2>One fabric across memory, code, and every repo</h2>
+          <p>
+            v1.23 weaves the brain and the code graph into a single fabric. Recall stops being just
+            <em>text</em> and starts pointing at the <em>code</em> a lesson is about &mdash; and the
+            non-obvious connections across your whole workspace are drawn <strong>ahead of time</strong>,
+            so agents reason faster.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Memory &harr; code bridge</h3>
+            <p>
+              Stored lessons and decisions now carry structured <strong>code anchors</strong> (file +
+              symbol), so recall crosses straight from &ldquo;this is how we fixed the auth bug&rdquo; to
+              the exact function it lives in &mdash; and, in reverse, from a function to everything the
+              brain knows about it. The two stores used to be islands; now they share a key.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Predict where to fix it</h3>
+            <p>
+              Hand <code>code_locate</code> an error or a problem description and it returns a ranked list
+              of <code>{file, symbol, why:[past lessons]}</code> &mdash; the code most likely responsible,
+              each with the fixes and decisions that point there. The 32nd MCP tool, so an agent reaches
+              for it <em>first</em> when debugging instead of grepping blindly.
+            </p>
+          </article>
+          <article class="card">
+            <h3>The Weave &mdash; a background connection-miner</h3>
+            <p>
+              While you&rsquo;re idle, a weaver continuously draws connections across the <em>entire</em>
+              unified brain: <strong>cross-repo code-structure analogies</strong>, cross-repo
+              answer/decision analogies, and the bridge edges above &mdash; materialized ahead of time
+              with provenance and a weight floor so the graph stays high-signal. The connections are
+              already there when an agent needs them.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Per-repo graph &amp; a memory that never deletes</h3>
+            <p>
+              The code graph is now keyed <strong>per repository</strong> &mdash; a second repo no longer
+              clobbers the first, and each repo&rsquo;s durable on-disk store means a transient non-git
+              directory won&rsquo;t wipe it. And idle consolidation moves aged memories to a
+              <strong>cold-archive tier</strong> instead of
+              deleting them, so nothing curated is ever lost and deep recall still reaches them.
+            </p>
+          </article>
+        </div>
         <figure class="dashboard-preview">
           <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-memory-dashboard.png" data-lightbox-alt="Termpolis Memory & Learning dashboard, full view — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." aria-label="Open the full Memory &amp; Learning dashboard screenshot">
             <img src="assets/screenshot-memory-dashboard.png" width="2096" height="5162" loading="lazy" alt="Termpolis Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
@@ -1077,14 +1127,18 @@
           <article class="card">
             <h3>Native code graph</h3>
             <p>
-              New in <strong>v1.20</strong>: agents navigate your codebase by structure, not grep. A
+              Agents navigate your codebase by structure, not grep. A
               local, pre-indexed symbol graph &mdash; spanning <strong>TypeScript/JavaScript, Python,
               Go, Rust, Java, C#, Ruby, and Swift</strong>, plus <strong>Terraform</strong> and
               <strong>Bicep</strong> for infrastructure &mdash; answers <code>code_explore</code> (a
               symbol&rsquo;s source, callers, and callees), <code>code_callers</code> /
-              <code>code_callees</code>, and <code>code_impact</code> (the blast radius before you touch
-              a shared function). Parsing is AST-precise via <strong>web-tree-sitter</strong> (WASM),
+              <code>code_callees</code>, <code>code_impact</code> (the blast radius before you touch
+              a shared function), <code>code_search</code>, and <code>code_locate</code> (predict
+              <em>where</em> an issue lives). Parsing is AST-precise via <strong>web-tree-sitter</strong> (WASM),
               so it&rsquo;s still fully native-free and on your machine &mdash; no cloud, secrets excluded.
+              <strong>New in v1.23</strong>: the graph is keyed <strong>per repository</strong> &mdash; a
+              second repo no longer clobbers the first, and each repo&rsquo;s graph is a durable on-disk
+              store, so a transient non-git directory won&rsquo;t wipe one you&rsquo;ve already built.
             </p>
           </article>
           <article class="card">
@@ -1244,7 +1298,7 @@
         <div class="feature-grid">
           <article class="card">
             <h3>32 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 12 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts) + 6 code-graph tools (explore, callers, callees, impact, search).</p>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 12 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts) + 6 code-graph tools (explore, callers, callees, impact, search, locate).</p>
           </article>
           <article class="card">
             <h3>Auto-registers with every agent</h3>
