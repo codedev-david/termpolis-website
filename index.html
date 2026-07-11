@@ -449,7 +449,7 @@
         </div>
         <div class="section-heading" style="margin-top:52px;">
           <p class="eyebrow">Head to head</p>
-          <h2>Memory &amp; learning vs Claude Desktop, OpenAI Codex &amp; Antigravity</h2>
+          <h2>Memory &amp; learning vs Claude Code, OpenAI Codex &amp; Antigravity</h2>
           <p>
             The real gap isn't speed alone &mdash; it's that a persistent, <em>learning</em> memory with
             <em>typed relationships</em>, shared across every agent and running <em>fully local</em>, is
@@ -463,7 +463,7 @@
               <tr style="background:#1a1a1e;text-align:left;">
                 <th scope="col" style="padding:14px 18px;border-bottom:1px solid #2a2a2e;">Memory &amp; learning capability</th>
                 <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">Termpolis</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Claude&nbsp;Desktop</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Claude&nbsp;Code</th>
                 <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">OpenAI&nbsp;Codex</th>
                 <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Antigravity</th>
               </tr>
@@ -472,42 +472,42 @@
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Persistent cross-session memory</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ local JSONL, survives restart</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">✅ account / project</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">✅ <code>CLAUDE.md</code> files</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ opt-in preview</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ preview, ~20-item cap</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Semantic recall of memory (by meaning)</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ on-device embeddings (0.97)</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ text chat-search</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ loads <code>CLAUDE.md</code> verbatim</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ greps <code>MEMORY.md</code></td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ notes (semantic over <em>code</em> only)</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Learns from feedback (demote / reinforce)</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ measured</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ "config, not learning"</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ static instructions</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ no feedback ranking</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ static notes</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Typed relationship graph (bug&rarr;fix, decision&rarr;superseded)</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ traversable, measured</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat facts</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat markdown</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat files</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ code graph &ne; memory graph</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Shared across <em>all</em> your agents</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ Claude + Codex + Gemini + Qwen</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ Claude-only</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ Claude-only (its own <code>CLAUDE.md</code>)</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ OpenAI-only</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ in-app models only</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;">100% local / offline / no telemetry</td>
                 <td style="padding:12px;color:#7ee2a3;">✅ on-device WASM, no server</td>
-                <td style="padding:12px;">❌ cloud</td>
+                <td style="padding:12px;">❌ cloud model</td>
                 <td style="padding:12px;">❌ cloud</td>
                 <td style="padding:12px;">❌ cloud</td>
               </tr>
@@ -517,7 +517,7 @@
         <p style="font-size:12.5px;opacity:0.72;margin-top:14px;">
           Termpolis cells are backed by reproducible tests (<code>npm run bench:proof</code>,
           <code>npm run bench:recall</code>) that gate CI. Competitor cells sourced July&nbsp;2026 from
-          <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank" rel="noreferrer">Claude memory docs</a>,
+          <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noreferrer">Claude Code memory docs</a>,
           <a href="https://developers.openai.com/codex/memories" target="_blank" rel="noreferrer">Codex Memories docs</a>, and
           <a href="https://antigravity.google/docs/knowledge" target="_blank" rel="noreferrer">Antigravity Knowledge docs</a>.
           Spot something out of date? <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">File an issue</a> and we'll fix it.
