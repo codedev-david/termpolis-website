@@ -75,6 +75,7 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a href="#memory">Mneme</a>
+        <a href="#proof">Proof</a>
         <a href="#second-opinion">Second Opinion</a>
         <a href="#why">Why us</a>
         <a href="#context-handoff">Handoff</a>
@@ -126,7 +127,7 @@
           <ul class="hero-points" aria-label="Key product highlights">
             <li><strong>Never re-explain context</strong> — a fresh Codex or Gemini terminal opens already knowing your project</li>
             <li><strong>Learns automatically</strong> — distills the fix, the decision, the gotcha from every session; Qwen records its own</li>
-            <li><strong>100% local &amp; private</strong> — in-process embeddings, optional at-rest encryption, no server, no telemetry</li>
+            <li><strong>100% local &amp; private</strong> — in-process embeddings, default-on at-rest encryption (OS-keychain device key), no server, no telemetry</li>
             <li><strong>Runs your real agents</strong> — Claude, Codex, Gemini, Qwen unchanged, with prompt security scanning + an optional swarm</li>
           </ul>
         </div>
@@ -244,10 +245,11 @@
           <article class="card">
             <h3>Encrypted at rest, key in your keychain</h3>
             <p>
-              Turn on encryption and every synced line is sealed with <strong>AES-256-GCM</strong>;
-              the key is derived with <code>scrypt</code> and held in your OS keychain (Windows
-              DPAPI / macOS Keychain / Linux libsecret) &mdash; never written to the synced folder.
-              Your cloud provider only ever sees ciphertext.
+              A local store is <strong>encrypted by default</strong> with <strong>AES-256-GCM</strong>
+              under a per-device key generated into your OS keychain (Windows DPAPI / macOS Keychain /
+              Linux libsecret) &mdash; no passphrase, and where no keychain is available it stays
+              plaintext and says so rather than faking it. Turn on cross-machine sync and the key is a
+              <code>scrypt</code> passphrase you share; your cloud provider only ever sees ciphertext.
             </p>
           </article>
         </div>
@@ -400,6 +402,126 @@
           </button>
           <figcaption class="dashboard-caption">The <strong>Memory &amp; Learning</strong> dashboard (Settings) &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability, cross-agent teaching, and receipts. <strong>Every number is computed on your machine, offline, from the local store.</strong></figcaption>
         </figure>
+      </section>
+
+      <!-- PROOF -->
+      <section id="proof" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🔬 Proof, not claims</p>
+          <h2>Measured &mdash; and reproducible &mdash; against the tools you'd compare us to</h2>
+          <p>
+            Don't take our word for it. Every number below is produced by a test in the open-source
+            repo that runs against the <strong>real on-device model in CI</strong> and
+            <strong>fails the build if it regresses</strong> &mdash; reproduce them yourself with
+            <code>npm run bench:proof</code> and <code>npm run bench:recall</code>. Competitor
+            capabilities are sourced from each vendor's public docs as of <strong>July&nbsp;2026</strong>
+            (marks: ✅&nbsp;ships, ⚠&nbsp;partial&nbsp;/&nbsp;opt-in&nbsp;/&nbsp;preview, ❌&nbsp;not&nbsp;available).
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>~20&nbsp;ms lookup</h3>
+            <p>Median local semantic recall (p50) over a 180-memory store &mdash; <strong>faster than
+              re-reading one file</strong>, and it never leaves your machine. Verify: <code>npm run bench:proof</code>.</p>
+          </article>
+          <article class="card">
+            <h3>0.97 recall@10</h3>
+            <p>The right memory lands in the top&nbsp;10 for <strong>97% of queries</strong>
+              (nDCG&nbsp;0.80, MRR&nbsp;0.74) on a 34-query labeled set. Verify: <code>npm run bench:recall</code>.</p>
+          </article>
+          <article class="card">
+            <h3>38&times; token leverage</h3>
+            <p>One recall hands the agent <strong>~305 tokens of relevant context</strong> for an
+              ~8-token query &mdash; context you'd otherwise re-type or re-read <em>every</em> session.</p>
+          </article>
+          <article class="card">
+            <h3>It learns &amp; relates</h3>
+            <p>Mark a memory unhelpful and it <strong>leaves recall</strong>; a bug and its fix become a
+              <strong>typed, traversable link</strong> (<code>bug&nbsp;&rarr;&nbsp;solved-by&nbsp;&rarr;&nbsp;fix</code>). Both measured, both gated.</p>
+          </article>
+          <article class="card">
+            <h3>Sub-linear at scale</h3>
+            <p>Past ~50k memories a pure-TypeScript <strong>HNSW</strong> approximate-nearest-neighbour
+              index engages automatically &mdash; the same class of index behind Pinecone, Weaviate and
+              pgvector, but <strong>native-free and 100% local</strong>. (Smaller stores use an exact scan;
+              the ~20&nbsp;ms above is that exact path.)</p>
+          </article>
+        </div>
+        <div class="section-heading" style="margin-top:52px;">
+          <p class="eyebrow">Head to head</p>
+          <h2>Memory &amp; learning vs Claude Desktop, OpenAI Codex &amp; Antigravity</h2>
+          <p>
+            The real gap isn't speed alone &mdash; it's that a persistent, <em>learning</em> memory with
+            <em>typed relationships</em>, shared across every agent and running <em>fully local</em>, is
+            something the incumbents structurally don't have. Their memory is stored facts / notes /
+            grep&#8209;able files, not a brain that ranks by feedback and models how things connect.
+          </p>
+        </div>
+        <div class="compare-table-wrapper" style="overflow-x:auto;border:1px solid #2a2a2e;border-radius:14px;">
+          <table class="compare-table" style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:860px;">
+            <thead>
+              <tr style="background:#1a1a1e;text-align:left;">
+                <th scope="col" style="padding:14px 18px;border-bottom:1px solid #2a2a2e;">Memory &amp; learning capability</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">Termpolis</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Claude&nbsp;Desktop</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">OpenAI&nbsp;Codex</th>
+                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Antigravity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Persistent cross-session memory</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ local JSONL, survives restart</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">✅ account / project</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ opt-in preview</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ preview, ~20-item cap</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Semantic recall of memory (by meaning)</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ on-device embeddings (0.97)</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ text chat-search</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ greps <code>MEMORY.md</code></td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ notes (semantic over <em>code</em> only)</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Learns from feedback (demote / reinforce)</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ measured</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ "config, not learning"</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ no feedback ranking</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ static notes</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Typed relationship graph (bug&rarr;fix, decision&rarr;superseded)</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ traversable, measured</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat facts</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat files</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ code graph &ne; memory graph</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Shared across <em>all</em> your agents</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ Claude + Codex + Gemini + Qwen</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ Claude-only</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ OpenAI-only</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ in-app models only</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;">100% local / offline / no telemetry</td>
+                <td style="padding:12px;color:#7ee2a3;">✅ on-device WASM, no server</td>
+                <td style="padding:12px;">❌ cloud</td>
+                <td style="padding:12px;">❌ cloud</td>
+                <td style="padding:12px;">❌ cloud</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:12.5px;opacity:0.72;margin-top:14px;">
+          Termpolis cells are backed by reproducible tests (<code>npm run bench:proof</code>,
+          <code>npm run bench:recall</code>) that gate CI. Competitor cells sourced July&nbsp;2026 from
+          <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank" rel="noreferrer">Claude memory docs</a>,
+          <a href="https://developers.openai.com/codex/memories" target="_blank" rel="noreferrer">Codex Memories docs</a>, and
+          <a href="https://antigravity.google/docs/knowledge" target="_blank" rel="noreferrer">Antigravity Knowledge docs</a>.
+          Spot something out of date? <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">File an issue</a> and we'll fix it.
+        </p>
       </section>
 
       <!-- SECOND OPINION -->

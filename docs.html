@@ -1807,11 +1807,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 existing brain. Your per-machine identity, sync config, and encryption salt are
                 deliberately excluded. Back up, seed a new machine, or move your brain over any
                 transport you like.</li>
-              <li><strong>Optionally encrypted at rest.</strong> Enable encryption and every synced
-                line is sealed with <strong>AES-256-GCM</strong>; the key is derived with
-                <code>scrypt</code> and stored in your OS keychain (Windows DPAPI, macOS Keychain,
-                Linux libsecret), never in the synced folder. Your cloud provider only ever sees
-                ciphertext, and Termpolis transparently decrypts on read.</li>
+              <li><strong>Encrypted at rest by default.</strong> A local store is sealed with
+                <strong>AES-256-GCM</strong> under a per-device key generated into your OS keychain
+                (Windows DPAPI, macOS Keychain, Linux libsecret) &mdash; no passphrase required, and
+                where no keychain is available it stays plaintext and reports so honestly rather than
+                writing a key beside the data. With cross-machine sync the key is instead derived with
+                <code>scrypt</code> from a passphrase you share, never stored in the synced folder, so
+                your cloud provider only ever sees ciphertext. Termpolis transparently decrypts on read.</li>
               <li><strong>Scales into six figures.</strong> Vectors are packed into a typed-array
                 store (about half the RAM of boxed arrays); past tens of thousands of entries an
                 <strong>HNSW</strong> approximate-nearest-neighbour index engages automatically so
