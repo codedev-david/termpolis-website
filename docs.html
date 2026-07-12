@@ -329,15 +329,32 @@
               It is a hard stop, not a banner: nothing is silently redacted behind your back, and no
               half-made commit is left behind.
             </p>
+            <h4>Covering git you type yourself: the hooks (v1.25.1)</h4>
+            <p>
+              Out of the box the shield gates the git operations <em>Termpolis itself runs</em>: the
+              Git panel and Swarm Review. That leaves the way most people actually commit —
+              <code>git commit</code> typed into a terminal — going straight past it. So install the
+              hooks: <strong>Settings &rarr; AI Security &rarr; Protect a repository</strong> writes a
+              <code>pre-commit</code> and a <code>pre-push</code> hook into that repo, and the secret
+              is caught <strong>however you commit</strong> — terminal, IDE, or script.
+            </p>
+            <ul class="docs-list">
+              <li><strong>It works with Termpolis closed.</strong> The hook shells out to a standalone
+                scanner that carries its own copy of the rule table and needs only Node and git. A hook
+                that only guarded you while the app was running would silently stop guarding you the
+                moment you quit — worse than no hook, because you would still believe you had one.</li>
+              <li><strong>It chains, it does not clobber.</strong> An existing hook (husky, lint-staged)
+                is preserved and still runs, and <em>its</em> exit code still gates the commit. A hook
+                written in something other than shell is left untouched rather than corrupted.</li>
+              <li><strong>It fails open.</strong> If Node is missing, or Termpolis has been uninstalled
+                and the scanner is gone, the hook exits 0. A hook left behind by a deleted app must
+                never wedge your git.</li>
+            </ul>
             <div class="docs-callout">
-              <strong>Scope — read this before you rely on it.</strong> The shield gates the git
-              operations <em>Termpolis itself runs</em>: the <strong>Git panel</strong> and
-              <strong>Swarm Review</strong> (<code>git:commit</code>, <code>git:commit-all</code>,
-              <code>git:push</code>). Termpolis installs <strong>no git hook</strong>, so a
-              <code>git commit</code> or <code>git push</code> you type directly into a terminal
-              pane is <strong>not</strong> intercepted. If you commit and push exclusively from a
-              raw shell, neither gate fires. It is a hard net under Termpolis&rsquo;s own git
-              actions — not a repo-wide guarantee.
+              <strong>Be clear-eyed about the limit.</strong> <code>git commit --no-verify</code>
+              bypasses <em>any</em> git hook — that is git&rsquo;s design, and it is your machine.
+              This is a strong net, not a cage. It is here to stop the accident, not a determined
+              author.
             </div>
             <p>
               <strong>It fails open.</strong> If <code>git</code> itself errors — not a repository, no

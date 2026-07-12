@@ -980,14 +980,19 @@
               only ever saw text you typed <em>at</em> an agent — it never saw git, so a leaked
               key could still land in your history and be pushed to a remote. On by default;
               toggle in Settings &rarr; AI Security.
-              <strong>Scope:</strong> it gates the git operations Termpolis itself runs — the
-              <strong>Git panel</strong> and <strong>Swarm Review</strong>. Termpolis installs no
-              git hook, so a <code>git commit</code> you type straight into a terminal pane is
-              <em>not</em> intercepted. Treat it as a hard net under Termpolis&rsquo;s own git
-              actions, not a repo-wide guarantee.
-              <strong>Limit:</strong> it <em>fails open</em> on a git error — a scan that cannot
-              run will never wedge a commit for a non-secret reason, which means a broken repo
-              state degrades to no protection rather than to a blocked workflow.
+              <strong>However you commit.</strong> Out of the box it gates the git operations
+              Termpolis itself runs. Install the <code>pre-commit</code>&nbsp;/&nbsp;<code>pre-push</code>
+              hooks (Settings &rarr; AI Security) and it also catches a secret in a
+              <code>git commit</code> typed straight into a terminal, an IDE, or a script. The hooks
+              shell out to a <strong>standalone scanner</strong>, so they keep working
+              <em>even with Termpolis closed</em> — a shield that only guards you while the app is
+              running would quietly stop guarding you the moment you quit, which is worse than none,
+              because you&rsquo;d still believe you had one. An existing hook (husky, lint-staged) is
+              <strong>chained, never overwritten</strong>.
+              <strong>Limit:</strong> the hook <em>fails open</em> — if Node or the scanner is
+              missing, git is never blocked, so a broken state degrades to no protection rather than
+              to a wedged workflow. And <code>--no-verify</code> bypasses any git hook: this is a
+              strong net, not a cage.
             </p>
           </article>
           <article class="card">
