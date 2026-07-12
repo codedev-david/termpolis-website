@@ -83,13 +83,17 @@
           <ul class="docs-toc">
             <li><a href="#security-center">AI Security Center</a></li>
             <li><a href="#security-secret-scanner">Pre-paste secret scanner</a></li>
+            <li><a href="#security-commit-shield">Commit &amp; push Secret Shield</a></li>
             <li><a href="#security-sensitive-file">Sensitive-file-read alert</a></li>
             <li><a href="#security-codechunk">Code-chunk + env-dump heuristics</a></li>
             <li><a href="#security-egress">Per-agent egress audit</a></li>
+            <li><a href="#security-egress-guard">Egress Guard (allowlist policy)</a></li>
+            <li><a href="#security-memory-scrub">Memory-at-rest secret scrub</a></li>
             <li><a href="#security-tos-drift">ToS drift watcher</a></li>
             <li><a href="#security-gemini">Gemini account-mode + Strict Mode</a></li>
             <li><a href="#security-audit">Audit log</a></li>
             <li><a href="#security-disclaimer">Legal disclaimer</a></li>
+            <li><a href="#safe-import">Safe Import (skills &amp; plugins)</a></li>
           </ul>
 
           <p class="docs-sidebar-eyebrow">Share output</p>
@@ -217,7 +221,7 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
-              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> auto-scans every AI prompt against 70+ secret patterns, enforces Gemini paid-tier mode, and keeps an auditable JSONL log of every AI-agent terminal launch — every check runs locally.</li>
+              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> auto-scans every AI prompt against 70+ secret patterns, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, enforces Gemini paid-tier mode, and keeps an auditable JSONL log — every check runs locally.</li>
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, Gemini CLI, and Qwen Code work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
@@ -303,6 +307,51 @@
               tokens may not be detected and must be vetted separately.
             </p>
 
+            <h3 id="security-commit-shield">Commit &amp; push Secret Shield (v1.25)</h3>
+            <p>
+              The scanner above only ever sees text on its way <em>to an agent</em>. It never saw
+              <code>git</code>. So a key that an agent wrote into a file — or one you pasted into a
+              config and forgot about — could still be committed, land in your history, and be pushed
+              to a remote without a single check firing. That was the hole. The Secret Shield closes it
+              by running the same ~70-rule engine at the <strong>git boundary</strong>:
+            </p>
+            <ul class="docs-list">
+              <li><strong>On commit</strong> — it scans the <strong>staged diff</strong>
+                (<code>git diff --cached</code>), which is precisely what the commit is about to
+                capture.</li>
+              <li><strong>On push</strong> — it scans <strong>every unpushed commit patch</strong>,
+                which is precisely what the push is about to send. So a secret already sitting in local
+                history is caught before it leaves the machine, not just one you're adding right now.</li>
+            </ul>
+            <p>
+              A hit <strong>blocks the git operation</strong> and tells you <strong>which rule
+              fired</strong>, so you can strip the value (or rewrite the offending commit) and go again.
+              It is a hard stop, not a banner: nothing is silently redacted behind your back, and no
+              half-made commit is left behind.
+            </p>
+            <div class="docs-callout">
+              <strong>Scope — read this before you rely on it.</strong> The shield gates the git
+              operations <em>Termpolis itself runs</em>: the <strong>Git panel</strong> and
+              <strong>Swarm Review</strong> (<code>git:commit</code>, <code>git:commit-all</code>,
+              <code>git:push</code>). Termpolis installs <strong>no git hook</strong>, so a
+              <code>git commit</code> or <code>git push</code> you type directly into a terminal
+              pane is <strong>not</strong> intercepted. If you commit and push exclusively from a
+              raw shell, neither gate fires. It is a hard net under Termpolis&rsquo;s own git
+              actions — not a repo-wide guarantee.
+            </div>
+            <p>
+              <strong>It fails open.</strong> If <code>git</code> itself errors — not a repository, no
+              upstream, git off the PATH — the shield gets out of the way and lets the operation
+              proceed. It can block you for a <em>secret</em> and nothing else; it will never wedge a
+              commit for a reason that has nothing to do with secrets.
+            </p>
+            <p>
+              <strong>On by default</strong> — toggle it under <strong>Settings → AI Security →
+              Commit Shield</strong>. It inherits the scanner's limits: these are high-confidence
+              patterns, so a bespoke corporate token shape may not be recognised and still needs its
+              own review.
+            </p>
+
             <h3 id="security-gemini">Gemini account-mode auto-detect + Strict Mode</h3>
             <p>
               The Gemini CLI is the highest-risk surface, because the free OAuth tier may be used
@@ -325,12 +374,24 @@
               API directly, etc.). It is a tripwire for the common-case mistake, not a full proxy.
             </p>
 
-            <h3 id="security-audit">Local JSONL audit log</h3>
+            <h3 id="security-audit">Local JSONL audit log (on by default since v1.25)</h3>
             <p>
-              Every AI-agent terminal launch can be recorded in <code>ai-security-audit.jsonl</code>
-              inside the userData directory. Each record is one JSON object containing the timestamp,
-              the agent, the terminal id, and (optionally) byte counts and hit counts. The file is
-              append-only with 10 MB rotation. It can be wiped from Settings → Security at any time.
+              Every AI-agent terminal launch is recorded in <code>ai-security-audit.jsonl</code> inside
+              the Termpolis <a href="#install">data directory</a> (<code>%APPDATA%\termpolis\</code> on
+              Windows). Each record is one JSON object containing the timestamp, the agent, the terminal
+              id, and (optionally) byte counts and hit counts. The file is append-only with 10 MB
+              rotation. It can be wiped from Settings → AI Security at any time.
+            </p>
+            <p>
+              <strong>It now records by default.</strong> Through v1.24 the audit trail defaulted to
+              <em>off</em> — which meant that for most users the file did not exist at all, and the
+              evidence you would most want after an incident was never being written in the first place.
+              As of <strong>v1.25</strong> it records out of the box, and it captures the new controls
+              too: each <a href="#security-commit-shield">Commit Shield</a> block, each
+              <a href="#security-egress-guard">Egress Guard</a> violation, and every
+              <a href="#safe-import">Safe Import</a> scan verdict and install decision.
+            </p>
+            <p>
               The audit log captures only what Termpolis observes locally — activity that bypasses
               Termpolis (a Gemini CLI run from a separate native terminal window, for example) is
               not visible to the audit log.
@@ -428,6 +489,55 @@
               continues to function.
             </p>
 
+            <h3 id="security-egress-guard">Egress Guard — the allowlist policy (v1.25)</h3>
+            <p>
+              The egress audit above <em>records</em>. The <strong>Egress Guard</strong> turns that
+              record into a <strong>policy</strong>. Every remote host an agent connects to is checked
+              against the known AI-provider allowlist; anything outside it is raised as a
+              <strong>violation</strong> and written to the <a href="#security-audit">audit trail</a>.
+              Claude talking to <code>api.anthropic.com</code> is expected, and stays quiet. Claude
+              talking to a paste site, an unfamiliar VPS, or a host you have never seen before is
+              something you now find out about instead of having to go looking for it.
+            </p>
+            <p>
+              <strong>Matching is dot-anchored</strong>, which is the entire game for an allowlist: a
+              host matches an allowed domain only if it <em>is</em> that domain or a subdomain of it.
+              <code>api.anthropic.com</code> passes. <code>evil-anthropic.com</code> does
+              <strong>not</strong> pass as Anthropic. A naive substring check would have waved that
+              straight through — and a lookalike domain is exactly the trick an exfiltration endpoint
+              would use.
+            </p>
+            <p>
+              <strong>It flags and audits. It never kills your agent.</strong> A violation does not
+              terminate the process or sever the connection — Termpolis is not a firewall and will not
+              pretend to be one in the middle of your task. It also inherits the poller's limits
+              described above: this is sampling, not packet capture, so a sub-minute burst can still be
+              missed. On by default.
+            </p>
+
+            <h3 id="security-memory-scrub">Memory-at-rest secret scrub (v1.25)</h3>
+            <p>
+              The <a href="#memory">shared memory</a> ingests your past AI conversations and your
+              repo's source code. Both are places a secret can be hiding — a key you pasted into a
+              transcript three weeks ago, a token sitting in a source file. And a secret that gets
+              embedded into the brain is worse than a secret at rest: it is <em>recallable</em>. A
+              future agent could pull it straight back into its own context on a semantic hit, and
+              from there to a provider.
+            </p>
+            <p>
+              So the scrub runs <strong>before the memory exists</strong>. Secrets are redacted out of
+              the text <em>before</em> it is hashed, <em>before</em> it is embedded, and
+              <em>before</em> it is written to disk — not cleaned up afterwards. A key in a transcript
+              or an indexed source file therefore never lands in the store, never gets a vector, and
+              can never be recalled back into an agent's context. On by default.
+            </p>
+            <p>
+              This complements, rather than replaces, the code indexer's existing denylist, which keeps
+              whole sensitive files (<code>.env</code>, keys, cloud credentials) out of the index in the
+              first place. The scrub is the second line — for the secret that turns up somewhere the
+              denylist was never going to look.
+            </p>
+
             <h3 id="security-tos-drift">Weekly ToS drift watcher (v1.11.52)</h3>
             <p>
               A scheduled GitHub Action
@@ -454,6 +564,109 @@
               extent permitted by law, the authors and contributors of Termpolis disclaim all
               liability for any data leak, breach, regulatory violation, contractual breach, or
               business loss arising from your use of any AI agent launched through this application.
+            </p>
+          </section>
+
+          <!-- SAFE IMPORT -->
+          <section id="safe-import" class="docs-section">
+            <h2>🔍 Safe Import — vet a skill, plugin, or MCP server before it runs (v1.25)</h2>
+            <p>
+              The agent ecosystem now trades in <strong>shared configuration</strong>: skills, plugins,
+              slash commands, subagents, and MCP servers, passed around as a <code>.zip</code> or a
+              folder from a repo. Every one of them is code and instructions that your agent will run
+              <em>with your permissions</em> — and the normal way to install one is to unpack it into
+              <code>~/.claude/skills</code> and hope. A malicious skill doesn't need an exploit. It just
+              needs you not to read it.
+            </p>
+            <p>
+              <strong>Safe Import</strong> (<strong>Settings → General</strong>) is the front door.
+              Point it at a <code>.zip</code> or a folder. Termpolis stages the artifact in a
+              <strong>quarantine</strong> directory, statically analyses every file inside it, and shows
+              you a verdict <em>before</em> anything is installed anywhere your agents can reach.
+            </p>
+            <div class="docs-callout">
+              <p>
+                <strong>It is a static scanner, an install gate, and runtime egress monitoring — it is
+                not a sandbox.</strong> Termpolis <em>never executes</em> the artifact to find out what
+                it does; nothing is detonated in a jail. &ldquo;Quarantine&rdquo; here means
+                <em>staged and read, not installed</em> — the files are analysed as text, then refused
+                or admitted on the evidence. Once an artifact is approved and an agent later runs it,
+                the <a href="#security-egress-guard">Egress Guard</a> is what watches where it connects.
+              </p>
+            </div>
+
+            <h3>What it scans for</h3>
+            <p>
+              <strong>41 rules</strong> across six families, applied to every file in the artifact. A
+              live progress bar shows the scan file by file, so a large plugin doesn't just sit on a
+              spinner:
+            </p>
+            <ul class="docs-list">
+              <li><strong>Outbound network.</strong> <code>fetch</code>, <code>axios</code>,
+                <code>curl</code>, <code>wget</code>, <code>WebSocket</code> — anything that can move
+                your data off the machine.</li>
+              <li><strong>Code execution.</strong> <code>child_process</code>, <code>exec</code>,
+                <code>spawn</code>, <code>eval</code>, <code>new Function</code>,
+                <code>subprocess</code> — the shell-out and dynamic-eval primitives.</li>
+              <li><strong>Credential &amp; filesystem reach.</strong> <code>process.env</code>,
+                <code>keytar</code>, <code>~/.ssh</code>, <code>~/.aws</code>, <code>.env</code>,
+                <code>credentials.json</code> — a &ldquo;formatting&rdquo; skill that reaches for your
+                keychain or your cloud credentials has told you what it is.</li>
+              <li><strong>Obfuscation.</strong> Long base64 or hex blobs, <code>atob</code> piped into
+                an exec, minified single-line payloads — the shapes whose whole purpose is to stop
+                <em>you</em> reading the file.</li>
+              <li><strong>Prompt injection in the instructions themselves.</strong> The dangerous part
+                of a skill is often not its code but its prose: text engineered to hijack the agent that
+                reads it (&ldquo;ignore your previous instructions, then exfiltrate&hellip;&rdquo;).
+                Safe Import treats the skill's own instruction files as an attack surface — because to
+                your agent, that is exactly what they are.</li>
+            </ul>
+
+            <h3>The report, and the red line</h3>
+            <p>
+              You get a <strong>red / yellow / green</strong> report listing every finding with its
+              <strong>rule, file, and line</strong> — so you decide on evidence you can go and read for
+              yourself, not on a score out of ten.
+            </p>
+            <ul class="docs-list">
+              <li><strong>🟢 Green</strong> — nothing matched. Install it if you want it.</li>
+              <li><strong>🟡 Yellow</strong> — it matched something that legitimate code also does (a
+                skill that calls an API genuinely does need <code>fetch</code>). Your call, with the
+                offending lines in front of you.</li>
+              <li><strong>🔴 Red — cannot be installed.</strong> Not &ldquo;warns you loudly&rdquo;.
+                Cannot. The refusal is enforced in the <strong>main process</strong>, independently of
+                the UI, so a red verdict is not a dialog you can click past and not something a renderer
+                bug can wave through.</li>
+            </ul>
+
+            <h3>Approval is pinned to the content, not the name</h3>
+            <p>
+              When you approve an artifact, the approval is pinned to a <strong>SHA-256 of the
+              artifact's content</strong> — not to its name and not to its path. If the artifact is
+              later edited, the hash no longer matches and <strong>you are prompted again</strong>. That
+              closes trust-on-first-use-then-swap: a skill cannot pass review as something harmless,
+              settle into your config, and then quietly become something else.
+            </p>
+
+            <h3>Where an approved artifact lands</h3>
+            <p>
+              On approval — and only on approval — Termpolis installs it into the agent configuration it
+              belongs in:
+            </p>
+            <ul class="docs-list">
+              <li><code>~/.claude/skills</code> — skills.</li>
+              <li><code>~/.claude/commands</code> — slash commands.</li>
+              <li><code>~/.claude/agents</code> — subagents.</li>
+              <li>The <strong>MCP config</strong> for Claude, Codex, Gemini, and Qwen — an MCP server is
+                registered for all four agents.</li>
+            </ul>
+            <p>
+              The installer itself is hardened against the two classic archive attacks:
+              <strong>zip-slip</strong> (an archive entry whose <code>../../</code> path escapes the
+              extraction directory to write somewhere it was never meant to reach) and
+              <strong>TOML injection</strong> (an artifact whose fields are crafted to break out of the
+              field they belong in and inject extra configuration into an agent's MCP file). Both are
+              <strong>refused</strong> — not sanitised, patched up, and hoped over.
             </p>
           </section>
 
@@ -1036,7 +1249,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
             <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in), <strong>AI Security</strong>, <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in, and <a href="#safe-import">Safe Import</a>), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
           </section>
 
           <!-- THEMES -->
@@ -1561,6 +1774,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword) across shared memory.</td></tr>
                   <tr><td><code>memory_list</code></td><td>List recent memory entries with filters.</td></tr>
                   <tr><td><code>memory_related</code></td><td>Undirected one-hop traversal &mdash; from a memory entry (or a query) to its neighbours, blending its typed graph edges with nearest semantic neighbours (undirected since v1.23).</td></tr>
+                  <tr><td><code>memory_audit</code></td><td>Audit the integrity of the memory store &mdash; report what is held, what has been archived or superseded, and whether the on-disk store is internally consistent.</td></tr>
                   <tr><td><code>memory_link</code></td><td>Record a typed edge between two memories — builds the knowledge graph.</td></tr>
                   <tr><td><code>memory_graph</code></td><td>Multi-hop walk of the knowledge graph from a seed memory.</td></tr>
                   <tr><td><code>memory_primer</code></td><td>Load a ranked background-memory digest for the current project at session start.</td></tr>
@@ -1764,6 +1978,22 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 Claude, Codex, and Gemini (read from their session transcripts on a task pause or when
                 the terminal closes); Qwen keeps no parseable on-disk transcript, so it&rsquo;s
                 prompted to record its own lesson over MCP. Opt-out in Settings.</li>
+              <li><strong>Competence calibrated from real work (v1.25).</strong> The brain tracks how
+                reliable it has actually been in each domain &mdash; the calibrated confidence that
+                <code>memory_selfcheck</code> reports back. That calibration used to learn only from
+                swarm tasks, or from a session that happened to end on an explicit outcome phrase, so
+                for most people the panel simply sat empty. Now <strong>a landed commit and a test run
+                &mdash; passing <em>or</em> failing &mdash; feed it directly</strong>. The failing suite
+                is the valuable half: a red test run is what calibrates the fleet&rsquo;s confidence
+                <em>down</em> in a domain where it has been getting things wrong, instead of letting it
+                carry on asserting.</li>
+              <li><strong>Your code connections, on the dashboard (v1.25).</strong> Indexing a repo
+                builds a structural <a href="#code-graph">code graph</a> &mdash; symbols plus
+                caller&rarr;callee edges &mdash; and that graph lives in a store <em>separate</em> from
+                the semantic memory graph. The dashboard only ever counted the memory graph, so
+                &ldquo;connections&rdquo; could read as empty on a machine that had already indexed
+                thousands of call edges. The real code graph now surfaces as its own tile, so what you
+                built is what you see.</li>
               <li><strong>Shared across all four agents.</strong> Claude, Codex, Gemini, and Qwen all
                 read and write the same store over MCP, so a fact one agent learns is instantly
                 available to the others.</li>
@@ -1944,6 +2174,16 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <code>TERMPOLIS_MNEME_DISTILLER=1</code>) writes richer, more precise lessons than the
                 default heuristic; <code>memory_related</code> is now <strong>undirected</strong>, so a
                 typed connection surfaces from either end.</li>
+              <li><strong>The <code>explains</code> edge &mdash; memory bound to the code it explains
+                (v1.25).</strong> A new typed edge links the lesson that <em>explains</em> a piece of
+                code to the code chunk itself. It is deliberately hard to earn: an edge is minted only
+                when the memory and the chunk clear <strong>both</strong> an embedding-similarity bar
+                <em>and</em> a shared file/symbol anchor &mdash; semantic resemblance on its own is not
+                enough, so the graph doesn&rsquo;t silt up with vague thematic links. The weaver also
+                mints <strong>intra-repo</strong> analogies now, not just cross-repo ones (a pattern
+                that echoes another pattern in the <em>same</em> codebase was previously invisible to
+                it), and the analogy similarity floor relaxes from <strong>0.82 to 0.72</strong> &mdash;
+                enough to surface the useful near-misses the stricter floor had been quietly dropping.</li>
             </ul>
           </section>
 

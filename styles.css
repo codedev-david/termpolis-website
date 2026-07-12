@@ -92,6 +92,7 @@ input {
   gap: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.03em;
+  flex: 0 0 auto; /* the brand never shrinks — the nav absorbs the slack instead */
 }
 
 .brand-logo {
@@ -105,12 +106,40 @@ input {
   font-size: 1.2rem;
 }
 
+/* The header is a fixed-width pill (border-radius: 999px, capped by --max-width: 1180px),
+   but its intrinsic content — brand + 11 nav links + the GitHub button — measured 1198px.
+   `.site-nav` was `nowrap` with no `min-width: 0`, so as a flex item it could not shrink
+   below its min-content width. The 18px of overflow had to go somewhere, and it went to the
+   LAST flex item: the "View GitHub" button rendered outside the pill's painted background,
+   at every desktop width from 961px up.
+
+   Three defences, so it cannot come back if a nav link is ever added:
+     1. brand + button are `flex: 0 0 auto` — they never shrink or move.
+     2. the nav is `flex: 1 1 auto; min-width: 0` — it CAN now shrink inside the pill.
+     3. the gap tightens with the viewport, and if it still will not fit the nav scrolls
+        INSIDE the pill rather than spilling outside it. */
 .site-nav {
   display: flex;
   flex-wrap: nowrap;
-  gap: 1.2rem;
+  /* THE FIX. A flex item's default `min-width: auto` floors it at its min-content width,
+     so a nowrap nav physically cannot shrink — the surplus had to overflow the pill. This
+     removes the floor (flex-shrink is already 1), so the nav gives ground first.
+     Deliberately NOT `flex: 1 1 auto` + `justify-content`, which would make the nav GROW
+     and bunch its links to one side — the header's `space-between` spacing must not change. */
+  min-width: 0;
+  gap: clamp(0.45rem, 0.75vw, 1.2rem);
   white-space: nowrap;
   color: var(--muted);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.site-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari — scroll without reserving scrollbar height in the pill */
+}
+
+.site-header > .button-ghost {
+  flex: 0 0 auto; /* the GitHub button holds its size and stays inside the pill */
 }
 
 .site-nav a:hover,

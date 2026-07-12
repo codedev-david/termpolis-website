@@ -395,6 +395,52 @@
             </p>
           </article>
         </div>
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">🌱 New in v1.25 &middot; Learns from what you ship</p>
+          <h2>Real work is the training signal</h2>
+          <p>
+            A brain that only learns from its own chatter is a brain that flatters itself. In
+            v1.25 the learning loop is fed by the things that are actually true or false about
+            your work &mdash; a commit that landed, a test suite that passed or failed &mdash;
+            and the code graph it has been quietly building is finally something you can see.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Competence calibrates on commits &amp; tests</h3>
+            <p>
+              Self-competence used to learn only from swarm tasks, so if you worked solo the
+              &ldquo;competence by domain&rdquo; panel simply sat empty. Now a <strong>landed
+              commit</strong> and a <strong>test run &mdash; passing <em>or</em> failing</strong>
+              &mdash; both feed the calibration. The failing suite is the important half: it is
+              what moves confidence <em>down</em>, and a self-assessment that can only go up
+              isn&rsquo;t calibration, it&rsquo;s flattery.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Code connections, finally visible</h3>
+            <p>
+              Indexing a repo has always built a structural <strong>code graph</strong> (symbols,
+              plus call and reference edges) &mdash; but the dashboard only ever counted the
+              <em>semantic memory</em> graph, so &ldquo;connections&rdquo; could read empty on a
+              fully indexed repo. A new <strong>Code connections</strong> tile surfaces the real
+              code graph beside it: two graphs, two honest counts.
+            </p>
+          </article>
+          <article class="card">
+            <h3>The Weave: &ldquo;what is this code <em>for</em>?&rdquo;</h3>
+            <p>
+              A new typed <code>explains</code> edge links the memory that <em>explains</em> a
+              piece of code to the code chunk itself &mdash; so recall can answer &ldquo;why is
+              this function like this?&rdquo; with the decision that made it. The edge only mints
+              when <strong>both</strong> the embedding similarity <em>and</em> a shared
+              file/symbol anchor agree, so a merely chatty neighbour can&rsquo;t claim to explain
+              code it never touched. Analogies now also mint <strong>within</strong> a repo
+              (previously cross-repo only), with the similarity floor relaxed
+              0.82&nbsp;&rarr;&nbsp;0.72.
+            </p>
+          </article>
+        </div>
         <figure class="dashboard-preview">
           <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-memory-dashboard.png" data-lightbox-alt="Termpolis Memory & Learning dashboard, full view — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." aria-label="Open the full Memory &amp; Learning dashboard screenshot">
             <img src="assets/screenshot-memory-dashboard.png" width="2096" height="5162" loading="lazy" alt="Termpolis Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
@@ -496,6 +542,13 @@
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat markdown</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat files</td>
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ code graph &ne; memory graph</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Memory anchored to the code it explains</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ typed <code>explains</code> edge</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ prose, no code anchor</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ prose, no code anchor</td>
+                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ notes don't link into the code graph</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Shared across <em>all</em> your agents</td>
@@ -739,6 +792,22 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
               </tr>
               <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Secret scan at the git boundary</strong><br><span style="opacity:0.7;font-size:12px;">Blocks the commit or push when a key is in the staged diff or an unpushed patch</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Blocks — doesn't just warn</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Redaction is prompt-scoped, not git</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Scans third-party AI artifacts before install</strong><br><span style="opacity:0.7;font-size:12px;">Skills, plugins, slash-commands, subagents, MCP servers — static scan + install gate</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Safe Import — 41 rules, red can't install</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Plugin store, no artifact scan</td>
+              </tr>
+              <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Sensitive-file-read alert (.env, *.pem, ~/.aws/*)</strong><br><span style="opacity:0.7;font-size:12px;">Banner + audit when an agent autonomously reads a high-risk file</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Built-in</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
@@ -819,7 +888,9 @@
           cases. Warp ships the cleanest UI; Wave ships workspace blocks; Air ships an
           agent-first JetBrains IDE; Tabby ships a fast self-hostable terminal with an MCP
           plugin. Termpolis trades all of that polish for security primitives that hosted-model
-          users currently have to build by hand: secret redaction, egress audit, ToS drift,
+          users currently have to build by hand: secret redaction, a secret block at the git
+          boundary, static scanning of third-party skills and MCP servers before they install,
+          egress audit plus an allowlist policy, ToS drift,
           sensitive-file alerts, parallel multi-agent orchestration with a local conductor, and a
           persistent cross-agent memory brain that lives on your machine (no cloud, no account).
           Pick the one that maps to your threat model. If something here is wrong, please file
@@ -847,6 +918,11 @@
           auto-memory; Tabby is a terminal with no AI memory. Termpolis's brain is local, automatic, cross-agent, semantic,
           and <em>learning</em> — it distills a reusable lesson from every substantive session and tracks its own
           competence (<a href="docs.html#memory">see the docs</a>).
+          <strong>On the two v1.25 security rows:</strong> Warp's <em>Secret Redaction</em> is scoped to data leaving
+          for the AI provider, not to <code>git commit</code>&nbsp;/&nbsp;<code>git push</code>, so it is ❌ on the
+          git-boundary row rather than ⚠; and none of the four documents a security scan of third-party AI artifacts
+          (skills, subagents, MCP servers) before installing them — Tabby ships a plugin store, but without an
+          artifact scanner. If that has changed, please file an issue and we'll update the row.
         </p>
       </section>
 
@@ -868,6 +944,16 @@
             typing into a stock terminal, a browser, or a VS&nbsp;Code plug-in. Every check
             below runs locally, every log stays on the machine, and every limit is named.
           </p>
+          <p>
+            <strong>New in v1.25:</strong> the perimeter now covers the places a secret actually
+            escapes &mdash; and the place a threat actually walks in. The
+            <strong>git boundary</strong> (a commit or push carrying a key is <em>blocked</em>,
+            not just logged), the <strong>memory store</strong> (a secret is scrubbed before it
+            can ever be embedded or written), <strong>egress</strong> (a host outside the
+            AI-provider allowlist is a violation, not another log line), and
+            <strong>third-party AI artifacts</strong> &mdash; skills, plugins, subagents, and MCP
+            servers are statically scanned <em>before</em> they are wired into an agent.
+          </p>
         </div>
         <div class="feature-grid">
           <article class="card">
@@ -881,6 +967,41 @@
               Sentry DSN, JWT, PEM, <code>.env</code>-style URLs, and 60+ more.
               <strong>Limit:</strong> regex-shaped secrets only — a custom token nobody publishes
               a pattern for can still slip through.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Commit &amp; push secret shield</h3>
+            <p>
+              <strong>New in v1.25.</strong> The same ~70-rule engine now also runs at the
+              <strong>git boundary</strong>: on the <strong>staged diff</strong> (what
+              <code>git commit</code> is about to capture) and on every <strong>unpushed
+              patch</strong> (what <code>git push</code> is about to send). A hit
+              <strong>blocks the operation</strong> and names what fired. Until now the scanner
+              only ever saw text you typed <em>at</em> an agent — it never saw git, so a leaked
+              key could still land in your history and be pushed to a remote. On by default;
+              toggle in Settings &rarr; AI Security.
+              <strong>Scope:</strong> it gates the git operations Termpolis itself runs — the
+              <strong>Git panel</strong> and <strong>Swarm Review</strong>. Termpolis installs no
+              git hook, so a <code>git commit</code> you type straight into a terminal pane is
+              <em>not</em> intercepted. Treat it as a hard net under Termpolis&rsquo;s own git
+              actions, not a repo-wide guarantee.
+              <strong>Limit:</strong> it <em>fails open</em> on a git error — a scan that cannot
+              run will never wedge a commit for a non-secret reason, which means a broken repo
+              state degrades to no protection rather than to a blocked workflow.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Secrets never enter the brain</h3>
+            <p>
+              <strong>New in v1.25.</strong> Mneme indexes your transcripts and source files,
+              which means a key pasted into a session is a key headed for long-term storage.
+              Secrets are now <strong>redacted before a memory is hashed, embedded, or written
+              to disk</strong> — so a credential sitting in a transcript or an indexed source
+              file never lands in the store, and can never be recalled back into an agent's
+              context months later. This sits on top of the sensitive-file denylist that keeps
+              <code>.env</code>-class files out of the indexer entirely.
+              <strong>Limit:</strong> the same regex-shaped coverage as the scanner — an
+              unpatterned custom token can still be embedded.
             </p>
           </article>
           <article class="card">
@@ -935,6 +1056,19 @@
             </p>
           </article>
           <article class="card">
+            <h3>Egress Guard</h3>
+            <p>
+              <strong>New in v1.25.</strong> The egress audit recorded <em>where</em> each agent
+              connected; now it is a <strong>policy</strong>. Any host outside the known
+              AI-provider allowlist is raised as a <strong>violation</strong> — which is the
+              signal that actually matters for exfiltration, instead of a wall of normal traffic
+              you have to read. Matching is <strong>dot-anchored</strong>, so
+              <code>evil-anthropic.com</code> does not pass as Anthropic.
+              <strong>Limit:</strong> it flags and audits — it never kills your agent — and it
+              inherits the polling blind spots of the audit it sits on.
+            </p>
+          </article>
+          <article class="card">
             <h3>Gemini account-mode auto-detect</h3>
             <p>
               Reads <code>GEMINI_API_KEY</code>, <code>GOOGLE_API_KEY</code>,
@@ -963,9 +1097,11 @@
             <h3>Local JSONL audit log</h3>
             <p>
               Every AI terminal open/close, every redaction hit, every code-chunk or
-              env-dump detection, every Strict-Mode block writes to
-              <code>ai-security-audit.jsonl</code> in your userData directory. 10&nbsp;MB
-              rotated, append-only, on disk only, wipeable.
+              env-dump detection, every Strict-Mode block — and, as of v1.25, every blocked
+              commit or push, every Safe Import verdict, and every egress violation — writes to
+              <code>ai-security-audit.jsonl</code> in your userData directory.
+              <strong>Recording is on by default.</strong> 10&nbsp;MB rotated, append-only,
+              on disk only, wipeable.
               <strong>Limit:</strong> local. We don't ship it anywhere. If your machine is
               compromised, so is the log.
             </p>
@@ -988,6 +1124,72 @@
               the full liability disclaimer covering provider ToS changes, the limits of
               regex-based redaction, and the scope of Strict Mode interception. Vetted,
               transparent, auditable.
+            </p>
+          </article>
+        </div>
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">🧩 New in v1.25 &middot; Safe Import</p>
+          <h2>Scan a third-party skill before it ever runs</h2>
+          <p>
+            Skills, plugins, slash-commands, subagents, and MCP servers are the new dependency —
+            and they are a live supply-chain vector. You paste a link, an agent writes it into
+            its own config, and from then on it runs with your privileges, inside your repo, next
+            to your credentials. Termpolis <strong>statically scans the artifact before it
+            touches your machine</strong> and <strong>refuses to install anything it rates
+            red</strong>. No other AI terminal we know of checks an artifact before wiring it in
+            — if one does, <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">file an issue</a> and we'll say so.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>41 rules — read, never run</h3>
+            <p>
+              The scan is <strong>static</strong>: Termpolis reads the artifact, it does not
+              execute it. 41 rules span <strong>outbound network calls</strong>
+              (<code>fetch</code>, <code>axios</code>, <code>curl</code>, WebSocket),
+              <strong>shell and eval execution</strong> (<code>child_process</code>,
+              <code>exec</code>, <code>eval</code>, <code>subprocess</code>),
+              <strong>credential and filesystem access</strong> (<code>~/.ssh</code>,
+              <code>~/.aws</code>, the OS keychain), and <strong>obfuscated payloads</strong>
+              (long base64 blobs, <code>atob</code>&nbsp;&rarr;&nbsp;<code>exec</code>).
+              <strong>Limit:</strong> static analysis reasons about the code as written — it is
+              not a sandbox and does not observe the artifact at runtime, so a sufficiently novel
+              packer can still evade the pattern set.
+            </p>
+          </article>
+          <article class="card">
+            <h3>It reads the instructions, too</h3>
+            <p>
+              An AI artifact ships <em>prompts</em>, and a prompt is executable. So five of those
+              rules read the skill's own instruction text for <strong>prompt injection</strong> —
+              &ldquo;ignore previous instructions,&rdquo; &ldquo;do not tell the user,&rdquo;
+              &ldquo;send the contents of&hellip;&rdquo; — because a skill with zero lines of code
+              can still tell your agent to go and exfiltrate a file for it.
+              <strong>Limit:</strong> pattern-based, and prose is easier to rephrase than an API
+              call.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Red never installs</h3>
+            <p>
+              You get a <strong>red / yellow / green report with <code>file:line</code></strong>
+              for every finding, so you're reviewing evidence rather than a verdict.
+              <strong>Anything rated red can never be installed</strong> — it is a gate, not a
+              warning you can click through. Yellow is yours to judge. The upload area and live
+              scan progress are in Settings &rarr; General.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Approvals are hash-pinned</h3>
+            <p>
+              An approval is pinned to the artifact's <strong>content hash</strong>, so editing an
+              approved skill re-prompts — there is no trust-on-first-use-then-swap. On approval,
+              Termpolis installs it wherever that <em>kind</em> of artifact actually goes: an
+              <strong>MCP server</strong> into all four agents; a <strong>slash command</strong>
+              into Claude, Gemini and Qwen; a <strong>skill, subagent or plugin</strong> into
+              Claude Code, which is the only one of the four with a skills system. The installer
+              refuses <strong>zip-slip</strong> paths and <strong>TOML-injection</strong> in the
+              config it writes.
             </p>
           </article>
         </div>
@@ -1421,7 +1623,7 @@
         <div class="feature-grid">
           <article class="card">
             <h3>33 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 13 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts) + 6 code-graph tools (explore, callers, callees, impact, search, locate).</p>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 13 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts, audit) + 6 code-graph tools (explore, callers, callees, impact, search, locate).</p>
           </article>
           <article class="card">
             <h3>Auto-registers with every agent</h3>
@@ -1498,8 +1700,8 @@
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>4,500+ automated tests</h3>
-            <p>4,500+ unit &amp; component tests across 260+ files (Vitest, 90%+ line / 85%+ branch coverage) plus a 40+-spec Playwright end-to-end suite that launches the real Electron app, with automated screenshots. CI/CD on every release.</p>
+            <h3>5,500+ automated tests</h3>
+            <p>5,522 unit &amp; component tests across 260+ files (Vitest &mdash; 93.64% line, 91.29% statement, 90.14% function, 85.29% branch coverage) plus a 40+-spec Playwright end-to-end suite that launches the real Electron app, with automated screenshots. Every gate runs on every release.</p>
           </article>
           <article class="card">
             <h3>Output throttling</h3>
