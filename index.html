@@ -8,7 +8,7 @@
     name="description"
     content="The local-first multi-agent terminal for Claude, Codex, Gemini, and Qwen — one shared memory that learns as you work, Second Opinion cross-agent review, and a security perimeter around the hosted-model path. Free for Windows, macOS, and Linux."
   >
-  <meta name="keywords" content="AI terminal, multi-agent AI, shared AI memory, agent memory that learns, cross-agent memory, Second Opinion AI review, Claude Code terminal, Codex, Gemini, Qwen, MCP server, swarm orchestration, AI developer tools, secret scanner, egress audit, local-first AI">
+  <meta name="keywords" content="AI terminal, multi-agent AI, shared AI memory, agent memory that learns, cross-agent memory, Second Opinion AI review, Claude Code terminal, Codex, Gemini, Qwen, MCP server, swarm orchestration, AI developer tools, secret scanner, prompt secret detection, commit secret shield, pre-commit secret hook, Safe Import, MCP server scanner, skill supply chain security, egress audit, local-first AI">
   <meta name="author" content="Termpolis">
   <link rel="canonical" href="https://termpolis.com/">
   <link rel="icon" type="image/svg+xml" href="logo-termpolis-titlebar.svg">
@@ -39,11 +39,11 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "Termpolis",
-    "description": "The local-first multi-agent terminal for Claude, Codex, Gemini, and Qwen: one shared memory brain that learns as you work, Second Opinion cross-agent review, an MCP server, and a security perimeter (secret scanner, per-agent egress audit, sensitive-file alerts) around the hosted-model path.",
+    "description": "The local-first multi-agent terminal for Claude, Codex, Gemini, and Qwen: one shared memory brain that learns as you work, Second Opinion cross-agent review, an MCP server, and a security perimeter around the hosted-model path — every prompt watched against 97 secret rules (detection, with the leak named in a local audit log so you know what to rotate), a Commit Shield that blocks a commit or push carrying a key, Safe Import static-scanning third-party skills, plugins and MCP servers before they install, secrets scrubbed out of the AI memory before it is written, per-agent egress audit, and sensitive-file alerts.",
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.25.2",
+    "softwareVersion": "1.25.4",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -792,12 +792,20 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Secret scan at the git boundary</strong><br><span style="opacity:0.7;font-size:12px;">Blocks the commit or push when a key is in the staged diff or an unpushed patch</span></td>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Secret scan at the git boundary</strong><br><span style="opacity:0.7;font-size:12px;">Blocks the commit or push when a key is in the staged diff or an unpushed patch. Real <code>pre-commit</code>&nbsp;/&nbsp;<code>pre-push</code> hooks cover git typed into any terminal &mdash; and keep working with Termpolis closed</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Blocks — doesn't just warn</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Redaction is prompt-scoped, not git</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Secrets scrubbed before they enter the AI memory</strong><br><span style="opacity:0.7;font-size:12px;">Stripped <em>before</em> a memory is hashed, embedded, or written &mdash; so a key in an old transcript can't be recalled back into an agent later</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Prevention, at write time</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Agent Memory is cloud-side</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ No AI memory</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Manual rules files</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ No AI memory</td>
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Scans third-party AI artifacts before install</strong><br><span style="opacity:0.7;font-size:12px;">Skills, plugins, slash-commands, subagents, MCP servers — static scan + install gate</span></td>
@@ -824,7 +832,7 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Provider ToS drift watcher</strong><br><span style="opacity:0.7;font-size:12px;">Weekly check on Anthropic / OpenAI / Google / Alibaba terms</span></td>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Provider ToS drift watcher</strong><br><span style="opacity:0.7;font-size:12px;">Weekly hash-check on Anthropic / OpenAI / Google / Alibaba terms. It files an issue against <em>this repo</em> so the claims on this page stay true &mdash; it is not an in-app alert to you</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Weekly GitHub Action</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
@@ -1033,8 +1041,10 @@
               <em>prevention</em>, not a log entry: the secret never exists in the brain to leak.
               This sits on top of the sensitive-file denylist that keeps
               <code>.env</code>-class files out of the indexer entirely.
-              <strong>Limit:</strong> the same regex-shaped coverage as the prompt watch — an
-              unpatterned custom token can still be embedded.
+              <strong>Limits:</strong> the same regex-shaped coverage as the prompt watch — an
+              unpatterned custom token can still be embedded — and it runs <strong>at write
+              time</strong>: it cleans what goes in from v1.25 onward, it does <em>not</em>
+              retroactively scrub a brain you built before it existed.
             </p>
           </article>
           <article class="card">
@@ -1042,8 +1052,8 @@
             <p>
               The prompt watch can only see what <em>you</em> type. When the agent
               autonomously decides to read <code>.env</code>, <code>id_rsa</code>,
-              <code>~/.aws/credentials</code>, a <code>*.pem</code>, or any of 17 other
-              high-risk patterns, Termpolis subscribes to the agent's tool-call stream and
+              <code>~/.aws/credentials</code>, a <code>*.pem</code>, or any of the 16 other
+              high-risk patterns (20 rules in all), Termpolis subscribes to the agent's tool-call stream and
               fires a banner + audit entry naming the file and the agent. The bytes already
               went to the provider, so the alert is after-the-fact — but you now know to
               add the path to <code>.claudeignore</code> (or rotate the secret) before the
@@ -1059,8 +1069,11 @@
               Prompts over 2&nbsp;KB are inspected for code-shaped structure (indentation +
               braces + keywords + module declarations) or 5+ <code>KEY=value</code> lines
               suggestive of a pasted <code>.env</code>. Detections are surfaced in the UI
-              and written to the audit log so you notice when an entire source file or
-              env file is on its way out.
+              and written to the audit log as <code>code_chunk_sent</code> /
+              <code>env_dump_sent</code>, so you notice when an entire source file or
+              env file is on its way out. <strong>New in v1.25.2:</strong> these are their
+              <em>own</em> events — they used to share one with a real leaked credential, which
+              made a big paste look like a leaked key and inflated the count of secrets sent.
               <strong>Limit:</strong> heuristic — false negatives possible on minified or
               unusual shapes. The prompt isn't blocked; you decide.
             </p>
@@ -1073,19 +1086,25 @@
               Model Studio agreement), normalises the HTML, hashes it, and opens a tracking
               issue when the hash changes — so what the app advertises stays aligned with
               what providers actually publish.
-              <strong>Limit:</strong> detects rendered-text changes, not legal intent. A
-              human still reads the diff.
+              <strong>Limits:</strong> it detects rendered-text changes, not legal intent — a human
+              still reads the diff. And it is <strong>maintainer-facing</strong>: it files an issue
+              against the Termpolis repo so <em>our</em> published claims stay honest. It does not
+              raise an in-app alert to you, and it is no substitute for reading your provider's terms.
             </p>
           </article>
           <article class="card">
             <h3>Per-agent egress audit</h3>
             <p>
               <code>netstat</code> (Windows), <code>ss</code> (Linux), or <code>lsof</code>
-              (macOS) is polled once a minute for the AI agent's PID. Every unique remote
-              <code>host:port</code> goes to the audit log, so you can answer "did Claude
-              talk to anything other than <code>api.anthropic.com</code> today?".
-              <strong>Limit:</strong> polling, not packet capture — sub-minute bursts can be
-              missed; no DNS reverse lookup; no payload inspection.
+              (macOS) is asked which remote hosts the AI agent's PID has open, and every unique
+              <code>host:port</code> goes to the audit log — so you can answer "did Claude
+              talk to anything other than <code>api.anthropic.com</code> today?". The poll runs
+              <strong>on demand, when you open the Security panel</strong> — deliberately
+              <em>not</em> on a background timer: the old every-60&nbsp;s <code>netstat</code> loop
+              was itself load-bearing in a Windows Defender false positive, and a security feature
+              that gets your app quarantined is a net negative.
+              <strong>Limit:</strong> sampling, not packet capture — a connection opened and closed
+              between polls is never seen; no payload inspection.
             </p>
           </article>
           <article class="card">
@@ -1110,9 +1129,14 @@
               to classify the active Gemini session as paid (training-excluded) or free
               (Google may use prompts for product improvement). <strong>Strict Mode</strong>
               intercepts <code>gemini</code> launches that look free-tier and refuses to
-              forward them; blocked launches are audited.
-              <strong>Limit:</strong> env-var heuristic — credentials shipped some other
-              way can't be classified.
+              forward them — the launch command never reaches the shell, and the block is audited.
+              This is the <strong>one security control that ships off</strong>: it can refuse a
+              launch you meant to make, so you opt into it deliberately. Everything else here
+              (audit log, Commit Shield, Egress Guard, memory scrub) is <strong>on by default</strong>,
+              and the prompt watch cannot be turned off at all.
+              <strong>Limit:</strong> env-var heuristic — a Workspace Code Assist licence carrying no
+              env vars is classified as unsafe, and credentials shipped some other way can't be
+              classified at all.
             </p>
           </article>
           <article class="card">
@@ -1156,7 +1180,7 @@
           <article class="card">
             <h3>Built-in legal disclaimer</h3>
             <p>
-              Apache 2.0 "AS&nbsp;IS". Settings → Security and <code>TERMS.md</code> ship
+              Apache 2.0 "AS&nbsp;IS". Settings → AI Security and <code>TERMS.md</code> ship
               the full liability disclaimer covering provider ToS changes, the limits of
               regex-based secret detection, and the scope of Strict Mode interception. Vetted,
               transparent, auditable.

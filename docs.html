@@ -84,6 +84,7 @@
             <li><a href="#security-center">AI Security Center</a></li>
             <li><a href="#security-secret-scanner">Prompt secret watch</a></li>
             <li><a href="#security-commit-shield">Commit &amp; push Secret Shield</a></li>
+            <li><a href="#security-commit-hooks" class="docs-toc-sub">↳ Protect a repository (git hooks)</a></li>
             <li><a href="#security-sensitive-file">Sensitive-file-read alert</a></li>
             <li><a href="#security-codechunk">Code-chunk + env-dump heuristics</a></li>
             <li><a href="#security-egress">Per-agent egress audit</a></li>
@@ -91,6 +92,7 @@
             <li><a href="#security-memory-scrub">Memory-at-rest secret scrub</a></li>
             <li><a href="#security-tos-drift">ToS drift watcher</a></li>
             <li><a href="#security-gemini">Gemini account-mode + Strict Mode</a></li>
+            <li><a href="#security-agent-command">Agent command enforcement</a></li>
             <li><a href="#security-audit">Audit log</a></li>
             <li><a href="#security-disclaimer">Legal disclaimer</a></li>
             <li><a href="#safe-import">Safe Import (skills &amp; plugins)</a></li>
@@ -237,7 +239,7 @@
           <section id="security-center" class="docs-section">
             <h2>🛡 AI Security Center</h2>
             <p>
-              Termpolis ships an in-app AI Security Center at <strong>Settings → Security</strong>.
+              Termpolis ships an in-app AI Security Center at <strong>Settings → AI Security</strong>.
               Its goal is to give administrators visibility and layered controls around outbound
               AI traffic so a team can adopt Claude Code, Codex, Gemini CLI, and Qwen Code with
               the obvious accidents caught and a verifiable record of what was sent — knowing
@@ -308,7 +310,7 @@
             <p>
               Known token shapes (AWS, OpenAI, GitHub, Google, Stripe, JWT) are caught
               <strong>bare, in prose, with no name needed</strong>. A manual paste-and-scan box also
-              lives in Settings → Security for one-off checks of clipboard text before pasting
+              lives in Settings → AI Security for one-off checks of clipboard text before pasting
               elsewhere.
             </p>
             <p>
@@ -371,7 +373,7 @@
               has already gone out — the commit simply does not happen. Nothing is silently rewritten
               behind your back, and no half-made commit is left behind.
             </p>
-            <h4>Covering git you type yourself: the hooks (v1.25.1)</h4>
+            <h4 id="security-commit-hooks">Covering git you type yourself: the hooks (v1.25.1)</h4>
             <p>
               Out of the box the shield gates the git operations <em>Termpolis itself runs</em>: the
               Git panel and Swarm Review. That leaves the way most people actually commit —
@@ -385,9 +387,18 @@
                 scanner that carries its own copy of the rule table and needs only Node and git. A hook
                 that only guarded you while the app was running would silently stop guarding you the
                 moment you quit — worse than no hook, because you would still believe you had one.</li>
-              <li><strong>It chains, it does not clobber.</strong> An existing hook (husky, lint-staged)
-                is preserved and still runs, and <em>its</em> exit code still gates the commit. A hook
-                written in something other than shell is left untouched rather than corrupted.</li>
+              <li><strong>It chains, it does not clobber.</strong> An existing POSIX-shell hook (husky,
+                lint-staged) is preserved and still runs, and <em>its</em> exit code still gates the
+                commit. The shield is spliced in as a sentinel-delimited block below the shebang, runs
+                first, and then <em>falls through</em> to whatever was already there — so uninstalling
+                gives you back the original file byte for byte.</li>
+              <li><strong>A non-shell hook is skipped, and that repo stays unprotected.</strong> If the
+                repo already has a hook written in something other than POSIX shell — the
+                <code>pre-commit</code> framework generates <em>Python</em> ones — Termpolis
+                <strong>refuses to touch it</strong> rather than corrupt it by injecting <code>sh</code>
+                into a Python file. That is the right call, but be clear about what it means: no shield
+                is installed there. The Protect-a-repository panel is where you find out which repos
+                actually took the hook.</li>
               <li><strong>It fails open.</strong> If Node is missing, or Termpolis has been uninstalled
                 and the scanner is gone, the hook exits 0. A hook left behind by a deleted app must
                 never wedge your git.</li>
@@ -426,11 +437,62 @@
             <p>
               When <strong>Strict Mode</strong> is enabled, Termpolis intercepts <code>gemini</code>
               invocations from any terminal. If the resolved account mode isn't paid-tier-safe, the
-              launch is cancelled with <kbd>Ctrl+C</kbd> and an in-band ANSI banner explains why.
-              The blocked launch is recorded in the audit log as <em>BLOCKED: strict-mode + free-tier</em>.
-              Strict Mode only intercepts shell-level invocations of the <code>gemini</code> binary —
-              it does not block out-of-band paths (a renamed binary, a script that calls the Google
-              API directly, etc.). It is a tripwire for the common-case mistake, not a full proxy.
+              launch is cancelled with <kbd>Ctrl+C</kbd>, an in-band ANSI banner explains why, and the
+              <code>gemini</code> text <strong>never reaches the PTY</strong>. The blocked launch is
+              recorded in the audit log as <em>BLOCKED: strict-mode + free-tier</em>. So unlike the
+              prompt watch — which never withholds anything — Strict Mode genuinely does stop the
+              command from running.
+            </p>
+            <div class="docs-callout">
+              <strong>Strict Mode is the one security control that ships OFF.</strong> The audit log,
+              the <a href="#security-commit-shield">Commit Shield</a>, the
+              <a href="#security-egress-guard">Egress Guard</a> and the
+              <a href="#security-memory-scrub">memory scrub</a> all default to <em>on</em>, and the
+              <a href="#security-secret-scanner">prompt watch</a> cannot be turned off at all. Strict
+              Mode is opt-in because it is the only one that can <em>refuse an action you meant to
+              take</em> — and a control that blocks legitimate work without being asked is a control
+              people rip out.
+            </div>
+            <p>
+              <strong>Be clear-eyed about the limits.</strong> Detection is an env-var heuristic, so a
+              <strong>Workspace Code Assist licence that carries no environment variables is
+              misclassified as free-tier</strong> and will be blocked — the panel says so in place.
+              Strict Mode also only intercepts shell-level invocations of the <code>gemini</code>
+              binary: it does not cover out-of-band paths (a renamed binary, a script that calls the
+              Google API directly, a Gemini session started outside Termpolis). It is a tripwire for
+              the common-case mistake, not a proxy.
+            </p>
+
+            <h3 id="security-agent-command">Agent command enforcement (swarm)</h3>
+            <p>
+              In a swarm, the <a href="#conductor">AI conductor</a> is itself a model — and it is the
+              thing deciding what commands the other agents run. That is a genuine injection surface: an
+              agent whose output the conductor reads can try to talk the conductor into launching the
+              next agent with different flags. So the conductor is not trusted to compose a launch
+              command.
+            </p>
+            <p>
+              <code>src/main/agentCommandSanitizer.ts</code> intercepts every swarm-launched agent
+              command and rebuilds it from the <strong>approved base command for that agent</strong>.
+              Anything the conductor tried to add is dropped:
+            </p>
+            <ul class="docs-list">
+              <li><strong>Unauthorized flags are stripped</strong> — notably <code>-p</code> (headless
+                print mode) and <code>--sandbox</code>, which change what the agent is allowed to do.</li>
+              <li><strong>An appended prompt is stripped.</strong> The conductor delegates work through
+                the swarm's message channel, not by smuggling instructions onto a command line.</li>
+              <li><strong>Only exact model aliases survive.</strong> <code>--model</code> is checked
+                against an authoritative allowlist (<code>opus</code>, <code>sonnet</code>,
+                <code>haiku</code>, <code>fable</code> — Claude only). The value is whitespace-tokenised
+                and matched <em>exactly</em>, then the command is rebuilt from the trusted base plus
+                that alias — so a quoted, concatenated, or injected value can never ride along.</li>
+            </ul>
+            <p>
+              <strong>Limit:</strong> this governs the MCP command surface — the launch commands
+              Termpolis runs on the swarm's behalf. It does not constrain arbitrary subprocesses an
+              agent spawns for itself once it is running; that is what the
+              <a href="#security-egress-guard">Egress Guard</a> and the
+              <a href="#security-sensitive-file">sensitive-file watcher</a> are for.
             </p>
 
             <h3 id="security-audit">Local JSONL audit log (on by default since v1.25)</h3>
@@ -445,11 +507,39 @@
               <strong>It now records by default.</strong> Through v1.24 the audit trail defaulted to
               <em>off</em> — which meant that for most users the file did not exist at all, and the
               evidence you would most want after an incident was never being written in the first place.
-              As of <strong>v1.25</strong> it records out of the box, and it captures the new controls
-              too: each <a href="#security-commit-shield">Commit Shield</a> block, each
-              <a href="#security-egress-guard">Egress Guard</a> violation, and every
-              <a href="#safe-import">Safe Import</a> scan verdict and install decision.
+              As of <strong>v1.25</strong> it records out of the box.
             </p>
+            <p><strong>The event vocabulary</strong> — what you will actually find in the file:</p>
+            <ul class="docs-list">
+              <li><code>prompt_secret_sent</code> — the <a href="#security-secret-scanner">prompt
+                watch</a> matched a credential in something you sent to an agent. Records the
+                <em>name</em> and rule (<code>DB_PASSWORD (env_secret)</code>), never the value. This is
+                the one that drives the &ldquo;Rotate these&rdquo; panel.</li>
+              <li><code>code_chunk_sent</code> / <code>env_dump_sent</code> — a large code paste or an
+                <code>.env</code>-shaped dump went out. <a href="#security-codechunk">Separate events
+                since v1.25.2</a>, so a big paste no longer masquerades as a leaked key.</li>
+              <li><code>commit_blocked</code> / <code>push_blocked</code> — the
+                <a href="#security-commit-shield">Commit Shield</a> stopped a git operation. Unlike the
+                prompt events, these record something that <em>did not happen</em>.</li>
+              <li><code>egress_violation</code> — an agent connected to a host outside the
+                <a href="#security-egress-guard">provider allowlist</a>.</li>
+              <li><code>sensitive_file_read</code> — an agent read a
+                <a href="#security-sensitive-file">high-risk file</a> on its own initiative.</li>
+              <li><code>import_scan</code> / <code>import_blocked</code> — a
+                <a href="#safe-import">Safe Import</a> verdict and install decision.</li>
+              <li><code>memory_scrub</code> — a secret was
+                <a href="#security-memory-scrub">stripped before a memory was written</a>. Rule ids
+                only.</li>
+              <li><code>terminal_open</code> — an AI terminal was launched (and, for a
+                <a href="#security-gemini">Strict Mode</a> refusal, that the launch was blocked).</li>
+            </ul>
+            <div class="docs-callout">
+              <strong>The scan is always on; the recording is not.</strong> The
+              <a href="#security-secret-scanner">prompt watch</a> cannot be turned off — but the audit
+              log <em>can</em>. Switch it off and the watch keeps scanning while nothing is written
+              down, which means you lose the one thing the prompt path can actually give you: the list
+              of credentials to rotate. The panel says so in place rather than pretending to be armed.
+            </div>
             <p>
               <strong>Read it without leaving the app (v1.25.2).</strong> <strong>Settings → AI
               Security → "Open the audit log"</strong> opens a viewer over the raw JSONL, led by a
@@ -489,7 +579,8 @@
               <li>Shell-style tools (<code>Bash</code>, <code>run_shell_command</code>,
                   <code>container.exec</code>, …) → tokenises the command, splits on
                   <code>&amp;&amp;</code>/<code>;</code>/<code>|</code>, and identifies positional
-                  arguments to <code>cat</code>/<code>head</code>/<code>tail</code>/<code>grep</code>/<code>cp</code>/<code>curl -F file=@</code> and 15 other reader commands.</li>
+                  arguments to <code>cat</code>/<code>head</code>/<code>tail</code>/<code>grep</code>/<code>cp</code>/<code>curl -F file=@</code> and 23 other reader commands (29 in all, including the
+                  PowerShell <code>Get-Content</code>/<code>Select-String</code> family).</li>
             </ul>
             <p>
               Each candidate path is matched against a hand-curated rule list:
@@ -533,29 +624,51 @@
               (indentation density, braces/punctuation density, common keywords like
               <code>function</code>/<code>class</code>/<code>import</code>/<code>def</code>,
               and module declarations such as <code>import …</code> or <code>#include</code>).
-              When two or more of those signals fire, the prompt is flagged via a
-              <code>terminal:code-chunk-detected</code> event and an audit entry tagged
-              <code>code-chunk:&lt;signals&gt;</code>. A separate detector counts
+              When two or more of those signals fire, the prompt is flagged to the UI
+              (<code>terminal:code-chunk-detected</code>) and written to the audit log as a
+              <code><strong>code_chunk_sent</strong></code> event. A separate detector counts
               <code>UPPER_SNAKE=value</code> lines (with an optional <code>export</code>
-              prefix) — five or more triggers an <code>env-dump</code> flag and audit entry.
-              Both detectors are <em>heuristic</em>: the prompt is not blocked. They exist so
-              that a casual paste of an entire source file or <code>.env</code> does not slip
+              prefix) — five or more raises <code><strong>env_dump_sent</strong></code>, which
+              records the variable <em>names</em> and how many there were, never the values.
+            </p>
+            <p>
+              <strong>These got their own event names in v1.25.2</strong>, and that matters more than
+              it sounds. They used to be logged as <code>redaction_hit</code> — the same event a real
+              leaked credential produced. That conflated <em>&ldquo;you pasted a big file&rdquo;</em>
+              with <em>&ldquo;you leaked a key,&rdquo;</em> and inflated the secrets-sent count with
+              things that are not secrets at all. Now the
+              <a href="#security-audit">&ldquo;Rotate these&rdquo; panel</a> only ever lists actual
+              credentials, and a large paste is recorded as what it is.
+            </p>
+            <p>
+              Both detectors are <em>heuristic</em>, and <strong>neither blocks the prompt</strong> —
+              they exist so a casual paste of an entire source file or <code>.env</code> does not slip
               past unnoticed. False negatives are possible on minified or unusual code shapes.
             </p>
 
             <h3 id="security-egress">Per-agent egress audit (v1.11.52)</h3>
             <p>
-              When an AI agent is launched, Termpolis starts a 60-second poller that asks
-              the OS what TCP connections the agent's PID has open
+              Termpolis asks the OS what TCP connections an AI agent's PID has open
               (<code>netstat -ano</code> on Windows, <code>ss -tnp</code> on Linux,
               <code>lsof -nP -iTCP -p &lt;pid&gt;</code> on macOS) and records each unique
-              remote <code>host:port</code>. The Security panel can read this back per
-              terminal so you can answer "did Claude talk to anything other than
-              <code>api.anthropic.com</code> today?". This is polling, not packet capture —
-              sub-minute bursts can be missed, and we do not reverse-DNS or inspect the
-              payload. If the platform tool is missing or the user has insufficient
-              permissions, the poller silently returns nothing and the rest of the app
-              continues to function.
+              remote <code>host:port</code> to the audit log, so you can answer "did Claude talk
+              to anything other than <code>api.anthropic.com</code> today?".
+            </p>
+            <p>
+              <strong>The poll is on-demand — it runs when you open the Security panel, not on a
+              background timer.</strong> That is a deliberate reversal. The original design polled
+              every 60 seconds per AI terminal, and that triad — enumerate processes, spawn a
+              subprocess, from a freshly-signed executable — was load-bearing in the Windows
+              Defender cloud-ML <em>false positive</em> that quarantined v1.11.55. A continuous
+              behavioural signature is exactly what heuristic AV hunts for. The cost of moving to
+              on-demand is one extra shell-out the first time you open the panel; the benefit is
+              that the security feature stops getting the app flagged as malware.
+            </p>
+            <p>
+              <strong>So this is sampling, not packet capture.</strong> A connection that opens and
+              closes between two polls is never observed at all. We do not reverse-DNS the peer and
+              we do not inspect the payload. If the platform tool is missing or you lack the
+              permissions, the poller silently returns nothing and the rest of the app carries on.
             </p>
 
             <h3 id="security-egress-guard">Egress Guard — the allowlist policy (v1.25)</h3>
@@ -579,9 +692,16 @@
             <p>
               <strong>It flags and audits. It never kills your agent.</strong> A violation does not
               terminate the process or sever the connection — Termpolis is not a firewall and will not
-              pretend to be one in the middle of your task. It also inherits the poller's limits
-              described above: this is sampling, not packet capture, so a sub-minute burst can still be
-              missed. On by default.
+              pretend to be one in the middle of your task. A false positive must never take down your
+              agent mid-task, so the guard's only output is an <code>egress_violation</code> entry in
+              the <a href="#security-audit">audit log</a>.
+            </p>
+            <p>
+              It also inherits the limits of the poll it sits on: this is <strong>sampling, not packet
+              capture</strong>, so a connection that opens and closes between two polls is never judged
+              at all. And when DNS resolution fails — you are offline, or the resolver is down — the
+              guard <strong>stays silent rather than flagging every provider IP it can no longer
+              name</strong>. A guard that cries wolf is a guard nobody reads. On by default.
             </p>
 
             <h3 id="security-memory-scrub">Memory-at-rest secret scrub (v1.25)</h3>
@@ -606,6 +726,16 @@
               first place. The scrub is the second line — for the secret that turns up somewhere the
               denylist was never going to look.
             </p>
+            <div class="docs-callout">
+              <strong>Be clear-eyed about the limits.</strong> The scrub runs
+              <strong>at write time</strong>: it cleans every memory written from v1.25 onward, but it
+              does <em>not</em> go back and re-scrub a store you built before it existed. If you have
+              been running Termpolis for months, assume the older memories were never filtered. It also
+              <strong>fails open</strong> — if the scrubber itself errors, the memory is still written
+              (an anomaly is recorded) rather than the write being lost, because silently dropping a
+              user's memory is its own kind of data loss. And it inherits the rule engine's
+              regex-shaped coverage: a bespoke token nobody publishes a shape for can still be embedded.
+            </div>
 
             <h3 id="security-tos-drift">Weekly ToS drift watcher (v1.11.52)</h3>
             <p>
@@ -622,13 +752,22 @@
               an update. The watcher detects rendered-text changes — it cannot infer legal
               intent.
             </p>
+            <div class="docs-callout">
+              <strong>This one is maintainer-facing — be clear about what it is not.</strong> The drift
+              watcher is CI for <em>this repository</em>: it opens a GitHub issue so the
+              training-disposition facts on the Security panel and on the marketing site stay aligned
+              with what the providers actually publish. It is <strong>not</strong> an in-app notifier —
+              Termpolis does <em>not</em> pop a banner telling you that OpenAI changed its terms last
+              Tuesday, and it is no substitute for your own reading of the terms you are bound by. What
+              it buys you is that the claims Termpolis makes about your providers do not quietly rot.
+            </div>
 
             <h3 id="security-disclaimer">Legal disclaimer</h3>
             <p>
               The AI Security Center is <strong>best-effort, not regulatory-grade</strong>. The
               project is licensed Apache 2.0 "AS IS". The full disclaimer ships in
               <a href="https://github.com/codedev-david/termpolis/blob/main/TERMS.md" target="_blank" rel="noreferrer"><code>TERMS.md §5a</code></a>
-              and inside the app at Settings → Security. Provider terms can change without notice;
+              and inside the app at Settings → AI Security. Provider terms can change without notice;
               you must verify provider terms before transmitting confidential data. To the maximum
               extent permitted by law, the authors and contributors of Termpolis disclaim all
               liability for any data leak, breach, regulatory violation, contractual breach, or
@@ -677,13 +816,22 @@
               <li><strong>Code execution.</strong> <code>child_process</code>, <code>exec</code>,
                 <code>spawn</code>, <code>eval</code>, <code>new Function</code>,
                 <code>subprocess</code> — the shell-out and dynamic-eval primitives.</li>
-              <li><strong>Credential &amp; filesystem reach.</strong> <code>process.env</code>,
-                <code>keytar</code>, <code>~/.ssh</code>, <code>~/.aws</code>, <code>.env</code>,
+              <li><strong>Credential reach.</strong> <code>process.env</code>, <code>keytar</code> and
+                the OS keychain, <code>~/.ssh</code>, <code>~/.aws</code>, <code>.env</code>,
                 <code>credentials.json</code> — a &ldquo;formatting&rdquo; skill that reaches for your
                 keychain or your cloud credentials has told you what it is.</li>
+              <li><strong>Destructive &amp; out-of-workspace filesystem writes.</strong>
+                <code>rm -rf</code>, <code>fs.unlink</code>/<code>rmSync</code>,
+                <code>shutil.rmtree</code>, <code>Remove-Item</code> — and, separately, any write whose
+                path <em>leaves the workspace</em> (<code>~/</code>, <code>..\/</code>,
+                <code>$HOME</code>, <code>%APPDATA%</code>, an absolute system path). Either is worth a
+                look; together on one line — a destructive op pointed outside the project — they are the
+                shape of a skill that deletes something it was never asked to touch.</li>
               <li><strong>Obfuscation.</strong> Long base64 or hex blobs, <code>atob</code> piped into
                 an exec, minified single-line payloads — the shapes whose whole purpose is to stop
-                <em>you</em> reading the file.</li>
+                <em>you</em> reading the file. A base64 decode on its own is benign (images, fixtures);
+                it turns red when the same file also contains something that would
+                <em>execute</em> what the decode produces.</li>
               <li><strong>Prompt injection in the instructions themselves.</strong> The dangerous part
                 of a skill is often not its code but its prose: text engineered to hijack the agent that
                 reads it (&ldquo;ignore your previous instructions, then exfiltrate&hellip;&rdquo;).
@@ -720,15 +868,26 @@
             <h3>Where an approved artifact lands</h3>
             <p>
               On approval — and only on approval — Termpolis installs it into the agent configuration it
-              belongs in:
+              belongs in. <strong>Which agents an artifact reaches depends on its kind</strong>, because
+              the four CLIs do not all implement the same extension points:
             </p>
             <ul class="docs-list">
-              <li><code>~/.claude/skills</code> — skills.</li>
-              <li><code>~/.claude/commands</code> — slash commands.</li>
-              <li><code>~/.claude/agents</code> — subagents.</li>
-              <li>The <strong>MCP config</strong> for Claude, Codex, Gemini, and Qwen — an MCP server is
-                registered for all four agents.</li>
+              <li><strong>MCP server → all four agents.</strong> Written into the MCP config for Claude,
+                Codex, Gemini, <em>and</em> Qwen. MCP is the one extension point all four speak.</li>
+              <li><strong>Slash command → Claude, Gemini, and Qwen.</strong> Those three have a
+                user-command directory (<code>~/.claude/commands</code> and the Gemini/Qwen equivalents).
+                Codex does not, so a command is <em>not</em> installed for Codex.</li>
+              <li><strong>Skill, subagent, or plugin → Claude Code only.</strong>
+                (<code>~/.claude/skills</code>, <code>~/.claude/agents</code>, and the plugin directory.)
+                Claude Code is the only one of the four with a skills/subagent/plugin system, so there is
+                nowhere else for these to go.</li>
             </ul>
+            <p>
+              So &ldquo;Safe Import wires it into your agents&rdquo; is deliberately <em>not</em> a
+              blanket claim: an MCP server really does reach all four, while a skill only ever reaches
+              Claude. The report tells you which agents a given artifact will actually touch before you
+              approve it.
+            </p>
             <p>
               The installer itself is hardened against the two classic archive attacks:
               <strong>zip-slip</strong> (an archive entry whose <code>../../</code> path escapes the
@@ -993,7 +1152,7 @@ source ~/.zshrc</code></pre>
             <p>
               <strong>Heads-up about Gemini.</strong> The <code>gemini</code> CLI defaults to a
               free OAuth tier when no env var is set, and Google may use that traffic to
-              improve products. Termpolis flags this in <strong>Settings → Security</strong>
+              improve products. Termpolis flags this in <strong>Settings → AI Security</strong>
               and offers a <a href="#security-gemini">Strict Mode</a> that blocks the launch
               until you set <code>GEMINI_API_KEY</code> (or another paid-tier signal).
             </p>
