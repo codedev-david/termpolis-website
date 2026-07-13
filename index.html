@@ -43,7 +43,7 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
-    "softwareVersion": "1.25.8",
+    "softwareVersion": "1.25.9",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -250,6 +250,27 @@
               Linux libsecret) &mdash; no passphrase, and where no keychain is available it stays
               plaintext and says so rather than faking it. Turn on cross-machine sync and the key is a
               <code>scrypt</code> passphrase you share; your cloud provider only ever sees ciphertext.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Vector RAM, and an int8 toggle willing to say &ldquo;no&rdquo;</h3>
+            <p>
+              New in <strong>v1.25.5</strong>. Your vectors live in the <strong>main process</strong>
+              &mdash; the same thread that pumps the terminal &mdash; so vector RAM is not an
+              abstraction: at multi-GB it means GC pauses on the one thread whose stalls you feel as
+              <strong>typing lag</strong>. So <strong>Settings &rarr; Memory &amp; Learning &rarr;
+              Vector memory</strong> is a <strong>decision aid</strong>, not a bare toggle. It polls
+              live &mdash; vector RAM, main-thread stall (event-loop p99), GC pauses, and the
+              vectors&rsquo; <em>share</em> of the process &mdash; then recommends from
+              <em>that machine</em>, and it is willing to tell you the toggle
+              <strong>won&rsquo;t help you</strong>: <em>your main thread is stalling, but the vectors
+              are a small fraction of this process &mdash; freeing them would not fix it, and you would
+              lose exactness for nothing.</em> A control that only ever markets itself is an upsell,
+              not a tool. int8 is <strong>4&times; less vector RAM</strong>, <strong>off by
+              default</strong>, recall parity against the exact-float baseline is benchmarked and
+              CI-gated, and it is <strong>losslessly reversible</strong> &mdash; disk always keeps
+              exact floats, so this is an in-RAM representation, never a data migration.
+              <a href="docs.html#vector-memory">How it decides &rarr;</a>
             </p>
           </article>
         </div>
@@ -978,6 +999,23 @@
             holds your line. It <strong>names what leaked</strong> so you can rotate it. Prevention
             happens where it is actually possible: the git boundary and the memory layer.
           </p>
+          <p>
+            <strong>New in v1.25.6 &mdash; three of these controls were lying, and now aren&rsquo;t.</strong>
+            A coverage sweep put real tests on security code nobody had ever tested, and found them.
+            The <strong>GnuPG private-keyring</strong> watcher rule <em>could never fire</em>:
+            <code>secring.gpg</code> &mdash; the private keyring, the one file the rule exists to catch
+            &mdash; had been grouped into the rule&rsquo;s own <em>exclusion</em> list beside the public
+            ones, so an agent reading it was met with total silence, which reads exactly like
+            &ldquo;nothing happened&rdquo;. A <code>NaN</code> limit defeated the
+            <strong>audit-log</strong> clamp and returned the whole log instead of a capped page
+            (<code>typeof NaN === 'number'</code> is true, and <code>Math.min</code> propagates NaN
+            rather than clamping it). And the <strong>Commit Shield</strong> kept reporting repositories
+            as <strong>PROTECTED after their hooks were gone</strong> &mdash; the protected-repo list
+            compared raw path strings, so installing via the folder picker and uninstalling from the
+            working directory never matched. All three are fixed, and each is now pinned by a test.
+            <em>A security control that claims to be armed when it is not is worse than one that admits
+            it is off.</em>
+          </p>
         </div>
         <div class="feature-grid">
           <article class="card">
@@ -1023,6 +1061,11 @@
               running would quietly stop guarding you the moment you quit, which is worse than none,
               because you&rsquo;d still believe you had one. An existing hook (husky, lint-staged) is
               <strong>chained, never overwritten</strong>.
+              <strong>Fixed in v1.25.6:</strong> the protected-repo list compared raw path strings, so
+              a repo installed via the folder picker and uninstalled from the working directory never
+              matched &mdash; and kept being reported as <strong>PROTECTED after its hooks were
+              gone</strong>. It is now keyed on a canonical path, so the panel&rsquo;s answer matches
+              reality.
               <strong>Limit:</strong> the hook <em>fails open</em> — if Node or the scanner is
               missing, git is never blocked, so a broken state degrades to no protection rather than
               to a wedged workflow. And <code>--no-verify</code> bypasses any git hook: this is a
@@ -1058,6 +1101,11 @@
               went to the provider, so the alert is after-the-fact — but you now know to
               add the path to <code>.claudeignore</code> (or rotate the secret) before the
               next session.
+              <strong>Fixed in v1.25.6:</strong> one of those 20 rules &mdash; your <strong>GnuPG
+              private keyring</strong> &mdash; <em>could never fire</em>. <code>secring.gpg</code> had
+              been grouped into the rule&rsquo;s own exclusion list alongside the public keyrings, so
+              the exclusion returned first and the match never ran. Only the public
+              <code>pubring.*</code> entries are excluded now.
               <strong>Limit:</strong> watches the agent's own tool runtime — files exfiltrated
               via spawned subprocesses (e.g. <code>python -c 'open(".env").read()'</code>) only
               show up if the wrapping <code>Bash</code> command parses to a known reader.

@@ -139,6 +139,7 @@
             <li><a href="#intervention">Intervention controls</a></li>
             <li><a href="#review">Swarm review</a></li>
             <li><a href="#memory">Shared memory</a></li>
+            <li><a href="#vector-memory" class="docs-toc-sub">↳ Vector memory &amp; int8</a></li>
             <li><a href="#weave">The Weave</a></li>
             <li><a href="#code-graph">Code graph</a></li>
             <li><a href="#observability-docs">Observability</a></li>
@@ -403,6 +404,21 @@
                 and the scanner is gone, the hook exits 0. A hook left behind by a deleted app must
                 never wedge your git.</li>
             </ul>
+            <p>
+              <strong>Fixed in v1.25.6 &mdash; the panel could report <code>PROTECTED</code> when it was
+              not.</strong> The list of protected repositories was compared with a bare string
+              <code>!==</code>. But an install stores either the path the renderer supplied (forward
+              slashes) or the one the native folder picker returned (OS-native, backslashes on
+              Windows) &mdash; so installing a repo <em>via the picker</em> and then uninstalling it
+              <em>from the working directory</em> never matched. The repo stayed in
+              <code>commit-shield-repos.json</code> and the panel kept listing it as protected
+              <strong>after its hooks had been removed</strong>. The entry is now keyed on a canonical
+              path (resolved, separators unified and case-folded on Windows only &mdash; on macOS and
+              Linux a backslash is a legal filename character and the filesystem is case-sensitive, so
+              folding either would conflate two genuinely different repositories). That also stops one
+              repo being stored twice under two spellings. <em>A security control that claims to be
+              armed when it is not is worse than one that admits it is off.</em>
+            </p>
             <div class="docs-callout">
               <strong>Be clear-eyed about the limit.</strong> <code>git commit --no-verify</code>
               bypasses <em>any</em> git hook — that is git&rsquo;s design, and it is your machine.
@@ -551,6 +567,18 @@
               can actually give you.
             </p>
             <p>
+              <strong>Fixed in v1.25.6 &mdash; a <code>NaN</code> limit dumped the entire log.</strong>
+              Reads of the log are capped (a default page of 200, a hard ceiling of 2,000) so a
+              renderer-side call can never haul the whole file into memory at once. The guard checked
+              <code>typeof limit === 'number'</code> &mdash; which is <code>true</code> for
+              <code>NaN</code>. So <code>NaN</code> took the clamp arm instead of the default, and
+              <code>Math.min</code>/<code>Math.max</code> <em>propagate</em> <code>NaN</code> rather
+              than clamping it; the resulting <code>slice(NaN)</code> degrades to <code>slice(0)</code>
+              &mdash; &ldquo;return everything&rdquo;, which is the one thing the cap exists to
+              prevent, and it was reachable straight from the renderer. The guard is now
+              <code>Number.isFinite</code>.
+            </p>
+            <p>
               The audit log captures only what Termpolis observes locally — activity that bypasses
               Termpolis (a Gemini CLI run from a separate native terminal window, for example) is
               not visible to the audit log.
@@ -593,10 +621,24 @@
               files under <code>~/.ssh/</code> excluding <code>known_hosts</code>/<code>config</code>/<code>*.pub</code>;
               <code>.netrc</code>/<code>.npmrc</code>/<code>.pypirc</code>;
               <code>~/.docker/config.json</code>; <code>~/.kube/config</code> + <code>*.kubeconfig</code>;
+              Azure credentials; database-URL config;
               <code>secrets.{yml,yaml,json,env,toml,ini}</code>; <code>credentials.{yml,json,…}</code>;
+              the <strong>GnuPG private key store</strong> (<code>secring.gpg</code> and
+              <code>*.key</code> under <code>.gnupg/</code>, excluding the <em>public</em>
+              <code>pubring.gpg</code>/<code>pubring.kbx</code>);
               <code>*.kdbx</code>/<code>*.kdb</code> (KeePass);
               and Chrome/Firefox/Edge cookie databases.
             </p>
+            <div class="docs-callout">
+              <strong>Fixed in v1.25.6 &mdash; the GnuPG rule could never fire.</strong>
+              <code>secring.gpg</code>, your <em>private</em> keyring and the single file that rule
+              exists to catch, had been grouped into the rule&rsquo;s own <strong>exclusion</strong>
+              list alongside the public keyrings. The exclusion returned <code>false</code> before the
+              match could ever return <code>true</code>, so an agent reading your private GnuPG keyring
+              was <strong>never flagged</strong> &mdash; and the failure mode was total silence, which
+              reads exactly like &ldquo;nothing happened&rdquo;: the worst possible failure mode for a
+              watcher. Only the <code>pubring.*</code> entries are excluded now, and a test pins it.
+            </div>
             <p>
               On a match the watcher writes an audit entry tagged
               <code>sensitive_file_read</code> (with rule id, tool name, source path) and
@@ -2355,6 +2397,99 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               repo&rsquo;s code&rdquo;), and inject the most relevant context into the active agent
               with one click.
             </p>
+          </section>
+
+          <!-- VECTOR MEMORY / int8 -->
+          <section id="vector-memory" class="docs-section">
+            <h2>Vector memory &amp; the int8 toggle (v1.25.5)</h2>
+            <p>
+              <strong>Settings &rarr; Memory &amp; Learning &rarr; &ldquo;Vector memory&rdquo;</strong>.
+              Storing your embeddings as <code>int8</code> instead of exact <code>float32</code> uses
+              <strong>4&times; less vector RAM</strong> (1 byte per component instead of 4). That is
+              the entire mechanism. The interesting part is that Termpolis will not simply hand you the
+              switch.
+            </p>
+            <p>
+              <strong>Why this needs a panel at all.</strong> Your vectors live in the
+              <strong>main process</strong> &mdash; the same thread that pumps the PTY. So vector RAM
+              is not an abstraction: at multi-gigabyte scale it means garbage-collection pauses on the
+              one thread whose stalls you feel as <strong>typing lag</strong>. (We have been here
+              before: an in-process WASM embedder pinning the main thread was a real, shipped lag bug.)
+              Nobody can answer <em>&ldquo;should I enable int8 vector quantization?&rdquo;</em> in the
+              abstract, and a bare toggle would be a trap &mdash; it sounds like an optimization, so
+              people would flip it on principle. It is therefore a <strong>decision aid</strong>:
+              it measures <em>your</em> machine, live, and tells you what to do.
+            </p>
+
+            <h3>What it measures (polled live, every 2&nbsp;s)</h3>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead>
+                  <tr><th>Reading</th><th>What it tells you</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>Vectors</strong></td><td>How many, at what dimension, and in which representation &mdash; <code>float32</code> (4&nbsp;B/component, exact) or <code>int8</code> (1&nbsp;B/component).</td></tr>
+                  <tr><td><strong>Vector RAM</strong></td><td>What they actually hold right now, and what they <em>would</em> hold in the other representation. (They live in <code>arrayBuffers</code>, off the V8 heap &mdash; so a heap graph would not have shown you this.)</td></tr>
+                  <tr><td><strong>Process RAM</strong></td><td>The resident set, and the vectors&rsquo; <strong>share</strong> of it. This is the number that decides whether the toggle is even relevant.</td></tr>
+                  <tr><td><strong>Main-thread stall (p99)</strong></td><td>Event-loop delay &mdash; the actual symptom. Above <strong>50&nbsp;ms</strong> is roughly three dropped frames: the point where keystroke echo stops feeling instant.</td></tr>
+                  <tr><td><strong>Longest GC pause</strong></td><td>The worst stop-the-world pause, plus how many major collections have run. A &gt;50&nbsp;ms pause is a visible hitch.</td></tr>
+                  <tr><td><strong>Time spent in GC</strong></td><td>GC as a share of wall-clock over the sampling window. Above a few percent, the thread is fighting the collector.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>The verdict &mdash; including the one that says don&rsquo;t</h3>
+            <p>
+              From those numbers the panel gives a recommendation, and the burden of proof sits on
+              <em>enabling</em>:
+            </p>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead>
+                  <tr><th>Verdict</th><th>When</th><th>What it says</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>Not needed</strong></td><td>Vectors under ~256&nbsp;MB</td><td>There is no version of this that helps &mdash; stalling or not. Leave it off. This is the correct state for most users, forever, and the panel will tell you if that changes.</td></tr>
+                  <tr><td><strong>Won&rsquo;t help</strong></td><td>Thread <em>is</em> stalling, but the vectors are under ~20% of the process</td><td><em>&ldquo;Your main thread is stalling &mdash; but not because of the vectors.&rdquo;</em> Freeing them would not fix the stalls, and you would lose exactness for nothing. Look elsewhere.</td></tr>
+                  <tr><td><strong>Your call</strong></td><td>Vectors are large, nothing is degrading</td><td>The thread is healthy, so there is no problem to fix &mdash; but the memory is real, so taking the headroom back is defensible.</td></tr>
+                  <tr><td><strong>Recommended</strong></td><td>Thread is stalling <em>and</em> the vectors are a large share of it</td><td>Worth turning on. It names how much it expects to free.</td></tr>
+                  <tr><td><strong>int8 on</strong></td><td>Already enabled</td><td>Exact floats are still on disk; switch back at any time and lose nothing.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="docs-callout">
+              <strong>A control that only ever markets itself is an upsell, not a tool.</strong>
+              <code>Won&rsquo;t help</code> is the verdict that makes the other four worth reading. The
+              cost of a wrong <em>yes</em> here is invisible (you quietly approximate the one thing the
+              brain exists to do) while the benefit is imperceptible until the corpus is genuinely
+              large &mdash; so the panel is built to be willing to talk you out of it.
+            </div>
+
+            <h3>Does it cost recall?</h3>
+            <p>
+              <strong>No measurable loss &mdash; and that is gated, not asserted.</strong> Retrieval is
+              two-stage: a fast <code>int8</code> gather over a widened candidate set, then a rescore of
+              those candidates with the exact float query against the dequantized rows, which recovers
+              the precision that matters for the final ranking. The offline recall benchmark runs the
+              real bundled <code>bge-small-en-v1.5</code> model against the float baseline and
+              <strong>fails the build</strong> if int8 regresses it: measured
+              <strong><code>recall@10</code> and <code>recall@5</code> identical</strong> to the exact-float
+              baseline, with nDCG and MRR within 0.001. It is only worth shipping if it keeps recall, so
+              that is a CI gate rather than a promise.
+            </p>
+
+            <h3>Turning it on and off</h3>
+            <ul class="docs-list">
+              <li><strong>Off by default.</strong> Exact vectors are the better default until memory is
+                actually costing you something.</li>
+              <li><strong>Losslessly reversible.</strong> <strong>The copy on disk always keeps exact
+                floats.</strong> <code>int8</code> is an <em>in-RAM representation</em> &mdash; it is
+                <strong>not</strong> a data migration, and nothing is ever destroyed. Turning it on
+                repacks the in-memory store; turning it off restores exact floats from disk on the next
+                load. Memories written before the flip are still there, and still recallable, after it.</li>
+              <li><strong>It only touches the vectors.</strong> Your memories, the knowledge graph, the
+                code graph, and the audit trail are unaffected.</li>
+            </ul>
           </section>
 
           <!-- THE WEAVE -->
