@@ -82,7 +82,7 @@
           <p class="docs-sidebar-eyebrow">🛡 Security</p>
           <ul class="docs-toc">
             <li><a href="#security-center">AI Security Center</a></li>
-            <li><a href="#security-secret-scanner">Pre-paste secret scanner</a></li>
+            <li><a href="#security-secret-scanner">Prompt secret watch</a></li>
             <li><a href="#security-commit-shield">Commit &amp; push Secret Shield</a></li>
             <li><a href="#security-sensitive-file">Sensitive-file-read alert</a></li>
             <li><a href="#security-codechunk">Code-chunk + env-dump heuristics</a></li>
@@ -221,7 +221,7 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
-              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> auto-scans every AI prompt against 70+ secret patterns, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, enforces Gemini paid-tier mode, and keeps an auditable JSONL log — every check runs locally.</li>
+              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> <a href="#security-secret-scanner">watches every AI prompt against 97 secret rules and names what leaked</a>, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, enforces Gemini paid-tier mode, and keeps an auditable JSONL log — every check runs locally.</li>
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, Gemini CLI, and Qwen Code work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
@@ -275,14 +275,16 @@
               <li><strong>Alibaba (Qwen Code).</strong> Paid DashScope — excluded from training. Local Ollama mode — prompts stay on your machine instead of going to any provider.</li>
             </ul>
 
-            <h3 id="security-secret-scanner">Auto-scan every prompt (v1.11.44+)</h3>
+            <h3 id="security-secret-scanner">Watch every prompt (v1.25.2)</h3>
             <p>
               Once you launch <code>claude</code>, <code>codex</code>, <code>gemini</code>, or
               <code>qwen</code> in a terminal, every Enter and every paste-sized chunk
-              (≥32 bytes) is scanned in main-process memory against 70+ regex rules
-              <strong>before it reaches the PTY</strong>. Hits are redacted in place, audited
-              as <code>redaction_hit</code> events, and surfaced via a dismissable banner.
-              Non-AI terminals are not scanned (zero overhead). Coverage spans:
+              (≥32 bytes) is scanned in main-process memory against <strong>97 secret rules</strong>.
+              The scan runs on a <strong>shadow copy</strong>. Every byte you type is forwarded to the
+              agent <strong>immediately and unmodified</strong> — nothing is withheld, nothing is
+              rewritten — and the scan never runs per keystroke, only on submit or paste
+              (~0.05&nbsp;ms per prompt). Non-AI terminals are not scanned at all. It cannot be turned
+              off. Coverage spans:
             </p>
             <ul class="docs-list">
               <li>AWS (access keys <code>AKIA…</code>/<code>ASIA…</code>, secrets, session tokens).</li>
@@ -295,25 +297,64 @@
               <li>Project mgmt (Linear, Notion, Asana, Jira, Figma), package registries (npm, PyPI, Docker Hub).</li>
               <li>Secrets vaults (HashiCorp Vault, Doppler, 1Password Connect), DB connection strings (Postgres/MySQL/MongoDB/Redis), HTTP basic-auth URLs.</li>
               <li>JWT, PEM/GPG private key blocks, and the <code>.env</code>-style catch-all (<code>SECRET_KEY=…</code>).</li>
+              <li><strong>Named secrets in config-shaped text</strong> — <code>.env</code>,
+                <code>appsettings.json</code>, YAML, connection strings, and URLs carrying credentials.
+                The audit entry reports the <em>name</em> (<code>DB_PASSWORD</code>), never the value.</li>
+              <li><strong>Shapeless secrets you introduce in your own words</strong> — <em>"here is the
+                api key for this code, add it to line 42: 8f3a9b2c4d5e…"</em>. No token-shape rule could
+                ever see that one. It stays quiet on ordinary talk like <em>"please rotate the api key
+                in production"</em>.</li>
             </ul>
             <p>
-              A manual paste-and-scan box also lives in Settings → Security for one-off checks
-              of clipboard text before pasting elsewhere.
+              Known token shapes (AWS, OpenAI, GitHub, Google, Stripe, JWT) are caught
+              <strong>bare, in prose, with no name needed</strong>. A manual paste-and-scan box also
+              lives in Settings → Security for one-off checks of clipboard text before pasting
+              elsewhere.
             </p>
             <p>
-              Hits return a redacted preview so you can decide whether the prompt is safe to send.
-              The redaction scanner targets high-confidence patterns to keep false-positive rates
-              low — it is <strong>not</strong> a comprehensive DLP solution. Custom corporate
-              tokens may not be detected and must be vetted separately.
+              <strong>A hit is recorded, not blocked.</strong> It is written to the
+              <a href="#security-audit">audit log</a> as a <code>prompt_secret_sent</code> event that
+              names <em>what</em> leaked — <code>DB_PASSWORD (env_secret)</code> — and
+              <strong>never the value</strong>. The secret itself is never captured and never written
+              to disk, not even a fragment. The name is the part you can act on: it is what tells you
+              which credential to rotate.
+            </p>
+            <p>
+              <strong>Why this is detection and not prevention.</strong> Through v1.25.1 the app claimed
+              to <em>redact</em> a secret before it reached the PTY. That has been removed, because it
+              could never have worked. To redact before the PTY you must withhold the keystrokes — which
+              broke typing outright — and even a working version would buy you nothing: against a TUI
+              agent like Claude Code, your text is already sitting in the <em>agent's own</em> line
+              buffer by the time you press Enter, so writing a "clean" copy to the PTY would only
+              <em>append</em> to it. You cannot un-send what the agent already holds. So the prompt path
+              is <strong>detection only, by design</strong>, and saying so plainly is better than the old
+              claim, which was false. Prevention lives at the two boundaries where it is actually
+              possible: the <a href="#security-commit-shield">git boundary</a>, where a commit or push
+              carrying a key is genuinely blocked, and the
+              <a href="#security-memory-scrub">memory layer</a>, where a secret is stripped before it can
+              ever be written to the brain.
+            </p>
+            <p>
+              Dropping redaction is also what made the rule set <em>bigger</em>. A false positive used to
+              <strong>mangle your prompt</strong>; now it costs one line in a log. That is what made the
+              7 name-aware and narrative rules above safe enough to ship.
+            </p>
+            <p>
+              Be clear-eyed about the limit. This does <strong>not</strong> stop a secret reaching a
+              model through a prompt, and it is <strong>not</strong> a comprehensive DLP solution. A
+              bespoke corporate token that nobody publishes a shape for, pasted with no name attached,
+              can still go unnoticed and must be vetted separately.
             </p>
 
             <h3 id="security-commit-shield">Commit &amp; push Secret Shield (v1.25)</h3>
             <p>
-              The scanner above only ever sees text on its way <em>to an agent</em>. It never saw
-              <code>git</code>. So a key that an agent wrote into a file — or one you pasted into a
-              config and forgot about — could still be committed, land in your history, and be pushed
-              to a remote without a single check firing. That was the hole. The Secret Shield closes it
-              by running the same ~70-rule engine at the <strong>git boundary</strong>:
+              The watch above only ever sees text on its way <em>to an agent</em> — and there, all it
+              can do is record. It never saw <code>git</code>. So a key that an agent wrote into a file
+              — or one you pasted into a config and forgot about — could still be committed, land in
+              your history, and be pushed to a remote without a single check firing. That was the hole.
+              <strong>Git is a boundary Termpolis can actually hold</strong>, so this is where prevention
+              lives: the Secret Shield runs the same secret-rule engine at the
+              <strong>git boundary</strong>:
             </p>
             <ul class="docs-list">
               <li><strong>On commit</strong> — it scans the <strong>staged diff</strong>
@@ -326,8 +367,9 @@
             <p>
               A hit <strong>blocks the git operation</strong> and tells you <strong>which rule
               fired</strong>, so you can strip the value (or rewrite the offending commit) and go again.
-              It is a hard stop, not a banner: nothing is silently redacted behind your back, and no
-              half-made commit is left behind.
+              It is a hard stop, not a log line: unlike the prompt path — which can only tell you what
+              has already gone out — the commit simply does not happen. Nothing is silently rewritten
+              behind your back, and no half-made commit is left behind.
             </p>
             <h4>Covering git you type yourself: the hooks (v1.25.1)</h4>
             <p>
@@ -364,7 +406,7 @@
             </p>
             <p>
               <strong>On by default</strong> — toggle it under <strong>Settings → AI Security →
-              Commit Shield</strong>. It inherits the scanner's limits: these are high-confidence
+              Commit Shield</strong>. It inherits the rule engine's limits: these are high-confidence
               patterns, so a bespoke corporate token shape may not be recognised and still needs its
               own review.
             </p>
@@ -409,6 +451,16 @@
               <a href="#safe-import">Safe Import</a> scan verdict and install decision.
             </p>
             <p>
+              <strong>Read it without leaving the app (v1.25.2).</strong> <strong>Settings → AI
+              Security → "Open the audit log"</strong> opens a viewer over the raw JSONL, led by a
+              <strong>"Rotate these — they were sent to a model"</strong> panel. That panel lists every
+              <code>prompt_secret_sent</code> event the
+              <a href="#security-secret-scanner">prompt watch</a> recorded, <em>by name</em>
+              (<code>DB_PASSWORD (env_secret)</code>). The value is not shown because it was never
+              captured — the name is the part you act on, and rotating it is the remedy the prompt path
+              can actually give you.
+            </p>
+            <p>
               The audit log captures only what Termpolis observes locally — activity that bypasses
               Termpolis (a Gemini CLI run from a separate native terminal window, for example) is
               not visible to the audit log.
@@ -416,7 +468,7 @@
 
             <h3 id="security-sensitive-file">Sensitive-file-read alert (v1.11.53)</h3>
             <p>
-              The pre-send secret scanner can only see what <em>you</em> type. When the AI
+              The prompt watch can only see what <em>you</em> type. When the AI
               agent autonomously decides to read a sensitive file via its own
               <code>Read</code> tool (or runs <code>cat</code>/<code>head</code>/<code>grep</code>
               on one through <code>Bash</code>), the file's bytes have already been added to
@@ -542,7 +594,7 @@
               from there to a provider.
             </p>
             <p>
-              So the scrub runs <strong>before the memory exists</strong>. Secrets are redacted out of
+              So the scrub runs <strong>before the memory exists</strong>. Secrets are stripped out of
               the text <em>before</em> it is hashed, <em>before</em> it is embedded, and
               <em>before</em> it is written to disk — not cleaned up afterwards. A key in a transcript
               or an indexed source file therefore never lands in the store, never gets a vector, and
@@ -1266,7 +1318,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
             <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in, and <a href="#safe-import">Safe Import</a>), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in, and <a href="#safe-import">Safe Import</a>), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
           </section>
 
           <!-- THEMES -->

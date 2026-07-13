@@ -43,7 +43,11 @@
     "url": "https://termpolis.com/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
+<<<<<<< HEAD
     "softwareVersion": "1.25.1",
+=======
+    "softwareVersion": "1.25.2",
+>>>>>>> e673907 (v1.25.2 — prompt path is detection, not prevention)
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -655,7 +659,7 @@
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Your data &amp; lock-in</strong></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">One vendor's account and cloud; retention/telemetry vary</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">100% local, Apache-2.0, no account or backend; prompts scanned for secrets before they ever leave</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">100% local, Apache-2.0, no account or backend; every prompt watched for secrets &mdash; a leak is named in a local audit log, and blocked outright at the git boundary</td>
               </tr>
             </tbody>
           </table>
@@ -784,8 +788,8 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — no AI memory</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Pre-send secret scanner (70+ patterns)</strong><br><span style="opacity:0.7;font-size:12px;">Redacts AWS keys, GitHub PATs, etc. before they hit the AI provider</span></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, every prompt</td>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Every prompt watched for secrets (97 rules)</strong><br><span style="opacity:0.7;font-size:12px;">Detection, not prevention &mdash; the hit is named in a local audit log (<code>DB_PASSWORD</code>, never the value) so you know what to rotate</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, every prompt, can't be turned off</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Secret Redaction (~18 patterns, opt-in)</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
@@ -832,7 +836,7 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Local JSONL audit log</strong><br><span style="opacity:0.7;font-size:12px;">Every redaction, block, and egress entry stays on disk</span></td>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Local JSONL audit log</strong><br><span style="opacity:0.7;font-size:12px;">Every prompt-secret hit, block, and egress entry stays on disk &mdash; with an in-app viewer</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Rotated, on-disk only</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Cloud history</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Local history (chat blocks)</td>
@@ -888,8 +892,9 @@
           cases. Warp ships the cleanest UI; Wave ships workspace blocks; Air ships an
           agent-first JetBrains IDE; Tabby ships a fast self-hostable terminal with an MCP
           plugin. Termpolis trades all of that polish for security primitives that hosted-model
-          users currently have to build by hand: secret redaction, a secret block at the git
-          boundary, static scanning of third-party skills and MCP servers before they install,
+          users currently have to build by hand: a watch on every prompt that names what leaked, a
+          secret block at the git boundary, static scanning of third-party skills and MCP servers
+          before they install,
           egress audit plus an allowlist policy, ToS drift,
           sensitive-file alerts, parallel multi-agent orchestration with a local conductor, and a
           persistent cross-agent memory brain that lives on your machine (no cloud, no account).
@@ -923,6 +928,12 @@
           git-boundary row rather than ⚠; and none of the four documents a security scan of third-party AI artifacts
           (skills, subagents, MCP servers) before installing them — Tabby ships a plugin store, but without an
           artifact scanner. If that has changed, please file an issue and we'll update the row.
+          <strong>On the prompt row, the two claims are different things and should be read that way:</strong>
+          Warp's redaction attempts <em>prevention</em> (opt-in, off by default); Termpolis
+          <em>detects and records</em> — always on, 97 rules, naming what leaked so you can rotate it — and does
+          <em>not</em> claim to stop a secret you send to a model. Prevention in Termpolis lives at the git boundary
+          and the memory layer, where it is actually enforceable
+          (<a href="docs.html#security-secret-scanner">why the prompt path is detection-only</a>).
         </p>
       </section>
 
@@ -954,32 +965,51 @@
             <strong>third-party AI artifacts</strong> &mdash; skills, plugins, subagents, and MCP
             servers are statically scanned <em>before</em> they are wired into an agent.
           </p>
+          <p>
+            <strong>New in v1.25.2:</strong> the prompt path is <strong>watch, not block</strong> &mdash;
+            and it now says so. Every byte you type reaches the agent immediately and unmodified; on
+            submit, a shadow copy is scanned against <strong>97 rules</strong> and a hit is
+            <em>recorded</em>, never withheld. Termpolis does <strong>not prevent</strong> a secret
+            reaching a model through a prompt &mdash; nothing in a terminal can, once the agent already
+            holds your line. It <strong>names what leaked</strong> so you can rotate it. Prevention
+            happens where it is actually possible: the git boundary and the memory layer.
+          </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>Pre-send secret scanner</h3>
+            <h3>Every prompt watched (97 rules)</h3>
             <p>
               Once you launch <code>claude</code>, <code>codex</code>, <code>gemini</code>, or
-              <code>qwen</code>, every Enter and every paste-sized chunk is matched against
-              <strong>70+ regex rules</strong> in main-process memory before it reaches the
-              PTY. Hits are redacted in place and a banner names the rules that fired.
-              Coverage: AWS, GitHub PATs, Azure, GCP service accounts, Stripe, Slack, Twilio,
-              Sentry DSN, JWT, PEM, <code>.env</code>-style URLs, and 60+ more.
-              <strong>Limit:</strong> regex-shaped secrets only — a custom token nobody publishes
-              a pattern for can still slip through.
+              <code>qwen</code>, every submit and every paste is matched against
+              <strong>97 secret rules</strong> — on a <strong>shadow copy</strong>. Your keystrokes
+              reach the agent <strong>immediately and unmodified</strong>: nothing is withheld, nothing
+              is rewritten, and the scan never runs per keystroke (~0.05&nbsp;ms per submitted prompt).
+              A hit is <strong>recorded, not blocked</strong> — a <code>prompt_secret_sent</code> entry
+              naming <em>what</em> leaked, <code>DB_PASSWORD (env_secret)</code>, and
+              <strong>never the value</strong>. That name is what tells you to rotate it. Coverage: AWS,
+              GitHub PATs, Azure, GCP, Stripe, Slack, JWT, PEM — caught bare in prose, no name needed —
+              plus named secrets in <code>.env</code>, <code>appsettings.json</code>, YAML, connection
+              strings and credentialed URLs, and shapeless secrets you introduce in your own words
+              ("the api key is 8f3a9b2c…").
+              <strong>Limit — and it is the whole design:</strong> this does <em>not</em> prevent a
+              secret reaching the model. It cannot: by the time you hit Enter, the text is already in
+              the agent's own line buffer, so nothing written to the PTY can un-send it. Termpolis
+              detects and records here, and <em>blocks</em> where blocking actually works — the next two
+              cards.
             </p>
           </article>
           <article class="card">
             <h3>Commit &amp; push secret shield</h3>
             <p>
-              <strong>New in v1.25.</strong> The same ~70-rule engine now also runs at the
+              <strong>New in v1.25.</strong> The same secret-rule engine now also runs at the
               <strong>git boundary</strong>: on the <strong>staged diff</strong> (what
               <code>git commit</code> is about to capture) and on every <strong>unpushed
               patch</strong> (what <code>git push</code> is about to send). A hit
-              <strong>blocks the operation</strong> and names what fired. Until now the scanner
-              only ever saw text you typed <em>at</em> an agent — it never saw git, so a leaked
-              key could still land in your history and be pushed to a remote. On by default;
-              toggle in Settings &rarr; AI Security.
+              <strong>blocks the operation</strong> and names what fired. The prompt watch only ever
+              saw text you typed <em>at</em> an agent — and there it can only record. It never saw git,
+              so a leaked key could still land in your history and be pushed to a remote.
+              <strong>Git is a boundary that can actually be held</strong>, so this is a real stop, not
+              a log line. On by default; toggle in Settings &rarr; AI Security.
               <strong>However you commit.</strong> Out of the box it gates the git operations
               Termpolis itself runs. Install the <code>pre-commit</code>&nbsp;/&nbsp;<code>pre-push</code>
               hooks (Settings &rarr; AI Security) and it also catches a secret in a
@@ -1000,19 +1030,21 @@
             <p>
               <strong>New in v1.25.</strong> Mneme indexes your transcripts and source files,
               which means a key pasted into a session is a key headed for long-term storage.
-              Secrets are now <strong>redacted before a memory is hashed, embedded, or written
+              Secrets are <strong>scrubbed before a memory is hashed, embedded, or written
               to disk</strong> — so a credential sitting in a transcript or an indexed source
               file never lands in the store, and can never be recalled back into an agent's
-              context months later. This sits on top of the sensitive-file denylist that keeps
+              context months later. Like git, this is a boundary Termpolis owns, so here it is
+              <em>prevention</em>, not a log entry: the secret never exists in the brain to leak.
+              This sits on top of the sensitive-file denylist that keeps
               <code>.env</code>-class files out of the indexer entirely.
-              <strong>Limit:</strong> the same regex-shaped coverage as the scanner — an
+              <strong>Limit:</strong> the same regex-shaped coverage as the prompt watch — an
               unpatterned custom token can still be embedded.
             </p>
           </article>
           <article class="card">
             <h3>Sensitive-file-read alert</h3>
             <p>
-              The pre-send scanner can only see what <em>you</em> type. When the agent
+              The prompt watch can only see what <em>you</em> type. When the agent
               autonomously decides to read <code>.env</code>, <code>id_rsa</code>,
               <code>~/.aws/credentials</code>, a <code>*.pem</code>, or any of 17 other
               high-risk patterns, Termpolis subscribes to the agent's tool-call stream and
@@ -1101,12 +1133,15 @@
           <article class="card">
             <h3>Local JSONL audit log</h3>
             <p>
-              Every AI terminal open/close, every redaction hit, every code-chunk or
-              env-dump detection, every Strict-Mode block — and, as of v1.25, every blocked
-              commit or push, every Safe Import verdict, and every egress violation — writes to
+              Every AI terminal open/close, every <code>prompt_secret_sent</code> hit, every
+              code-chunk or env-dump detection, every Strict-Mode block — and, as of v1.25, every
+              blocked commit or push, every Safe Import verdict, and every egress violation — writes to
               <code>ai-security-audit.jsonl</code> in your userData directory.
-              <strong>Recording is on by default.</strong> 10&nbsp;MB rotated, append-only,
-              on disk only, wipeable.
+              <strong>Recording is on by default</strong>, and <strong>Settings &rarr; AI Security
+              &rarr; "Open the audit log"</strong> now opens a viewer over it, led by a
+              <strong>"Rotate these — they were sent to a model"</strong> panel listing each leaked
+              secret <em>by name</em>. The values aren't there: they were never captured.
+              10&nbsp;MB rotated, append-only, on disk only, wipeable.
               <strong>Limit:</strong> local. We don't ship it anywhere. If your machine is
               compromised, so is the log.
             </p>
@@ -1127,7 +1162,7 @@
             <p>
               Apache 2.0 "AS&nbsp;IS". Settings → Security and <code>TERMS.md</code> ship
               the full liability disclaimer covering provider ToS changes, the limits of
-              regex-based redaction, and the scope of Strict Mode interception. Vetted,
+              regex-based secret detection, and the scope of Strict Mode interception. Vetted,
               transparent, auditable.
             </p>
           </article>
@@ -1200,13 +1235,13 @@
         </div>
         <div class="feature-media-grid">
           <figure class="product-shot">
-            <img src="assets/screenshot-security-center.png" alt="Termpolis AI Security Center settings tab — pre-paste secret scanner, Gemini paid-tier enforcement, audit log.">
+            <img src="assets/screenshot-security-center.png" alt="Termpolis AI Security Center settings tab — prompt secret watch, Gemini paid-tier enforcement, audit log.">
           </figure>
           <figure class="product-shot">
             <img src="assets/screenshot-security-watchers.png" alt="Background watchers card — sensitive-file-read alerts and per-agent egress audit summary.">
           </figure>
           <figure class="product-shot">
-            <img src="assets/screenshot-security-scanner.png" alt="Pre-send secret scanner flagging an AWS key and GitHub token before they reach the AI provider.">
+            <img src="assets/screenshot-security-scanner.png" alt="Prompt secret watch naming an AWS key and a GitHub token that were sent to the model, so you know what to rotate.">
           </figure>
         </div>
         <p style="margin-top:24px; font-size:14px; opacity:0.85;">
