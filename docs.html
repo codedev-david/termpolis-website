@@ -980,6 +980,23 @@
               <kbd>Ctrl+Shift+M</kbd> defaults to Copy as Code Block; rebind it under Settings →
               Keybindings.
             </p>
+            <h3>Selecting across scrollback</h3>
+            <p>
+              Dragging to select is fine for what is on screen, but miserable across hundreds of
+              lines — you hold the button down and fight the auto-scroll the whole way. So anchor the
+              two ends instead: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Click</kbd> a start point,
+              scroll as far as you like, then <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Click</kbd>
+              the end. Everything between is selected and copied in one go.
+            </p>
+            <p>
+              The anchor is pinned to the <em>text</em>, not to the viewport, so scrolling between the
+              two clicks never moves it — which is the entire point. Click the end before the start if
+              you prefer; the span is the same either way. Any plain click abandons a pending anchor,
+              and ordinary drag-select still behaves exactly as before. Prefer the keyboard?
+              <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd> enters copy mode (arrows move,
+              <kbd>Shift</kbd> extends, <kbd>Ctrl</kbd> jumps by word, <kbd>Enter</kbd> copies,
+              <kbd>Esc</kbd> exits).
+            </p>
           </section>
 
           <!-- INSTALL -->
