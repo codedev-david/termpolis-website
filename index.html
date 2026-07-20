@@ -77,6 +77,7 @@
         <a href="#memory">Mneme</a>
         <a href="#proof">Proof</a>
         <a href="#second-opinion">Second Opinion</a>
+        <a href="#headroom">Headroom</a>
         <a href="#why">Why us</a>
         <a href="#context-handoff">Handoff</a>
         <a href="#swarm">Swarm</a>
@@ -625,6 +626,38 @@
           <article class="card">
             <h3>Only what's installed shows up</h3>
             <p>The menu reflects real install detection and appears only on AI terminals. Gemini runs through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- TOKEN HEADROOM -->
+      <section id="headroom" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">⚡ New in v1.29 &middot; Token Headroom</p>
+          <h2>Compress what Claude Code sends &mdash; and cut your burn rate</h2>
+          <p>
+            Long sessions hit rate limits and compaction fast, and the biggest culprit is the
+            <strong>file reads, command output, and pasted images</strong> the agent ships to the model every
+            turn. Token Headroom compresses that traffic <strong>before it reaches Anthropic</strong>, so you
+            get more work done per session before you hit a wall.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Always on for Claude Code</h3>
+            <p>Every Claude session launches through a <strong>local, off-thread compression proxy</strong> &mdash; its own process, never the UI/PTY thread. No toggle, no setup. If it's ever unhealthy the launch goes <strong>direct</strong>, so it can never <em>break</em> your agent &mdash; only fail to compress.</p>
+          </article>
+          <article class="card">
+            <h3>It shrinks what actually costs you</h3>
+            <p>Verbose <strong>Bash output</strong>, large <strong>file Reads</strong>, and <strong>pasted images</strong> (downscaled below the model's cap) are compressed deterministically. Nothing is lost &mdash; the agent calls <code>retrieve_full</code> to pull any result back in full when it needs the detail.</p>
+          </article>
+          <article class="card">
+            <h3>Prompt-cache safe &mdash; proven</h3>
+            <p>Naive compression <strong>busts</strong> Anthropic's prompt cache and costs you more. Headroom compresses <strong>deterministically</strong>, so re-sent history stays byte-identical and the cache keeps hitting. Measured: <strong>~50% fewer tokens ingested per turn</strong>, cache preserved.</p>
+          </article>
+          <article class="card">
+            <h3>See the receipt</h3>
+            <p><strong>Settings &rarr; Token Savings</strong> shows the live <strong>% of tokens saved</strong> &mdash; session and all-time, by type, plus prompt-cache health &mdash; from Anthropic's real usage numbers, on your machine. Your memory brain is never touched.</p>
           </article>
         </div>
       </section>
