@@ -649,7 +649,7 @@
           </article>
           <article class="card">
             <h3>It shrinks what actually costs you</h3>
-            <p>Verbose <strong>Bash output</strong>, large <strong>file Reads</strong>, and <strong>pasted images</strong> (downscaled below the model's cap) are compressed deterministically. Nothing is lost &mdash; the agent calls <code>retrieve_full</code> to pull any result back in full when it needs the detail.</p>
+            <p>Verbose <strong>Bash output</strong>, large <strong>file Reads</strong>, <strong>fetched web pages</strong> (HTML stripped to its text), and <strong>pasted images</strong> (downscaled below the model's cap) are compressed deterministically &mdash; and a result <strong>repeated within a session collapses to a one-line reference</strong> instead of being re-sent in full. Nothing is lost &mdash; the agent calls <code>retrieve_full</code> to pull any result back when it needs the detail.</p>
           </article>
           <article class="card">
             <h3>Prompt-cache safe &mdash; proven</h3>
@@ -657,7 +657,7 @@
           </article>
           <article class="card">
             <h3>See the receipt</h3>
-            <p><strong>Settings &rarr; Token Savings</strong> shows the live <strong>% of tokens saved</strong> &mdash; session and all-time, by type, plus prompt-cache health &mdash; from Anthropic's real usage numbers, on your machine. Your memory brain is never touched.</p>
+            <p><strong>Settings &rarr; Token Savings</strong> shows the live <strong>% shrink of the tool output</strong> it compresses &mdash; session and all-time &mdash; <em>and</em> the <strong>share of your total input</strong> that removed, from Anthropic's real usage numbers on your machine, plus prompt-cache health. Scoped to what it measures, never inflated. Your memory brain is never touched.</p>
           </article>
         </div>
       </section>
