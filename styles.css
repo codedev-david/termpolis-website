@@ -106,18 +106,15 @@ input {
   font-size: 1.2rem;
 }
 
-/* The header is a fixed-width pill (border-radius: 999px, capped by --max-width: 1180px),
-   but its intrinsic content — brand + 11 nav links + the GitHub button — measured 1198px.
-   `.site-nav` was `nowrap` with no `min-width: 0`, so as a flex item it could not shrink
-   below its min-content width. The 18px of overflow had to go somewhere, and it went to the
-   LAST flex item: the "View GitHub" button rendered outside the pill's painted background,
-   at every desktop width from 961px up.
-
-   Three defences, so it cannot come back if a nav link is ever added:
-     1. brand + button are `flex: 0 0 auto` — they never shrink or move.
-     2. the nav is `flex: 1 1 auto; min-width: 0` — it CAN now shrink inside the pill.
-     3. the gap tightens with the viewport, and if it still will not fit the nav scrolls
-        INSIDE the pill rather than spilling outside it. */
+/* The header pill (border-radius: 999px, capped by --max-width: 1180px) carries the brand +
+   12 nav links. The "View GitHub" button used to sit here too and crowded the row so its tail
+   (Downloads, Docs) hid under the button — the "cut off" symptom; it now lives in the hero
+   actions next to Sponsor, which frees the row. Two layers still keep the nav honest at any width:
+     1. `.site-header .site-nav` (below) trims the nav's type + gaps so all 12 links fit with
+        room to spare down to ~990px — every normal desktop/laptop caps the header at 1180px.
+     2. Narrower/scaled displays fall back to `min-width: 0` + `overflow-x: auto` (nav scrolls
+        inside the pill); script.js fades the right edge so it reads as "scroll for more →".
+   The brand stays `flex: 0 0 auto`, so it never shrinks. */
 .site-nav {
   display: flex;
   flex-wrap: nowrap;
@@ -134,12 +131,24 @@ input {
   scrollbar-width: none; /* Firefox */
 }
 
-.site-nav::-webkit-scrollbar {
-  display: none; /* Chrome/Safari — scroll without reserving scrollbar height in the pill */
+/* Reclaim ~55px so all 12 links clear the "View GitHub" button at the 1180px cap.
+   Scoped to the pill; the docs-page header (.docs-header .site-nav) wraps and is left alone. */
+.site-header .site-nav {
+  font-size: 0.9375rem;                 /* 15px — one subtle step below the 16px brand + button */
+  gap: clamp(0.35rem, 0.55vw, 0.6rem);  /* capped so big monitors don't re-inflate the gaps past the pill */
 }
 
-.site-header > .button-ghost {
-  flex: 0 0 auto; /* the GitHub button holds its size and stays inside the pill */
+/* Below ~1200px (incl. common laptop widths under 125–150% display scaling) the pill can't
+   hold all 12 links, so it scrolls internally. Fade the right edge — unless already scrolled
+   to the end — so the cut-off reads as "scroll for more →" rather than a broken clip.
+   `.is-overflowing` / `.is-scroll-end` are toggled in script.js; no fade when the row fits. */
+.site-header .site-nav.is-overflowing:not(.is-scroll-end) {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+          mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+}
+
+.site-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari — scroll without reserving scrollbar height in the pill */
 }
 
 .site-nav a:hover,

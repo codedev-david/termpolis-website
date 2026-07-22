@@ -95,3 +95,22 @@ function downloadRelease(platform, event) {
       link.textContent = originalText;
     });
 }
+
+/* Nav overflow affordance. The header pill fits all 12 links at normal desktop widths
+   (styles.css trims the nav type + gaps), but narrow/scaled displays fall back to internal
+   horizontal scroll. Toggle `.is-overflowing` so the right edge fades to signal more links,
+   and `.is-scroll-end` to drop that fade once the user has scrolled to the last one.
+   Guarded to the pill nav, so it's a no-op on the docs page (.docs-header .site-nav). */
+(function () {
+  const nav = document.querySelector(".site-header .site-nav");
+  if (!nav) return;
+  const sync = function () {
+    const overflow = nav.scrollWidth - nav.clientWidth;
+    nav.classList.toggle("is-overflowing", overflow > 1);
+    nav.classList.toggle("is-scroll-end", nav.scrollLeft >= overflow - 1);
+  };
+  sync();
+  nav.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  if ("ResizeObserver" in window) new ResizeObserver(sync).observe(nav);
+})();
