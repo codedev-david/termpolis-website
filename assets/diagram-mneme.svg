@@ -20,7 +20,7 @@
 
   <!-- Header -->
   <text x="40" y="52" fill="#f4f4fa" font-size="30" font-weight="700">How Mneme remembers &#8212; and gets smarter</text>
-  <text x="40" y="84" fill="#a6a6bd" font-size="17">One local &#8220;brain&#8221; that all four AI agents share. It files every lesson by <tspan fill="#a78bfa" font-weight="600">meaning</tspan> and by <tspan fill="#7ee2a3" font-weight="600">connection</tspan> &#8212; so nothing is re-explained twice.</text>
+  <text x="40" y="84" fill="#a6a6bd" font-size="17">One local &#8220;brain&#8221; that all three AI agents share. It files every lesson by <tspan fill="#a78bfa" font-weight="600">meaning</tspan> and by <tspan fill="#7ee2a3" font-weight="600">connection</tspan> &#8212; so nothing is re-explained twice.</text>
 
   <!-- Step badges -->
   <g font-size="12" font-weight="700" letter-spacing="1.5">
@@ -30,7 +30,7 @@
     <text x="1000" y="132" fill="#8b8ba3">4 &#183; RECALL</text>
   </g>
 
-  <!-- STEP 1: Capture — 4 agents + code -->
+  <!-- STEP 1: Capture — 3 agents + code -->
   <g>
     <!-- agent pills -->
     <g font-size="14" font-weight="600">
@@ -40,13 +40,11 @@
       <circle cx="62" cy="218" r="7" fill="#cfcfe0"/><text x="80" y="223" fill="#e9e9f2">OpenAI Codex</text>
       <rect x="40" y="246" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
       <circle cx="62" cy="266" r="7" fill="#4f8cff"/><text x="80" y="271" fill="#e9e9f2">Gemini CLI</text>
-      <rect x="40" y="294" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
-      <circle cx="62" cy="314" r="7" fill="#a78bfa"/><text x="80" y="319" fill="#e9e9f2">Qwen Code</text>
-      <rect x="40" y="342" width="210" height="40" rx="10" fill="#16241c" stroke="#2f5741"/>
-      <circle cx="62" cy="362" r="7" fill="#7ee2a3"/><text x="80" y="367" fill="#c7f5da">Your repo&#8217;s code</text>
+      <rect x="40" y="294" width="210" height="40" rx="10" fill="#16241c" stroke="#2f5741"/>
+      <circle cx="62" cy="314" r="7" fill="#7ee2a3"/><text x="80" y="319" fill="#c7f5da">Your repo&#8217;s code</text>
     </g>
-    <text x="40" y="410" fill="#8b8ba3" font-size="13">Their finished work + your</text>
-    <text x="40" y="428" fill="#8b8ba3" font-size="13">code flow into one brain.</text>
+    <text x="40" y="362" fill="#8b8ba3" font-size="13">Their finished work + your</text>
+    <text x="40" y="380" fill="#8b8ba3" font-size="13">code flow into one brain.</text>
   </g>
 
   <!-- merge bracket + arrow to Understand -->

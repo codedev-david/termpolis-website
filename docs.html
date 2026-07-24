@@ -6,7 +6,7 @@
   <title>Termpolis Documentation — the multi-agent AI terminal with shared learning memory</title>
   <meta
     name="description"
-    content="Complete guide to Termpolis: the shared memory brain that learns across Claude, Codex, Gemini, and Qwen, Second Opinion cross-agent review, multi-agent swarm orchestration, the MCP server, the AI Security Center, and live observability."
+    content="Complete guide to Termpolis: the shared memory brain that learns across Claude, Codex, and Gemini, Second Opinion cross-agent review, multi-agent swarm orchestration, the MCP server, the AI Security Center, and live observability."
   >
   <meta name="author" content="Termpolis">
   <link rel="canonical" href="https://termpolis.com/docs.html">
@@ -18,7 +18,7 @@
   <meta property="og:site_name" content="Termpolis">
   <meta property="og:url" content="https://termpolis.com/docs.html">
   <meta property="og:title" content="Termpolis Documentation — the multi-agent AI terminal with shared learning memory">
-  <meta property="og:description" content="Every feature, panel, and keyboard shortcut in Termpolis — the terminal where Claude, Codex, Gemini, and Qwen work as a team.">
+  <meta property="og:description" content="Every feature, panel, and keyboard shortcut in Termpolis — the terminal where Claude, Codex, and Gemini work as a team.">
   <meta property="og:image" content="https://termpolis.com/assets/screenshot-welcome.png">
   <meta property="og:image:width" content="1368">
   <meta property="og:image:height" content="908">
@@ -28,7 +28,7 @@
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Termpolis Documentation — Multi-Agent AI Terminal Guide">
-  <meta name="twitter:description" content="Every feature, panel, and shortcut in the AI terminal where Claude, Codex, Gemini, and Qwen work as a team.">
+  <meta name="twitter:description" content="Every feature, panel, and shortcut in the AI terminal where Claude, Codex, and Gemini work as a team.">
   <meta name="twitter:image" content="https://termpolis.com/assets/screenshot-welcome.png">
 
   <link rel="stylesheet" href="styles.css">
@@ -188,7 +188,7 @@
             <h1>Termpolis Docs</h1>
             <p class="docs-lead">
               The definitive guide to Termpolis — <strong>Secure AI-Assisted Development</strong>.
-              The local-first multi-agent terminal where Claude, Codex, Gemini, and Qwen work as a
+              The local-first multi-agent terminal where Claude, Codex, and Gemini work as a
               team without your source code leaving the machine. Built-in
               <a href="#security-center">AI Security Center</a>, swarm orchestration, MCP server,
               and a one-shortcut path from terminal to Slack, Teams, or a PR.
@@ -225,13 +225,13 @@
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
               <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> <a href="#security-secret-scanner">watches every AI prompt against 97 secret rules and names what leaked</a>, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, enforces Gemini paid-tier mode, and keeps an auditable JSONL log — every check runs locally.</li>
-              <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, Gemini CLI, and Qwen Code work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
+              <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, and Gemini CLI work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
               <li><strong>Activity observability.</strong> Every token, every tool call, every message from every agent is visible in real time.</li>
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
               <li><strong>Shared memory.</strong> A RAG-backed memory store that any agent can read and write via MCP.</li>
-              <li><strong>MCP-native end to end.</strong> All four agents speak MCP — no terminal-output parsers, no glue scripts, no bridge code paths.</li>
+              <li><strong>MCP-native end to end.</strong> All three agents speak MCP — no terminal-output parsers, no glue scripts, no bridge code paths.</li>
               <li><strong>Share-ready output.</strong> One shortcut from terminal to Slack, Teams, or a PR — see <a href="#copy-share">Copy for Slack / Teams / PRs</a>.</li>
             </ul>
           </section>
@@ -242,7 +242,7 @@
             <p>
               Termpolis ships an in-app AI Security Center at <strong>Settings → AI Security</strong>.
               Its goal is to give administrators visibility and layered controls around outbound
-              AI traffic so a team can adopt Claude Code, Codex, Gemini CLI, and Qwen Code with
+              AI traffic so a team can adopt Claude Code, Codex, and Gemini CLI with
               the obvious accidents caught and a verifiable record of what was sent — knowing
               that no in-the-loop tool can guarantee a hosted-model prompt never reaches the
               provider.
@@ -275,13 +275,12 @@
               <li><strong>Anthropic (Claude Code).</strong> API + commercial usage — default off for training.</li>
               <li><strong>OpenAI (Codex).</strong> API platform — default off for training.</li>
               <li><strong>Google (Gemini CLI).</strong> Paid tier (API key, Vertex AI, Code Assist) — excluded from training. Free OAuth tier — Google may use prompts to improve products. Flagged yellow.</li>
-              <li><strong>Alibaba (Qwen Code).</strong> Paid DashScope — excluded from training. Local Ollama mode — prompts stay on your machine instead of going to any provider.</li>
             </ul>
 
             <h3 id="security-secret-scanner">Watch every prompt (v1.25.2)</h3>
             <p>
-              Once you launch <code>claude</code>, <code>codex</code>, <code>gemini</code>, or
-              <code>qwen</code> in a terminal, every Enter and every paste-sized chunk
+              Once you launch <code>claude</code>, <code>codex</code>, or <code>gemini</code>
+              in a terminal, every Enter and every paste-sized chunk
               (≥32 bytes) is scanned in main-process memory against <strong>97 secret rules</strong>.
               The scan runs on a <strong>shadow copy</strong>. Every byte you type is forwarded to the
               agent <strong>immediately and unmodified</strong> — nothing is withheld, nothing is
@@ -783,7 +782,7 @@
             <p>
               A scheduled GitHub Action
               (<a href="https://github.com/codedev-david/termpolis/blob/main/.github/workflows/tos-drift.yml" target="_blank" rel="noreferrer"><code>.github/workflows/tos-drift.yml</code></a>)
-              runs every Monday at 13:00 UTC. It fetches the four provider pages this app
+              runs every Monday at 13:00 UTC. It fetches the three provider pages this app
               cites, normalises the HTML aggressively (strips
               <code>&lt;script&gt;</code>/<code>&lt;style&gt;</code>/<code>&lt;svg&gt;</code>/<code>&lt;head&gt;</code>
               and HTML comments, decodes entities, collapses whitespace), hashes the result,
@@ -911,22 +910,22 @@
             <p>
               On approval — and only on approval — Termpolis installs it into the agent configuration it
               belongs in. <strong>Which agents an artifact reaches depends on its kind</strong>, because
-              the four CLIs do not all implement the same extension points:
+              the three CLIs do not all implement the same extension points:
             </p>
             <ul class="docs-list">
-              <li><strong>MCP server → all four agents.</strong> Written into the MCP config for Claude,
-                Codex, Gemini, <em>and</em> Qwen. MCP is the one extension point all four speak.</li>
-              <li><strong>Slash command → Claude, Gemini, and Qwen.</strong> Those three have a
-                user-command directory (<code>~/.claude/commands</code> and the Gemini/Qwen equivalents).
+              <li><strong>MCP server → all three agents.</strong> Written into the MCP config for Claude,
+                Codex <em>and</em> Gemini. MCP is the one extension point all three speak.</li>
+              <li><strong>Slash command → Claude and Gemini.</strong> Both have a
+                user-command directory (<code>~/.claude/commands</code> and the Gemini equivalent).
                 Codex does not, so a command is <em>not</em> installed for Codex.</li>
               <li><strong>Skill, subagent, or plugin → Claude Code only.</strong>
                 (<code>~/.claude/skills</code>, <code>~/.claude/agents</code>, and the plugin directory.)
-                Claude Code is the only one of the four with a skills/subagent/plugin system, so there is
+                Claude Code is the only one of the three with a skills/subagent/plugin system, so there is
                 nowhere else for these to go.</li>
             </ul>
             <p>
               So &ldquo;Safe Import wires it into your agents&rdquo; is deliberately <em>not</em> a
-              blanket claim: an MCP server really does reach all four, while a skill only ever reaches
+              blanket claim: an MCP server really does reach all three, while a skill only ever reaches
               Claude. The report tells you which agents a given artifact will actually touch before you
               approve it.
             </p>
@@ -944,41 +943,35 @@
           <section id="copy-share" class="docs-section">
             <h2>Copy for Slack / Teams / PRs</h2>
             <p>
-              AI workflows generate share-worthy output constantly: a stack trace to dump into a
+              AI workflows generate share-worthy output constantly: a stack trace to drop into a
               channel, a clean test run for a PR, a fenced code block for the engineering wiki.
-              Termpolis ships a four-way Copy submenu on every terminal context menu, plus the
-              keybinding <kbd>Ctrl+Shift+M</kbd> (rebindable) for the common case.
+              Termpolis gives you three <strong>reserved</strong> copy shortcuts. They are always on
+              and cannot be reassigned &mdash; a custom keybinding can never shadow them &mdash; so the
+              path from terminal to a teammate is a single keystroke.
             </p>
-            <h3>Copy as Code Block</h3>
+            <h3>Copy &mdash; <kbd>Ctrl+Shift+C</kbd></h3>
             <p>
-              Wraps the current selection — or the entire visible terminal buffer if nothing is
-              selected — in triple-backtick fences and copies it to the clipboard. Drop the result
-              into Slack, Teams, GitHub, GitLab, or any wiki that respects fenced code and the
-              monospaced layout survives.
+              Copies the current selection &mdash; or the entire visible terminal buffer if nothing is
+              selected &mdash; as clean text. This is the everyday copy, permanently bound to
+              <kbd>Ctrl+Shift+C</kbd>.
             </p>
-            <h3>Copy as Plain Text</h3>
+            <h3>Copy for Teams/Slack &mdash; <kbd>Ctrl+Shift+K</kbd></h3>
             <p>
-              Strips ANSI color escapes and copies the result as raw text. Use this for emails,
-              Jira tickets, Notion docs, or any surface where backticks would be noise.
+              Formats the output to paste cleanly into Slack and Microsoft Teams: a compact,
+              emoji-friendly message with <strong>no hard-wrapped line breaks</strong>, sent as an
+              ordinary chat message rather than a giant code box that Slack and Teams would
+              otherwise mangle.
             </p>
-            <h3>Copy with Command</h3>
+            <h3>Copy as Code Block &mdash; <kbd>Ctrl+Shift+Q</kbd></h3>
             <p>
-              Prepends the last shell command (taken from history) to the copied output before
-              fencing. Reproducer-ready snippets for bug reports — your reviewer sees both the
-              command and the output in a single paste, instead of the usual back-and-forth.
-            </p>
-            <h3>Copy as Image (PNG)</h3>
-            <p>
-              Renders the underlying xterm.js canvas to a PNG via <code>canvas.toBlob</code> and
-              writes it to the clipboard with <code>ClipboardItem</code>. Paste straight into
-              Slack, Teams, or a Loom / wiki post. Colors, glyphs, and layout survive intact, so
-              you don't end up with the typical "weird mojibake in the screenshot" awkwardness
-              when the receiver is on a different OS or terminal font.
+              Wraps the selection, or the whole visible buffer, in triple-backtick fences and copies
+              it to the clipboard. Markdown-ready for GitHub, GitLab, or any wiki that respects
+              fenced code, and the monospaced layout survives.
             </p>
             <p>
-              All four actions live in the terminal right-click menu under <strong>Copy →</strong>.
-              <kbd>Ctrl+Shift+M</kbd> defaults to Copy as Code Block; rebind it under Settings →
-              Keybindings.
+              These three shortcuts are <strong>reserved defaults</strong>: they always work and a
+              custom keybinding can never override them. Rebind everything else under
+              Settings &rarr; Keybindings.
             </p>
             <h3>Selecting across scrollback</h3>
             <p>
@@ -1122,14 +1115,14 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
             <h2>Before you begin · API keys</h2>
             <p>
               Termpolis is a terminal — it doesn't talk to AI providers itself. Each AI agent
-              (Claude Code, Codex, Gemini CLI, Qwen Code) is a separate CLI tool you launch
+              (Claude Code, Codex, Gemini CLI) is a separate CLI tool you launch
               <em>inside</em> a Termpolis terminal, and that tool needs its own credentials.
               Termpolis never asks you for an API key, never sees one, and never stores one.
             </p>
             <div class="docs-callout">
               <p>
                 <strong>The minimum to be productive: pick one provider, install its CLI, set
-                its API key once.</strong> You do not need all four. A single agent is enough
+                its API key once.</strong> You do not need all three. A single agent is enough
                 to use every Termpolis feature except the multi-agent swarm.
               </p>
             </div>
@@ -1154,11 +1147,6 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
                     <td>Google AI Studio key, Vertex AI, or Code Assist (Workspace)</td>
                     <td>Gemini CLI</td>
                     <td><code>npm install -g @google/gemini-cli</code></td>
-                  </tr>
-                  <tr>
-                    <td>Alibaba DashScope key (or want to run Qwen locally with Ollama)</td>
-                    <td>Qwen Code</td>
-                    <td><code>npm install -g @qwen-code/qwen-code</code></td>
                   </tr>
                 </tbody>
               </table>
@@ -1190,11 +1178,6 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
                     <td>Google AI Studio (Gemini)</td>
                     <td><code>GEMINI_API_KEY</code></td>
                     <td><a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">aistudio.google.com</a></td>
-                  </tr>
-                  <tr>
-                    <td>Alibaba DashScope (Qwen)</td>
-                    <td><code>DASHSCOPE_API_KEY</code></td>
-                    <td><a href="https://dashscope.console.aliyun.com/apiKey" target="_blank" rel="noreferrer">dashscope.console.aliyun.com</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -1247,7 +1230,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>
                 <strong>(Optional) Open the AI Agents row.</strong> The sidebar has an
                 <strong>AI Agents</strong> section with one-click launchers for Claude Code,
-                Codex, Gemini CLI, and Qwen Code. A green check means the CLI is installed; a
+                Codex, and Gemini CLI. A green check means the CLI is installed; a
                 red X means it isn't (click for install instructions). Skip this on the first
                 run if you just want to use Termpolis as a terminal.
               </li>
@@ -1289,8 +1272,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 Workspaces, with the robot icon).
               </li>
               <li>
-                <strong>Click the agent you want to run</strong> — Claude Code, Codex, Gemini
-                CLI, or Qwen Code. Termpolis opens a fresh terminal, sets the right working
+                <strong>Click the agent you want to run</strong> — Claude Code, Codex, or Gemini
+                CLI. Termpolis opens a fresh terminal, sets the right working
                 directory, runs the agent's interactive command, and color-codes the tab so
                 you can see at a glance which agent is in which pane.
               </li>
@@ -1431,7 +1414,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Terminals</strong>, every open pty in that workspace, with its shell, working directory, label, color, and scrollback buffer.</li>
               <li><strong>Layout</strong>, tab view, split view (the full pane tree), or grid view. Restored exactly on relaunch.</li>
               <li><strong>Focus</strong>, which terminal was active, cursor position, selection.</li>
-              <li><strong>Agent sessions</strong>, any Claude Code, Codex, Gemini CLI, or Qwen Code runs tied to terminals in the workspace.</li>
+              <li><strong>Agent sessions</strong>, any Claude Code, Codex, or Gemini CLI runs tied to terminals in the workspace.</li>
               <li><strong>Panel state</strong>, which side panels are open and their size.</li>
               <li><strong>Per-workspace overrides</strong>, any setting scoped specifically to this workspace (shell default, font size, etc.).</li>
             </ul>
@@ -1596,7 +1579,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>How to dictate</h3>
             <ul class="docs-list">
               <li><strong>Tap <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> to start, tap again to stop &mdash; or hold it to talk and release to send.</strong> Both work on the same key by default (<em>tap-or-hold</em>). Pure-hold, tap-to-toggle, and tap-then-press-a-key-to-send modes are selectable under <strong>Activation</strong>; the hotkey and the send key are both rebindable. You can also click the mic button on the terminal pane, or the <strong>Listening&hellip;</strong> badge, to start/stop.</li>
-              <li><strong>In an AI-agent terminal</strong> (Claude &middot; Codex &middot; Gemini &middot; Qwen) your words are sent straight to the agent as a prompt &mdash; it absorbs minor mis-hearings, so just talk naturally. (Auto-submitting that prompt is an opt-in toggle, off by default, so you can still review before pressing <kbd>Enter</kbd>.)</li>
+              <li><strong>In an AI-agent terminal</strong> (Claude &middot; Codex &middot; Gemini) your words are sent straight to the agent as a prompt &mdash; it absorbs minor mis-hearings, so just talk naturally. (Auto-submitting that prompt is an opt-in toggle, off by default, so you can still review before pressing <kbd>Enter</kbd>.)</li>
               <li><strong>In a plain shell</strong> the transcript is inserted but <em>never run automatically</em> &mdash; you review it and press <kbd>Enter</kbd> yourself, so a mis-heard command is never executed for you.</li>
               <li><strong>When dictation ends the caret returns to the terminal</strong> &mdash; keep typing or start another dictation without clicking back in.</li>
             </ul>
@@ -1616,8 +1599,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>Score each agent across 10 categories, powers the swarm router.</figcaption>
             </figure>
             <p>
-              The heart of smart swarm routing. Score each agent (Claude Code, Codex, Gemini CLI,
-              Qwen Code) from <strong>1&ndash;5</strong> (5 = strongest) across 10 categories:
+              The heart of smart swarm routing. Score each agent (Claude Code, Codex, and Gemini CLI)
+              from <strong>1&ndash;5</strong> (5 = strongest) across 10 categories:
               Refactoring, Architecture, Testing, Documentation, Code Review, Debugging, Frontend,
               DevOps, Data Analysis, and Bulk Tasks. Defaults reflect model-family strengths; tune
               them to match your experience under <strong>Settings &rarr; Agent Ratings</strong>.
@@ -1769,7 +1752,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>No more "please re-share the file" loops.</strong> Pin it once and every agent can read it.</li>
               <li><strong>Explicit context, not implicit slurp.</strong> Agents only see what you've put here, no silent indexing of your filesystem. Safer for private code.</li>
-              <li><strong>Share context across agents.</strong> Pin a spec once and Claude, Codex, Gemini, and Qwen all read from the same truth.</li>
+              <li><strong>Share context across agents.</strong> Pin a spec once and Claude, Codex, and Gemini all read from the same truth.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
@@ -1788,7 +1771,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Open <strong>Past AI Sessions</strong> from the sidebar. Termpolis indexes every
               <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
               them with project label, age, message count, and size, and lets you continue
-              the work in any of the four supported agents — without copy-pasting anything
+              the work in any of the three supported agents — without copy-pasting anything
               by hand. (v1.11.47 added the cross-AI bridge; v1.11.48 fixed the freeze on
               large session histories; v1.11.51 added Inject + Resume-here gating;
               v1.11.52 made the inject paste land as a single bracketed-paste blob.)
@@ -1797,7 +1780,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Resume natively</strong> — spawns a new terminal at the original cwd and runs <code>claude --resume &lt;session-id&gt;</code>.</li>
               <li><strong>Resume in active shell</strong> — runs the same <code>claude --resume</code> command in the focused plain terminal instead of opening a new tab. Disabled when the focused tab is already an AI agent (so the command doesn't land inside the running agent's input box).</li>
-              <li><strong>Continue in another AI</strong> — pick Codex, Gemini, or Qwen from the Continue ▾ menu. Termpolis spawns a fresh terminal at the same cwd, boots the chosen agent, and pastes a synthesised <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the new agent picks up exactly where the old one left off.</li>
+              <li><strong>Continue in another AI</strong> — pick Codex or Gemini from the Continue ▾ menu. Termpolis spawns a fresh terminal at the same cwd, boots the chosen agent, and pastes a synthesised <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the new agent picks up exactly where the old one left off.</li>
               <li><strong>Inject context into the focused AI</strong> — pastes the same handoff prompt into the active AI shell's input box. Disabled for plain shells (where it would just splat into the command line); the tooltip explains why.</li>
             </ul>
             <h3>Pasted as one blob, not a stream of commands</h3>
@@ -1834,7 +1817,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </figure>
             <p>
               Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>. Every AI agent session in
-              Termpolis, Claude Code, Codex, Gemini CLI, Qwen Code, swarm runs, and the conductor
+              Termpolis, Claude Code, Codex, Gemini CLI, swarm runs, and the conductor
               itself, is recorded event-by-event to <code>agent-events.jsonl</code> in the Termpolis <a href="#install">data directory</a>.
               Conversation search is the UI on top of that log.
             </p>
@@ -1851,7 +1834,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Filters</h3>
             <ul class="docs-list">
               <li><strong>Full-text</strong>, matches prompt text, assistant replies, and tool arguments.</li>
-              <li><strong>Agent</strong>, narrow to Claude, Codex, Gemini, Qwen, Conductor, or "all".</li>
+              <li><strong>Agent</strong>, narrow to Claude, Codex, Gemini, Conductor, or "all".</li>
               <li><strong>Kind</strong>, prompt / tool_call / tool_result / error / message.</li>
               <li><strong>Time range</strong>, last hour, today, last 7 days, or custom.</li>
               <li><strong>Scope</strong>, current terminal only, current session, or all history.</li>
@@ -1896,8 +1879,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>AI agent profiles</h2>
             <p>
               An <strong>agent profile</strong> is a one-click launcher in the sidebar that
-              opens a terminal pre-wired for a specific AI CLI: Claude Code, Codex, Gemini CLI,
-              or Qwen Code. The profile owns the shell, the working directory, the MCP
+              opens a terminal pre-wired for a specific AI CLI: Claude Code, Codex, or Gemini CLI.
+              The profile owns the shell, the working directory, the MCP
               registration, the tab color, and the label. Click the profile and you go from
               "I want to use Claude" to "Claude is open and ready" in one step.
             </p>
@@ -1911,7 +1894,6 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Claude Code</strong> — runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
               <li><strong>Codex</strong> — runs <code>codex --full-auto</code>.</li>
               <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point); Strict Mode still guards a manually-typed <code>gemini</code> (see <a href="#security-gemini">Gemini account-mode</a>).</li>
-              <li><strong>Qwen Code</strong> — runs <code>qwen</code> (Alibaba's Gemini-CLI fork).</li>
             </ul>
             <h3>Pick a model per profile (Claude)</h3>
             <p>
@@ -1925,7 +1907,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               savings so you can trade cost for capability, and the same alias drives the subtasks
               the <a href="#conductor">conductor</a> assigns in a swarm. Leave it on
               <em>default</em> to run whatever Claude Code is already configured to use. The Model
-              dropdown applies to <strong>Claude Code only</strong> &mdash; Codex, Gemini, and Qwen
+              dropdown applies to <strong>Claude Code only</strong> &mdash; Codex and Gemini
               run their own default models.
             </p>
             <h3>Install status indicators</h3>
@@ -1969,7 +1951,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>How to use it</h3>
             <ul class="docs-list">
               <li><strong>Open the <em>Second Opinion&hellip;</em> dropdown</strong> at the top-right of any AI terminal (it appears whenever an agent is running there).</li>
-              <li><strong>Pick a reviewer.</strong> The menu lists only the agents you have installed &mdash; <strong>OpenAI Codex</strong>, <strong>Gemini</strong>, <strong>Qwen</strong> &mdash; with <strong>Claude</strong> and its models (<strong>Fable</strong>, <strong>Opus</strong>, <strong>Sonnet</strong>, <strong>Haiku</strong>) nested underneath.</li>
+              <li><strong>Pick a reviewer.</strong> The menu lists only the agents you have installed &mdash; <strong>OpenAI Codex</strong>, <strong>Gemini</strong> &mdash; with <strong>Claude</strong> and its models (<strong>Fable</strong>, <strong>Opus</strong>, <strong>Sonnet</strong>, <strong>Haiku</strong>) nested underneath.</li>
               <li><strong>Read the feedback.</strong> Termpolis captures the terminal's recent output, runs the chosen agent over it, and pastes a concise review back into the terminal &mdash; unsent, so you stay in control.</li>
             </ul>
             <h3>What it does under the hood</h3>
@@ -1994,7 +1976,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <div class="docs-callout">
               <p>
                 <strong>If you're launching agents from inside Termpolis, you don't have to do
-                anything.</strong> Termpolis auto-registers itself with each of the four
+                anything.</strong> Termpolis auto-registers itself with each of the three
                 supported agents on first launch. The rest of this section is for people who
                 want to understand what's running, debug an integration, or wire up a custom
                 MCP client.
@@ -2263,8 +2245,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 &mdash; the problem, the fix or decision, the gotcha &mdash; and records the
                 fleet&rsquo;s self-competence per project, so recall keeps improving. Automatic for
                 Claude, Codex, and Gemini (read from their session transcripts on a task pause or when
-                the terminal closes); Qwen keeps no parseable on-disk transcript, so it&rsquo;s
-                prompted to record its own lesson over MCP. Opt-out in Settings.</li>
+                the terminal closes).
+                Opt-out in Settings.</li>
               <li><strong>Competence calibrated from real work (v1.25).</strong> The brain tracks how
                 reliable it has actually been in each domain &mdash; the calibrated confidence that
                 <code>memory_selfcheck</code> reports back. That calibration used to learn only from
@@ -2281,7 +2263,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 &ldquo;connections&rdquo; could read as empty on a machine that had already indexed
                 thousands of call edges. The real code graph now surfaces as its own tile, so what you
                 built is what you see.</li>
-              <li><strong>Shared across all four agents.</strong> Claude, Codex, Gemini, and Qwen all
+              <li><strong>Shared across all three agents.</strong> Claude, Codex, and Gemini all
                 read and write the same store over MCP, so a fact one agent learns is instantly
                 available to the others.</li>
               <li><strong>Flags cross-agent contradictions (new in v1.19.5).</strong> When two
@@ -2587,7 +2569,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <p>
               <strong>How agents use it.</strong> The graph is exposed to every launched agent (Claude Code,
-              Codex, Gemini CLI, Qwen Code) over MCP as six read-only tools, and Termpolis nudges them to
+              Codex, Gemini CLI) over MCP as six read-only tools, and Termpolis nudges them to
               prefer these over grepping:
             </p>
             <ul class="docs-list">
@@ -2654,7 +2636,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td>Close focused terminal</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>W</kbd></td></tr>
                   <tr><td>Next / previous terminal</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td><kbd>⌘</kbd>+<kbd>Tab</kbd> / <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Tab</kbd></td></tr>
                   <tr><td>Jump to terminal N</td><td><kbd>Alt</kbd>+<kbd>1…9</kbd></td><td><kbd>⌥</kbd>+<kbd>1…9</kbd></td></tr>
-                  <tr><td>Launch agent 1–4 (Claude / Codex / Gemini / Qwen)</td><td><kbd>Ctrl</kbd>+<kbd>1…4</kbd></td><td><kbd>⌘</kbd>+<kbd>1…4</kbd></td></tr>
+                  <tr><td>Launch agent 1–3 (Claude / Codex / Gemini)</td><td><kbd>Ctrl</kbd>+<kbd>1…3</kbd></td><td><kbd>⌘</kbd>+<kbd>1…3</kbd></td></tr>
                   <tr><td>Toggle sidebar</td><td><kbd>Ctrl</kbd>+<kbd>B</kbd></td><td><kbd>⌘</kbd>+<kbd>B</kbd></td></tr>
                   <tr><td>Toggle split / grid view</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>G</kbd></td></tr>
                   <tr><td>Prompt templates</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd></td></tr>
@@ -2700,7 +2682,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 └──────────────────┬──────────────────────────────────┘
                    │  localhost:9315 (MCP)
 ┌──────────────────▼──────────────────────────────────┐
-│  AI agents (Claude, Codex, Gemini, Qwen Code)       │
+│  AI agents (Claude, Codex, Gemini)                  │
 │  Each in its own pty-backed terminal                │
 └─────────────────────────────────────────────────────┘</pre>
             <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (7,000+ tests across 344 files, 98%+ line / 94%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
@@ -2732,7 +2714,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme or run <strong>Reset theme</strong> from Settings → Themes.</p>
 
             <h3>Agents &amp; CLI tools</h3>
-            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>, <code>qwen</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
+            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
             <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> to see which one Termpolis will launch. Override per-agent in Settings → Agents.</p>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
