@@ -119,7 +119,7 @@
           <ul class="docs-toc">
             <li><a href="#command-palette">Command palette</a></li>
             <li><a href="#prompt-templates">Prompt templates</a></li>
-            <li><a href="#workflows">Workflow templates</a></li>
+            <li><a href="#workflows">Workflow Orchestrator</a></li>
             <li><a href="#context">Context panel</a></li>
             <li><a href="#context-handoff">Cross-AI context handoff</a></li>
             <li><a href="#history">History search</a></li>
@@ -1430,8 +1430,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Use the <strong>+ Workspace</strong> button at the top of the sidebar or the
               <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> shortcut. Each new workspace
-              starts empty; pick a shell to open the first terminal, or apply a
-              <a href="#workflows">workflow template</a> to stamp a whole pre-built layout into it.
+              starts empty; pick a shell to open the first terminal.
             </p>
             <h3>Managing workspaces</h3>
             <p>Right-click any workspace row in the sidebar for:</p>
@@ -1451,18 +1450,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Each workspace has a default working directory that new terminals start in. Set it
               when you create the workspace, or change it later from Settings → Workspace.
-              Terminals started with the agent launcher or a workflow template inherit this unless
+              Terminals started with the agent launcher inherit this unless
               they override it per-terminal.
-            </p>
-            <h3>Workspaces vs. workflows</h3>
-            <p>
-              Workspaces are <em>long-lived containers</em> that own state across restarts;
-              <a href="#workflows">workflows</a> are <em>one-shot recipes</em> that populate the
-              current workspace with a pre-configured set of terminals, commands, and a split
-              layout. Think of a workspace as the room you're working in, and a workflow as the
-              "set the room up like this" macro. Launching a workflow inside a workspace closes
-              the existing terminals and replaces them with the workflow's terminals, the
-              workspace stays, the contents get reset.
             </p>
           </section>
 
@@ -1677,52 +1666,58 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
           <!-- WORKFLOWS -->
           <section id="workflows" class="docs-section">
-            <h2>Workflow templates</h2>
+            <h2>Workflow Orchestrator</h2>
             <figure class="docs-shot">
-              <img src="docs/screenshots/13-workflow-templates.png" alt="Workflow templates panel.">
-              <figcaption>One-shot recipes that stamp a pre-built terminal layout into the current workspace.</figcaption>
+              <img src="docs/screenshots/13-workflow-designer.png" alt="Workflow Orchestrator designer with Command, Agent, Skill, and Control steps.">
+              <figcaption>The designer &mdash; a vertical pipeline of typed steps, each editable inline.</figcaption>
             </figure>
             <p>
-              A workflow template is a <strong>one-shot setup recipe</strong> for the current
-              workspace. Each template describes a set of terminals, their names, colors, shell,
-              and an optional startup command, and a layout (vertical splits or a 2×2 grid).
-              Clicking <strong>Launch</strong> closes the terminals you have open, spawns the
-              template's terminals in the configured split layout, and fires the startup commands
-              after a brief delay so the shells finish initializing first.
+              The <strong>Workflow Orchestrator</strong> chains commands, AI agents, and
+              built-in tools into one repeatable, saveable run. Open it from the
+              <strong>Workflows</strong> section in the sidebar: <strong>New Workflow &rarr;
+              Blank workflow</strong> (or start from a template), name it, then add steps
+              with the inline <strong>+</strong> button. Every workflow is stored as
+              portable YAML under your user-data directory.
             </p>
-            <p>Open the Workflows panel from the <strong>Workflows</strong> sidebar button.</p>
-            <h3>Built-in workflows</h3>
+            <h3>The four step types</h3>
             <ul class="docs-list">
-              <li><strong>Claude Code + Shell</strong>, Claude Code on the left, plain shell on the right (2-pane vertical split).</li>
-              <li><strong>Full Stack Dev</strong>, AI agent + Frontend + Backend + Tests in a 2×2 grid.</li>
-              <li><strong>Code Review</strong>, AI reviewer + Git pane (2-pane vertical split).</li>
+              <li><strong>Command</strong> &mdash; run a shell line on a real PTY. Inline or
+                from a script file, any shell (bash, zsh, PowerShell, cmd, git-bash), with an
+                optional timeout and a &ldquo;run visibly&rdquo; toggle that surfaces it in a
+                live terminal pane.</li>
+              <li><strong>Agent</strong> &mdash; launch <strong>Claude Code</strong>,
+                <strong>OpenAI Codex</strong>, or <strong>Gemini CLI</strong> on a prompt and
+                wait for it to finish; a configurable done-marker detects completion.</li>
+              <li><strong>Skill</strong> &mdash; call one of Termpolis&rsquo;s built-in tools
+                (code search, memory, git status&hellip;) with JSON arguments, in-process,
+                no terminal required.</li>
+              <li><strong>Control</strong> &mdash; <code>wait</code>, <code>branch</code>,
+                <code>loop</code>, or <code>notify</code>: the flow control that turns a list
+                of steps into a real program.</li>
             </ul>
-            <p>Built-ins are read-only. Use <strong>Duplicate</strong> on a built-in to get an editable copy with the <code>(copy)</code> suffix.</p>
-            <h3>Creating your own</h3>
+            <h3>Gates, control flow, and data</h3>
+            <p>
+              Every step carries a <code>when</code> gate and an optional <em>continue even
+              if this step fails</em>. Later steps read earlier results &mdash;
+              <code>steps.build.exitCode</code>, a step&rsquo;s captured output &mdash; inside
+              gates, branch conditions, loop guards, and notify messages. Expressions run
+              through a small, pure, sandboxed evaluator with a fixed operator set
+              (<code>==</code>, <code>!=</code>, <code>&amp;&amp;</code>, <code>||</code>,
+              comparisons, <code>contains</code>); never <code>eval</code>, so a workflow
+              file can never execute arbitrary JavaScript.
+            </p>
             <figure class="docs-shot">
-              <img src="docs/screenshots/13b-workflow-create.png" alt="New Workflow creation form with name, description, icon, layout, and terminal configuration fields.">
-              <figcaption>The New Workflow editor, name it, pick a layout, configure 1–8 terminals, save.</figcaption>
+              <img src="docs/screenshots/13b-workflow-runner.png" alt="Workflow Orchestrator run view: a live timeline of steps going green with elapsed times.">
+              <figcaption>The Run view &mdash; each step streams live, then settles to succeeded, failed, or skipped.</figcaption>
             </figure>
-            <p>Click <strong>+ New Workflow</strong> at the bottom of the picker. You get a form for:</p>
-            <ul class="docs-list">
-              <li><strong>Name</strong> and <strong>Description</strong></li>
-              <li><strong>Icon</strong> (Font Awesome solid) and <strong>Layout</strong> (vertical splits or 2×2 grid, the grid requires exactly four terminals to tile cleanly)</li>
-              <li><strong>Terminals</strong> (1–8), per terminal: name, startup command (optional), shell, and color</li>
-            </ul>
+            <h3>Running it</h3>
             <p>
-              Saved workflows appear with a <strong>Custom</strong> badge in the picker, are
-              persisted as part of your session alongside workspaces and prompt templates, and sync
-              via the same save mechanism (<code>session.json</code> in your Termpolis data
-              directory). You can <strong>edit</strong> or <strong>delete</strong> any custom
-              workflow from its row. On Windows, templates that specify <code>bash</code> are
-              auto-resolved to Git Bash.
-            </p>
-            <h3>Difference from workspaces</h3>
-            <p>
-              Workflows don't <em>own</em> state the way <a href="#workspaces">workspaces</a> do,
-              they're a template you apply. After launch, the terminals they spawn live inside
-              your current workspace and behave like any other terminals. Closing and re-launching
-              the same workflow gives you fresh terminals, not the ones from last time.
+              Switch to the <strong>Run</strong> tab and press <strong>Run</strong>. The
+              timeline shows every step&rsquo;s status and duration in real time; Command and
+              Agent steps stream their output into a pane you can scroll. Press
+              <strong>Cancel</strong> mid-run and every in-flight step is torn down cleanly.
+              Runs are deterministic &mdash; the same workflow and inputs take the same path
+              every time.
             </p>
           </section>
 

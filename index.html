@@ -1562,6 +1562,68 @@
         </div>
       </section>
 
+      <!-- WORKFLOW ORCHESTRATOR -->
+      <section id="workflow-orchestrator" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow Orchestrator</p>
+          <h2>Chain agents, commands, and skills into one repeatable run</h2>
+          <p>
+            New in v1.31: an Azure-Logic-Apps-style canvas for automating the work you
+            repeat. Drop in steps, wire them together, hit Run, and watch each one go
+            green on a live timeline &mdash; all local, all on your machine. Every
+            workflow saves as portable YAML you can commit alongside your code.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Four kinds of step</h3>
+            <p>
+              <strong>Command</strong> runs a shell line on a real terminal &mdash; inline
+              or a script file, any shell, with a timeout. <strong>Agent</strong> launches
+              Claude Code, OpenAI Codex, or Gemini CLI on a prompt and waits for it to
+              finish. <strong>Skill</strong> calls one of Termpolis&rsquo;s built-in tools
+              &mdash; code search, memory, git. <strong>Control</strong> branches, loops,
+              waits, or notifies.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Real control flow</h3>
+            <p>
+              Branch to another step, loop earlier steps until a condition holds, wait, or
+              post a notification. Every step carries a <code>when</code> gate and an
+              optional &ldquo;continue even if this step fails,&rdquo; so a single workflow
+              can react to what the previous step actually did.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Data flows between steps</h3>
+            <p>
+              Later steps read earlier results &mdash; <code>steps.build.exitCode</code>, a
+              step&rsquo;s captured output &mdash; inside gates, branch conditions, loop
+              guards, and notify messages. Expressions run through a small, pure, sandboxed
+              evaluator; never <code>eval</code>.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Watch it run &mdash; and stop it</h3>
+            <p>
+              The Run view streams each step&rsquo;s output live, marks it succeeded,
+              failed, or skipped, and shows how long it took. Cancel mid-run and every
+              in-flight step is torn down cleanly. Start from a blank canvas or a starter
+              template.
+            </p>
+          </article>
+        </div>
+        <div class="feature-media-grid">
+          <figure class="product-shot">
+            <img src="assets/screenshot-workflow-designer.png" alt="Termpolis Workflow Orchestrator designer — a vertical pipeline of Command, Agent, Skill, and Control steps under a manual trigger.">
+          </figure>
+          <figure class="product-shot">
+            <img src="assets/screenshot-workflow-runner.png" alt="Termpolis Workflow Orchestrator run view — a live timeline of steps going green with elapsed times and streamed output.">
+          </figure>
+        </div>
+      </section>
+
       <!-- AI NATIVE -->
       <section id="ai-native" class="section reveal">
         <div class="section-heading">
