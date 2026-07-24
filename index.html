@@ -1572,6 +1572,8 @@
             repeat. Drop in steps, wire them together, hit Run, and watch each one go
             green on a live timeline &mdash; all local, all on your machine. Every
             workflow saves as portable YAML you can commit alongside your code.
+            New in v1.32: workflows run <em>themselves</em> &mdash; on a cron, on a
+            commit, on a push, or when files change.
           </p>
         </div>
         <div class="feature-grid">
@@ -1611,6 +1613,21 @@
               failed, or skipped, and shows how long it took. Cancel mid-run and every
               in-flight step is torn down cleanly. Start from a blank canvas or a starter
               template.
+            </p>
+          </article>
+          <article class="card">
+            <h3>It runs itself</h3>
+            <p>
+              Give a workflow a trigger and stop pressing Run. <strong>Schedule</strong>
+              takes a real cron expression (<code>0 2 * * *</code>, or <code>@daily</code>)
+              in your local time, and catches up a run missed while the app was closed.
+              <strong>Git commit</strong> fires the moment a commit lands on the checked-out
+              branch &mdash; a post-commit hook that can lint, test, or hand the diff to an
+              agent. <strong>Git push</strong> watches the remote-tracking ref.
+              <strong>File change</strong> is a debounced recursive watch you can narrow to
+              one folder. Triggers survive restarts, and an automatic run takes the exact
+              same path as pressing Run &mdash; including the workspace-trust gate, so an
+              untrusted folder never fires.
             </p>
           </article>
         </div>

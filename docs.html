@@ -1677,7 +1677,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <strong>Workflows</strong> section in the sidebar: <strong>New Workflow &rarr;
               Blank workflow</strong> (or start from a template), name it, then add steps
               with the inline <strong>+</strong> button. Every workflow is stored as
-              portable YAML under your user-data directory.
+              portable YAML in the project itself, under
+              <code>.termpolis/workflows/</code> &mdash; commit it alongside your code and
+              the whole team gets the workflow.
             </p>
             <h3>The four step types</h3>
             <ul class="docs-list">
@@ -1718,6 +1720,60 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <strong>Cancel</strong> mid-run and every in-flight step is torn down cleanly.
               Runs are deterministic &mdash; the same workflow and inputs take the same path
               every time.
+            </p>
+
+            <h3>Triggers &mdash; running it automatically</h3>
+            <p>
+              A workflow can start itself. Pick a trigger at the top of the designer:
+            </p>
+            <ul>
+              <li>
+                <strong>Manual</strong> &mdash; the default; only the Run button starts it.
+              </li>
+              <li>
+                <strong>Schedule</strong> &mdash; a standard five-field cron expression
+                (<code>0 2 * * *</code> = 02:00 daily; <code>*/15 * * * *</code> = every 15
+                minutes), or an alias: <code>@hourly</code>, <code>@daily</code>,
+                <code>@weekly</code>, <code>@monthly</code>, <code>@yearly</code>. Times are
+                your machine&rsquo;s local time. If the app was closed when a run was due,
+                it catches up once on the next launch &mdash; untick <em>&ldquo;Run at launch
+                if it was due while Termpolis was closed&rdquo;</em> to skip missed runs
+                instead. An invalid expression is never armed, so it can never fire.
+              </li>
+              <li>
+                <strong>Git commit</strong> &mdash; fires just <em>after</em> a commit lands
+                on the checked-out branch. This is a post-commit hook, not a pre-commit one:
+                it cannot block the commit, but it can lint, run the tests, or hand the new
+                diff to an agent. Leave <strong>Branch</strong> blank to follow whichever
+                branch is checked out (switching branches re-seeds rather than firing), or
+                name one to watch only that branch.
+              </li>
+              <li>
+                <strong>Git push</strong> &mdash; fires when the remote-tracking ref moves
+                (<code>refs/remotes/origin/&lt;branch&gt;</code>), i.e. after a successful
+                push or fetch. Set <strong>Remote</strong> for a remote other than
+                <code>origin</code>.
+              </li>
+              <li>
+                <strong>File change</strong> &mdash; a recursive watch of the project folder,
+                debounced (<strong>Debounce (ms)</strong>, default 2000) so a burst of saves
+                is one run. <strong>Paths</strong> takes comma-separated prefixes
+                (<code>src/, docs/</code>) to narrow it; blank watches the whole project.
+                Noise directories &mdash;
+                <code>node_modules</code>, <code>.git</code>, <code>dist</code>,
+                <code>coverage</code>, and Termpolis&rsquo;s own <code>.termpolis</code>
+                &mdash; are always ignored, so a workflow can never retrigger itself.
+              </li>
+            </ul>
+            <p>
+              Triggers are watched inside Termpolis &mdash; there is no daemon, no installed
+              git hook, and nothing runs when the app is closed. Last-seen state is persisted
+              per project (<code>.termpolis/workflows/.triggers.json</code>), so restarting
+              does not replay a commit you already handled. An automatic run is identical to
+              pressing Run: same steps, same run history, same live timeline &mdash; and the
+              same <strong>workspace-trust</strong> gate, so a folder you have not trusted
+              never fires one. Only one run of a given workflow is in flight at a time; a
+              trigger that fires during a run is applied once the run settles.
             </p>
           </section>
 
