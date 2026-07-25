@@ -1611,8 +1611,21 @@
             <p>
               The Run view streams each step&rsquo;s output live, marks it succeeded,
               failed, or skipped, and shows how long it took. Cancel mid-run and every
-              in-flight step is torn down cleanly. Start from a blank canvas or a starter
-              template.
+              in-flight step is torn down cleanly.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Write once, run in any repo</h3>
+            <p>
+              Set a workflow&rsquo;s availability to <strong>Global</strong> and it follows you
+              &mdash; it shows in the sidebar in every project and runs against whichever
+              directory you&rsquo;re standing in, so <code>${project.cwd}</code>,
+              <code>${project.name}</code> and <code>${project.branch}</code> resolve to the
+              repo you&rsquo;re actually in. Give it a <strong>Category</strong> and the sidebar
+              files it into a collapsible folder. Give it <strong>Inputs</strong> and Termpolis
+              asks for them before the run &mdash; <code>${inputs.NAME}</code> reaches every
+              command, prompt, path, and condition, and a required input keeps the Run button
+              locked until it&rsquo;s filled in.
             </p>
           </article>
           <article class="card">
@@ -1627,7 +1640,9 @@
               <strong>File change</strong> is a debounced recursive watch you can narrow to
               one folder. Triggers survive restarts, and an automatic run takes the exact
               same path as pressing Run &mdash; including the workspace-trust gate, so an
-              untrusted folder never fires.
+              untrusted folder never fires. A global workflow arms in every project you have
+              open, and each one keeps its own trigger state, so a commit in one repo only
+              fires that repo&rsquo;s run.
             </p>
           </article>
         </div>
@@ -1705,13 +1720,6 @@
             <p>
               Save reusable prompts (Fix Tests, Code Review, Refactor) and insert them into any
               terminal with Ctrl+Shift+P. Create custom templates for your workflows.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Workflow templates</h3>
-            <p>
-              Pre-built multi-terminal layouts: "Claude + Shell" (2 panes), "Full Stack Dev" (4 panes),
-              "Code Review" (2 panes). One click launches the full split-pane setup.
             </p>
           </article>
           <article class="card">

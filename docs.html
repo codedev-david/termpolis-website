@@ -1674,9 +1674,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               The <strong>Workflow Orchestrator</strong> chains commands, AI agents, and
               built-in tools into one repeatable, saveable run. Open it from the
-              <strong>Workflows</strong> section in the sidebar: <strong>New Workflow &rarr;
-              Blank workflow</strong> (or start from a template), name it, then add steps
-              with the inline <strong>+</strong> button. Every workflow is stored as
+              <strong>Workflows</strong> section in the sidebar: press the inline
+              <strong>+</strong> (<strong>Start Workflow</strong>), name it, then add steps
+              with the inline <strong>+</strong> button. A project workflow is stored as
               portable YAML in the project itself, under
               <code>.termpolis/workflows/</code> &mdash; commit it alongside your code and
               the whole team gets the workflow.
@@ -1774,6 +1774,40 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               same <strong>workspace-trust</strong> gate, so a folder you have not trusted
               never fires one. Only one run of a given workflow is in flight at a time; a
               trigger that fires during a run is applied once the run settles.
+            </p>
+            <h3>Global workflows, categories and inputs</h3>
+            <p>
+              A workflow does not have to belong to one repo. In the designer,
+              <strong>Availability</strong> switches it between
+              <strong>This project</strong> (saved in
+              <code>.termpolis/workflows/</code>, travels with the code) and
+              <strong>Global</strong> (saved once in your Termpolis data directory and
+              offered in the sidebar in <em>every</em> project you open). Switching
+              moves the file &mdash; it never appears twice. A global workflow always
+              <em>runs</em> in the project you are standing in, so one definition can
+              lint, test or release whichever repo you are working in. Its triggers arm
+              per project too: a nightly cron saved once fires once per repo you have
+              open, each with its own last-seen state.
+            </p>
+            <p>
+              <strong>Category</strong> is a free-text label that files the workflow into
+              a collapsible folder in the sidebar &mdash; global and project workflows are
+              grouped separately, each with its own folders.
+            </p>
+            <p>
+              <strong>Inputs</strong> are what make one workflow serve many targets. Declare
+              them in the designer (name, prompt label, default, required) and they are
+              collected in a small form on the Run tab before the run starts &mdash; a
+              required input left blank keeps the Run button disabled rather than starting a
+              run that cannot work. Every value is substituted as
+              <code>${inputs.NAME}</code> anywhere the expression engine reaches: command
+              lines, script paths, step <code>cwd</code>, agent prompts, skill arguments,
+              notify messages and <code>when</code> gates. Alongside them, every run gets
+              <code>${project.cwd}</code>, <code>${project.name}</code> and
+              <code>${project.branch}</code> for free, so a workflow can branch on where it
+              is running without being told. Resolution is still sandboxed &mdash; no
+              <code>eval</code>, and an unknown reference collapses to an empty string
+              rather than leaking into a command line.
             </p>
           </section>
 
