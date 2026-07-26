@@ -2185,7 +2185,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> at any time, no swarm needs to be running.</li>
-              <li>If no swarm is active, click <strong>Start Swarm</strong> to launch the <a href="#conductor">Start Swarm wizard</a>.</li>
+              <li>If no swarm is active, click <strong>Start Swarm</strong>. A folder picker opens <em>first</em> &mdash; <a href="#conductor">choose the project directory</a> the swarm will work in, and only then does the Start Swarm wizard appear.</li>
               <li>Switch tabs freely, the dashboard stays scoped to the active run.</li>
               <li>Right-click any task → <strong>Open agent terminal</strong> to drop into that agent's live pty.</li>
               <li>Need to abort? Click the trash icon next to the swarm title to clear all messages and tasks (see below).</li>
@@ -2206,7 +2206,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>AI conductor</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/22-start-swarm-wizard.png" alt="Start swarm wizard.">
-              <figcaption>Start Swarm wizard, describe the task, pick your agents, set a budget, choose the working directory.</figcaption>
+              <figcaption>Start Swarm wizard &mdash; describe the task, pick your agents, set a budget. The working directory was already chosen in the folder picker that opened before this wizard, and is shown here for confirmation.</figcaption>
             </figure>
             <p>
               The conductor is a dedicated Claude Code instance running with a system prompt
@@ -2221,15 +2221,47 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Not keyword matching, <strong>actual AI reasoning</strong>, because the conductor is
               itself a frontier model. Open its terminal and watch it think live.
             </p>
+            <h3>Before you start: a swarm always needs a project directory</h3>
+            <p>
+              <strong>Choosing a project directory is the first thing that happens, not a field inside
+              the wizard.</strong> The moment you click <strong>Start Swarm</strong>, Termpolis opens
+              your OS folder picker. The Start Swarm wizard will not open until you have picked a
+              directory; if you cancel the picker, nothing launches and you are returned to where you
+              were. This is deliberate, a swarm has no meaning without a root to work in.
+            </p>
+            <p>
+              That directory becomes the swarm's <em>working directory</em>, and it is inherited by
+              everything the swarm creates:
+            </p>
+            <ul class="docs-list">
+              <li>The <strong>conductor</strong> is started in it, so its file reads, greps, and git commands resolve there.</li>
+              <li>Every <strong>agent terminal</strong> the conductor spawns is opened with that same cwd, so no agent can wander into an unrelated repo.</li>
+              <li>The directory is written into the conductor's task contract, so the instructions each agent receives name the path explicitly.</li>
+              <li><strong>Shared memory</strong> and the code graph scope their recall to that project, so agents get context from this repo rather than everything you have ever worked on.</li>
+              <li>The <strong>pre-swarm git SHA</strong> is captured from it, which is what makes the post-run diff and the "revert this swarm" action possible.</li>
+            </ul>
+            <div class="docs-callout">
+              <strong>Pick the repository root, not a subfolder.</strong> Agents routinely need to
+              touch files outside the immediate area they are editing (tests, config, lockfiles), and
+              a narrow root is the most common cause of a swarm that stalls saying it cannot find a
+              file. Point it at a real git repo where possible &mdash; without git history there is no
+              pre-swarm SHA, so the diff and revert affordances are unavailable.
+            </div>
+
             <h3>Launching a swarm, step by step</h3>
             <ol class="docs-list docs-list-ordered">
-              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> or click <strong>Start Swarm</strong> on the Welcome screen.</li>
-              <li><strong>Task</strong>, describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity.</li>
-              <li><strong>Working directory</strong>, pick the repo the swarm will operate in. All agents inherit this cwd.</li>
+              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> or click <strong>Start Swarm</strong> on the Welcome screen or the Swarm Dashboard.</li>
+              <li><strong>Pick the project directory</strong> in the folder picker that opens immediately. This is required, the wizard does not appear until you choose one.</li>
+              <li><strong>Task</strong>, describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity. The Launch button stays disabled until this is non-empty.</li>
               <li><strong>Agents</strong>, toggle which agents are allowed to participate. Unchecked agents won't be assigned work.</li>
               <li><strong>Budget</strong>, optional token and time ceilings. The conductor halts the run and asks you before exceeding.</li>
-              <li><strong>Launch</strong>, the wizard spawns the conductor in a hidden terminal and opens the <a href="#swarm">Swarm Dashboard</a>.</li>
+              <li><strong>Launch</strong>, the wizard spawns the conductor in a hidden terminal and opens the <a href="#swarm">Swarm Dashboard</a>. The chosen directory is shown in the wizard so you can confirm it before committing.</li>
             </ol>
+            <div class="docs-callout">
+              <strong>One swarm at a time.</strong> While a swarm is active the Start Swarm button is
+              replaced by a locked <em>Swarm Active</em> badge. Clear the current swarm before starting
+              another &mdash; this keeps two conductors from issuing conflicting edits in the same repo.
+            </div>
             <h3>What happens next</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Conductor reads your task → queries <a href="#memory">shared memory</a> for related prior work.</li>
@@ -2810,6 +2842,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Firewall blocking localhost</strong>, rare but possible. Add an exception for the Termpolis binary.</li>
               <li><strong>Token file write failed</strong>, <code>mcp-token</code> couldn&rsquo;t be written to the data directory. Make sure your <a href="#install">data directory</a> is writable.</li>
             </ul>
+            <p><strong>Start Swarm does nothing / the wizard never opens.</strong> Start Swarm opens an OS folder picker <em>before</em> the wizard, and the wizard only appears once a directory is chosen. If you dismissed the picker (Esc or Cancel) nothing launches, that is the expected behaviour. Click <strong>Start Swarm</strong> again and <a href="#conductor">pick a project directory</a>. If the button reads <em>Swarm Active</em> instead, a swarm is already running, clear it first.</p>
+            <p><strong>Agents can't find files / edit outside their task.</strong> Almost always a too-narrow project directory. Every agent terminal inherits the swarm's working directory, so a swarm rooted at <code>src/components</code> cannot reach the tests, lockfile, or config that live above it. Clear the swarm and relaunch from the repository root.</p>
             <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Open the conductor&rsquo;s terminal (Swarm Dashboard &rarr; right-click the task &rarr; <strong>Open agent terminal</strong>), or use <a href="#conversation">Conversation search</a> (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>), to see its startup output.</p>
             <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired, restart Termpolis for fresh tokens.</p>
             <p><strong>Memory search returns nothing.</strong> Embeddings run in-process via WASM (bundled <code>bge-small-en-v1.5</code>) &mdash; no Ollama required. If recall is empty, the brain may simply be unindexed: open the Memory panel (<code>Ctrl+Shift+M</code>) and run <em>Index past conversations</em> / <em>Index this repo&rsquo;s code</em>, or wait for the background indexer (first pass ~10&nbsp;s after launch). The first embed lazily unpacks the WASM model, so the very first search after a cold start can take a few seconds.</p>
