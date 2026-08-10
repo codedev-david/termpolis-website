@@ -31,7 +31,7 @@
   <meta name="twitter:description" content="Every feature, panel, and shortcut in the AI terminal where Claude, Codex, and Gemini work as a team.">
   <meta name="twitter:image" content="https://termpolis.com/assets/screenshot-welcome.png">
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260810">
   <link rel="stylesheet" href="docs.css?v=20260705">
 
   <!-- Cloudflare Web Analytics -->
@@ -121,6 +121,7 @@
             <li><a href="#prompt-templates">Prompt templates</a></li>
             <li><a href="#workflows">Workflow Orchestrator</a></li>
             <li><a href="#context">Context panel</a></li>
+            <li><a href="#headroom">Token Headroom</a></li>
             <li><a href="#context-handoff">Cross-AI context handoff</a></li>
             <li><a href="#history">History search</a></li>
             <li><a href="#conversation">Conversation search</a></li>
@@ -1847,6 +1848,106 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>When an agent asks "what am I looking at?", it reads from this pane directly via MCP.</li>
               <li>Click the <strong>×</strong> on any pin to remove it; pins are saved per directory under <code>context-pins/</code> in the Termpolis <a href="#install">data directory</a>.</li>
             </ol>
+          </section>
+
+          <!-- TOKEN HEADROOM -->
+          <section id="headroom" class="docs-section">
+            <h2>Token Headroom &mdash; compressing what the agent sends</h2>
+            <p>
+              Long sessions hit rate limits and compaction fast, and the biggest cost isn't your
+              prompts &mdash; it's the file reads, command output and pasted screenshots the agent
+              ships back to the model on <em>every</em> turn. <strong>Token Headroom</strong>
+              compresses that traffic before it leaves your machine.
+            </p>
+            <p>
+              It is <strong>always on for Claude Code</strong> and needs no setup. Every Claude
+              session launches through a local compression proxy running in its own process &mdash;
+              never the UI or PTY thread. If the proxy is ever unhealthy the launch silently goes
+              direct, and a live session self-heals when it recovers, so a proxy hiccup costs you
+              compression, not your agent.
+            </p>
+
+            <h3>What gets compressed</h3>
+            <ul class="docs-list">
+              <li><strong>Source code is outlined, not truncated (v1.35).</strong> Imports, declarations and every class/function <strong>signature</strong> survive; bodies collapse to <code>&hellip; 24 lines &hellip;</code>. You keep the API surface of the whole file instead of the first and last few lines of it. Roughly 35 languages, brace- and indentation-delimited alike. It sees through the <code>cat -n</code> gutter on a <code>Read</code> result so line numbers stay correct, and refuses to fire when the text isn't code or the outline wouldn't be meaningfully smaller.</li>
+              <li><strong>JSON is compressed as JSON (v1.35).</strong> Long arrays keep their first entries and state how many were elided, long string fields are truncated in place, deep nesting is pruned, and the survivors are re-emitted minified. It refuses the payload entirely when any numeric literal is long enough to lose precision in a round trip &mdash; a corrupted ID the agent <em>believes</em> is worse than an uncompressed one.</li>
+              <li><strong>HTML is reduced to its readable text.</strong> Fetched web pages lose their markup, not their content.</li>
+              <li><strong>Command output and large file reads</strong> are bounded by a head/tail line window, with structured content given <strong>3&times;</strong> the budget of prose.</li>
+              <li><strong>Pasted images</strong> are downscaled below the model's cap and emitted as PNG or JPEG, whichever is smaller.</li>
+              <li><strong>Repeats and near-repeats.</strong> A result repeated in the same session collapses to a one-line reference. Since v1.34, a <em>near</em>-duplicate is sent as a patch against the earlier copy: read a file, edit three lines, read it again, and only those lines go over the wire.</li>
+              <li><strong>Both halves of the wire (v1.34).</strong> Not just the tool result that came back, but the <code>tool_use</code> the agent itself wrote &mdash; the 400-line body in a <code>Write</code>, the large <code>Edit</code> payload &mdash; which is re-read out of the prefix on every later turn. Identifier fields (<code>file_path</code>, <code>command</code>, <code>pattern</code>, <code>url</code>) are excluded by name so a call never becomes ambiguous.</li>
+            </ul>
+
+            <div class="docs-callout">
+              <strong>Nothing is lost.</strong> Every compressed block carries a token the agent can
+              hand to the <code>retrieve_full</code> tool to pull the original back. Since v1.34 that
+              cache is <strong>disk-backed, byte-capped and survives restarts</strong>, so a token
+              issued yesterday still expands today.
+            </div>
+
+            <h3>Why it doesn't bust the prompt cache</h3>
+            <p>
+              Naive compression <em>costs</em> you money: change one byte of the prefix and
+              Anthropic's prompt cache misses, so the whole conversation is re-ingested at full
+              price. Headroom compresses <strong>deterministically</strong> &mdash; stash tokens are
+              content hashes rather than counters, so the same block always yields the same token no
+              matter what came before it, and there is no clock or randomness anywhere in the
+              compression path. A dedicated test suite asserts the compressed prefix is
+              byte-identical across ten successive appends, when a duplicate arrives, when a
+              near-duplicate is diffed, and at the hardest tier.
+            </p>
+
+            <h3>Reading the receipt</h3>
+            <p>
+              <strong>Settings &rarr; Token Savings</strong> reports against three denominators
+              rather than picking the flattering one. All three are computed from Anthropic's real
+              usage numbers on your machine.
+            </p>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead>
+                  <tr><th>Denominator</th><th>Typical</th><th>What it means</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Compressible wire text</td><td>~61%</td><td>Of the tool text the compressor actually sees. The measure of the compressor itself.</td></tr>
+                  <tr><td>All input tokens</td><td>~9%</td><td>Includes the cached prefix that is re-read every turn.</td></tr>
+                  <tr><td>Effective cost</td><td>~6%</td><td>After cache-read and cache-write weighting. What it saves you in money.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              The last two are small by arithmetic, not weakness: compressible tool text is only
+              <strong>42.3%</strong> of a request body, so removing <em>all</em> of it would still
+              cap out at 42.3%. The panel also shows worst-request and below-floor counts, prompt-cache
+              health, and the share of effective spend that is output rather than input. It sums both
+              compression surfaces &mdash; the wire proxy and Termpolis's own MCP tool output &mdash;
+              into a single gross/net/give-back figure.
+            </p>
+
+            <h3>The numbers, and where they come from</h3>
+            <p>
+              4,183 real requests captured from one developer's own transcripts &mdash; 35.2&nbsp;GB
+              of request bodies &mdash; were replayed through the compressor. At the shipped default:
+              <strong>61.0%</strong> of compressible tool text removed (63.5% of tool results, 51.6%
+              of <code>tool_use</code> payloads), median request <strong>61.4%</strong>, and
+              <strong>93.8%</strong> of requests clear 50%. At the Maximum tier, <strong>72.3%</strong>,
+              with 99.9% of requests clearing 50%. Cache-safety was measured over 62,716 real
+              requests with hits fully preserved. A regression test fails the build if any of these
+              thresholds is ever loosened.
+            </p>
+
+            <h3>Optional controls (off by default)</h3>
+            <ul class="docs-list">
+              <li><strong>Prefix decay.</strong> On very long conversations the oldest half can be aged down to retrievable stubs. It ships <strong>off</strong> because it is the one control that can cost you money: shortening the prefix forces a re-cache (~1.15&times; the prefix), which needs roughly 39 more turns to repay at typical volumes. The cutoff advances only at doublings (64 &rarr; 128 &rarr; 256 messages), so a 300-turn session pays a handful of breaks rather than one per turn.</li>
+              <li><strong>Thinking-budget cap.</strong> Output &mdash; thinking included &mdash; bills at roughly 5&times; input and was 38% of measured effective spend. The cap lowers an over-declared budget to a fixed per-session value (constant by design, or it would bust the cache). It trades reasoning depth, so it ships <strong>off</strong>.</li>
+              <li><strong>Compression tier.</strong> Conservative, balanced, aggressive and maximum. Aggressive is the shipped default.</li>
+            </ul>
+
+            <div class="docs-callout">
+              <strong>Your memory is never touched.</strong> Compression lives only on the outbound
+              wire to Anthropic. The <a href="#memory">shared memory</a> store, recall and learning
+              are untouched by it.
+            </div>
           </section>
 
           <!-- CROSS-AI CONTEXT HANDOFF -->

@@ -60,7 +60,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260810">
 
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "69e1842746294b5bbb72378c748cb522"}'></script>
@@ -633,7 +633,7 @@
       <!-- TOKEN HEADROOM -->
       <section id="headroom" class="section reveal">
         <div class="section-heading">
-          <p class="eyebrow">⚡ New in v1.29 &middot; Token Headroom</p>
+          <p class="eyebrow">⚡ Updated in v1.35 &middot; Token Headroom</p>
           <h2>Compress what Claude Code sends &mdash; and cut your burn rate</h2>
           <p>
             Long sessions hit rate limits and compaction fast, and the biggest culprit is the
@@ -649,15 +649,27 @@
           </article>
           <article class="card">
             <h3>It shrinks what actually costs you</h3>
-            <p>Verbose <strong>Bash output</strong>, large <strong>file Reads</strong>, <strong>fetched web pages</strong> (HTML stripped to its text), and <strong>pasted images</strong> (downscaled below the model's cap) are compressed deterministically &mdash; and a result <strong>repeated within a session collapses to a one-line reference</strong> instead of being re-sent in full. Nothing is lost &mdash; the agent calls <code>retrieve_full</code> to pull any result back when it needs the detail.</p>
+            <p>Verbose <strong>Bash output</strong>, large <strong>file Reads</strong>, <strong>fetched web pages</strong> (HTML stripped to its text), and <strong>pasted images</strong> (downscaled below the model's cap) are compressed deterministically &mdash; and a result <strong>repeated within a session collapses to a one-line reference</strong>. Since v1.34 a <em>near</em>-duplicate is sent as a <strong>patch against the earlier copy</strong>: read a file, edit three lines, read it again, and only those lines go over the wire. Nothing is lost &mdash; the agent calls <code>retrieve_full</code> to pull any result back when it needs the detail.</p>
+          </article>
+          <article class="card">
+            <h3>Code is outlined, not truncated <span class="badge-new">v1.35</span></h3>
+            <p>A head/tail line window throws away the middle of every file &mdash; usually the part the agent needed. Headroom <strong>outlines</strong> source instead: imports, declarations and every class/function <strong>signature</strong> survive, while bodies collapse to <code>&hellip; 24 lines &hellip;</code>. You keep the API surface of the <em>whole</em> file for a fraction of the bytes &mdash; this app's own <code>wireCompress.ts</code> outlines from 22,139 characters to 4,450, a <strong>79.9% cut with all 20 exported signatures intact</strong>. ~35 languages, brace- and indentation-delimited alike. It <strong>refuses to fire</strong> when the text isn't code, or when the outline wouldn't be meaningfully smaller.</p>
+          </article>
+          <article class="card">
+            <h3>JSON is compressed as JSON <span class="badge-new">v1.35</span></h3>
+            <p>A line window is nearly useless on JSON: minified payloads are one enormous line it can never split, and pretty-printed ones bury the interesting keys in the middle. Headroom understands the shape &mdash; long arrays keep their first entries and say how many were elided, long strings are truncated in place, deep nesting is pruned, and the survivors are re-emitted <strong>minified</strong>. It <strong>refuses the whole payload</strong> when a number is long enough to lose precision in a round trip: <code>12345678901234567890</code> silently becomes <code>&hellip;567000</code>, and a corrupted ID the agent <em>believes</em> is far worse than an uncompressed one.</p>
           </article>
           <article class="card">
             <h3>Prompt-cache safe &mdash; proven</h3>
-            <p>Naive compression <strong>busts</strong> Anthropic's prompt cache and costs you more. Headroom compresses <strong>deterministically</strong>, so re-sent history stays byte-identical and the cache keeps hitting. Measured: <strong>~50% fewer tokens ingested per turn</strong>, cache preserved.</p>
+            <p>Naive compression <strong>busts</strong> Anthropic's prompt cache and costs you more. Headroom compresses <strong>deterministically</strong> &mdash; stash tokens are <strong>content hashes</strong>, not counters, so the same block gets the same token no matter what came before it. A dedicated suite asserts the compressed prefix is <strong>byte-identical across ten successive appends</strong>. Measured over <strong>62,716 real requests</strong>, cache hits fully preserved.</p>
           </article>
           <article class="card">
-            <h3>See the receipt</h3>
-            <p><strong>Settings &rarr; Token Savings</strong> shows the live <strong>% shrink of the tool output</strong> it compresses &mdash; session and all-time &mdash; <em>and</em> the <strong>share of your total input</strong> that removed, from Anthropic's real usage numbers on your machine, plus prompt-cache health. Scoped to what it measures, never inflated. Your memory brain is never touched.</p>
+            <h3>Measured, not asserted</h3>
+            <p>4,183 real requests from one developer's own transcripts &mdash; <strong>35.2 GB of request bodies</strong> &mdash; replayed through the compressor. At the shipped default: <strong>61.0% of compressible tool text removed</strong>, median request <strong>61.4%</strong>, and <strong>93.8% of requests clear 50%</strong>. At the Maximum tier, <strong>72.3%</strong>. A regression test fails the build if a threshold is ever loosened.</p>
+          </article>
+          <article class="card">
+            <h3>The receipt states its denominator <span class="badge-new">v1.34</span></h3>
+            <p>&ldquo;50% saved&rdquo; is meaningless without a base, so <strong>Settings &rarr; Token Savings</strong> shows all three honest ones side by side: the <strong>compressible wire text</strong> the compressor actually sees (<strong>61%</strong>), <strong>all input tokens</strong> including the re-read cached prefix (<strong>~9%</strong>), and <strong>effective cost</strong> after cache weighting (<strong>~6%</strong>) &mdash; plus worst-request and below-floor counts. The last two are small by arithmetic, not weakness: compressible tool text is only <strong>42.3%</strong> of a request body, so removing <em>all</em> of it would still cap there. We say so rather than quote the flattering number alone. Your memory brain is never touched.</p>
           </article>
         </div>
       </section>
@@ -838,6 +850,14 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — no AI memory</td>
               </tr>
               <tr>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Wire-level token compression before the model</strong><br><span style="opacity:0.7;font-size:12px;">Shrinking the file reads, command output and images the agent sends on every turn — not just showing you how much context is left</span></td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Always-on local proxy — 61% of compressible tool text removed, prompt cache preserved, fully reversible</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ None shipped; a context-usage HUD is still an open request</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ None published</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Shows context-window and token usage; no compression</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — bounded buffer reads via a community MCP plugin</td>
+              </tr>
+              <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Every prompt watched for secrets (97 rules)</strong><br><span style="opacity:0.7;font-size:12px;">Detection, not prevention &mdash; the hit is named in a local audit log (<code>DB_PASSWORD</code>, never the value) so you know what to rotate</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, every prompt, can't be turned off</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Secret Redaction (~18 patterns, opt-in)</td>
@@ -992,6 +1012,17 @@
           <em>not</em> claim to stop a secret you send to a model. Prevention in Termpolis lives at the git boundary
           and the memory layer, where it is actually enforceable
           (<a href="docs.html#security-secret-scanner">why the prompt path is detection-only</a>).
+          <strong>On the compression row (checked August&nbsp;2026):</strong> none of the four
+          documents a feature that shrinks tool traffic before it reaches the model. Warp has no
+          shipped context compression and its own token/context&nbsp;HUD is still an open feature
+          request; Wave publishes no compression or token figures; JetBrains Air added
+          context-window and token-usage <em>display</em> for Claude Agent in July&nbsp;2026, which is
+          visibility rather than compression, hence ⚠; Tabby is a terminal whose AI arrives through a
+          community MCP plugin, where the nearest equivalent is bounded buffer reads
+          (<code>startLine</code>&nbsp;/&nbsp;<code>endLine</code>), not compression. Termpolis's
+          61% figure is the share of <em>compressible tool text</em> removed &mdash; see
+          <a href="docs.html#headroom">the three denominators</a> rather than reading it as 61% off
+          your bill.
         </p>
       </section>
 
