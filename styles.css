@@ -957,6 +957,32 @@ code {
   line-height: 1.6;
 }
 
+/* The Token Savings receipts are the proof, so they get their own column rather
+   than a two-up grid: at ~940px the headline figures stay readable in place and
+   the lightbox is for the fine print, not for the whole point of the shot. */
+.headroom-shots {
+  display: grid;
+  gap: 30px;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+/* App-window captures (1368x912), not tall full-page ones, so they keep their own
+   aspect ratio: cropping to a fixed height would cut off the numbers. */
+.shot-preview {
+  max-width: none;
+  margin: 0;
+}
+
+.shot-preview .dashboard-thumb img {
+  height: auto;
+  object-fit: contain;
+}
+
+.shot-preview .dashboard-thumb::after {
+  height: 30%;
+}
+
 .lightbox {
   position: fixed;
   inset: 0;

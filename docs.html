@@ -1867,6 +1867,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               compression, not your agent.
             </p>
 
+            <figure class="docs-shot">
+              <img src="assets/screenshot-token-savings.png" alt="Settings, Token Savings tab: net tokens saved all-time, the same saving measured against three denominators, the floor check, the untouched prefix, the session-depth advisory and output steering.">
+              <figcaption><strong>Settings &rarr; Token Savings</strong> on one real machine &mdash; 1.53 billion tokens removed all-time, stated against all three denominators at once.</figcaption>
+            </figure>
+
             <h3>What gets compressed</h3>
             <ul class="docs-list">
               <li><strong>Source code is outlined, not truncated (v1.35).</strong> Imports, declarations and every class/function <strong>signature</strong> survive; bodies collapse to <code>&hellip; 24 lines &hellip;</code>. You keep the API surface of the whole file instead of the first and last few lines of it. Roughly 35 languages, brace- and indentation-delimited alike. It sees through the <code>cat -n</code> gutter on a <code>Read</code> result so line numbers stay correct, and refuses to fire when the text isn't code or the outline wouldn't be meaningfully smaller.</li>
@@ -1878,11 +1883,31 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Both halves of the wire (v1.34).</strong> Not just the tool result that came back, but the <code>tool_use</code> the agent itself wrote &mdash; the 400-line body in a <code>Write</code>, the large <code>Edit</code> payload &mdash; which is re-read out of the prefix on every later turn. Identifier fields (<code>file_path</code>, <code>command</code>, <code>pattern</code>, <code>url</code>) are excluded by name so a call never becomes ambiguous.</li>
             </ul>
 
+            <h3>What is never compressed &mdash; authored intent (v1.37.1)</h3>
+            <p>
+              A tool <em>result</em> is something the model watched happen: eliding it is safe,
+              because the model knows it did not write those bytes and can call
+              <code>retrieve_full</code>. A tool <strong>input</strong> is not. Those are bytes the
+              model itself emitted, and it replays them verbatim into your files and shells on the
+              next turn &mdash; so compressing them rewrites history, and the elision marker becomes
+              a real artifact (<code>[headroom]: command not found</code> from a shell, a stray
+              <code>&hellip;</code> in a source file). Artifact-bearing fields now pass through
+              untouched while still acting as dedup keys, keyed on behaviour rather than on which
+              client is in front of the proxy: Claude Code's <code>content</code> and
+              <code>command</code>, Anthropic's built-in text editor
+              (<code>file_text</code>, <code>old_str</code>, <code>new_str</code>) and
+              <code>apply_patch</code>'s <code>patch</code>. The cost is about <strong>1.7% of
+              measured savings</strong>.
+            </p>
+
             <div class="docs-callout">
               <strong>Nothing is lost.</strong> Every compressed block carries a token the agent can
               hand to the <code>retrieve_full</code> tool to pull the original back. Since v1.34 that
               cache is <strong>disk-backed, byte-capped and survives restarts</strong>, so a token
-              issued yesterday still expands today.
+              issued yesterday still expands today. Since v1.37.1 the per-entry cap is
+              <strong>64&nbsp;MB</strong> (it was 8&nbsp;MB, which a single large file read cleared),
+              anything above it is pinned in memory, the LRU prefers disk-backed victims, and the one
+              path that could genuinely destroy content is <em>counted</em> rather than inferred.
             </div>
 
             <h3>Why it doesn't bust the prompt cache</h3>
@@ -1894,35 +1919,85 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               matter what came before it, and there is no clock or randomness anywhere in the
               compression path. A dedicated test suite asserts the compressed prefix is
               byte-identical across ten successive appends, when a duplicate arrives, when a
-              near-duplicate is diffed, and at the hardest tier.
+              near-duplicate is diffed, and at the hardest tier. The pane prints your live
+              cache-read vs cache-create ratio so you can check it against your own traffic.
             </p>
 
             <h3>Reading the receipt</h3>
             <p>
               <strong>Settings &rarr; Token Savings</strong> reports against three denominators
               rather than picking the flattering one. All three are computed from Anthropic's real
-              usage numbers on your machine.
+              usage numbers on your machine, so your figures will differ from the ones below &mdash;
+              these are the all-time values from the screenshot above.
             </p>
             <div class="docs-table-wrap">
               <table class="docs-table">
                 <thead>
-                  <tr><th>Denominator</th><th>Typical</th><th>What it means</th></tr>
+                  <tr><th>Denominator</th><th>Above</th><th>What it means</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>Compressible wire text</td><td>~61%</td><td>Of the tool text the compressor actually sees. The measure of the compressor itself.</td></tr>
-                  <tr><td>All input tokens</td><td>~9%</td><td>Includes the cached prefix that is re-read every turn.</td></tr>
-                  <tr><td>Effective cost</td><td>~6%</td><td>After cache-read and cache-write weighting. What it saves you in money.</td></tr>
+                  <tr><td>Compressible wire text</td><td>50%</td><td>Of the tool text the compressor actually sees. The measure of the compressor itself.</td></tr>
+                  <tr><td>All input tokens</td><td>11%</td><td>Includes the cached prefix that is re-read every turn.</td></tr>
+                  <tr><td>Effective cost</td><td>8%</td><td>After cache-read and cache-write weighting. What it saves you in money.</td></tr>
                 </tbody>
               </table>
             </div>
             <p>
-              The last two are small by arithmetic, not weakness: compressible tool text is only
-              <strong>42.3%</strong> of a request body, so removing <em>all</em> of it would still
-              cap out at 42.3%. The panel also shows worst-request and below-floor counts, prompt-cache
-              health, and the share of effective spend that is output rather than input. It sums both
-              compression surfaces &mdash; the wire proxy and Termpolis's own MCP tool output &mdash;
-              into a single gross/net/give-back figure.
+              The last two are smaller by arithmetic, not weakness. Compression reaches tool results
+              and tool inputs &mdash; about <strong>86% of message bytes</strong>, measured on real
+              transcripts &mdash; but never the system prompt, the tool schemas, your own words or
+              the model's replies; and roughly <strong>30% of effective spend is output tokens</strong>,
+              billed at about 5&times; input, which no inbound compressor can reach. The panel also
+              shows worst-request and below-floor counts, prompt-cache health, and every
+              <code>retrieve_full</code> miss. It sums both compression surfaces &mdash; the wire
+              proxy and Termpolis's own MCP tool output &mdash; into a single gross/net/give-back
+              figure.
             </p>
+
+            <h3>The untouched prefix (v1.36)</h3>
+            <p>
+              The system prompt and the tool schemas ride in front of every request, are re-sent
+              every turn, and are exactly what a cache write is billed 1.25&times; for. No
+              compression layer touches them &mdash; and until v1.36 nothing counted them, so the
+              receipt could not explain its own ceiling. Termpolis now measures that head on every
+              request, separating its own <code>mcp__termpolis__*</code> schemas from everyone
+              else's, and states it in the pane. It is measured <em>before</em> the round-trip guard
+              on purpose: a request we decline to compress still costs money, and those were
+              precisely the requests whose cost was invisible. The same pass detects whether output
+              steering is actually present on the wire, from the marker the steering module itself
+              exports &mdash; a detector that can drift from the thing it detects would report
+              &ldquo;steering off&rdquo; forever, and a false negative looks exactly like a disabled
+              feature.
+            </p>
+
+            <h3>Session depth &mdash; what a conversation costs to keep (v1.37)</h3>
+            <p>
+              Every other control here shrinks the <em>body</em> of a request. This one measures the
+              thing no compressor can reach: a long conversation re-reads its whole history on every
+              turn, and across <strong>24,163 requests in 89 real sessions</strong> that re-read is
+              the largest line on the bill. Cache-read bills at 0.1&times;, which reads as free right
+              up until you notice a 320,000-token prefix being read three hundred more times.
+            </p>
+            <p>
+              The advisory prices a turn on cache-read <strong>and</strong> cache-write together.
+              That is what removes the need for a fudged &ldquo;cost of restarting&rdquo; constant:
+              the price of establishing a fresh prefix is already inside the shallow band's own
+              units-per-turn figure, because those are exactly the requests that paid it. Whether a
+              restart is worth it becomes subtraction. Termpolis refits the curve from your own
+              traffic and reports nothing at all until a band has enough samples to be your curve
+              rather than one session's accident. Re-priced across the measured corpus, capping at
+              50 turns models to <strong>&minus;24% of the whole bill</strong> even after charging
+              the full restart cost, and each restart can absorb about 12 extra requests of
+              re-orientation before the saving is gone &mdash; that is the budget the memory brain
+              has to fit inside.
+            </p>
+            <div class="docs-callout">
+              <strong>It only ever advises.</strong> Session depth never ends a session and is
+              deliberately not wired to anything that could. The arithmetic cannot prove the thing
+              it depends on &mdash; that the work <em>partitions</em>, so a fresh session handed the
+              memory brain's context does the same job. That is a claim about answer quality, not
+              about tokens.
+            </div>
 
             <h3>The numbers, and where they come from</h3>
             <p>
@@ -1936,11 +2011,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               thresholds is ever loosened.
             </p>
 
-            <h3>Optional controls (off by default)</h3>
+            <h3>The controls</h3>
             <ul class="docs-list">
-              <li><strong>Prefix decay.</strong> On very long conversations the oldest half can be aged down to retrievable stubs. It ships <strong>off</strong> because it is the one control that can cost you money: shortening the prefix forces a re-cache (~1.15&times; the prefix), which needs roughly 39 more turns to repay at typical volumes. The cutoff advances only at doublings (64 &rarr; 128 &rarr; 256 messages), so a 300-turn session pays a handful of breaks rather than one per turn.</li>
-              <li><strong>Thinking-budget cap.</strong> Output &mdash; thinking included &mdash; bills at roughly 5&times; input and was 38% of measured effective spend. The cap lowers an over-declared budget to a fixed per-session value (constant by design, or it would bust the cache). It trades reasoning depth, so it ships <strong>off</strong>.</li>
               <li><strong>Compression tier.</strong> Conservative, balanced, aggressive and maximum. Aggressive is the shipped default.</li>
+              <li><strong>Savings floor.</strong> Raises the tier automatically if the ledger shows savings slipping below 50%. It only ever compresses <em>harder</em> than the setting above, never softer, and is decided at launch and frozen for the session &mdash; re-tiering mid-conversation would break the prompt cache.</li>
+              <li><strong>Prefix decay (history age-out).</strong> On very long conversations the oldest half is aged down to retrievable stubs. It ships <strong>on</strong>, but it is the one control here that is not free: shortening the prefix pays a one-off re-cache (~1.15&times; the prefix) to buy a smaller prefix on every later turn. It therefore waits for <strong>128 messages</strong> before the first cut &mdash; about 3&times; the ~44-turn break-even &mdash; and the cutoff advances only at doublings (128 &rarr; 256 &rarr; 512 messages), so a 300-turn session pays a handful of breaks rather than one per turn. Aged blocks stay recoverable with <code>retrieve_full</code>.</li>
+              <li><strong>Output-token steering.</strong> Nudges the agent toward terser replies. Output &mdash; thinking included &mdash; bills at roughly 5&times; input and is about 30% of measured effective spend, and inbound compression cannot touch it. The pane reports the observed steered and unsteered means side by side and labels them as an observation, never as a saving: different sessions ask different questions.</li>
+              <li><strong>Thinking-budget cap.</strong> Lowers an over-declared extended-thinking budget to a fixed per-session value (constant by design, or it would bust the cache). It only ever lowers the budget, never raises it &mdash; and unlike everything else here it trades reasoning depth rather than inline context, so it ships <strong>off</strong>.</li>
             </ul>
 
             <div class="docs-callout">
@@ -2494,6 +2571,18 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Survives close &amp; reopen.</strong> Stored as JSONL on disk
                 (<code>swarm-memory.jsonl</code> in the <a href="#install">data directory</a>) and reloaded with its embeddings at
                 startup, your context isn&rsquo;t lost when you quit.</li>
+              <li><strong>Scales past the file-size ceilings (v1.38).</strong> Shards are read as a
+                <strong>stream</strong>, 8&nbsp;MiB at a time, rather than slurped whole &mdash;
+                Node&rsquo;s <code>readFileSync</code> refuses any file over <strong>2&nbsp;GiB</strong>,
+                and a 2.3&nbsp;GB store therefore used to fail to load <em>at all</em> while the pane
+                cheerfully explained that your brain fills up as you work. Measured on that real
+                store: 314,563 entries, 2.3&nbsp;GB, decoded in about four seconds. Shards now also
+                <strong>rotate at 1.5&nbsp;GB</strong> so no single file can reach the ceiling again;
+                rotated shards load read-only, so compaction leaves them alone and they never inflate
+                the sync device count. A shard that will not read is <strong>recorded and shown as a
+                banner</strong> &mdash; &ldquo;failed to load&rdquo; must never look identical to
+                &ldquo;new and empty&rdquo; &mdash; and nothing is lost either way, because compaction
+                reads before it writes, so a shard it cannot read is a shard it cannot overwrite.</li>
               <li><strong>Feeds itself.</strong> A background indexer ingests new sessions on a quiet
                 timer (idempotent, content-hash deduped), so the brain grows with no action from you.</li>
               <li><strong>Never stores the same thing twice.</strong> Every write is content-addressed

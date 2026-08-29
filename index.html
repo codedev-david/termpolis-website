@@ -274,6 +274,21 @@
               <a href="docs.html#vector-memory">How it decides &rarr;</a>
             </p>
           </article>
+          <article class="card">
+            <h3>A brain that outgrew its own file format <span class="badge-new">v1.38</span></h3>
+            <p>
+              A 2.3&nbsp;GB memory store <strong>silently failed to load at all</strong>: Node's
+              <code>readFileSync</code> refuses any file over <strong>2&nbsp;GiB</strong>, the loader
+              swallowed the throw, and the pane cheerfully explained that your brain fills up as you
+              work. Shards are now <strong>streamed 8&nbsp;MiB at a time</strong> &mdash; 314,563
+              entries and 2.3&nbsp;GB decoded in about four seconds &mdash; and they
+              <strong>rotate at 1.5&nbsp;GB</strong>, so no single file can reach the ceiling again.
+              A shard that will not read is <strong>recorded and flagged in the pane</strong>:
+              &ldquo;failed to load&rdquo; must never render identically to &ldquo;new and empty.&rdquo;
+              Nothing is lost either way &mdash; compaction reads before it writes, so a shard it
+              cannot read is a shard it cannot overwrite.
+            </p>
+          </article>
         </div>
         <div class="section-heading" style="margin-top:56px;">
           <p class="eyebrow">How it works</p>
@@ -633,16 +648,40 @@
       <!-- TOKEN HEADROOM -->
       <section id="headroom" class="section reveal">
         <div class="section-heading">
-          <p class="eyebrow">⚡ Updated in v1.35 &middot; Token Headroom</p>
+          <p class="eyebrow">⚡ Updated in v1.38 &middot; Token Headroom</p>
           <h2>Compress what Claude Code sends &mdash; and cut your burn rate</h2>
           <p>
             Long sessions hit rate limits and compaction fast, and the biggest culprit is the
             <strong>file reads, command output, and pasted images</strong> the agent ships to the model every
             turn. Token Headroom compresses that traffic <strong>before it reaches Anthropic</strong>, so you
-            get more work done per session before you hit a wall.
+            get more work done per session before you hit a wall &mdash; and it shows you the receipt.
           </p>
         </div>
-        <div class="feature-grid">
+        <div class="headroom-shots">
+          <figure class="dashboard-preview shot-preview">
+            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings.png" data-lightbox-alt="Termpolis Settings → Token Savings: net tokens saved all-time, the same saving measured three ways, the floor check, the untouched prefix, the session-depth advisory, output steering, and the always-on Claude Code compression card." aria-label="Open the Token Savings receipt screenshot full size">
+              <img src="assets/screenshot-token-savings.png" width="1368" height="912" loading="lazy" alt="Token Savings settings tab: 1,531,703,480 tokens saved all-time, and the same saving stated three ways — 50% of compressible text, 11% of all input tokens, 8% of effective cost.">
+              <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View full size</span>
+            </button>
+            <figcaption class="dashboard-caption">
+              <strong>Settings &rarr; Token Savings.</strong> One real machine: <strong>1.53 billion tokens</strong>
+              removed all-time, stated against all three denominators at once &mdash; with the give-back from
+              every <code>retrieve_full</code> call subtracted rather than hidden.
+            </figcaption>
+          </figure>
+          <figure class="dashboard-preview shot-preview">
+            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings-controls.png" data-lightbox-alt="The Claude Code compression card — tool results versus tool inputs, images compressed, prompt-cache health — followed by every Token Headroom control: compression tier, savings floor, history age-out, output-token steering and the extended-thinking budget cap." aria-label="Open the Token Headroom controls screenshot full size">
+              <img src="assets/screenshot-token-savings-controls.png" width="1368" height="912" loading="lazy" alt="The always-on Claude Code compression card with prompt-cache health, above the Token Headroom controls: aggressiveness tier, 50% savings floor, history age-out, output steering and thinking-budget cap.">
+              <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View full size</span>
+            </button>
+            <figcaption class="dashboard-caption">
+              The same pane, scrolled: the <strong>always-on Claude Code proxy</strong> with its own receipt and a
+              live <strong>prompt-cache health</strong> line, then every control &mdash; tier, savings floor,
+              history age-out, output steering, thinking-budget cap.
+            </figcaption>
+          </figure>
+        </div>
+        <div class="feature-grid" style="margin-top:28px;">
           <article class="card">
             <h3>Always on for Claude Code</h3>
             <p>Every Claude session launches through a <strong>local, off-thread compression proxy</strong> &mdash; its own process, never the UI/PTY thread. No toggle, no setup. If it's ever unhealthy the launch goes <strong>direct</strong>, and a live session self-heals when the proxy recovers &mdash; so a hiccup costs you compression, <em>not</em> your agent.</p>
@@ -660,16 +699,28 @@
             <p>A line window is nearly useless on JSON: minified payloads are one enormous line it can never split, and pretty-printed ones bury the interesting keys in the middle. Headroom understands the shape &mdash; long arrays keep their first entries and say how many were elided, long strings are truncated in place, deep nesting is pruned, and the survivors are re-emitted <strong>minified</strong>. It <strong>refuses the whole payload</strong> when a number is long enough to lose precision in a round trip: <code>12345678901234567890</code> silently becomes <code>&hellip;567000</code>, and a corrupted ID the agent <em>believes</em> is far worse than an uncompressed one.</p>
           </article>
           <article class="card">
+            <h3>What the agent <em>wrote</em> is never rewritten <span class="badge-new">v1.37.1</span></h3>
+            <p>A tool <em>result</em> is something the model watched happen &mdash; eliding it is safe, because the model knows it didn't write those bytes and can ask for them back. A tool <strong>input</strong> is not: those are bytes the model itself emitted, and it <strong>replays them verbatim into your files and shells</strong> on the next turn. Compressing them rewrote history, and an elision marker became a real artifact &mdash; <code>[headroom]: command not found</code> in a shell, a stray <code>&hellip;</code> in a source file. Artifact-bearing fields (<code>content</code>, <code>command</code>, <code>file_text</code>, <code>old_str</code>/<code>new_str</code>, <code>patch</code>) now pass through <strong>untouched</strong>, keyed on behaviour rather than on which client sits in front of the proxy. It costs <strong>~1.7% of measured savings</strong>. That is the right trade.</p>
+          </article>
+          <article class="card">
             <h3>Prompt-cache safe &mdash; proven</h3>
-            <p>Naive compression <strong>busts</strong> Anthropic's prompt cache and costs you more. Headroom compresses <strong>deterministically</strong> &mdash; stash tokens are <strong>content hashes</strong>, not counters, so the same block gets the same token no matter what came before it. A dedicated suite asserts the compressed prefix is <strong>byte-identical across ten successive appends</strong>. Measured over <strong>62,716 real requests</strong>, cache hits fully preserved.</p>
+            <p>Naive compression <strong>busts</strong> Anthropic's prompt cache and costs you more. Headroom compresses <strong>deterministically</strong> &mdash; stash tokens are <strong>content hashes</strong>, not counters, so the same block gets the same token no matter what came before it. A dedicated suite asserts the compressed prefix is <strong>byte-identical across ten successive appends</strong>. Measured over <strong>62,716 real requests</strong>, cache hits fully preserved &mdash; and the pane above prints your live cache-read vs cache-create ratio, so you can check it on your own traffic.</p>
           </article>
           <article class="card">
             <h3>Measured, not asserted</h3>
-            <p>4,183 real requests from one developer's own transcripts &mdash; <strong>35.2 GB of request bodies</strong> &mdash; replayed through the compressor. At the shipped default: <strong>61.0% of compressible tool text removed</strong>, median request <strong>61.4%</strong>, and <strong>93.8% of requests clear 50%</strong>. At the Maximum tier, <strong>72.3%</strong>. A regression test fails the build if a threshold is ever loosened.</p>
+            <p>4,183 real requests from one developer's own transcripts &mdash; <strong>35.2 GB of request bodies</strong> &mdash; replayed through the compressor. At the shipped default: <strong>61.0% of compressible tool text removed</strong>, median request <strong>61.4%</strong>, and <strong>93.8% of requests clear 50%</strong>. At the Maximum tier, <strong>72.3%</strong>. A regression test fails the build if a threshold is ever loosened. The live all-time figure in the screenshot above is <strong>50%</strong> across 1.5 billion tokens &mdash; a different and much larger corpus, and it is the app's own running number rather than the lab's.</p>
           </article>
           <article class="card">
             <h3>The receipt states its denominator <span class="badge-new">v1.34</span></h3>
-            <p>&ldquo;50% saved&rdquo; is meaningless without a base, so <strong>Settings &rarr; Token Savings</strong> shows all three honest ones side by side: the <strong>compressible wire text</strong> the compressor actually sees (<strong>61%</strong>), <strong>all input tokens</strong> including the re-read cached prefix (<strong>~9%</strong>), and <strong>effective cost</strong> after cache weighting (<strong>~6%</strong>) &mdash; plus worst-request and below-floor counts. The last two are small by arithmetic, not weakness: compressible tool text is only <strong>42.3%</strong> of a request body, so removing <em>all</em> of it would still cap there. We say so rather than quote the flattering number alone. Your memory brain is never touched.</p>
+            <p>&ldquo;50% saved&rdquo; is meaningless without a base, so <strong>Settings &rarr; Token Savings</strong> shows all three honest ones side by side: the <strong>compressible wire text</strong> the compressor actually sees, <strong>all input tokens</strong> including the cached prefix re-read every turn, and <strong>effective cost</strong> after cache weighting &mdash; the smallest figure, and the only spendable one. Above, that reads <strong>50% / 11% / 8%</strong>. The last two are smaller by arithmetic, not by weakness: compression reaches tool results and tool inputs &mdash; about <strong>86% of message bytes</strong> on real transcripts &mdash; but never the system prompt, the tool schemas, your own words or the model's replies, and about <strong>30% of effective spend is output tokens</strong>, billed at 5&times; input, which no inbound compressor can reach. We say so rather than quote the flattering number alone. Your memory brain is never touched.</p>
+          </article>
+          <article class="card">
+            <h3>The prefix nobody was counting <span class="badge-new">v1.36</span></h3>
+            <p>The system prompt and tool schemas ride in front of <em>every</em> request, are re-sent every turn, and are exactly what a cache write is billed <strong>1.25&times;</strong> for. No compression layer can touch them &mdash; and until v1.36 nothing <em>counted</em> them, so the receipt could not explain its own ceiling. Termpolis now measures that head on every request and names it in plain text, separating <strong>its own MCP schemas from everyone else's</strong> (63 tokens of 3,123 on the machine above). It is measured <em>before</em> the round-trip guard on purpose: a request we decline to compress still costs money, and those were precisely the requests whose cost was invisible.</p>
+          </article>
+          <article class="card">
+            <h3>It tells you when the <em>conversation</em> is the cost <span class="badge-new">v1.37</span></h3>
+            <p>Every other control here shrinks the <em>body</em> of a request. This one measures what no compressor can reach: a long conversation <strong>re-reads its whole history every turn</strong>, and across <strong>24,163 requests in 89 real sessions</strong> that re-read is the largest line on the bill. Termpolis refits the curve from <em>your own</em> traffic and prices a turn on cache-read <strong>and</strong> cache-write together &mdash; so the price of establishing a fresh prefix is already inside the comparison, and no fudged &ldquo;cost of restarting&rdquo; constant is needed. Capping at 50 turns models to <strong>&minus;24% of the bill</strong> even after charging the full restart. It only ever <strong>advises</strong>: it never ends a session, and is deliberately not wired to anything that could.</p>
           </article>
         </div>
       </section>
@@ -1881,7 +1932,7 @@
           </article>
           <article class="card">
             <h3>CLI tool included</h3>
-            <p>termpolis-cli lets you control Termpolis from any terminal: list, create, run, read, close.</p>
+            <p><code>termpolis-cli</code> lets you control Termpolis from any terminal: list, create, run, read, close. Since <strong>v1.36</strong> it also reaches the shared brain &mdash; <code>primer</code>, <code>recall</code> and <code>remember</code> &mdash; so a CI job, a git hook or a plain script can read and write the same memory the app is built around.</p>
           </article>
           <article class="card">
             <h3>Security hardened</h3>
