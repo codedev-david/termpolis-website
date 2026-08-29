@@ -136,7 +136,7 @@ async function main() {
         warnings.push(`index.html code-graph tool-name list has ${code} names but the count is now ${f.cat.code} — add/remove the name(s).`)
     }
     if (name === 'docs.html') {
-      const rows = (after.match(/<tr><td><code>(?:list_|create_|run_|read_|close_|get_|write_|swarm_|memory_|code_)/g) || []).length
+      const rows = (after.match(/<tr><td><code>(?:list_|create_|run_|read_|close_|get_|write_|swarm_|memory_|code_|retrieve_)/g) || []).length
       if (rows !== f.total)
         warnings.push(`docs.html tool table has ${rows} tool rows but the release has ${f.total} — add the missing row(s) with descriptions.`)
     }
