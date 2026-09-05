@@ -196,7 +196,7 @@
 
       <h2>8. Security</h2>
       <p>Memory is encrypted at rest with AES-256-GCM. The remote channel uses X25519 key
-      agreement, HKDF-SHA256 key derivation and XChaCha20-Poly1305 authenticated encryption,
+      agreement, HKDF-SHA256 key derivation and ChaCha20-Poly1305 authenticated encryption,
       with the safety-word comparison above as the defence against a substituted key. The
       phone's private key sits in the platform keystore, not in application storage. The
       wire format is
