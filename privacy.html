@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Termpolis</title>
+  <meta name="description" content="What Termpolis and Termpolis Remote store, what they send, and what the pairing relay can see. Short version: your work stays on your machine.">
+  <link rel="canonical" href="https://termpolis.com/privacy.html">
+  <link rel="shortcut icon" href="logo-termpolis-titlebar.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Termpolis">
+  <meta property="og:url" content="https://termpolis.com/privacy.html">
+  <meta property="og:title" content="Privacy Policy — Termpolis">
+  <meta property="og:description" content="What Termpolis and Termpolis Remote store, what they send, and what the pairing relay can see.">
+  <link rel="stylesheet" href="styles.css?v=20260810">
+  <style>
+    .legal { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; line-height: 1.7; }
+    .legal h1 { margin-bottom: .35rem; }
+    .legal .stamp { color: #8b93a7; font-size: .9rem; margin: 0 0 2.5rem; }
+    .legal h2 { margin-top: 2.75rem; font-size: 1.25rem; }
+    .legal h3 { margin-top: 1.75rem; font-size: 1.02rem; }
+    .legal ul { padding-left: 1.15rem; }
+    .legal li { margin: .4rem 0; }
+    .legal code { font-size: .92em; }
+    /* The site's base rule is `a { color: inherit; text-decoration: none }`, which
+       is right for a nav and wrong for prose: a policy whose links are invisible is
+       a policy whose contact route is invisible. */
+    .legal a { color: #6cb6ff; text-decoration: underline; text-underline-offset: 2px; }
+    .legal a:hover { color: #9ccfff; }
+    .legal .callout {
+      border: 1px solid #2b3345; border-left: 3px solid #4aa3df; border-radius: 8px;
+      padding: 1rem 1.15rem; margin: 1.5rem 0; background: #ffffff08;
+    }
+    .legal table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: .95rem; }
+    .legal th, .legal td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid #2b3345; vertical-align: top; }
+    .legal th { color: #8b93a7; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Termpolis home">
+        <img class="brand-logo" src="logo-termpolis.svg" alt="Termpolis logo">
+        <span class="brand-text">Termpolis</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/#memory">Mneme</a>
+        <a href="/#security">Security</a>
+        <a href="/#features">Features</a>
+        <a href="/#downloads">Downloads</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+    </header>
+
+    <main class="legal">
+      <h1>Privacy Policy</h1>
+      <p class="stamp">Effective 5 September 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+
+      <div class="callout">
+        <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
+        your terminal sessions and the memory it builds from them stay there. We do not
+        operate an account system, we have no server that stores your work, and we cannot
+        read what you do with it. The phone app is a remote control for the desktop app,
+        end-to-end encrypted, and it stores nothing but its own key.</p>
+      </div>
+
+      <h2>1. Who we are, and how to reach us</h2>
+      <p>Termpolis is built by CodeDev LLC. The fastest way to reach us about anything in
+      this policy is
+      <a href="https://github.com/codedev-david/termpolis/issues" target="_blank" rel="noreferrer">GitHub issues</a>.
+      For something you would rather not raise in public, use the support contact listed on
+      the app's App Store or Google Play page, which reaches the same person.</p>
+
+      <h2>2. The desktop app</h2>
+
+      <h3>What stays on your computer</h3>
+      <p>Everything you work on. Termpolis is a terminal: it runs agents on your machine,
+      against your files, using the model account you are already signed in to. The
+      following live in your user data directory and are never uploaded by us:</p>
+      <ul>
+        <li>Terminal sessions, scrollback and command history.</li>
+        <li>The shared memory ("Mneme") built from your sessions and code — its text, its
+        embeddings and its graph. It is encrypted at rest with AES-256-GCM.</li>
+        <li>Your settings, workspaces, shell configuration and keybindings.</li>
+        <li>Any credentials the CLI agents you use store for themselves. Termpolis does not
+        read them and does not copy them anywhere.</li>
+      </ul>
+
+      <h3>What leaves your computer, and to whom</h3>
+      <table>
+        <tr><th>Goes to</th><th>What</th><th>When</th></tr>
+        <tr>
+          <td>Your model provider (Anthropic, OpenAI, Google)</td>
+          <td>The prompts, files and terminal context you send an agent — under
+          <em>your</em> account and <em>their</em> terms, exactly as if you ran their CLI
+          yourself.</td>
+          <td>Whenever you use an agent. We are not in this path and never see it.</td>
+        </tr>
+        <tr>
+          <td>GitHub</td>
+          <td>A version check, and the release you download.</td>
+          <td>On update checks and downloads.</td>
+        </tr>
+        <tr>
+          <td>Us (Sentry, anonymous events)</td>
+          <td>Crash reports, updater health, and anonymous feature counters.</td>
+          <td><strong>Only if you turn telemetry on.</strong> It is off by default.</td>
+        </tr>
+      </table>
+
+      <h3>Telemetry, if you enable it</h3>
+      <p>Off unless you switch it on, and a single switch controls all three tiers. When it
+      is on, the contract in the code is that no file paths, no terminal contents and no
+      user identifiers are sent. What is sent is the shape of a crash, whether an update
+      succeeded, and counts of feature use. When the switch is off every reporting path is a
+      no-op — not "buffered", not "sampled".</p>
+
+      <h2>3. Termpolis Remote (the phone app)</h2>
+      <p>Termpolis Remote is a remote control for a Termpolis desktop that is already
+      running. It runs no agent, holds no memory and holds no model credentials. On its own
+      it does nothing at all.</p>
+
+      <h3>What the phone stores</h3>
+      <ul>
+        <li>Its own private key, in the operating system's keystore (iOS Keychain / Android
+        Keystore), marked as available only while the device is unlocked and not backed up
+        to another device.</li>
+        <li>The pairing record: the desktop's public key, a random session identifier, the
+        relay address, a device id and the label you gave the desktop.</li>
+      </ul>
+      <p>That is the whole list. Terminal output reaches the phone encrypted, is held in
+      memory while the app is open, and is never written to disk. Unpairing erases the key
+      and the record, and it works whether or not the relay is reachable.</p>
+
+      <h3>The camera</h3>
+      <p>Used for one thing: scanning the pairing code your desktop displays. Frames are
+      decoded on the device and discarded. Nothing from the camera is stored or transmitted.</p>
+
+      <h3>What the phone app collects</h3>
+      <p>Nothing. There is no account, no analytics SDK, no crash reporter, no advertising
+      identifier and no server of ours that the app talks to. The
+      <a href="https://github.com/codedev-david/termpolis/blob/main/mobile/package.json" target="_blank" rel="noreferrer">dependency list</a>
+      is short on purpose and is checked by a test on every push, so this claim cannot drift
+      quietly.</p>
+
+      <h2>4. The pairing relay</h2>
+      <p>The phone and the desktop are usually on different networks, so they meet at a
+      relay we run. The relay is deliberately built so that trusting it is not required.</p>
+      <ul>
+        <li>Every message is encrypted end to end between your phone and your desktop.
+        The keys are derived when you pair, from both devices' identities, and never exist
+        anywhere else. The relay does not hold them and cannot derive them.</li>
+        <li>What the relay can see: an opaque room identifier, the size of each message,
+        and its timing. Not the contents, not your terminal, not what you typed.</li>
+        <li>The relay keeps no logs of your traffic and stores no messages. It forwards a
+        frame to the other end of the room and forgets it. A room with nobody in it is
+        discarded.</li>
+        <li>Transport is TLS, and the payload inside it is sealed separately. Both layers
+        would have to fail to expose anything.</li>
+      </ul>
+      <p>When you pair, both screens show the same eight words. They are derived from the
+      two device keys, so they match only if nothing is sitting in the middle. Comparing
+      them is the whole verification, and it takes a couple of seconds.</p>
+
+      <h2>5. What we never do</h2>
+      <ul>
+        <li>We do not sell or share personal information, in the sense the CCPA and CPRA use
+        those words. There is nothing to sell: we do not hold it.</li>
+        <li>We do not use your code, prompts or sessions to train anything.</li>
+        <li>We do not track you across apps or websites, and the app requests no tracking
+        permission because it has no use for one.</li>
+        <li>We do not run an advertising network or embed one.</li>
+      </ul>
+
+      <h2>6. Your choices and rights</h2>
+      <p>Because your data stays on your devices, most rights are exercised directly rather
+      than by asking us:</p>
+      <ul>
+        <li><strong>Erase everything on the phone:</strong> unpair in Settings, or delete the
+        app. Both destroy the key material.</li>
+        <li><strong>Cut the phone off from the desktop:</strong> revoke the device in the
+        desktop's Remote settings. Either end is enough — the channel cannot be re-opened
+        without both.</li>
+        <li><strong>Erase everything on the desktop:</strong> clear the memory store from
+        Settings, or delete the app's user data directory.</li>
+        <li><strong>Stop telemetry:</strong> switch it off in Settings. It is off by default.</li>
+      </ul>
+      <p>If you are in the EEA, the UK, California or another region with statutory data
+      rights and you believe we hold something about you, write to us and we will answer.
+      In almost every case the honest answer will be that we hold nothing, because the
+      architecture does not give us anywhere to put it.</p>
+
+      <h2>7. Children</h2>
+      <p>Termpolis is a developer tool and is not directed to children under 13. We do not
+      knowingly collect information from them, and there is no mechanism by which we could.</p>
+
+      <h2>8. Security</h2>
+      <p>Memory is encrypted at rest with AES-256-GCM. The remote channel uses X25519 key
+      agreement, HKDF-SHA256 key derivation and XChaCha20-Poly1305 authenticated encryption,
+      with the safety-word comparison above as the defence against a substituted key. The
+      phone's private key sits in the platform keystore, not in application storage. The
+      wire format is
+      <a href="https://github.com/codedev-david/termpolis/blob/main/docs/remote-wire-format.md" target="_blank" rel="noreferrer">documented in the open</a>,
+      and the two independent implementations of it are tested against each other on every
+      push.</p>
+      <p>No system is perfect. If you find a weakness, please tell us before you tell anyone
+      else — GitHub issues, or the support contact on the store listing.</p>
+
+      <h2>9. Changes to this policy</h2>
+      <p>If this policy changes materially, the date at the top changes with it and the
+      previous versions remain in this site's
+      <a href="https://github.com/codedev-david/termpolis-website/commits/main/privacy.html" target="_blank" rel="noreferrer">git history</a>,
+      so you can see exactly what changed and when.</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>Termpolis</p>
+      <p>
+        <a href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">GitHub</a> |
+        <a href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer">Sponsor</a> |
+        <a href="/privacy.html">Privacy</a> |
+        Open source | Apache 2.0 License | Free
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
