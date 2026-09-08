@@ -54,7 +54,7 @@
 
     <main class="legal">
       <h1>Privacy Policy</h1>
-      <p class="stamp">Effective 5 September 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+      <p class="stamp">Effective 8 September 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
 
       <div class="callout">
         <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
@@ -68,8 +68,9 @@
       <p>Termpolis is built by CodeDev LLC. The fastest way to reach us about anything in
       this policy is
       <a href="https://github.com/codedev-david/termpolis/issues" target="_blank" rel="noreferrer">GitHub issues</a>.
-      For something you would rather not raise in public, use the support contact listed on
-      the app's App Store or Google Play page, which reaches the same person.</p>
+      For something you would rather not raise in public, write to
+      <a href="mailto:support@termpolis.com">support@termpolis.com</a> — the same address
+      listed on the app's App Store and Google Play pages, and the same person either way.</p>
 
       <h2>2. The desktop app</h2>
 
@@ -125,12 +126,16 @@
         <li>Its own private key, in the operating system's keystore (iOS Keychain / Android
         Keystore), marked as available only while the device is unlocked and not backed up
         to another device.</li>
-        <li>The pairing record: the desktop's public key, a random session identifier, the
-        relay address, a device id and the label you gave the desktop.</li>
+        <li>One pairing record per desktop: that desktop's public key, a random session
+        identifier, the relay address, a device id and the name shown for it in the app.</li>
       </ul>
+      <p>A phone can be paired with several desktops at once — a work machine and a
+      home one, say. Each pairing has its own private key and its own record, written to the
+      keystore separately, so no two desktops see the same phone identity and forgetting one
+      leaves the rest untouched.</p>
       <p>That is the whole list. Terminal output reaches the phone encrypted, is held in
       memory while the app is open, and is never written to disk. Unpairing erases the key
-      and the record, and it works whether or not the relay is reachable.</p>
+      and the record for that desktop, and it works whether or not the relay is reachable.</p>
 
       <h3>The camera</h3>
       <p>Used for one thing: scanning the pairing code your desktop displays. Frames are
@@ -176,11 +181,11 @@
       <p>Because your data stays on your devices, most rights are exercised directly rather
       than by asking us:</p>
       <ul>
-        <li><strong>Erase everything on the phone:</strong> unpair in Settings, or delete the
-        app. Both destroy the key material.</li>
-        <li><strong>Cut the phone off from the desktop:</strong> revoke the device in the
+        <li><strong>Erase everything on the phone:</strong> forget each desktop in Settings,
+        or delete the app. Both destroy the key material.</li>
+        <li><strong>Cut the phone off from one desktop:</strong> revoke the device in that
         desktop's Remote settings. Either end is enough — the channel cannot be re-opened
-        without both.</li>
+        without both. Any other desktops the phone is paired with are unaffected.</li>
         <li><strong>Erase everything on the desktop:</strong> clear the memory store from
         Settings, or delete the app's user data directory.</li>
         <li><strong>Stop telemetry:</strong> switch it off in Settings. It is off by default.</li>
@@ -204,7 +209,8 @@
       and the two independent implementations of it are tested against each other on every
       push.</p>
       <p>No system is perfect. If you find a weakness, please tell us before you tell anyone
-      else — GitHub issues, or the support contact on the store listing.</p>
+      else — <a href="mailto:support@termpolis.com">support@termpolis.com</a>, or GitHub
+      issues if it is safe to say in public.</p>
 
       <h2>9. Changes to this policy</h2>
       <p>If this policy changes materially, the date at the top changes with it and the
