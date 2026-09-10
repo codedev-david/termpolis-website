@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Termpolis Remote — the phone app, and its support page</title>
+  <meta name="description" content="Termpolis Remote is a viewer and a keyboard for the terminals already running on your Termpolis desktop. End-to-end encrypted. Downloads, setup, troubleshooting and support.">
+  <link rel="canonical" href="https://termpolis.com/mobile/">
+  <link rel="shortcut icon" href="/logo-termpolis-titlebar.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Termpolis">
+  <meta property="og:url" content="https://termpolis.com/mobile/">
+  <meta property="og:title" content="Termpolis Remote — the phone app">
+  <meta property="og:description" content="Read and type in your Termpolis desktop's terminals from your phone. End-to-end encrypted. Requires the Termpolis desktop app.">
+  <link rel="stylesheet" href="/styles.css?v=20260810">
+  <style>
+    /* Scoped to this page. The site's base rule is `a { color: inherit }`, which is
+       right for a nav and wrong for prose — and wrong twice over on a support page
+       whose whole job is to hand someone a working contact route. */
+    .mob { max-width: 62rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    .mob p, .mob li { line-height: 1.7; }
+    .mob a:not(.button):not(.store-chip) { color: #6cb6ff; text-decoration: underline; text-underline-offset: 2px; }
+    .mob a:not(.button):not(.store-chip):hover { color: #9ccfff; }
+
+    .mob-hero { text-align: center; padding: 1rem 0 2.25rem; }
+    .mob-hero h1 { font-size: clamp(2rem, 5vw, 2.9rem); margin: .4rem 0 .6rem; }
+    .mob-hero .tagline { color: var(--muted); font-size: 1.08rem; max-width: 40rem; margin: 0 auto; }
+
+    /* The desktop requirement is the single most important sentence on the page: an
+       app that looks broken without its companion is the classic "minimum
+       functionality" rejection, and the fix is disclosure people actually read. */
+    .requires {
+      border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--radius-sm);
+      background: var(--surface-soft); padding: 1rem 1.15rem; margin: 2rem auto; max-width: 46rem;
+    }
+    .requires p { margin: 0; }
+
+    .store-row { display: flex; flex-wrap: wrap; gap: .85rem; justify-content: center; margin: 1.75rem 0 .5rem; }
+    .store-chip {
+      display: inline-flex; align-items: center; justify-content: center; min-width: 15.5rem;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: var(--surface-strong); padding: .85rem 1.1rem; text-align: left;
+    }
+    .store-chip .lede { display: block; font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+    .store-chip .name { display: block; font-weight: 600; }
+    .store-chip[aria-disabled="true"] { opacity: .62; cursor: default; }
+    .store-note { color: var(--muted); font-size: .92rem; text-align: center; margin: .35rem 0 0; }
+
+    .steps { counter-reset: step; list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1rem; }
+    .steps li {
+      counter-increment: step; position: relative; padding: 1rem 1.15rem 1rem 3.4rem;
+      border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface);
+    }
+    .steps li::before {
+      content: counter(step); position: absolute; left: 1.1rem; top: 1rem;
+      width: 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center;
+      background: rgba(102, 167, 255, .16); color: var(--sky); font-size: .9rem; font-weight: 700;
+    }
+    .steps strong { display: block; margin-bottom: .2rem; }
+
+    .two-up { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin-top: 1.25rem; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 1.1rem 1.25rem; }
+    .panel h3 { margin: 0 0 .6rem; font-size: 1.05rem; }
+    .panel ul { margin: 0; padding-left: 1.1rem; }
+    .panel li { margin: .35rem 0; }
+
+    .mob h2 { margin-top: 3rem; font-size: 1.45rem; }
+    .mob h2 + p { color: var(--muted); }
+
+    .faq { margin-top: 1.25rem; display: grid; gap: .6rem; }
+    .faq details {
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: var(--surface); padding: .85rem 1.15rem;
+    }
+    .faq summary { cursor: pointer; font-weight: 600; }
+    .faq summary::marker { color: var(--sky); }
+    .faq p { margin: .65rem 0 0; }
+    .faq code { font-size: .92em; }
+
+    .contact { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin-top: 1.25rem; }
+    .contact .panel p { margin: .35rem 0 0; color: var(--muted); font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Termpolis home">
+        <img class="brand-logo" src="/logo-termpolis.svg" alt="Termpolis logo">
+        <span class="brand-text">Termpolis</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/#memory">Mneme</a>
+        <a href="/#security">Security</a>
+        <a href="/#features">Features</a>
+        <a href="/#downloads">Downloads</a>
+        <a href="/mobile/" aria-current="page" class="active">Mobile</a>
+        <a href="/docs.html">Docs</a>
+      </nav>
+    </header>
+
+    <main class="mob">
+      <div class="mob-hero">
+        <p class="eyebrow">Termpolis Remote</p>
+        <h1>Your terminals, on your phone</h1>
+        <p class="tagline">
+          Check on the agents already running on your computer, read what they have
+          printed, and type back — from anywhere, end to end encrypted.
+        </p>
+
+        <div class="store-row">
+          <!-- When the listings go live, swap each span for a real anchor:
+               <a class="store-chip" href="https://apps.apple.com/app/idNNNNNNNNN"> … </a>
+               Nothing here links anywhere yet on purpose — a store badge that 404s is
+               worse than one that says "not yet". -->
+          <span class="store-chip" aria-disabled="true">
+            <span>
+              <span class="lede">In review</span>
+              <span class="name">App Store — iPhone</span>
+            </span>
+          </span>
+          <span class="store-chip" aria-disabled="true">
+            <span>
+              <span class="lede">Coming next</span>
+              <span class="name">Google Play — Android</span>
+            </span>
+          </span>
+        </div>
+        <p class="store-note">
+          Not out yet. The desktop app it pairs with is available now on
+          <a href="/#downloads">Windows, macOS and Linux</a>, free and open source.
+        </p>
+      </div>
+
+      <div class="requires">
+        <p><strong>Termpolis Remote needs the desktop app.</strong> It runs no agent, holds no
+        model credentials and does nothing on its own. You need Termpolis running on a Mac,
+        Windows or Linux machine with <em>Remote</em> switched on in Settings. The phone is a
+        viewer and a keyboard for that machine; close it and the work carries on without it.</p>
+      </div>
+
+      <h2 id="setup">Setting it up</h2>
+      <p>Two minutes, once per computer.</p>
+      <ol class="steps">
+        <li>
+          <strong>Turn Remote on, on the desktop</strong>
+          Settings &rsaquo; Remote &rsaquo; <em>Enable remote access</em>. The same panel is where you
+          choose what a phone is allowed to do: read output, start terminals, type, close terminals.
+        </li>
+        <li>
+          <strong>Scan the code the desktop shows</strong>
+          Point the phone at it. If the camera is awkward or switched off, the same code can be
+          pasted in by hand on the pairing screen — there is a field for it.
+        </li>
+        <li>
+          <strong>Compare the eight words</strong>
+          Both screens show the same eight words, derived from the two devices' keys. If they
+          match, nothing is sitting in between. If they do not, unpair and try again on a network
+          you trust. The words do not change while the pairing lasts, so they can be compared
+          again at any time.
+        </li>
+        <li>
+          <strong>Pair the next machine, if you have one</strong>
+          Up to 16. A work laptop, a home desktop, a Linux box in the corner. Each pairing has its
+          own key and its own name, and you switch between them from the terminal list.
+        </li>
+      </ol>
+
+      <h2 id="what-it-does">What it does, and what it does not</h2>
+      <div class="two-up">
+        <div class="panel">
+          <h3>It does</h3>
+          <ul>
+            <li>List the terminals running on the paired desktop, with what each one is doing.</li>
+            <li>Show what an agent has printed, live.</li>
+            <li>Type into a terminal, and send.</li>
+            <li>Start a new AI terminal in a directory the desktop already knows about.</li>
+            <li>Close a terminal.</li>
+            <li>Switch between the desktops you have paired, and forget any one of them.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>It does not</h3>
+          <ul>
+            <li>Run an agent, or hold a conversation of its own. Nothing executes on the phone.</li>
+            <li>Store your transcript. Output is held in memory while the app is open, never written to disk.</li>
+            <li>Ask you to make an account. There is no sign-in, because there is no server of ours to sign in to.</li>
+            <li>Collect anything. No analytics, no crash reporter, no advertising identifier.</li>
+            <li>Grant itself permissions. Every request is checked again on the desktop.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 id="security">Why it is safe to point at your own machine</h2>
+      <p>The relay in the middle is built so that trusting it is not required.</p>
+      <div class="two-up">
+        <div class="panel">
+          <h3>Encrypted end to end</h3>
+          <ul>
+            <li>X25519 key agreement, HKDF-SHA256, ChaCha20-Poly1305.</li>
+            <li>The keys are derived by the two devices when you pair, and exist nowhere else.</li>
+            <li>The relay sees a room id, a message size and a time. Not one byte of content.</li>
+            <li>TLS underneath, sealed payload inside. Both layers would have to fail.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Kept on the device</h3>
+          <ul>
+            <li>One private key per paired desktop, in the iOS Keychain / Android Keystore.</li>
+            <li>Available only while the device is unlocked, and not restored onto another device.</li>
+            <li>Unpairing erases that desktop's key and record — and works whether or not the relay is reachable.</li>
+            <li>Either end can revoke. The channel cannot be reopened without both.</li>
+          </ul>
+        </div>
+      </div>
+      <p>The <a href="https://github.com/codedev-david/termpolis/blob/main/docs/remote-wire-format.md" target="_blank" rel="noreferrer">wire format is published in full</a>,
+      and the desktop and phone implementations of it are tested against each other on every push.
+      The rest of the detail lives in the <a href="/privacy.html">privacy policy</a>.</p>
+
+      <h2 id="support">Support</h2>
+      <p>Something not working, or a question this page does not answer? Either route reaches the same person.</p>
+      <div class="contact">
+        <div class="panel">
+          <h3><a href="mailto:support@termpolis.com">support@termpolis.com</a></h3>
+          <p>Best for anything you would rather not put in public — a pairing problem with your
+          own machine names in it, or a security report. Please say which phone, which desktop
+          operating system, and which app version (Settings, at the bottom).</p>
+        </div>
+        <div class="panel">
+          <h3><a href="https://github.com/codedev-david/termpolis/issues" target="_blank" rel="noreferrer">GitHub issues</a></h3>
+          <p>Best for bugs and feature requests. Public, searchable, and it is where fixes get
+          tracked to a release. Termpolis is Apache 2.0 and developed in the open.</p>
+        </div>
+      </div>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <p>The handful of things that actually go wrong.</p>
+      <div class="faq">
+        <details>
+          <summary>The phone cannot find the desktop</summary>
+          <p>The desktop app has to be running, with Remote switched on in Settings — the phone
+          talks to it through the relay, not to a server that holds anything for you. If the
+          machine is asleep or the app is closed, there is nothing at the other end of the room.
+          The desktop's Settings &rsaquo; Remote panel shows the connection state and the phones
+          that are paired.</p>
+        </details>
+        <details>
+          <summary>The camera will not read the pairing code</summary>
+          <p>Use the field on the pairing screen and paste the code in by hand — it is the same
+          code, and pairing works identically. If the camera should work but the app never asks
+          for it, grant it in iOS Settings &rsaquo; Termpolis Remote &rsaquo; Camera. The camera is used
+          for this one thing; frames are decoded on the phone and thrown away.</p>
+        </details>
+        <details>
+          <summary>The eight safety words do not match</summary>
+          <p>Do not continue. Matching words mean the two devices agreed on a key that nothing in
+          between could derive; words that differ mean something is in between. Unpair on both
+          ends and pair again on a network you trust. Worth reporting to
+          <a href="mailto:support@termpolis.com">support@termpolis.com</a> if it happens on a
+          network you expected to be safe.</p>
+        </details>
+        <details>
+          <summary>Typing is greyed out, or a terminal will not start</summary>
+          <p>Those are permissions, and they are granted on the desktop, not on the phone:
+          Settings &rsaquo; Remote, per phone. The Settings screen in the app lists what the desktop
+          currently allows this phone to do. The phone can only report them — it cannot grant
+          itself anything, by design.</p>
+        </details>
+        <details>
+          <summary>The terminal list is empty</summary>
+          <p>The list shows terminals that already exist on that desktop. If none are open, start
+          one there, or use <em>New AI terminal</em> if the desktop has granted that permission.
+          If you have paired several computers, check you are looking at the right one — the
+          desktop's name is in the title bar, and <em>Desktops</em> switches between them.</p>
+        </details>
+        <details>
+          <summary>Output stops updating</summary>
+          <p>Reopen the terminal from the list. The phone holds output only in memory while the
+          app is on screen, so leaving it in the background for a long time can end the session.
+          Nothing is lost — the scrollback lives on the desktop, and reopening pulls it again.</p>
+        </details>
+        <details>
+          <summary>I want this phone off my machine entirely</summary>
+          <p>Either end is enough. On the phone: Settings &rsaquo; Desktops &rsaquo; <em>Remove</em>, which
+          erases that desktop's key and record. On the desktop: Settings &rsaquo; Remote, revoke the
+          device. Other pairings are untouched either way, and deleting the app destroys every
+          key it held.</p>
+        </details>
+      </div>
+
+      <h2 id="requirements">Requirements</h2>
+      <div class="two-up">
+        <div class="panel">
+          <h3>Phone</h3>
+          <ul>
+            <li>iPhone on iOS 16 or later. An Android build follows.</li>
+            <li>A network connection. The phone and the desktop do not have to be on the same one.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Desktop</h3>
+          <ul>
+            <li>Termpolis on Windows, macOS or Linux — <a href="/#downloads">free download</a>.</li>
+            <li>Remote switched on in Settings, plus the permissions you want this phone to have.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 id="privacy">Privacy</h2>
+      <p>Short version: the app collects nothing, there is no account, and no server of ours ever
+      sees your terminal. The
+      <a href="https://github.com/codedev-david/termpolis/blob/main/mobile/package.json" target="_blank" rel="noreferrer">dependency list</a>
+      is short on purpose and is checked by a test on every push, so that claim cannot drift
+      quietly. The full policy — desktop, phone and relay — is at
+      <a href="/privacy.html">termpolis.com/privacy.html</a>.</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>Termpolis</p>
+      <p>
+        <a href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">GitHub</a> |
+        <a href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer">Sponsor</a> |
+        <a href="/privacy.html">Privacy</a> |
+        <a href="mailto:support@termpolis.com">Support</a> |
+        Open source | Apache 2.0 License | Free
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
