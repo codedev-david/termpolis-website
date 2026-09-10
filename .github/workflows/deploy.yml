@@ -80,12 +80,24 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           set -uo pipefail
+          # Preflight: one connect test before mirroring ~90 files. Without it a host
+          # that has stopped answering on 21 burns --connect-timeout 30 x 6 attempts on
+          # EVERY file, so the job runs five hours and only then reports failure. That
+          # is exactly what happened when this domain's DNS moved behind a Cloudflare
+          # proxy on 2026-09-05: Cloudflare forwards HTTP/HTTPS and nothing else, so
+          # port 21 to the proxied name times out. Three deploys failed that way, over
+          # five days, before anyone noticed the site had stopped updating.
+          if ! curl --ssl-reqd -k -sS --connect-timeout 15 --max-time 45 \
+               --user "$FTP_USERNAME:$FTP_PASSWORD" --list-only "ftp://$FTP_HOST/" >/dev/null; then
+            echo "::error::Cannot reach FTP_HOST on port 21. If this host DNS is proxied through Cloudflare (orange cloud), port 21 is not forwarded. Point FTP_HOST at the GoDaddy origin -- cPanel > Files > FTP Accounts > Configure FTP Client -- or at a DNS record with the proxy switched off."
+            exit 1
+          fi
           files=$(git ls-files | grep -vE '^(downloads/|scripts/|LICENSE$|\.github/|\.gitignore$)')
           rc=0; n=0; ok=0
           while IFS= read -r f; do
             [ -n "$f" ] && [ -f "$f" ] || continue
             n=$((n+1))
-            if curl --ssl-reqd -k -sS --retry 5 --retry-all-errors --connect-timeout 30 \
+            if curl --ssl-reqd -k -sS --retry 5 --retry-all-errors --connect-timeout 30 --max-time 120 \
                  --ftp-create-dirs --user "$FTP_USERNAME:$FTP_PASSWORD" \
                  -T "$f" "ftp://$FTP_HOST/${f// /%20}"; then # %20-encode spaces in remote path
               ok=$((ok+1))
