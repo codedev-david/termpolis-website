@@ -60,7 +60,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=20260810">
+  <link rel="stylesheet" href="styles.css?v=20260922">
 
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "69e1842746294b5bbb72378c748cb522"}'></script>
@@ -102,6 +102,7 @@
             <li style="background:#f2b94b22;color:#f2b94b;border:1px solid #f2b94b55;border-radius:999px;padding:4px 10px;">🔀 Second Opinion · agents review each other</li>
             <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 100% local · no cloud · no telemetry</li>
             <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📦 Free &amp; open source</li>
+            <li style="background:#ff7a4522;color:#ff9a6e;border:1px solid #ff7a4555;border-radius:999px;padding:4px 10px;">📱 <a href="#mobile" style="color:inherit;text-decoration:none;">Termpolis Remote · now on iPhone</a></li>
           </ul>
           <p class="hero-text">
             At the heart of Termpolis is <strong>Mneme</strong> &mdash; a local memory brain that
@@ -1527,6 +1528,82 @@
         </div>
       </section>
 
+      <!-- MOBILE -->
+      <section id="mobile" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Termpolis Remote &middot; on the App Store</p>
+          <h2>Your agents keep working. Now you can watch them from anywhere.</h2>
+          <p>
+            A swarm does not stop because you left the desk. It stops because one agent hit a
+            question at 4pm and nobody was there to answer it. <strong>Termpolis Remote</strong> is
+            an iPhone app that reads and types in the terminals already running on your desktop,
+            end to end encrypted &mdash; so a three-hour block becomes a ten-second reply.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Live output, not a snapshot</h3>
+            <p>
+              Every session on that desktop, listed with a line of what it is currently doing, so
+              you can see which one needs you without opening all of them. Tap in and the output
+              streams as it is printed &mdash; ANSI colour, cursor moves, redraws intact.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Unblock a run from the queue at the shops</h3>
+            <p>
+              A real keyboard into the real session. Answer the prompt, approve the plan, paste
+              the flag it was waiting for. Send behaves exactly as it does on the machine, so
+              multi-line input and single-key confirmations both land right.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Up to 16 desktops in one pocket</h3>
+            <p>
+              Work laptop, home desktop, the Linux box in the cupboard. Each pairing has its own
+              key and its own name, and switching between them is one tap. Forgetting one leaves
+              the rest exactly as they were.
+            </p>
+          </article>
+          <article class="card">
+            <h3>The relay cannot read a byte</h3>
+            <p>
+              X25519 key agreement and ChaCha20-Poly1305, with the keys derived by your two
+              devices when you pair. The relay in the middle sees a room id, a size and a time.
+              Eight safety words on both screens let you check that for yourself, any time.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Your desktop keeps the permissions</h3>
+            <p>
+              Read output, start terminals, type, close terminals &mdash; each granted per phone, on
+              the desktop, and checked again there on every request. The phone can report what it
+              has been allowed. It cannot grant itself anything.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Nothing runs on the phone</h3>
+            <p>
+              No agent, no model credentials, no account, no analytics, no transcript written to
+              disk. It is a viewer and a keyboard for a machine that is already doing the work
+              &mdash; close it and the work carries on without it.
+            </p>
+          </article>
+        </div>
+        <aside class="companion-strip" style="margin-top:24px;">
+          <span class="platform-dot phone" aria-hidden="true"></span>
+          <div>
+            <h3>Free to install &middot; iPhone, iOS 16.4+</h3>
+            <p>Relay access is <strong>$4.99 a month</strong> with the first week free. The desktop
+            app stays free and open source. Android follows.</p>
+          </div>
+          <div class="strip-actions">
+            <a class="button" href="https://apps.apple.com/us/app/termpolis-r/id6809306362" target="_blank" rel="noreferrer">Get it on the App Store</a>
+            <a class="button button-secondary" href="/mobile/">How it works</a>
+          </div>
+        </aside>
+      </section>
+
       <!-- DOWNLOADS -->
       <section id="downloads" class="section reveal">
         <div class="section-heading">
@@ -1583,9 +1660,12 @@
             <h3>And on your phone</h3>
             <p><strong>Termpolis Remote</strong> reads and types in the terminals already running on
             your desktop, end to end encrypted. Not a second machine &mdash; a viewer and a keyboard
-            for this one.</p>
+            for this one. Free to install on iPhone; relay access $4.99 a month, first week free.</p>
           </div>
-          <a class="button button-secondary" href="/mobile/">Termpolis Remote</a>
+          <div class="strip-actions">
+            <a class="button" href="https://apps.apple.com/us/app/termpolis-r/id6809306362" target="_blank" rel="noreferrer">App Store</a>
+            <a class="button button-secondary" href="/mobile/">Termpolis Remote</a>
+          </div>
         </aside>
       </section>
 

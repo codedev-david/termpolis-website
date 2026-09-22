@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Termpolis Remote — the phone app, and its support page</title>
-  <meta name="description" content="Termpolis Remote is a viewer and a keyboard for the terminals already running on your Termpolis desktop. End-to-end encrypted. Downloads, setup, troubleshooting and support.">
+  <meta name="description" content="Termpolis Remote is a viewer and a keyboard for the terminals already running on your Termpolis desktop. On the App Store for iPhone. End-to-end encrypted. Setup, troubleshooting and support.">
   <link rel="canonical" href="https://termpolis.com/mobile/">
   <link rel="shortcut icon" href="/logo-termpolis-titlebar.svg">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Termpolis">
   <meta property="og:url" content="https://termpolis.com/mobile/">
   <meta property="og:title" content="Termpolis Remote — the phone app">
-  <meta property="og:description" content="Read and type in your Termpolis desktop's terminals from your phone. End-to-end encrypted. Requires the Termpolis desktop app.">
-  <link rel="stylesheet" href="/styles.css?v=20260810">
+  <meta property="og:description" content="Read and type in your Termpolis desktop's terminals from your phone. On the App Store for iPhone. End-to-end encrypted. Requires the Termpolis desktop app.">
+  <link rel="stylesheet" href="/styles.css?v=20260922">
   <style>
     /* Scoped to this page. The site's base rule is `a { color: inherit }`, which is
        right for a nav and wrong for prose — and wrong twice over on a support page
@@ -44,7 +44,23 @@
     .store-chip .lede { display: block; font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
     .store-chip .name { display: block; font-weight: 600; }
     .store-chip[aria-disabled="true"] { opacity: .62; cursor: default; }
+    a.store-chip { transition: border-color .15s ease, background .15s ease, transform .15s ease; }
+    a.store-chip:hover { border-color: rgba(102, 167, 255, .55); background: rgba(102, 167, 255, .1); transform: translateY(-1px); }
     .store-note { color: var(--muted); font-size: .92rem; text-align: center; margin: .35rem 0 0; }
+
+    /* Price gets its own block rather than a line of prose. Someone deciding
+       whether to install this is asking one question, and burying the answer in
+       a paragraph is how a listing earns a one-star review that says "didn't
+       say it was paid". */
+    .price {
+      border: 1px solid var(--line); border-left: 3px solid var(--sky); border-radius: var(--radius-sm);
+      background: var(--surface-soft); padding: 1.15rem 1.35rem; margin-top: 1.25rem;
+    }
+    .price .amount { font-size: 1.6rem; font-weight: 700; }
+    .price .amount span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .price .trial { color: var(--mint); font-weight: 600; margin: .15rem 0 .75rem; }
+    .price p { margin: .6rem 0 0; }
+    .price .fine { color: var(--muted); font-size: .9rem; }
 
     .steps { counter-reset: step; list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1rem; }
     .steps li {
@@ -108,16 +124,18 @@
         </p>
 
         <div class="store-row">
-          <!-- When the listings go live, swap each span for a real anchor:
-               <a class="store-chip" href="https://apps.apple.com/app/idNNNNNNNNN"> … </a>
-               Nothing here links anywhere yet on purpose — a store badge that 404s is
-               worse than one that says "not yet". -->
-          <span class="store-chip" aria-disabled="true">
+          <!-- Live since 2026-09-21. The App Store name is "Termpolis R" — the full
+               "Termpolis Remote" did not survive the 30-character name field once the
+               listing went in, so the link text says what the store says. The Android
+               chip stays a disabled span: a store badge that 404s is worse than one
+               that admits it is not there yet. -->
+          <a class="store-chip" href="https://apps.apple.com/us/app/termpolis-r/id6809306362"
+             target="_blank" rel="noreferrer">
             <span>
-              <span class="lede">In review</span>
+              <span class="lede">Download on the</span>
               <span class="name">App Store — iPhone</span>
             </span>
-          </span>
+          </a>
           <span class="store-chip" aria-disabled="true">
             <span>
               <span class="lede">Coming next</span>
@@ -126,8 +144,8 @@
           </span>
         </div>
         <p class="store-note">
-          Not out yet. The desktop app it pairs with is available now on
-          <a href="/#downloads">Windows, macOS and Linux</a>, free and open source.
+          Free to install, iPhone on iOS 16.4 or later. The desktop app it pairs with is
+          free and open source on <a href="/#downloads">Windows, macOS and Linux</a>.
         </p>
       </div>
 
@@ -136,6 +154,93 @@
         model credentials and does nothing on its own. You need Termpolis running on a Mac,
         Windows or Linux machine with <em>Remote</em> switched on in Settings. The phone is a
         viewer and a keyboard for that machine; close it and the work carries on without it.</p>
+      </div>
+
+      <h2 id="pricing">What it costs</h2>
+      <p>The app is free to install. One thing in it is not free, and it is the one thing it does.</p>
+      <div class="price">
+        <p class="amount">$4.99 <span>per month, auto-renewing</span></p>
+        <p class="trial">First week free for new subscribers.</p>
+        <p><strong>Relay access.</strong> Your phone does not reach your desktop directly — it
+        goes through a relay that we run and pay for, so that the two of them can find each other
+        across networks, carrier NAT and a locked-down office Wi-Fi. That relay is what the
+        subscription covers. It is also the part that can never read anything: it sees a room id,
+        a message size and a time, and forwards sealed bytes.</p>
+        <p><strong>The desktop app stays free and open source, forever.</strong> Nothing on your
+        computer is behind this. There is no free tier on the phone and nothing withheld from
+        subscribers either — relay access is the whole product, so it is the whole price.</p>
+        <p class="fine">Billed through your Apple ID. It renews each month unless you turn
+        auto-renew off at least 24 hours before the month ends, and you can cancel at any time in
+        iOS Settings &rsaquo; your name &rsaquo; Subscriptions. Cancelling during the free week costs
+        nothing. Terms of use:
+        <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noreferrer">Apple's standard EULA</a>.</p>
+      </div>
+
+      <h2 id="features">What you actually do with it</h2>
+      <p>Six things, and they are the six that matter when the machine with the work on it is
+      somewhere else.</p>
+      <div class="two-up">
+        <div class="panel">
+          <h3>Watch an agent work, live</h3>
+          <ul>
+            <li>Output streams from the desktop as it is printed — not a snapshot you pull.</li>
+            <li>ANSI colour, cursor movement and redraws are rendered, so a progress bar looks
+            like a progress bar and a diff keeps its colours.</li>
+            <li>The terminal list shows every session on that desktop with a line of what it is
+            currently doing, so you can see which one needs you without opening all of them.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Answer it</h3>
+          <ul>
+            <li>A keyboard that types into the real session. When an agent stops to ask a
+            question, you answer it from wherever you are.</li>
+            <li>Send is send — the same submit the desktop does, so multi-line pastes and
+            single-key confirmations both behave the way they do on the machine.</li>
+            <li>This is the whole reason the app exists: a run that would have sat blocked for
+            three hours gets unblocked in ten seconds.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Start something new</h3>
+          <ul>
+            <li><em>New AI terminal</em> launches a fresh session on the desktop — claude, codex,
+            gemini — in a directory that desktop already knows about.</li>
+            <li>You pick from what is there. The phone cannot name an arbitrary path, because it
+            never sees your filesystem.</li>
+            <li>Close a terminal from the phone too, when a run is finished with.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Carry up to 16 desktops</h3>
+          <ul>
+            <li>A work laptop, a home desktop, a Linux box in a cupboard — pair each one once.</li>
+            <li>Every pairing has its own key and its own name. Nothing is shared between them.</li>
+            <li>Switch from the terminal list. Forgetting one leaves the other fifteen exactly as
+            they were.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>The desktop stays in charge</h3>
+          <ul>
+            <li>Read output, start terminals, type, close terminals — four permissions, granted
+            per phone, on the desktop.</li>
+            <li>Every request is checked again on the desktop when it arrives. The phone can
+            report what it has been allowed; it cannot grant itself anything.</li>
+            <li>Revoke from either end, at any time, and the channel does not reopen.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Verifiable, not just claimed</h3>
+          <ul>
+            <li>Eight safety words on both screens after pairing. Matching words mean the two
+            devices derived a key nothing in between could.</li>
+            <li>They do not change while the pairing lasts, so you can compare them again next
+            week, not only on the day.</li>
+            <li>The wire format is published, and both implementations of it are tested against
+            each other on every push.</li>
+          </ul>
+        </div>
       </div>
 
       <h2 id="setup">Setting it up</h2>
@@ -292,8 +397,9 @@
         <div class="panel">
           <h3>Phone</h3>
           <ul>
-            <li>iPhone on iOS 16 or later. An Android build follows.</li>
+            <li>iPhone on iOS 16.4 or later. An Android build follows.</li>
             <li>A network connection. The phone and the desktop do not have to be on the same one.</li>
+            <li>A relay access subscription — <a href="#pricing">$4.99 a month, first week free</a>.</li>
           </ul>
         </div>
         <div class="panel">
