@@ -31,7 +31,7 @@
   <meta name="twitter:description" content="Every feature, panel, and shortcut in the AI terminal where Claude, Codex, and Gemini work as a team.">
   <meta name="twitter:image" content="https://termpolis.com/assets/screenshot-welcome.png">
 
-  <link rel="stylesheet" href="styles.css?v=20260922">
+  <link rel="stylesheet" href="styles.css?v=20260922b">
   <link rel="stylesheet" href="docs.css?v=20260705">
 
   <!-- Cloudflare Web Analytics -->
@@ -126,7 +126,7 @@
             <li><a href="#context-handoff">Cross-AI context handoff</a></li>
             <li><a href="#history">History search</a></li>
             <li><a href="#conversation">Conversation search</a></li>
-            <li><a href="#git">Git panel</a></li>
+            <li><a href="#git">Git panel &amp; diffs</a></li>
           </ul>
 
           <p class="docs-sidebar-eyebrow">AI &amp; swarm</p>
@@ -2131,19 +2131,110 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
           <!-- GIT -->
           <section id="git" class="docs-section">
-            <h2>Git panel</h2>
+            <h2>Git panel &amp; diffs</h2>
             <figure class="docs-shot">
-              <img src="docs/screenshots/17-git-panel.png" alt="Git panel.">
-              <figcaption>Staged/unstaged, inline diff, AI-drafted commit messages.</figcaption>
+              <img src="docs/screenshots/17-git-panel.png" alt="The Git panel before a repository has been chosen, offering an Open Folder button.">
+              <figcaption>
+                Opened from a terminal that is not inside a repository &mdash; the one case where
+                the panel asks you to pick a folder.
+              </figcaption>
             </figure>
             <p>
-              Current branch + ahead/behind, staged &amp; unstaged sections with inline diff, last 50
-              commits as a graph, actions for commit/push/pull/fetch/stash/branch switch. Click the
-              ✨ next to the commit-message input and an agent drafts a message from the staged diff.
+              Open it from the git icon in the sidebar. It finds the repository itself, from the
+              <strong>active terminal&rsquo;s working directory</strong>; if that directory is not
+              in one, it offers a folder picker and tells you plainly when the folder you chose
+              is not a repository. The detected root is shown under the title, and clicking it
+              lets you point somewhere else.
+            </p>
+            <p>The panel holds:</p>
+            <ul>
+              <li><strong>Current branch</strong>, beside the title.</li>
+              <li>
+                <strong>Staged Changes</strong> and <strong>Changes</strong>, each collapsible and
+                each with a count. Files carry a status letter &mdash; <code>M</code> modified,
+                <code>A</code> added, <code>D</code> deleted, <code>R</code> renamed,
+                <code>C</code> copied, <code>U</code> untracked &mdash; coloured, and named in full
+                on hover.
+              </li>
+              <li>
+                <strong>Stage / unstage.</strong> Hover a file for its <code>+</code> or
+                <code>&minus;</code>, or use <em>Stage All</em> / <em>Unstage All</em> on the
+                section header.
+              </li>
+              <li>
+                <strong>Click a filename to read its diff</strong> in place: additions green,
+                deletions red, <code>@@</code> hunk headers blue. <kbd>Esc</kbd> goes back to the
+                file list, <kbd>Esc</kbd> again closes the panel.
+              </li>
+              <li>
+                <strong>Commit</strong> &mdash; the message box appears once something is staged.
+                <kbd>Enter</kbd> commits. <strong>Pull</strong> and <strong>Push</strong> sit in
+                the header.
+              </li>
+            </ul>
+            <p>
+              Status is re-read every 3 seconds, so the panel does not go stale while an agent is
+              working underneath it. A clean tree says so rather than showing you two empty lists.
             </p>
             <p>
               Every action runs as a real <code>git</code> command in a spawned process, no
-              reimplementation, so you can always drop to the CLI and see the same state.
+              reimplementation, so you can always drop to the CLI and see the same state &mdash;
+              and your hooks, your config and your credential helper all apply exactly as they do
+              from a shell.
+            </p>
+            <p>
+              Commits and pushes made here pass the
+              <a href="#security-commit-shield">Commit &amp; Push Secret Shield</a> first: the
+              staged diff is scanned before a commit, every unpushed commit before a push, and a
+              hit blocks the operation rather than logging it.
+            </p>
+
+            <h3 id="git-diff-viewer">Reading a diff an agent printed</h3>
+            <p>
+              When output in a terminal looks like a diff, a <strong>View Diff</strong> button
+              appears in the top-right of that pane. It reads the pane&rsquo;s scrollback and
+              renders it as a diff rather than as coloured text: ANSI stripped, split per file on
+              <code>diff --git</code>, and <strong>real line numbers</strong> reconstructed from
+              each <code>@@</code> hunk header, so a line you are looking at is the line you would
+              open in an editor. There is a copy button for the whole thing.
+            </p>
+            <p>
+              This works on any diff that reaches a terminal &mdash; an agent&rsquo;s proposed
+              patch, a <code>git diff</code> you typed, output piped in from somewhere else.
+              Nothing has to have been staged, and it does not need to be a repository Termpolis
+              knows about.
+            </p>
+
+            <h3 id="git-dot">The git mark on every terminal</h3>
+            <p>
+              Each terminal row in the sidebar carries a small git mark &mdash; plain shells, AI
+              terminals, PowerShell, zsh and Git Bash alike, because a control that only sometimes
+              exists is one nobody learns to look at. Outside a repository it is a dim, inert
+              glyph with no click target.
+            </p>
+            <p>
+              Inside one it is grey and still when there is nothing outstanding, and
+              <strong>amber and pulsing</strong> when there is. Outstanding means staged
+              <em>or</em> modified <em>or</em> untracked <em>or</em> conflicted <em>or</em>
+              <strong>committed but not pushed</strong> &mdash; that last one because
+              committed-and-unpushed work is invisible everywhere else in the UI and is exactly
+              the state people lose work from. Hovering gives the breakdown:
+              <em>3 staged, 2 modified, 1 to push</em>.
+            </p>
+            <p>
+              <strong>Being behind the remote is shown but never pulses.</strong> That is someone
+              else&rsquo;s work arriving, not yours waiting, and on a busy shared repository it
+              would leave the mark pulsing permanently &mdash; which trains people to ignore it.
+            </p>
+            <p>
+              The mark follows the shell. <code>cd</code> into a repository and it lights up;
+              <code>cd</code> out and it goes inert, in every shell Termpolis supports
+              (<strong>v1.42.1</strong>). Polling is keyed by repository rather than by terminal,
+              so ten terminals open on one repository still cost one <code>git status</code>.
+            </p>
+            <p>
+              The current branch also appears in each terminal&rsquo;s status bar, parsed live
+              from the prompt.
             </p>
           </section>
 

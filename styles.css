@@ -721,6 +721,23 @@ code {
   background: var(--gold);
 }
 
+/* The git strip's dot is the amber "you have work waiting" mark the section describes,
+   so it pulses the way the real one does. Motion is decorative here and nothing depends
+   on it, so it stops entirely under prefers-reduced-motion. */
+.platform-dot.git {
+  background: var(--gold);
+  animation: git-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes git-dot-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(242, 185, 75, 0.45); }
+  50% { opacity: 0.72; box-shadow: 0 0 0 5px rgba(242, 185, 75, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-dot.git { animation: none; }
+}
+
 .companion-strip {
   display: flex;
   align-items: center;

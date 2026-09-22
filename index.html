@@ -60,7 +60,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=20260922">
+  <link rel="stylesheet" href="styles.css?v=20260922b">
 
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "69e1842746294b5bbb72378c748cb522"}'></script>
@@ -1952,6 +1952,97 @@
             </p>
           </article>
         </div>
+      </section>
+
+      <!-- GIT -->
+      <section id="git" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Git &amp; diffs</p>
+          <h2>Your repo state, where the work is happening</h2>
+          <p>
+            An agent changes files faster than you can watch. Termpolis keeps the answer to
+            &ldquo;what just changed, and have I pushed it?&rdquo; in the same window as the
+            terminal that changed it &mdash; a git panel, a diff reader, and a mark on every
+            terminal that goes amber the moment you have work waiting.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>The git panel</h3>
+            <p>
+              Opens from the sidebar and finds the repo itself, from the active terminal&rsquo;s
+              working directory &mdash; or point it at a folder. Current branch, staged and
+              unstaged sections with counts, and every file carrying its status letter &mdash;
+              <code>M</code> modified, <code>A</code> added, <code>D</code> deleted,
+              <code>R</code> renamed, <code>U</code> untracked.
+              Stage or unstage one file on hover, or all of them at once. Commit, pull, push.
+              It re-reads status every 3 seconds, so it is never showing you a stale tree.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Click a file, read the diff</h3>
+            <p>
+              Any changed file in the panel opens its diff in place &mdash; additions green,
+              deletions red, hunk headers blue. No external difftool, no leaving the window,
+              <kbd>Esc</kbd> back to the file list.
+            </p>
+          </article>
+          <article class="card">
+            <h3>When an agent prints a diff</h3>
+            <p>
+              Termpolis notices, and a <strong>View Diff</strong> button appears on the pane.
+              It takes the raw scrollback &mdash; ANSI and all &mdash; and renders it properly:
+              split per file on <code>diff --git</code>, real line numbers recovered from each
+              <code>@@</code> hunk header, one click to copy. A wall of coloured terminal text
+              becomes something you can actually review.
+            </p>
+          </article>
+          <article class="card">
+            <h3>The dot that means &ldquo;you have work waiting&rdquo;</h3>
+            <p>
+              Every terminal row carries a small git mark &mdash; plain shells and AI terminals
+              alike. Grey and still when the tree is clean; <strong>amber and pulsing</strong>
+              when anything is staged, modified, untracked, conflicted, or
+              <strong>committed but not pushed</strong>. That last one is the state people
+              actually lose work from, and nothing else in a terminal shows it. Hover for the
+              breakdown: <em>3 staged, 2 modified, 1 to push</em>.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Behind the remote doesn&rsquo;t pulse</h3>
+            <p>
+              A deliberate choice. Being behind is someone else&rsquo;s work arriving, not yours
+              waiting &mdash; and on a busy shared repo it would leave the dot pulsing forever,
+              which teaches you to ignore it. It is still in the tooltip. Only your own
+              outstanding work animates.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Real git, every time</h3>
+            <p>
+              Every action is a real <code>git</code> command in a spawned process &mdash; no
+              reimplementation, no bundled libgit. Your hooks run, your config applies, your
+              credential helper is the one that answers, and you can always drop to the CLI and
+              see the identical state. Status polling is shared per repository, so ten terminals
+              open on one repo is still one <code>git status</code>.
+            </p>
+          </article>
+        </div>
+        <aside class="companion-strip" style="margin-top:24px;">
+          <span class="platform-dot git" aria-hidden="true"></span>
+          <div>
+            <h3>And the commit itself is gated</h3>
+            <p>
+              The <strong>Commit &amp; Push Secret Shield</strong> scans the staged diff before a
+              commit and every unpushed patch before a push. A key in either one
+              <em>blocks</em> the operation and names the rule that caught it.
+            </p>
+          </div>
+          <div class="strip-actions">
+            <a class="button button-secondary" href="#security">Secret Shield</a>
+            <a class="button button-secondary" href="docs.html#git">Git docs</a>
+          </div>
+        </aside>
       </section>
 
       <!-- TERMINAL FEATURES -->
