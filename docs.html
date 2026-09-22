@@ -2394,7 +2394,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>close_terminal</code></td><td>Kill the underlying pty and remove the terminal.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Project context</td></tr>
                   <tr><td><code>get_file_tree</code></td><td>Walk the workspace's working directory and return a JSON file tree.</td></tr>
-                  <tr><td><code>get_git_status</code></td><td>Summarise the active repo: branch, ahead/behind, staged + unstaged files.</td></tr>
+                  <tr><td><code>get_git_status</code></td><td>Summarise the active repo: current branch, <code>git status --short</code>, and the last 5 commits.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Token Headroom</td></tr>
                   <tr><td><code>retrieve_full</code></td><td>Expand a compressed block back to the original text, from the token <a href="#headroom">Token Headroom</a> left in its place. This is what makes compression lossless: the agent asks for the detail on the rare turn it actually needs it.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Swarm coordination</td></tr>
