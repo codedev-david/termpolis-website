@@ -111,6 +111,7 @@
             <li><a href="#terminals">Terminals</a></li>
             <li><a href="#views">Tabs, splits &amp; grid</a></li>
             <li><a href="#settings">Settings</a></li>
+            <li><a href="#processes">Processes</a></li>
             <li><a href="#themes">Themes</a></li>
             <li><a href="#keybindings">Keybindings</a></li>
             <li><a href="#voice">Voice dictation</a></li>
@@ -1519,7 +1520,41 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
             <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in, and <a href="#safe-import">Safe Import</a>), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, and <strong>Shell Config</strong>.</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in, and <a href="#safe-import">Safe Import</a>), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, <strong>Shell Config</strong>, and <a href="#processes">Processes</a>.</p>
+          </section>
+
+          <!-- PROCESSES -->
+          <section id="processes" class="docs-section">
+            <h2>Processes</h2>
+            <p>
+              Headless AI runs, hooks and crashed sessions can leave processes behind that hold
+              memory, CPU and file handles long after anyone needs them.
+              <strong>Settings &rarr; Processes</strong> lists them in three groups and ends them for you.
+            </p>
+            <ul class="docs-list">
+              <li><strong>Headless AI agents</strong> &mdash; Claude Code (<code>-p</code>, <code>--print</code>, stream-json, <code>mcp serve</code>), Codex (<code>exec</code>, <code>app-server</code>, <code>mcp-server</code>) and Gemini CLI (<code>-p</code>, <code>--acp</code>) running non-interactively, and anything they started. Scripts, hooks, scheduled jobs and swarm workers run them this way, and so do editors and apps, which may be using one right now (an IDE extension, an MCP or ACP client). A headless run you started by hand in a terminal is listed too; an interactive session is not.</li>
+              <li><strong>Git</strong> &mdash; git that is frozen (Windows), lost the program that started it, or has run for more than 30 minutes. Git daemons are left out, and so is git someone is using: a git GUI or merge tool, or git waiting on a common pager or editor.</li>
+              <li><strong>Leftover shells &amp; tools</strong> &mdash; shells, <code>cmd /c</code> and PowerShell wrappers, MCP servers and tools whose parent is gone, or (on Windows) that are frozen. On macOS and Linux an orphaned shell, wrapper or tool is listed only while its tree still holds git, a headless agent or an MCP server. A launchd job is never taken for an orphan, and on Linux neither is anything inside a systemd service (on Debian and Ubuntu, that includes whatever a cron job leaves behind).</li>
+            </ul>
+            <p>
+              A <strong>STUCK</strong> badge marks what is usually safe to end: it listens on no TCP port,
+              nothing interactive is open in it (an agent CLI in a terminal, a git GUI or merge tool, or git
+              waiting on a common pager or editor), and it is frozen (Windows) or orphaned (the program that
+              started it has exited): a headless agent once it has been running for an hour, git once it has
+              run for 30 minutes and never for git's own gc or maintenance, anything else as soon as it is
+              listed. Stuck is judged from process state alone: a download or script you detached on purpose
+              looks the same, and only a TCP listener counts as a server &mdash; one on UDP, a named pipe, a
+              Unix socket or stdio can still be marked stuck &mdash; so check the command before you kill.
+              <strong>Kill selected</strong> and <strong>Kill all stuck</strong> end the whole process tree
+              after an inline confirmation. Every target is checked again against a fresh scan first, and
+              skipped rather than killed if it has exited, is no longer listed, or its pid now belongs to a
+              different program.
+            </p>
+            <p>
+              Scanning happens only when the tab opens or you press <strong>Refresh</strong>, never on a timer.
+              Command lines are shown with common secret formats masked (best effort) and your home folder
+              shortened to <code>~</code>. Termpolis itself and its own terminal shells are never listed.
+            </p>
           </section>
 
           <!-- THEMES -->
