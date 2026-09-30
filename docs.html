@@ -2422,7 +2422,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               instead of pressing Enter on whatever is highlighted. It never answers a permission,
               approval or MCP prompt, a <code>[Y/n]</code> question or a numbered choice &mdash;
               those wait for you &mdash; and while your agents aren't connected it doesn't answer
-              the folder-trust prompt either. <strong>Disconnect</strong> in Settings → Agent
+              the folder-trust prompt either. On an agent's first-run screens it still presses
+              Enter and takes the default: Claude Code's intro splash, its theme and login-method
+              pickers, and Gemini CLI's terms and sign-in screens. <strong>Disconnect</strong> in Settings → Agent
               Integration removes everything Termpolis wrote. Uninstalling on Windows does the same
               (an update doesn't), and <code>Termpolis --disconnect-agents</code> does it from the
               command line on any platform.
