@@ -55,7 +55,7 @@
 
     <main class="legal">
       <h1>Privacy Policy</h1>
-      <p class="stamp">Effective 8 September 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+      <p class="stamp">Effective 29 September 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
 
       <div class="callout">
         <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
@@ -86,7 +86,26 @@
         <li>Your settings, workspaces, shell configuration and keybindings.</li>
         <li>Any credentials the CLI agents you use store for themselves. Termpolis does not
         read them and does not copy them anywhere.</li>
+        <li>The original text of whatever Termpolis's token compression shortened, so an
+        agent can ask for it back. This store is capped at 200 MB and, unlike the memory,
+        is <strong>not</strong> encrypted.</li>
       </ul>
+      <p>Termpolis also changes your coding agents' own settings, but only if you connect
+      them. The first step of the first-run tour shows exactly what it would change for each
+      agent installed on your computer, and nothing is written until you finish or skip the
+      tour; both of its boxes start ticked, and you can clear either. Versions before 1.49
+      connected them without asking, so after an update from one they stay connected until
+      you answer the one-time question Termpolis then asks. Connected, Termpolis
+      adds its local MCP server to the Claude Code, Codex and Gemini CLI settings. In Claude
+      Code it also lets its read-only and memory tools run without asking (tools that run
+      commands or type into a terminal still ask), in Codex its memory tools, and in both it
+      marks folders you open the agent in as trusted — never your home folder, a folder
+      above it, a drive root or a network share. The second box adds a Claude Code start-up
+      hook that loads your project memory whenever a Claude Code session starts, including
+      sessions started outside Termpolis. Settings → Agent Integration lists every change
+      and lets you connect or disconnect at any time. <strong>Disconnect</strong> removes
+      what Termpolis wrote, and so does uninstalling on Windows. Folder trust that a version
+      before 1.49 added can't be told apart from trust you gave yourself, so that stays.</p>
 
       <h3>What leaves your computer, and to whom</h3>
       <table>
@@ -99,23 +118,51 @@
           <td>Whenever you use an agent. We are not in this path and never see it.</td>
         </tr>
         <tr>
+          <td>Anthropic, through a proxy on your own computer</td>
+          <td>Claude Code's requests, after a compression proxy running on your machine has
+          shortened tool results and pasted images. What Claude asked a tool to do (a
+          command, a file edit) is never rewritten.</td>
+          <td>By default, for Claude Code sessions Termpolis launches. It forwards only to
+          <code>api.anthropic.com</code>, steps aside if you already route Claude Code
+          yourself, and one switch in Settings → Token Savings turns it off. We never see
+          this traffic either.</td>
+        </tr>
+        <tr>
           <td>GitHub</td>
           <td>A version check, and the release you download.</td>
           <td>On update checks and downloads.</td>
         </tr>
         <tr>
-          <td>Us (Sentry, anonymous events)</td>
-          <td>Crash reports, updater health, and anonymous feature counters.</td>
-          <td><strong>Only if you turn telemetry on.</strong> It is off by default.</td>
+          <td>Us (Sentry)</td>
+          <td>Crash reports; and, separately, one anonymous launch event a day carrying the
+          app version.</td>
+          <td><strong>Only what you turn on.</strong> Two separate switches, both off by
+          default.</td>
         </tr>
       </table>
 
       <h3>Telemetry, if you enable it</h3>
-      <p>Off unless you switch it on, and a single switch controls all three tiers. When it
-      is on, the contract in the code is that no file paths, no terminal contents and no
-      user identifiers are sent. What is sent is the shape of a crash, whether an update
-      succeeded, and counts of feature use. When the switch is off every reporting path is a
-      no-op — not "buffered", not "sampled".</p>
+      <p>There are two switches, <em>Send crash reports</em> and <em>Send anonymous usage
+      statistics</em>. Both are off until you tick them — on the last step of the first-run
+      tour, in the one-time question an update from an older version asks, or in Settings →
+      General → Privacy, where either can be changed at any time. If Termpolis cannot find
+      a choice you made, both stay off and it asks again.</p>
+      <ul>
+        <li><strong>Crash reports</strong> carry the error, its stack trace and the app
+        events just before it, the app version and basic system details (OS, Electron
+        version, CPU, memory, screen size). The same switch covers update failures, unclean
+        exits and swarm errors. Before a report is sent, your home-folder paths become
+        <code>&lt;home&gt;</code>, your user name becomes <code>&lt;user&gt;</code>, and the
+        machine name, your locale and your time zone are removed. A report never includes a
+        memory dump, a screenshot, local variables, the source code around the error or
+        console output.</li>
+        <li><strong>Usage statistics</strong> are one "launched" event a day that carries
+        only the app version, so we can count active installs. Short app events (that a
+        swarm started, say) are recorded only while this is on, and leave your computer only
+        inside a crash report.</li>
+      </ul>
+      <p>When a switch is off, its reporting path is a no-op — not "buffered", not
+      "sampled" — and nothing saved up is sent after you turn it off.</p>
 
       <h2>3. Termpolis Remote (the phone app)</h2>
       <p>Termpolis Remote is a remote control for a Termpolis desktop that is already
@@ -189,7 +236,15 @@
         without both. Any other desktops the phone is paired with are unaffected.</li>
         <li><strong>Erase everything on the desktop:</strong> clear the memory store from
         Settings, or delete the app's user data directory.</li>
-        <li><strong>Stop telemetry:</strong> switch it off in Settings. It is off by default.</li>
+        <li><strong>Stop telemetry:</strong> Settings → General → Privacy has one switch for
+        crash reports and one for usage statistics. Both are off by default.</li>
+        <li><strong>Turn the compression proxy off:</strong> untick <em>Route new Claude Code
+        sessions through the local compression proxy</em> in Settings → Token Savings. New
+        Claude Code sessions then go straight to Anthropic.</li>
+        <li><strong>Undo the agent connection:</strong> Disconnect in Settings → Agent
+        Integration removes the changes Termpolis made to your coding agents' settings.
+        Uninstalling on Windows does the same; on macOS and Linux, disconnect before you
+        remove the app.</li>
       </ul>
       <p>If you are in the EEA, the UK, California or another region with statutory data
       rights and you believe we hold something about you, write to us and we will answer.

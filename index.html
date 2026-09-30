@@ -100,7 +100,7 @@
             <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 Mneme · one memory, all 3 agents</li>
             <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🌱 Learns from every session</li>
             <li style="background:#f2b94b22;color:#f2b94b;border:1px solid #f2b94b55;border-radius:999px;padding:4px 10px;">🔀 Second Opinion · agents review each other</li>
-            <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 100% local · no cloud · no telemetry</li>
+            <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 100% local · no cloud · no telemetry unless you opt in</li>
             <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📦 Free &amp; open source</li>
             <li style="background:#ff7a4522;color:#ff9a6e;border:1px solid #ff7a4555;border-radius:999px;padding:4px 10px;">📱 <a href="#mobile" style="color:inherit;text-decoration:none;">Termpolis Remote · now on iPhone</a></li>
           </ul>
@@ -130,7 +130,7 @@
           <ul class="hero-points" aria-label="Key product highlights">
             <li><strong>Never re-explain context</strong> — a fresh Codex or Gemini terminal opens already knowing your project</li>
             <li><strong>Learns automatically</strong> — distills the fix, the decision, the gotcha from every session</li>
-            <li><strong>100% local &amp; private</strong> — in-process embeddings, default-on at-rest encryption (OS-keychain device key), no server, no telemetry</li>
+            <li><strong>100% local &amp; private</strong> — in-process embeddings, default-on at-rest encryption (OS-keychain device key), no server, no telemetry unless you opt in</li>
             <li><strong>Runs your real agents</strong> — Claude, Codex, Gemini unchanged, with prompt security scanning + an optional swarm</li>
           </ul>
         </div>
@@ -155,7 +155,7 @@
         </article>
         <article>
           <strong>0.97+ recall · 100% local</strong>
-          <span>In-process embeddings, millisecond retrieval, CI-proven cross-agent recall — no server, no telemetry</span>
+          <span>In-process embeddings, millisecond retrieval, CI-proven cross-agent recall — no server, no telemetry unless you opt in</span>
         </article>
       </section>
 
@@ -597,7 +597,7 @@
                 <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ in-app models only</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;">100% local / offline / no telemetry</td>
+                <td style="padding:12px 18px;">100% local / offline / no telemetry unless you opt in</td>
                 <td style="padding:12px;color:#7ee2a3;">✅ on-device WASM, no server</td>
                 <td style="padding:12px;">❌ cloud model</td>
                 <td style="padding:12px;">❌ cloud</td>
@@ -638,7 +638,7 @@
           </article>
           <article class="card">
             <h3>Read-only &amp; safe by design</h3>
-            <p>A review needs no file access, so it runs the agent in one-shot headless mode &mdash; nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong>, never on a command line, so a prompt scraped from your terminal can't inject a command.</p>
+            <p>A review needs no file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools, Codex in its read-only sandbox, <code>agy</code> in plan mode &mdash; so nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong>, never on a command line, so a prompt scraped from your terminal can't inject a command.</p>
           </article>
           <article class="card">
             <h3>Only what's installed shows up</h3>
@@ -661,7 +661,7 @@
         </div>
         <div class="headroom-shots">
           <figure class="dashboard-preview shot-preview">
-            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings.png" data-lightbox-alt="Termpolis Settings → Token Savings: net tokens saved all-time, the same saving measured three ways, the floor check, the untouched prefix, the session-depth advisory, output steering, and the always-on Claude Code compression card." aria-label="Open the Token Savings receipt screenshot full size">
+            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings.png" data-lightbox-alt="Termpolis Settings → Token Savings: net tokens saved all-time, the same saving measured three ways, the floor check, the untouched prefix, the session-depth advisory, output steering, and the Claude Code compression card." aria-label="Open the Token Savings receipt screenshot full size">
               <img src="assets/screenshot-token-savings.png" width="1368" height="912" loading="lazy" alt="Token Savings settings tab: 1,531,703,480 tokens saved all-time, and the same saving stated three ways — 50% of compressible text, 11% of all input tokens, 8% of effective cost.">
               <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View full size</span>
             </button>
@@ -673,11 +673,11 @@
           </figure>
           <figure class="dashboard-preview shot-preview">
             <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings-controls.png" data-lightbox-alt="The Claude Code compression card — tool results versus tool inputs, images compressed, prompt-cache health — followed by every Token Headroom control: compression tier, savings floor, history age-out, output-token steering and the extended-thinking budget cap." aria-label="Open the Token Headroom controls screenshot full size">
-              <img src="assets/screenshot-token-savings-controls.png" width="1368" height="912" loading="lazy" alt="The always-on Claude Code compression card with prompt-cache health, above the Token Headroom controls: aggressiveness tier, 50% savings floor, history age-out, output steering and thinking-budget cap.">
+              <img src="assets/screenshot-token-savings-controls.png" width="1368" height="912" loading="lazy" alt="The Claude Code compression card with prompt-cache health, above the Token Headroom controls: aggressiveness tier, 50% savings floor, history age-out, output steering and thinking-budget cap.">
               <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View full size</span>
             </button>
             <figcaption class="dashboard-caption">
-              The same pane, scrolled: the <strong>always-on Claude Code proxy</strong> with its own receipt and a
+              The same pane, scrolled: the <strong>Claude Code compression proxy</strong> (on by default) with its own receipt and a
               live <strong>prompt-cache health</strong> line, then every control &mdash; tier, savings floor,
               history age-out, output steering, thinking-budget cap.
             </figcaption>
@@ -685,8 +685,8 @@
         </div>
         <div class="feature-grid" style="margin-top:28px;">
           <article class="card">
-            <h3>Always on for Claude Code</h3>
-            <p>Every Claude session launches through a <strong>local, off-thread compression proxy</strong> &mdash; its own process, never the UI/PTY thread. No toggle, no setup. If it's ever unhealthy the launch goes <strong>direct</strong>, and a live session self-heals when the proxy recovers &mdash; so a hiccup costs you compression, <em>not</em> your agent.</p>
+            <h3>On by default for Claude Code &mdash; and yours to switch off</h3>
+            <p>Every Claude session launches through a <strong>local, off-thread compression proxy</strong> &mdash; its own process, never the UI/PTY thread &mdash; that forwards to <code>api.anthropic.com</code> and nowhere else. No setup, and one switch in <strong>Settings &rarr; Token Savings</strong> sends new sessions direct instead. Already route Claude Code yourself? If <code>ANTHROPIC_BASE_URL</code>, <code>HTTPS_PROXY</code> / <code>HTTP_PROXY</code> / <code>ALL_PROXY</code>, or a Bedrock / Vertex / Foundry switch is set &mdash; in Termpolis's environment or in the <code>env</code> block of Claude Code's own <code>settings.json</code> &mdash; the proxy <strong>steps aside</strong>: Claude Code keeps your route, nothing is compressed, and Settings names the variable it found. If it's ever unhealthy the launch goes <strong>direct</strong>, and a live session self-heals when the proxy recovers &mdash; so a hiccup costs you compression, <em>not</em> your agent.</p>
           </article>
           <article class="card">
             <h3>It shrinks what actually costs you</h3>
@@ -702,7 +702,7 @@
           </article>
           <article class="card">
             <h3>What the agent <em>wrote</em> is never rewritten <span class="badge-new">v1.37.1</span></h3>
-            <p>A tool <em>result</em> is something the model watched happen &mdash; eliding it is safe, because the model knows it didn't write those bytes and can ask for them back. A tool <strong>input</strong> is not: those are bytes the model itself emitted, and it <strong>replays them verbatim into your files and shells</strong> on the next turn. Compressing them rewrote history, and an elision marker became a real artifact &mdash; <code>[headroom]: command not found</code> in a shell, a stray <code>&hellip;</code> in a source file. Artifact-bearing fields (<code>content</code>, <code>command</code>, <code>file_text</code>, <code>old_str</code>/<code>new_str</code>, <code>patch</code>) now pass through <strong>untouched</strong>, keyed on behaviour rather than on which client sits in front of the proxy. It costs <strong>~1.7% of measured savings</strong>. That is the right trade.</p>
+            <p>A tool <em>result</em> is something the model watched happen &mdash; eliding it is safe, because the model knows it didn't write those bytes and can ask for them back. A tool <strong>input</strong> is not: those are bytes the model itself emitted, and it <strong>replays them verbatim into your files and shells</strong> on the next turn. Compressing them rewrote history, and an elision marker became a real artifact &mdash; <code>[headroom]: command not found</code> in a shell, a stray <code>&hellip;</code> in a source file. v1.37.1 stopped touching the artifact-bearing fields (<code>content</code>, <code>command</code>, <code>file_text</code>, <code>old_str</code>/<code>new_str</code>, <code>patch</code>), keyed on behaviour rather than on which client sits in front of the proxy, for <strong>~1.7% of measured savings</strong>. Since <strong>v1.49</strong> the proxy <strong>never rewrites any part of a tool call's input, at any age</strong> &mdash; a subagent prompt included, and aging out old history skips inputs too &mdash; because the model reuses its own earlier inputs as templates. Inputs are still <em>read</em> as dedup keys, so a result that reads back a file the agent just wrote still collapses. That is the right trade.</p>
           </article>
           <article class="card">
             <h3>Prompt-cache safe &mdash; proven</h3>
@@ -710,11 +710,11 @@
           </article>
           <article class="card">
             <h3>Measured, not asserted</h3>
-            <p>4,183 real requests from one developer's own transcripts &mdash; <strong>35.2 GB of request bodies</strong> &mdash; replayed through the compressor. At the shipped default: <strong>61.0% of compressible tool text removed</strong>, median request <strong>61.4%</strong>, and <strong>93.8% of requests clear 50%</strong>. At the Maximum tier, <strong>72.3%</strong>. A regression test fails the build if a threshold is ever loosened. The live all-time figure in the screenshot above is <strong>50%</strong> across 1.5 billion tokens &mdash; a different and much larger corpus, and it is the app's own running number rather than the lab's.</p>
+            <p>4,183 real requests from one developer's own transcripts &mdash; <strong>35.2 GB of request bodies</strong> &mdash; replayed through the compressor. At the shipped default: <strong>61.0% of compressible tool text removed</strong>, median request <strong>61.4%</strong>, and <strong>93.8% of requests clear 50%</strong>. At the Maximum tier, <strong>72.3%</strong>. (Measured before v1.49 stopped compressing tool-call inputs.) A regression test fails the build if a threshold is ever loosened. The live all-time figure in the screenshot above is <strong>50%</strong> across 1.5 billion tokens &mdash; a different and much larger corpus, and it is the app's own running number rather than the lab's.</p>
           </article>
           <article class="card">
             <h3>The receipt states its denominator <span class="badge-new">v1.34</span></h3>
-            <p>&ldquo;50% saved&rdquo; is meaningless without a base, so <strong>Settings &rarr; Token Savings</strong> shows all three honest ones side by side: the <strong>compressible wire text</strong> the compressor actually sees, <strong>all input tokens</strong> including the cached prefix re-read every turn, and <strong>effective cost</strong> after cache weighting &mdash; the smallest figure, and the only spendable one. Above, that reads <strong>50% / 11% / 8%</strong>. The last two are smaller by arithmetic, not by weakness: compression reaches tool results and tool inputs &mdash; about <strong>86% of message bytes</strong> on real transcripts &mdash; but never the system prompt, the tool schemas, your own words or the model's replies, and about <strong>30% of effective spend is output tokens</strong>, billed at 5&times; input, which no inbound compressor can reach. We say so rather than quote the flattering number alone. Your memory brain is never touched.</p>
+            <p>&ldquo;50% saved&rdquo; is meaningless without a base, so <strong>Settings &rarr; Token Savings</strong> shows all three honest ones side by side: the <strong>compressible wire text</strong> the compressor actually sees, <strong>all input tokens</strong> including the cached prefix re-read every turn, and <strong>effective cost</strong> after cache weighting &mdash; the smallest figure, and the only spendable one. Above, that reads <strong>50% / 11% / 8%</strong>. The last two are smaller by arithmetic, not by weakness: compression reaches tool results and pasted images only &mdash; never a tool call's input, the system prompt, the tool schemas, your own words or the model's replies &mdash; and about <strong>30% of effective spend is output tokens</strong>, billed at 5&times; input, which no inbound compressor can reach. We say so rather than quote the flattering number alone. Your memory brain is never touched.</p>
           </article>
           <article class="card">
             <h3>The prefix nobody was counting <span class="badge-new">v1.36</span></h3>
@@ -904,7 +904,7 @@
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Wire-level token compression before the model</strong><br><span style="opacity:0.7;font-size:12px;">Shrinking the file reads, command output and images the agent sends on every turn — not just showing you how much context is left</span></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Always-on local proxy — 61% of compressible tool text removed, prompt cache preserved, fully reversible</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local proxy, on by default — 61% of compressible tool text removed, prompt cache preserved, fully reversible</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ None shipped; a context-usage HUD is still an open request</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ None published</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Shows context-window and token usage; no compression</td>
@@ -1000,7 +1000,7 @@
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Termpolis-side telemetry on you</strong><br><span style="opacity:0.7;font-size:12px;">Lower is better — what the tool itself collects</span></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ None by default · opt-in crash reports only</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ None by default · crash reports and usage stats are separate opt-ins, both off</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Product analytics</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Anonymized telemetry (opt-out)</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Anonymous usage stats, opt-out</td>
@@ -1336,8 +1336,10 @@
             <p>
               No browser extension, no IDE plug-in, no Termpolis cloud sync. The MCP server
               binds to <code>127.0.0.1</code> with a 256-bit token rotated every launch.
-              No Termpolis telemetry, no Termpolis accounts, optional crash reporting that
-              redacts user-folder paths.
+              No Termpolis accounts, and no Termpolis telemetry unless you opt in: crash
+              reports and anonymous usage statistics are two separate switches, both off by
+              default, and a crash report swaps your home-folder paths and user name for
+              placeholders before it is sent.
               <strong>Limit:</strong> Termpolis is itself an Electron app — same caveats
               apply as any local desktop process running with your privileges.
             </p>
@@ -1853,7 +1855,7 @@
             <p>
               Built-in HTTP/SSE server on localhost:9315 with 39 tools. AI agents create terminals,
               run commands, read output, manage your workspace, and tap a shared memory that learns
-              from every session. Auto-registers with Claude Code, Codex, and Gemini.
+              from every session. Connects to Claude Code, Codex, and Gemini once you say so.
             </p>
           </article>
           <article class="card">
@@ -2109,8 +2111,8 @@
             <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 14 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts, audit) + 6 code-graph tools (explore, callers, callees, impact, search, locate).</p>
           </article>
           <article class="card">
-            <h3>Auto-registers with every agent</h3>
-            <p>On launch, Termpolis adds itself to Claude Code, Codex, and Gemini CLI config files. Zero configuration needed.</p>
+            <h3>Connects to every agent &mdash; after it asks</h3>
+            <p>Termpolis shows you exactly what it would add to the Claude Code, Codex, and Gemini CLI config files on the first step of the tour, and writes nothing until you finish or skip it &mdash; the <strong>Connect agents</strong> box starts ticked, and clearing it says no. <strong>Settings &rarr; Agent Integration</strong> lists every change, and <strong>Disconnect</strong> removes all of it.</p>
           </article>
           <article class="card">
             <h3>CLI tool included</h3>
@@ -2118,7 +2120,7 @@
           </article>
           <article class="card">
             <h3>Security hardened</h3>
-            <p>256-bit auth token, localhost only, CORS restricted, no plugins, no telemetry. Atomic file writes.</p>
+            <p>256-bit auth token, localhost only, CORS restricted, no plugins, no telemetry unless you opt in. Atomic file writes.</p>
           </article>
         </div>
       </section>

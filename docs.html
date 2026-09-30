@@ -264,7 +264,7 @@
             <ul class="docs-list">
               <li><strong>Local-first.</strong> Every check runs on the machine. None of these features send data to Termpolis or any third party.</li>
               <li><strong>Native, not a browser/IDE plugin.</strong> Termpolis is a terminal manager, not a Chrome extension piping your buffer to a SaaS backend.</li>
-              <li><strong>No telemetry.</strong> No login, no phone-home. Optional crash reporting is opt-in and redacts user-folder paths first.</li>
+              <li><strong>No telemetry unless you opt in.</strong> No login, no phone-home. Crash reports and anonymous usage statistics are two separate opt-ins, both off until you tick them, and a crash report replaces your home-folder paths and user name before it is sent.</li>
               <li><strong>Verifiable.</strong> Every claim links to the provider's published ToS page; a weekly drift watcher (v1.11.52) opens a tracking issue when those pages change.</li>
               <li><strong>Honest about limits.</strong> Each control below names what it can <em>not</em> catch.</li>
             </ul>
@@ -1217,9 +1217,20 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="first-launch" class="docs-section">
             <h2>First launch (5 steps)</h2>
             <p>
-              The first time you start Termpolis you'll see a four-step onboarding tour:
-              <em>What Termpolis is</em> → <em>Set an API key</em> → <em>Launch your first agent
-              (or swarm)</em> → <em>Security &amp; crash reports</em> (opt-in checkbox). The
+              The first time you start Termpolis you'll see a six-step onboarding tour:
+              <em>Connect your coding agents</em> → <em>What Termpolis is</em> → <em>Set an API
+              key</em> → <em>Launch your first agent (or swarm)</em> → <em>Security</em> →
+              <em>Your privacy choices</em>. The first step shows exactly what Termpolis would
+              change in the Claude Code, Codex and Gemini CLI settings on this machine, with two
+              boxes ticked to start: connect the agents, and also load project memory when any
+              Claude Code session starts (see <a href="#connect-agents">Connecting your coding
+              agents</a>). The last step has two unticked boxes, one for crash reports and one for
+              anonymous usage statistics, plus the switch for the
+              <a href="#headroom">Claude Code compression proxy</a>. <strong>Skip tour</strong>
+              (or <kbd>Esc</kbd>) keeps the choices exactly as shown &mdash; on a first run, your
+              agents connected and nothing sent. If you updated from a version before v1.49,
+              Termpolis asks the two questions once instead, your coding agents first, then
+              privacy, and sends nothing until you answer. The
               tour is one-time; you can revisit it any time from <strong>Help / Support →
               Show tour again</strong>. After dismissing it you land on the welcome view. From
               there:
@@ -1302,8 +1313,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               </li>
             </ol>
             <p>
-              You don't need to configure MCP, edit any JSON, or set up tooling — Termpolis
-              auto-registers itself with each agent the first time you launch it. See
+              You don't need to configure MCP, edit any JSON, or set up tooling — once you
+              connect your agents (the first step of the tour, or <strong>Settings → Agent
+              Integration</strong>), Termpolis registers itself with each of them. See
               <a href="#mcp">MCP server</a> for what that actually unlocks.
             </p>
             <p>
@@ -1520,7 +1532,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>The settings panel, slides in from the right.</figcaption>
             </figure>
             <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, telemetry opt-in, and <a href="#safe-import">Safe Import</a>), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, <strong>Shell Config</strong>, and <a href="#processes">Processes</a>.</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, the crash-report and usage-statistics opt-ins, and <a href="#safe-import">Safe Import</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, <strong>Shell Config</strong>, <a href="#headroom">Token Savings</a> (including the Claude Code compression proxy switch), <strong>Remote</strong>, <strong>Agent Integration</strong> (connect or disconnect your coding agents, and see every change Termpolis made to their settings), <strong>MCP Servers</strong>, and <a href="#processes">Processes</a>.</p>
           </section>
 
           <!-- PROCESSES -->
@@ -1905,12 +1917,18 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               compresses that traffic before it leaves your machine.
             </p>
             <p>
-              It is <strong>always on for Claude Code</strong> and needs no setup. Every Claude
+              It is <strong>on by default for Claude Code</strong> and needs no setup. Every Claude
               session launches through a local compression proxy running in its own process &mdash;
-              never the UI or PTY thread. If the proxy is ever unhealthy the launch silently goes
+              never the UI or PTY thread &mdash; which forwards to <code>api.anthropic.com</code>
+              and nowhere else. If the proxy is ever unhealthy the launch silently goes
               direct, and a live session self-heals when it recovers, so a proxy hiccup costs you
-              compression, not your agent.
+              compression, not your agent. Codex, Gemini CLI and your shells never go through it.
             </p>
+            <ul class="docs-list">
+              <li><strong>Turn it off</strong> with <strong>Route new Claude Code sessions through the local compression proxy</strong> in <strong>Settings &rarr; Token Savings</strong> (the tour's last step and the one-time privacy review offer the same switch). New sessions then talk to Anthropic directly; a session that is already running keeps its route until it ends.</li>
+              <li><strong>Your own route wins.</strong> If <code>ANTHROPIC_BASE_URL</code>, <code>HTTPS_PROXY</code>, <code>HTTP_PROXY</code> or <code>ALL_PROXY</code> (upper- or lower-case) is set, or <code>CLAUDE_CODE_USE_BEDROCK</code>, <code>CLAUDE_CODE_USE_VERTEX</code> or <code>CLAUDE_CODE_USE_FOUNDRY</code> is on &mdash; in Termpolis's environment, or in the <code>env</code> block of Claude Code's own <code>settings.json</code> (<code>~/.claude/settings.json</code>, or the one in your <code>CLAUDE_CONFIG_DIR</code>) &mdash; the proxy steps aside. <strong>Settings &rarr; Token Savings</strong> names the variable it found; Claude Code keeps the route you configured, and nothing is compressed.</li>
+              <li><strong>Kept on your machine, unencrypted.</strong> The full text of every compressed block is stored in <code>headroom/ccr</code> in your <a href="#install">data directory</a>, capped at 200&nbsp;MB, so <code>retrieve_full</code> can bring it back. None of it is sent to Termpolis.</li>
+            </ul>
 
             <figure class="docs-shot">
               <img src="assets/screenshot-token-savings.png" alt="Settings, Token Savings tab: net tokens saved all-time, the same saving measured against three denominators, the floor check, the untouched prefix, the session-depth advisory and output steering.">
@@ -1925,7 +1943,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Command output and large file reads</strong> are bounded by a head/tail line window, with structured content given <strong>3&times;</strong> the budget of prose.</li>
               <li><strong>Pasted images</strong> are downscaled below the model's cap and emitted as PNG or JPEG, whichever is smaller.</li>
               <li><strong>Repeats and near-repeats.</strong> A result repeated in the same session collapses to a one-line reference. Since v1.34, a <em>near</em>-duplicate is sent as a patch against the earlier copy: read a file, edit three lines, read it again, and only those lines go over the wire.</li>
-              <li><strong>Both halves of the wire (v1.34).</strong> Not just the tool result that came back, but the <code>tool_use</code> the agent itself wrote &mdash; the 400-line body in a <code>Write</code>, the large <code>Edit</code> payload &mdash; which is re-read out of the prefix on every later turn. Identifier fields (<code>file_path</code>, <code>command</code>, <code>pattern</code>, <code>url</code>) are excluded by name so a call never becomes ambiguous.</li>
+              <li><strong>Tool results only &mdash; never a tool call's input (v1.49).</strong> v1.34 compressed both halves of the wire: the tool result that came back, and the <code>tool_use</code> the agent itself wrote. Since v1.49 the input half &mdash; a <code>Bash</code> command, the body of a <code>Write</code>, both sides of an <code>Edit</code>, a subagent prompt &mdash; is forwarded byte-for-byte, however old it is. It is still read as a dedup key and diff base, so a result that reads back a file the agent just wrote still collapses to a patch or a one-line reference.</li>
             </ul>
 
             <h3>What is never compressed &mdash; authored intent (v1.37.1)</h3>
@@ -1942,7 +1960,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <code>command</code>, Anthropic's built-in text editor
               (<code>file_text</code>, <code>old_str</code>, <code>new_str</code>) and
               <code>apply_patch</code>'s <code>patch</code>. The cost is about <strong>1.7% of
-              measured savings</strong>.
+              measured savings</strong>. Since <strong>v1.49</strong> this covers every field of every
+              tool call's input, at any age &mdash; a subagent prompt included, and prefix decay never
+              ages one out either &mdash; because the model reuses its own earlier inputs as
+              templates, and a stub copied from one would land in a real file, command or prompt.
             </p>
 
             <div class="docs-callout">
@@ -1989,9 +2010,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </div>
             <p>
               The last two are smaller by arithmetic, not weakness. Compression reaches tool results
-              and tool inputs &mdash; about <strong>86% of message bytes</strong>, measured on real
-              transcripts &mdash; but never the system prompt, the tool schemas, your own words or
-              the model's replies; and roughly <strong>30% of effective spend is output tokens</strong>,
+              and pasted images only &mdash; never a tool call's input, the system prompt, the tool
+              schemas, your own words or the model's replies; and roughly <strong>30% of effective spend is output tokens</strong>,
               billed at about 5&times; input, which no inbound compressor can reach. The panel also
               shows worst-request and below-floor counts, prompt-cache health, and every
               <code>retrieve_full</code> miss. It sums both compression surfaces &mdash; the wire
@@ -2049,7 +2069,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               4,183 real requests captured from one developer's own transcripts &mdash; 35.2&nbsp;GB
               of request bodies &mdash; were replayed through the compressor. At the shipped default:
               <strong>61.0%</strong> of compressible tool text removed (63.5% of tool results, 51.6%
-              of <code>tool_use</code> payloads), median request <strong>61.4%</strong>, and
+              of <code>tool_use</code> payloads &mdash; measured before v1.49 stopped compressing
+              <code>tool_use</code> input), median request <strong>61.4%</strong>, and
               <strong>93.8%</strong> of requests clear 50%. At the Maximum tier, <strong>72.3%</strong>,
               with 99.9% of requests clearing 50%. Cache-safety was measured over 62,716 real
               requests with hits fully preserved. A regression test fails the build if any of these
@@ -2060,7 +2081,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Compression tier.</strong> Conservative, balanced, aggressive and maximum. Aggressive is the shipped default.</li>
               <li><strong>Savings floor.</strong> Raises the tier automatically if the ledger shows savings slipping below 50%. It only ever compresses <em>harder</em> than the setting above, never softer, and is decided at launch and frozen for the session &mdash; re-tiering mid-conversation would break the prompt cache.</li>
-              <li><strong>Prefix decay (history age-out).</strong> On very long conversations the oldest half is aged down to retrievable stubs. It ships <strong>on</strong>, but it is the one control here that is not free: shortening the prefix pays a one-off re-cache (~1.15&times; the prefix) to buy a smaller prefix on every later turn. It therefore waits for <strong>128 messages</strong> before the first cut &mdash; about 3&times; the ~44-turn break-even &mdash; and the cutoff advances only at doublings (128 &rarr; 256 &rarr; 512 messages), so a 300-turn session pays a handful of breaks rather than one per turn. Aged blocks stay recoverable with <code>retrieve_full</code>.</li>
+              <li><strong>Prefix decay (history age-out).</strong> On very long conversations, the tool results in the oldest half are aged down to retrievable stubs; a tool call's input, and the result of a <code>retrieve_full</code> or memory call, never are. It ships <strong>on</strong> (<strong>Age out old history</strong> in Settings &rarr; Token Savings), but it is the one control here that is not free: shortening the prefix pays a one-off re-cache (~1.15&times; the prefix) to buy a smaller prefix on every later turn. It therefore waits for <strong>128 messages</strong> before the first cut &mdash; about 3&times; the ~44-turn break-even &mdash; and the cutoff advances only at doublings (128 &rarr; 256 &rarr; 512 messages), so a 300-turn session pays a handful of breaks rather than one per turn. Aged blocks stay recoverable with <code>retrieve_full</code>.</li>
               <li><strong>Output-token steering.</strong> Nudges the agent toward terser replies. Output &mdash; thinking included &mdash; bills at roughly 5&times; input and is about 30% of measured effective spend, and inbound compression cannot touch it. The pane reports the observed steered and unsteered means side by side and labels them as an observation, never as a saving: different sessions ask different questions.</li>
               <li><strong>Thinking-budget cap.</strong> Lowers an over-declared extended-thinking budget to a fixed per-session value (constant by design, or it would bust the cache). It only ever lowers the budget, never raises it &mdash; and unlike everything else here it trades reasoning depth rather than inline context, so it ships <strong>off</strong>.</li>
             </ul>
@@ -2290,9 +2311,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <h3>What ships out of the box</h3>
             <ul class="docs-list">
-              <li><strong>Claude Code</strong> — runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
-              <li><strong>Codex</strong> — runs <code>codex --full-auto</code>.</li>
-              <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point); Strict Mode still guards a manually-typed <code>gemini</code> (see <a href="#security-gemini">Gemini account-mode</a>).</li>
+              <li><strong>Claude Code</strong> — runs <code>claude</code>. As a swarm worker it runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
+              <li><strong>Codex</strong> — runs <code>codex</code>. As a swarm worker it runs <code>codex -a never -s workspace-write</code>: it never stops to ask (a command that fails goes back to the model instead), and its sandbox keeps writes inside the project, with no network access.</li>
+              <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point), and <code>agy --dangerously-skip-permissions</code> as a swarm worker; Strict Mode still guards a manually-typed <code>gemini</code> (see <a href="#security-gemini">Gemini account-mode</a>).</li>
             </ul>
             <h3>Pick a model per profile (Claude)</h3>
             <p>
@@ -2320,8 +2341,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Click <strong>+</strong> in the AI Agents row to add a profile for any other CLI.
               You name it, point it at the binary (anything in PATH works), pick a shell, color,
-              and optional working directory. Custom profiles don't get MCP auto-registration,
-              so they participate as plain terminals — fine for tools that don't speak MCP.
+              and optional working directory. Termpolis connects its MCP server only to Claude
+              Code, Codex and Gemini CLI (see <a href="#connect-agents">Connecting your coding
+              agents</a>), so a profile for any other CLI participates as a plain terminal —
+              fine for tools that don't speak MCP.
             </p>
             <h3>Renaming an agent terminal</h3>
             <p>
@@ -2355,7 +2378,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
             <h3>What it does under the hood</h3>
             <ul class="docs-list">
-              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode &mdash; nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong> (never on a command line), so a prompt scraped from your terminal can't inject a command.</li>
+              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools and no MCP servers, Codex in its <code>read-only</code> sandbox, <code>agy</code> in plan mode &mdash; so nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong> (never on a command line), so a prompt scraped from your terminal can't inject a command.</li>
               <li><strong>Install-gated.</strong> Only installed agents appear. Gemini is accessed through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</li>
             </ul>
           </section>
@@ -2374,11 +2397,50 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <div class="docs-callout">
               <p>
-                <strong>If you're launching agents from inside Termpolis, you don't have to do
-                anything.</strong> Termpolis auto-registers itself with each of the three
-                supported agents on first launch. The rest of this section is for people who
+                <strong>If you're launching agents from inside Termpolis, there's one choice to
+                make.</strong> Once you <a href="#connect-agents">connect your coding agents</a>,
+                Termpolis registers itself with each of the three supported agents. The rest of
+                this section is for people who
                 want to understand what's running, debug an integration, or wire up a custom
                 MCP client.
+              </p>
+            </div>
+            <h3 id="connect-agents">Connecting your coding agents</h3>
+            <p>
+              Termpolis doesn't register itself with an agent until you say so. The first step of
+              the tour, or <strong>Settings → Agent Integration</strong> at any time, lists exactly
+              what it would change for each of Claude Code, Codex and Gemini CLI installed on this
+              machine. Connected, Termpolis:
+            </p>
+            <ul class="docs-list">
+              <li><strong>Claude Code</strong> &mdash; adds the <code>termpolis</code> MCP server at user scope in <code>~/.claude.json</code> (under your <code>CLAUDE_CONFIG_DIR</code> if you set one) and allows 27 read-only and memory tools in <code>settings.json</code> so they run without asking; tools that run commands or type into terminals still ask. It marks each folder you open an agent in as trusted &mdash; never your home folder, a folder above it, a drive root or a network share root &mdash; and, optionally, adds a <strong>SessionStart hook</strong> that loads your project memory whenever a Claude Code session starts, including sessions started outside Termpolis.</li>
+              <li><strong>Codex</strong> &mdash; adds the <code>termpolis</code> MCP server to <code>config.toml</code> (a different server you already named <code>termpolis</code> is left alone), pre-approves the 14 <code>memory_*</code> tools unless you already chose a setting for them, and answers the folder-trust prompt for a folder you open it in, with the same exclusions. Its memory instruction rides on the launch command (<code>-c developer_instructions</code>) for that session only, and not at all if you set your own; nothing is written into your projects.</li>
+              <li><strong>Gemini CLI</strong> &mdash; adds the <code>termpolis</code> MCP server to its <code>settings.json</code>.</li>
+            </ul>
+            <p>
+              When Termpolis answers a folder-trust prompt, it selects the trust option itself
+              instead of pressing Enter on whatever is highlighted. It never answers a permission,
+              approval or MCP prompt, a <code>[Y/n]</code> question or a numbered choice &mdash;
+              those wait for you &mdash; and while your agents aren't connected it doesn't answer
+              the folder-trust prompt either. <strong>Disconnect</strong> in Settings → Agent
+              Integration removes everything Termpolis wrote. Uninstalling on Windows does the same
+              (an update doesn't), and <code>Termpolis --disconnect-agents</code> does it from the
+              command line on any platform.
+            </p>
+            <p>
+              Whatever you choose, v1.49 also cleans up once after older versions: it removes a
+              permission that let every Termpolis tool run without asking, the duplicate Termpolis
+              plugin for Claude Code, Termpolis's entry in <code>~/.mcp.json</code>, and any trust
+              for your home folder or a drive root.
+            </p>
+            <div class="docs-callout">
+              <p>
+                <strong>Known limitations.</strong> Disconnect un-trusts only the folders this
+                version marked trusted: trust that an older version added can't be told apart from
+                trust you accepted yourself, so it stays. And older versions wrote a memory note
+                into <code>AGENTS.md</code> in project folders; Termpolis removes that note (and the
+                file, if the note was all it held) the next time you launch Codex from Termpolis in
+                that folder, not before.
               </p>
             </div>
             <h3>How it's wired up</h3>
@@ -3013,7 +3075,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               the PATH) won&rsquo;t wipe a graph you&rsquo;ve already built.
             </p>
             <p>
-              <strong>How agents use it.</strong> The graph is exposed to every launched agent (Claude Code,
+              <strong>How agents use it.</strong> The graph is exposed to every agent you connect (Claude Code,
               Codex, Gemini CLI) over MCP as six read-only tools, and Termpolis nudges them to
               prefer these over grepping:
             </p>
