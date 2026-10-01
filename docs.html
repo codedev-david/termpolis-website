@@ -1461,12 +1461,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               output in background workspaces keeps streaming, nothing is paused just because
               it's not visible.
             </p>
-            <h3>Workspace root directory</h3>
+            <h3>Working directories</h3>
             <p>
-              Each workspace has a default working directory that new terminals start in. Set it
-              when you create the workspace, or change it later from Settings → Workspace.
-              Terminals started with the agent launcher inherit this unless
-              they override it per-terminal.
+              A workspace saves each terminal's own working directory, so restoring it reopens
+              every terminal where it was. To move one, <code>cd</code> in that terminal and click
+              <strong>Update with current terminals</strong> on the workspace.
             </p>
           </section>
 
@@ -2425,8 +2424,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               the folder-trust prompt either. On an agent's first-run screens it still presses
               Enter and takes the default: Claude Code's intro splash, its theme and login-method
               pickers, and Gemini CLI's terms and sign-in screens. <strong>Disconnect</strong> in Settings → Agent
-              Integration removes everything Termpolis wrote. Uninstalling on Windows does the same
-              (an update doesn't), and <code>Termpolis --disconnect-agents</code> does it from the
+              Integration removes everything Termpolis wrote. Uninstalling on Windows or removing the
+              Linux .deb does the same (an update doesn't), and <code>Termpolis --disconnect-agents</code> does it from the
               command line on any platform.
             </p>
             <p>
@@ -3235,15 +3234,15 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run, make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
 
             <h3>Terminals</h3>
-            <p><strong>Terminal won't start.</strong> Check the shell path in Settings → Shells. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; WSL needs <code>wsl.exe</code> on PATH. On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access, launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
+            <p><strong>Terminal won't start.</strong> Check <strong>Default Shell</strong> in Settings → General. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; WSL needs <code>wsl.exe</code> on PATH. On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access, launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
             <p><strong>Terminal hangs on first prompt.</strong> Your shell's startup files (<code>.bashrc</code>, <code>.zshrc</code>, PowerShell <code>$PROFILE</code>) may be waiting on input or hitting a slow network check. Open the shell outside Termpolis to confirm; the fix is in your dotfiles, not the app.</p>
-            <p><strong>Output looks garbled / escape codes show as text.</strong> The shell detected a non-TTY environment. Make sure the <strong>Agent profile</strong> field is empty if you're launching a plain shell. Settings → Shells → Reset defaults fixes most cases.</p>
+            <p><strong>Output looks garbled / escape codes show as text.</strong> Termpolis runs every shell in a real terminal (<code>TERM=xterm-256color</code>), so this usually means a profile script sets <code>TERM</code> or prints escape codes itself. Settings → Shell Config opens your shell profiles to check.</p>
             <p><strong>Copy/paste shortcuts don't work.</strong> On Windows/Linux, use <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> / <kbd>V</kbd> inside terminals (bare <kbd>Ctrl</kbd> + <kbd>C</kbd> sends SIGINT). On macOS, <kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>V</kbd> work everywhere.</p>
-            <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme or run <strong>Reset theme</strong> from Settings → Themes.</p>
+            <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme in Settings → General → Terminal Defaults.</p>
 
             <h3>Agents &amp; CLI tools</h3>
             <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
-            <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> to see which one Termpolis will launch. Override per-agent in Settings → Agents.</p>
+            <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> (<code>where claude</code> on Windows) to see which one Termpolis will launch, and remove or reorder the copy you don't want.</p>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
             <h3>Swarm, MCP, and memory</h3>
@@ -3262,7 +3261,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Updates &amp; performance</h3>
             <p><strong>Update notification appears but the update doesn't install.</strong> The auto-updater needs write access to the app bundle. On Windows, run the installer manually from GitHub Releases if the in-app updater fails. On macOS, drag the new DMG contents over the existing app. On Linux, download and replace the AppImage.</p>
             <p><strong>App is slow to start / very high memory.</strong> A corrupted session file occasionally causes runaway restoration. Back up <code>session.json</code> in your data directory, delete it, and relaunch, you lose restored workspace state but get a clean baseline.</p>
-            <p><strong>Terminal scrollback is sluggish.</strong> Default xterm scrollback is 10,000 lines. If you've pasted very large logs, scrolling slows down. Settings → Terminals → Clear scrollback resets without restarting.</p>
+            <p><strong>Terminal scrollback is sluggish.</strong> Each terminal keeps 10,000 lines of scrollback (3,000 for swarm agents). If you've pasted very large logs, scrolling slows down. <strong>Ctrl+Shift+X</strong> (Clear Terminal) clears the screen and scrollback without restarting.</p>
 
             <h3>Session corruption &amp; reset</h3>
             <p><strong>App opens to a blank screen.</strong> Sign of a broken <code>session.json</code>. Close Termpolis, rename <code>session.json</code> in the data directory, relaunch, the app creates a fresh session. Workspaces will be empty but the app is usable again; the old file is preserved for diffing later.</p>
