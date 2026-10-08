@@ -152,7 +152,8 @@
       <div class="requires">
         <p><strong>Termpolis Remote needs the desktop app.</strong> It runs no agent, holds no
         model credentials and does nothing on its own. You need Termpolis running on a Mac,
-        Windows or Linux machine with <em>Remote</em> switched on in Settings. The phone is a
+        Windows or Linux machine, with <em>Allow phones to connect</em> ticked in Settings &rsaquo;
+        Remote. The phone is a
         viewer and a keyboard for that machine; close it and the work carries on without it.</p>
       </div>
 
@@ -164,8 +165,9 @@
         <p><strong>Relay access.</strong> Your phone does not reach your desktop directly — it
         goes through a relay that we run and pay for, so that the two of them can find each other
         across networks, carrier NAT and a locked-down office Wi-Fi. That relay is what the
-        subscription covers. It is also the part that can never read anything: it sees a room id,
-        a message size and a time, and forwards sealed bytes.</p>
+        subscription covers. It is also the part that can never read anything: it sees IP
+        addresses, a room id and the size and timing of each message, and forwards sealed bytes
+        it cannot open.</p>
         <p><strong>The desktop app stays free and open source, forever.</strong> Nothing on your
         computer is behind this. There is no free tier on the phone and nothing withheld from
         subscribers either — relay access is the whole product, so it is the whole price.</p>
@@ -184,10 +186,10 @@
           <h3>Watch an agent work, live</h3>
           <ul>
             <li>Output streams from the desktop as it is printed — not a snapshot you pull.</li>
-            <li>ANSI colour, cursor movement and redraws are rendered, so a progress bar looks
-            like a progress bar and a diff keeps its colours.</li>
-            <li>The terminal list shows every session on that desktop with a line of what it is
-            currently doing, so you can see which one needs you without opening all of them.</li>
+            <li>Colour comes through, and the desktop works out cursor moves and redraws before it
+            sends, so a progress bar shows its latest state and a diff keeps its colours.</li>
+            <li>The terminal list shows your terminals on that desktop. Open one and a line above
+            the output says what its agent is doing: thinking, working, or waiting for you.</li>
           </ul>
         </div>
         <div class="panel">
@@ -195,8 +197,9 @@
           <ul>
             <li>A keyboard that types into the real session. When an agent stops to ask a
             question, you answer it from wherever you are.</li>
-            <li>Send is send — the same submit the desktop does, so multi-line pastes and
-            single-key confirmations both behave the way they do on the machine.</li>
+            <li>Send types your text into the session and presses Enter, the way the desktop
+            does, and a multi-line paste goes in as one. There are no special keys — no Esc,
+            Ctrl+C or arrows — so a menu that needs one waits for the desktop.</li>
             <li>This is the whole reason the app exists: a run that would have sat blocked for
             three hours gets unblocked in ten seconds.</li>
           </ul>
@@ -204,11 +207,13 @@
         <div class="panel">
           <h3>Start something new</h3>
           <ul>
-            <li><em>New AI terminal</em> launches a fresh session on the desktop — claude, codex,
-            gemini — in a directory that desktop already knows about.</li>
-            <li>You pick from what is there. The phone cannot name an arbitrary path, because it
-            never sees your filesystem.</li>
-            <li>Close a terminal from the phone too, when a run is finished with.</li>
+            <li><em>New AI terminal</em> starts Claude, Codex or Gemini on the desktop, in a folder
+            you pick by browsing the folders under the desktop's home folder.</li>
+            <li>The picker shows folder names only, and only to a phone the desktop has allowed to
+            start terminals.</li>
+            <li>An agent started this way runs the way Termpolis runs swarm workers, without
+            stopping for permission prompts, so allow it only on a phone you trust as much as the
+            desktop.</li>
           </ul>
         </div>
         <div class="panel">
@@ -224,7 +229,7 @@
           <h3>The desktop stays in charge</h3>
           <ul>
             <li>Read output, start terminals, type, close terminals — four permissions, granted
-            per phone, on the desktop.</li>
+            per phone, on the desktop. Only reading is ticked when you pair.</li>
             <li>Every request is checked again on the desktop when it arrives. The phone can
             report what it has been allowed; it cannot grant itself anything.</li>
             <li>Revoke from either end, at any time, and the channel does not reopen.</li>
@@ -248,20 +253,22 @@
       <ol class="steps">
         <li>
           <strong>Turn Remote on, on the desktop</strong>
-          Settings &rsaquo; Remote &rsaquo; <em>Enable remote access</em>. The same panel is where you
-          choose what a phone is allowed to do: read output, start terminals, type, close terminals.
+          Settings &rsaquo; Remote &rsaquo; <em>Allow phones to connect</em>. The same panel is where
+          you choose what a phone is allowed to do: read output, start terminals, type, close
+          terminals. Only reading is ticked to begin with.
         </li>
         <li>
           <strong>Scan the code the desktop shows</strong>
-          Point the phone at it. If the camera is awkward or switched off, the same code can be
-          pasted in by hand on the pairing screen — there is a field for it.
+          Click <em>Pair a device</em> and point the phone at the QR code. It works once, within
+          90 seconds, for whoever scans it first, so don't pair during a screen share. Pairing needs
+          the camera: the desktop shows the code only as a picture.
         </li>
         <li>
           <strong>Compare the eight words</strong>
           Both screens show the same eight words, derived from the two devices' keys. If they
-          match, nothing is sitting in between. If they do not, unpair and try again on a network
-          you trust. The words do not change while the pairing lasts, so they can be compared
-          again at any time.
+          match, nothing is sitting in between. If they do not, tap <em>They do not match &mdash;
+          unpair</em> on the phone, revoke the phone on the desktop, and pair again. The words do not change while
+          the pairing lasts, so they can be compared again at any time.
         </li>
         <li>
           <strong>Pair the next machine, if you have one</strong>
@@ -275,11 +282,10 @@
         <div class="panel">
           <h3>It does</h3>
           <ul>
-            <li>List the terminals running on the paired desktop, with what each one is doing.</li>
-            <li>Show what an agent has printed, live.</li>
+            <li>List your terminals on the paired desktop. Swarm workers are not included.</li>
+            <li>Show what an agent has printed, live, and what it is doing.</li>
             <li>Type into a terminal, and send.</li>
-            <li>Start a new AI terminal in a directory the desktop already knows about.</li>
-            <li>Close a terminal.</li>
+            <li>Start Claude, Codex or Gemini in a folder you pick on the desktop.</li>
             <li>Switch between the desktops you have paired, and forget any one of them.</li>
           </ul>
         </div>
@@ -288,7 +294,7 @@
           <ul>
             <li>Run an agent, or hold a conversation of its own. Nothing executes on the phone.</li>
             <li>Store your transcript. Output is held in memory while the app is open, never written to disk.</li>
-            <li>Ask you to make an account. There is no sign-in, because there is no server of ours to sign in to.</li>
+            <li>Ask you to make an account. There is no sign-in; the subscription goes through your Apple ID.</li>
             <li>Collect anything. No analytics, no crash reporter, no advertising identifier.</li>
             <li>Grant itself permissions. Every request is checked again on the desktop.</li>
           </ul>
@@ -302,15 +308,19 @@
           <h3>Encrypted end to end</h3>
           <ul>
             <li>X25519 key agreement, HKDF-SHA256, ChaCha20-Poly1305.</li>
-            <li>The keys are derived by the two devices when you pair, and exist nowhere else.</li>
-            <li>The relay sees a room id, a message size and a time. Not one byte of content.</li>
-            <li>TLS underneath, sealed payload inside. Both layers would have to fail.</li>
+            <li>Private keys are made on each device and never leave it. Every connection derives
+            fresh session keys, so traffic recorded today can't be decrypted later.</li>
+            <li>The relay sees IP addresses, a room id, when each side connects, and each
+            message's size, timing and unencrypted header. Not one byte of what you type or what
+            your terminals print.</li>
+            <li>TLS on the way to the relay, and inside it a sealed payload the relay can't
+            open.</li>
           </ul>
         </div>
         <div class="panel">
           <h3>Kept on the device</h3>
           <ul>
-            <li>One private key per paired desktop, in the iOS Keychain / Android Keystore.</li>
+            <li>One private key per paired desktop, in the iPhone's Keychain.</li>
             <li>Available only while the device is unlocked, and not restored onto another device.</li>
             <li>Unpairing erases that desktop's key and record — and works whether or not the relay is reachable.</li>
             <li>Either end can revoke. The channel cannot be reopened without both.</li>
@@ -342,53 +352,65 @@
       <div class="faq">
         <details>
           <summary>The phone cannot find the desktop</summary>
-          <p>The desktop app has to be running, with Remote switched on in Settings — the phone
+          <p>The desktop app has to be running, with <em>Allow phones to connect</em> ticked in
+          Settings &rsaquo; Remote — the phone
           talks to it through the relay, not to a server that holds anything for you. If the
           machine is asleep or the app is closed, there is nothing at the other end of the room.
           The desktop's Settings &rsaquo; Remote panel shows the connection state and the phones
-          that are paired.</p>
+          that are paired. If the desktop's relay address was changed, or it has not heard from
+          this phone in 30 days, pair the phone again.</p>
         </details>
         <details>
           <summary>The camera will not read the pairing code</summary>
-          <p>Use the field on the pairing screen and paste the code in by hand — it is the same
-          code, and pairing works identically. If the camera should work but the app never asks
-          for it, grant it in iOS Settings &rsaquo; Termpolis Remote &rsaquo; Camera. The camera is used
-          for this one thing; frames are decoded on the phone and thrown away.</p>
+          <p>Pairing needs the camera, because the desktop shows the code only as a picture. If
+          the app never asks for it, or it was turned off, turn it on in iOS Settings &rsaquo;
+          Termpolis Remote &rsaquo; Camera. The code expires after 90 seconds: if the countdown ran
+          out, close the dialog and click <em>Pair a device</em> again. The camera is used for this
+          one thing; frames are decoded on the phone and thrown away.</p>
         </details>
         <details>
           <summary>The eight safety words do not match</summary>
-          <p>Do not continue. Matching words mean the two devices agreed on a key that nothing in
-          between could derive; words that differ mean something is in between. Unpair on both
-          ends and pair again on a network you trust. Worth reporting to
-          <a href="mailto:support@termpolis.com">support@termpolis.com</a> if it happens on a
-          network you expected to be safe.</p>
+          <p>Do not continue. Matching words mean the two devices hold each other's real keys;
+          words that differ mean something is in between. Tap <em>They do not match &mdash;
+          unpair</em> on the phone, revoke the phone in Settings &rsaquo; Remote on the desktop, and pair again where
+          nobody else can see the desktop's screen. Worth reporting to
+          <a href="mailto:support@termpolis.com">support@termpolis.com</a> if it happens
+          again.</p>
         </details>
         <details>
-          <summary>Typing is greyed out, or a terminal will not start</summary>
+          <summary>There is nowhere to type, or no New AI terminal button</summary>
           <p>Those are permissions, and they are granted on the desktop, not on the phone:
-          Settings &rsaquo; Remote, per phone. The Settings screen in the app lists what the desktop
-          currently allows this phone to do. The phone can only report them — it cannot grant
-          itself anything, by design.</p>
+          Settings &rsaquo; Remote, in this phone's row under Paired devices. The app hides what it
+          is not allowed to use, and its Settings screen lists what the desktop currently allows.
+          The phone can only report them — it cannot grant itself anything, by design. If the box
+          is there but Send is greyed out, the desktop is offline; while it is, the <em>New AI
+          terminal</em> button is hidden too, and after the app opens neither control appears until
+          the desktop answers.</p>
         </details>
         <details>
           <summary>The terminal list is empty</summary>
-          <p>The list shows terminals that already exist on that desktop. If none are open, start
+          <p>The list shows the terminals in that desktop's sidebar. Swarm workers, and agents
+          started from the phone once you have left them, are not listed. If none are open, start
           one there, or use <em>New AI terminal</em> if the desktop has granted that permission.
           If you have paired several computers, check you are looking at the right one — the
           desktop's name is in the title bar, and <em>Desktops</em> switches between them.</p>
         </details>
         <details>
           <summary>Output stops updating</summary>
-          <p>Reopen the terminal from the list. The phone holds output only in memory while the
-          app is on screen, so leaving it in the background for a long time can end the session.
-          Nothing is lost — the scrollback lives on the desktop, and reopening pulls it again.</p>
+          <p>The app disconnects whenever it leaves the screen and reconnects by itself when you
+          come back. If it says the desktop is offline, check that the desktop is awake with
+          Termpolis running. Output printed while you were away is sent on, up to 262,144
+          characters; if iOS closed the app, reopening a terminal brings back its last 32,768
+          characters. The full scrollback stays on the desktop.</p>
         </details>
         <details>
           <summary>I want this phone off my machine entirely</summary>
-          <p>Either end is enough. On the phone: Settings &rsaquo; Desktops &rsaquo; <em>Remove</em>, which
-          erases that desktop's key and record. On the desktop: Settings &rsaquo; Remote, revoke the
-          device. Other pairings are untouched either way, and deleting the app destroys every
-          key it held.</p>
+          <p>Either end is enough to cut it off. On the phone: Settings &rsaquo; Desktops &rsaquo;
+          <em>Remove</em>, which erases that desktop's key on the phone. On the desktop: Settings
+          &rsaquo; Remote, <em>Revoke</em> in this phone's row. Doing both is tidiest, because the
+          desktop only hears about an unpair when it is online and on the phone's screen. Other
+          pairings are untouched either way. Deleting the app on its own is not enough: iOS can keep
+          an app's Keychain entries after it is deleted, so unpair first.</p>
         </details>
       </div>
 
@@ -406,14 +428,15 @@
           <h3>Desktop</h3>
           <ul>
             <li>Termpolis on Windows, macOS or Linux — <a href="/#downloads">free download</a>.</li>
-            <li>Remote switched on in Settings, plus the permissions you want this phone to have.</li>
+            <li><em>Allow phones to connect</em> ticked in Settings &rsaquo; Remote, plus the
+            permissions you want this phone to have.</li>
           </ul>
         </div>
       </div>
 
       <h2 id="privacy">Privacy</h2>
-      <p>Short version: the app collects nothing, there is no account, and no server of ours ever
-      sees your terminal. The
+      <p>Short version: the app collects nothing, there is no account, and the relay we run
+      passes your terminal along sealed, without being able to read it. The
       <a href="https://github.com/codedev-david/termpolis/blob/main/mobile/package.json" target="_blank" rel="noreferrer">dependency list</a>
       is short on purpose and is checked by a test on every push, so that claim cannot drift
       quietly. The full policy — desktop, phone and relay — is at

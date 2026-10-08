@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="How Termpolis Remote works: the phone app lists your terminals in Termpolis on your computer, shows their output and types into the one you open. Everything between the phone and the computer crosses a relay sealed end to end; the relay passes the frames along without being able to read them. Your computer checks the phone's pairing and its permissions on every request, types what you sent into the real terminal, and streams the output back. Your agents keep running on the computer, signed in as they already are.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16161d"/>
+      <stop offset="1" stop-color="#101015"/>
+    </linearGradient>
+    <linearGradient id="relayGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.10"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#6b6b82"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#7ee2a3"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="798" rx="22" fill="url(#bg)" stroke="#2a2a38" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="40" y="52" fill="#f4f4fa" font-size="30" font-weight="700">How Termpolis Remote works</text>
+  <text x="40" y="84" fill="#a6a6bd" font-size="17">Your phone shows the terminals on your computer and types into them. Everything in between is <tspan fill="#7ee2a3" font-weight="600">sealed end to end</tspan>.</text>
+
+  <!-- Step badges -->
+  <g font-size="12" font-weight="700" letter-spacing="1.5" fill="#8b8ba3">
+    <text x="46" y="132">1 &#183; YOU, ON YOUR PHONE</text>
+    <text x="446" y="132">2 &#183; SEALED IN TRANSIT</text>
+    <text x="826" y="132">3 &#183; CHECKED ON YOUR COMPUTER</text>
+  </g>
+
+  <!-- PHONE -->
+  <g>
+    <rect x="40" y="148" width="340" height="356" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="64" y="182" fill="#f4f4fa" font-size="18" font-weight="700">Your phone</text>
+    <text x="64" y="204" fill="#8b8ba3" font-size="13">Termpolis Remote, on your iPhone</text>
+
+    <rect x="60" y="222" width="300" height="78" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <text x="76" y="248" fill="#a6a6bd" font-size="13" font-weight="600">You, answering an agent that asked</text>
+    <text x="76" y="270" fill="#e9e9f2" font-size="14">&#8220;Yes, keep the existing migration.&#8221;</text>
+    <text x="76" y="289" fill="#c7f5da" font-size="13" font-weight="600">Send</text>
+
+    <rect x="60" y="314" width="300" height="172" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <circle cx="82" cy="340" r="7" fill="#ff7a45"/>
+    <text x="98" y="345" fill="#e9e9f2" font-size="14" font-weight="600">A screen and a keyboard</text>
+    <text x="76" y="372" fill="#a6a6bd" font-size="13">Lists your terminals on that desktop</text>
+    <text x="76" y="394" fill="#a6a6bd" font-size="13">Shows their output as it is printed</text>
+    <text x="76" y="416" fill="#a6a6bd" font-size="13">Types into the one you open</text>
+    <text x="76" y="446" fill="#8b8ba3" font-size="12.5">Nothing runs on the phone: no agent,</text>
+    <text x="76" y="464" fill="#8b8ba3" font-size="12.5">no API keys, no output saved to disk.</text>
+  </g>
+
+  <!-- RELAY -->
+  <g>
+    <rect x="440" y="196" width="320" height="260" rx="16" fill="url(#relayGrad)" stroke="#4b3fa0"/>
+    <!-- lock -->
+    <rect x="583" y="232" width="34" height="26" rx="5" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+    <path d="M589 232 v-8 a11 11 0 0 1 22 0 v8" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+    <text x="600" y="292" text-anchor="middle" fill="#f4f4fa" font-size="18" font-weight="700">Relay</text>
+    <text x="600" y="314" text-anchor="middle" fill="#a6a6bd" font-size="13">wss:// connection</text>
+    <text x="600" y="346" text-anchor="middle" fill="#e9e9f2" font-size="13.5">Passes sealed frames along.</text>
+    <text x="600" y="372" text-anchor="middle" fill="#8b8ba3" font-size="13">Sees: IPs, sizes, times, headers.</text>
+    <text x="600" y="396" text-anchor="middle" fill="#8b8ba3" font-size="13">Can&#8217;t read your terminals</text>
+    <text x="600" y="416" text-anchor="middle" fill="#8b8ba3" font-size="13">or what you type.</text>
+  </g>
+
+  <!-- arrows: what you send (top) and the output (bottom) -->
+  <path d="M380 262 L436 262" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M760 262 L816 262" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="408" y="250" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">sealed</text>
+  <text x="788" y="250" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">sealed</text>
+
+  <path d="M820 420 L764 420" fill="none" stroke="#7ee2a3" stroke-width="2" marker-end="url(#arrowG)"/>
+  <path d="M440 420 L384 420" fill="none" stroke="#7ee2a3" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="792" y="440" text-anchor="middle" fill="#7ee2a3" font-size="11" font-weight="700">output</text>
+  <text x="412" y="440" text-anchor="middle" fill="#7ee2a3" font-size="11" font-weight="700">output</text>
+
+  <!-- YOUR COMPUTER -->
+  <g>
+    <rect x="820" y="148" width="340" height="356" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="844" y="182" fill="#f4f4fa" font-size="18" font-weight="700">Your computer</text>
+    <text x="844" y="204" fill="#8b8ba3" font-size="13">Termpolis running, with Remote on</text>
+
+    <g font-size="13" fill="#e9e9f2">
+      <text x="844" y="236"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  A phone paired with this desktop</text>
+      <text x="862" y="254" fill="#a6a6bd">its own key, revocable at any time</text>
+      <text x="844" y="280"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  Holds the permission it needs</text>
+      <text x="862" y="298" fill="#a6a6bd">read, start, type or close, per phone</text>
+      <text x="844" y="324"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  Checked again on every request</text>
+    </g>
+
+    <rect x="840" y="352" width="300" height="134" rx="10" fill="#16241c" stroke="#2f5741"/>
+    <circle cx="862" cy="378" r="7" fill="#cfcfe0"/>
+    <text x="878" y="383" fill="#c7f5da" font-size="14" font-weight="600">Your agents keep running here</text>
+    <text x="856" y="408" fill="#a6a6bd" font-size="13">signed in as they already are.</text>
+    <text x="856" y="428" fill="#a6a6bd" font-size="13">What you send is typed into the</text>
+    <text x="856" y="448" fill="#a6a6bd" font-size="13">real terminal and Enter is pressed,</text>
+    <text x="856" y="468" fill="#a6a6bd" font-size="13">as if you were at the keyboard.</text>
+  </g>
+
+  <!-- OUTPUT back on the phone -->
+  <g>
+    <rect x="40" y="532" width="1120" height="92" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="64" y="564" fill="#8b8ba3" font-size="12" font-weight="700" letter-spacing="1.5">4 &#183; THE OUTPUT COMES BACK</text>
+    <text x="64" y="592" fill="#e9e9f2" font-size="14.5">Each terminal you open streams back sealed as it prints, colours and in-place redraws intact, with what its agent is doing</text>
+    <text x="64" y="612" fill="#e9e9f2" font-size="14.5">shown above it. Close the app and the agents <tspan fill="#7ee2a3" font-weight="600">carry on without it</tspan>; it reconnects when you come back.</text>
+  </g>
+
+  <!-- Footer: pairing & control -->
+  <g font-size="13.5">
+    <rect x="40" y="648" width="356" height="112" rx="12" fill="#1d1d28" stroke="#33333f"/>
+    <text x="60" y="676" fill="#f4f4fa" font-weight="700">Pair once</text>
+    <text x="60" y="700" fill="#a6a6bd">Scan the QR code on the desktop&#8217;s screen.</text>
+    <text x="60" y="720" fill="#a6a6bd">It works once, within 90 seconds. Then</text>
+    <text x="60" y="740" fill="#a6a6bd">both screens show the same eight words.</text>
+
+    <rect x="422" y="648" width="356" height="112" rx="12" fill="#1d1d28" stroke="#33333f"/>
+    <text x="442" y="676" fill="#f4f4fa" font-weight="700">The desktop sets the permissions</text>
+    <text x="442" y="700" fill="#a6a6bd">Read, start, type and close, per phone.</text>
+    <text x="442" y="720" fill="#a6a6bd">Only Read is ticked to begin with, and</text>
+    <text x="442" y="740" fill="#a6a6bd">the phone can&#8217;t grant itself anything.</text>
+
+    <rect x="804" y="648" width="356" height="112" rx="12" fill="#1d1d28" stroke="#33333f"/>
+    <text x="824" y="676" fill="#f4f4fa" font-weight="700">Up to 16 desktops</text>
+    <text x="824" y="700" fill="#a6a6bd">One phone, with its own key for each</text>
+    <text x="824" y="720" fill="#a6a6bd">desktop. Unpair or revoke from either</text>
+    <text x="824" y="740" fill="#a6a6bd">end; the other pairings are untouched.</text>
+  </g>
+</svg>

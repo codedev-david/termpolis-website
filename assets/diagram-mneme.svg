@@ -20,7 +20,7 @@
 
   <!-- Header -->
   <text x="40" y="52" fill="#f4f4fa" font-size="30" font-weight="700">How Mneme remembers &#8212; and gets smarter</text>
-  <text x="40" y="84" fill="#a6a6bd" font-size="17">One local &#8220;brain&#8221; that all three AI agents share. It files every lesson by <tspan fill="#a78bfa" font-weight="600">meaning</tspan> and by <tspan fill="#7ee2a3" font-weight="600">connection</tspan> &#8212; so nothing is re-explained twice.</text>
+  <text x="40" y="84" fill="#a6a6bd" font-size="17">One local &#8220;brain&#8221; that Claude and Codex share. It files every lesson by <tspan fill="#a78bfa" font-weight="600">meaning</tspan> and by <tspan fill="#7ee2a3" font-weight="600">connection</tspan> &#8212; so nothing is re-explained twice.</text>
 
   <!-- Step badges -->
   <g font-size="12" font-weight="700" letter-spacing="1.5">
@@ -39,7 +39,7 @@
       <rect x="40" y="198" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
       <circle cx="62" cy="218" r="7" fill="#cfcfe0"/><text x="80" y="223" fill="#e9e9f2">OpenAI Codex</text>
       <rect x="40" y="246" width="210" height="40" rx="10" fill="#1d1d28" stroke="#33333f"/>
-      <circle cx="62" cy="266" r="7" fill="#4f8cff"/><text x="80" y="271" fill="#e9e9f2">Gemini CLI</text>
+      <circle cx="62" cy="266" r="7" fill="#4f8cff"/><text x="80" y="271" fill="#e9e9f2">Gemini CLI <tspan fill="#8b8ba3" font-size="12">(older sessions)</tspan></text>
       <rect x="40" y="294" width="210" height="40" rx="10" fill="#16241c" stroke="#2f5741"/>
       <circle cx="62" cy="314" r="7" fill="#7ee2a3"/><text x="80" y="319" fill="#c7f5da">Your repo&#8217;s code</text>
     </g>
@@ -66,7 +66,7 @@
   <!-- STEP 3: Store — the brain with two parts -->
   <g>
     <rect x="596" y="150" width="336" height="300" rx="16" fill="url(#brainGrad)" stroke="#3a3a55" stroke-width="1.5"/>
-    <text x="764" y="178" text-anchor="middle" fill="#e9e9f2" font-size="14" font-weight="700">THE BRAIN &#183; saved as one plain text file</text>
+    <text x="764" y="178" text-anchor="middle" fill="#e9e9f2" font-size="14" font-weight="700">THE BRAIN &#183; saved as files on your own disk</text>
     <text x="764" y="197" text-anchor="middle" fill="#8b8ba3" font-size="12" font-family="ui-monospace, monospace">swarm-memory.jsonl</text>
 
     <!-- Vector DB card -->
@@ -119,5 +119,5 @@
   <text x="64" y="624" fill="#b9b9cc" font-size="14">you ask &#8212; so the group never solves the same problem twice, and it all stays on your own machine.</text>
 
   <!-- footer -->
-  <text x="600" y="676" text-anchor="middle" fill="#6f6f88" font-size="12.5">100% local &#183; offline embeddings &#183; encrypted at rest (optional) &#183; syncs across your machines with no server &#183; nothing leaves your computer</text>
+  <text x="600" y="676" text-anchor="middle" fill="#6f6f88" font-size="12.5">Local by default &#183; offline embeddings &#183; encrypted at rest by default &#183; each computer keeps its own memory</text>
 </svg>

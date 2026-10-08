@@ -55,14 +55,14 @@
 
     <main class="legal">
       <h1>Privacy Policy</h1>
-      <p class="stamp">Effective 29 September 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+      <p class="stamp">Effective 8 October 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
 
       <div class="callout">
         <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
         your terminal sessions and the memory it builds from them stay there. We do not
         operate an account system, we have no server that stores your work, and we cannot
         read what you do with it. The phone app is a remote control for the desktop app,
-        end-to-end encrypted, and it stores nothing but its own key.</p>
+        end-to-end encrypted, and it stores nothing but its keys, a record of each desktop it is paired with and whether your relay subscription is active.</p>
       </div>
 
       <h2>1. Who we are, and how to reach us</h2>
@@ -71,7 +71,7 @@
       <a href="https://github.com/codedev-david/termpolis/issues" target="_blank" rel="noreferrer">GitHub issues</a>.
       For something you would rather not raise in public, write to
       <a href="mailto:support@termpolis.com">support@termpolis.com</a> — the same address
-      listed on the app's App Store and Google Play pages, and the same person either way.</p>
+      given on the phone app's <a href="/mobile/#support">support page</a>, and the same person either way.</p>
 
       <h2>2. The desktop app</h2>
 
@@ -82,7 +82,7 @@
       <ul>
         <li>Terminal sessions, scrollback and command history.</li>
         <li>The shared memory ("Mneme") built from your sessions and code — its text, its
-        embeddings and its graph. It is encrypted at rest with AES-256-GCM.</li>
+        embeddings and its graph. The memory store itself is encrypted at rest with AES-256-GCM, under a key protected by your operating system's keychain; where there is no keychain, or if you sync memory without setting a passphrase, it is plain text. Its link graph, and the archive that older, little-used memories are moved to, are not encrypted.</li>
         <li>Your settings, workspaces, shell configuration and keybindings.</li>
         <li>Any credentials the CLI agents you use store for themselves. Termpolis does not
         read them and does not copy them anywhere.</li>
@@ -100,11 +100,11 @@
       Code it also lets its read-only and memory tools run without asking (tools that run
       commands or type into a terminal still ask), in Codex its memory tools, and in both it
       marks folders you open the agent in as trusted — never your home folder, a folder
-      above it, a drive root or a network share. The second box adds a Claude Code start-up
+      above it, a drive root or the root of a network share. The second box adds a Claude Code start-up
       hook that loads your project memory whenever a Claude Code session starts, including
       sessions started outside Termpolis. Settings → Agent Integration lists every change
       and lets you connect or disconnect at any time. <strong>Disconnect</strong> removes
-      what Termpolis wrote, and so does uninstalling on Windows. Folder trust that a version
+      what Termpolis wrote, and so do uninstalling on Windows and removing the Linux .deb package. Folder trust that a version
       before 1.49 added can't be told apart from trust you gave yourself, so that stays.</p>
 
       <h3>What leaves your computer, and to whom</h3>
@@ -133,11 +133,21 @@
           <td>On update checks and downloads.</td>
         </tr>
         <tr>
+          <td>Groq</td>
+          <td>The audio you dictate with voice input, sent under <em>your</em> Groq API key and <em>their</em> terms to be transcribed.</td>
+          <td>Only if you connect a Groq key in Settings → Voice and dictate. We are not in this path.</td>
+        </tr>
+        <tr>
           <td>Us (Sentry)</td>
-          <td>Crash reports; and, separately, one anonymous launch event a day carrying the
+          <td>Crash reports (the error message from a crash can also be filed automatically as an issue in the public Termpolis GitHub repository); and, separately, one anonymous launch event a day carrying the
           app version.</td>
           <td><strong>Only what you turn on.</strong> Two separate switches, both off by
           default.</td>
+        </tr>
+      <tr>
+          <td>Our pairing relay (<code>relay.termpolis.com</code>, unless you set your own in Settings → Remote)</td>
+          <td>End-to-end encrypted frames: what your phone and this computer send each other (Termpolis Remote), and job prompts and answers between two of your computers (Linked machines). The relay cannot read them; section 4 lists what it does see.</td>
+          <td>Only while Remote or Linked machines is switched on in Settings. Both are off by default.</td>
         </tr>
       </table>
 
@@ -174,14 +184,14 @@
         <li>Its own private key, in the operating system's keystore (iOS Keychain / Android
         Keystore), marked as available only while the device is unlocked and not backed up
         to another device.</li>
-        <li>One pairing record per desktop: that desktop's public key, a random session
+        <li>One pairing record per desktop: that desktop's public key, when it was paired, a session
         identifier, the relay address, a device id and the name shown for it in the app.</li>
       </ul>
       <p>A phone can be paired with several desktops at once — a work machine and a
       home one, say. Each pairing has its own private key and its own record, written to the
       keystore separately, so no two desktops see the same phone identity and forgetting one
       leaves the rest untouched.</p>
-      <p>That is the whole list. Terminal output reaches the phone encrypted, is held in
+      <p>The phone also keeps, in the same keystore, the App Store's last answer on whether your relay subscription is active, so the app can still let you in when the App Store cannot be reached. That is the whole list. Terminal output reaches the phone encrypted, is held in
       memory while the app is open, and is never written to disk. Unpairing erases the key
       and the record for that desktop, and it works whether or not the relay is reachable.</p>
 
@@ -191,21 +201,21 @@
 
       <h3>What the phone app collects</h3>
       <p>Nothing. There is no account, no analytics SDK, no crash reporter, no advertising
-      identifier and no server of ours that the app talks to. The
+      identifier, and the only server of ours that the app talks to is the pairing relay described below, which cannot read what it forwards. The
       <a href="https://github.com/codedev-david/termpolis/blob/main/mobile/package.json" target="_blank" rel="noreferrer">dependency list</a>
       is short on purpose and is checked by a test on every push, so this claim cannot drift
       quietly.</p>
 
       <h2>4. The pairing relay</h2>
-      <p>The phone and the desktop are usually on different networks, so they meet at a
+      <p>The phone and the desktop (or, with Linked machines, two of your computers) are usually on different networks, so they meet at a
       relay we run. The relay is deliberately built so that trusting it is not required.</p>
       <ul>
-        <li>Every message is encrypted end to end between your phone and your desktop.
+        <li>Every message is encrypted end to end between your phone and your desktop, or between two linked computers.
         The keys are derived when you pair, from both devices' identities, and never exist
         anywhere else. The relay does not hold them and cannot derive them.</li>
-        <li>What the relay can see: an opaque room identifier, the size of each message,
+        <li>What the relay can see: the IP addresses of both ends, which end is the desktop, when each connects, an opaque room identifier, each frame's unencrypted header (its type, public keys while pairing and connecting, a counter), the size of each message,
         and its timing. Not the contents, not your terminal, not what you typed.</li>
-        <li>The relay keeps no logs of your traffic and stores no messages. It forwards a
+        <li>Cloudflare, which hosts the relay, keeps connection metadata (IP addresses, times and room ids) in its request logs. The relay itself writes no logs and stores no messages. It forwards a
         frame to the other end of the room and forgets it. A room with nobody in it is
         discarded.</li>
         <li>Transport is TLS, and the payload inside it is sealed separately. Both layers
@@ -213,7 +223,9 @@
       </ul>
       <p>When you pair, both screens show the same eight words. They are derived from the
       two device keys, so they match only if nothing is sitting in the middle. Comparing
-      them is the whole verification, and it takes a couple of seconds.</p>
+      them takes a couple of seconds. A phone pairs by scanning a code shown on your
+      desktop's screen, which carries the desktop's public key and a one-time pairing secret, so treat that code like a password
+      for the 90 seconds it is valid.</p>
 
       <h2>5. What we never do</h2>
       <ul>
@@ -230,12 +242,12 @@
       than by asking us:</p>
       <ul>
         <li><strong>Erase everything on the phone:</strong> forget each desktop in Settings,
-        or delete the app. Both destroy the key material.</li>
+        which destroys its key and record. Deleting the app is not a reliable way to erase them, because iOS can keep an app's Keychain items after it is deleted. Nothing in the app erases its cached answer on whether your relay subscription is active.</li>
         <li><strong>Cut the phone off from one desktop:</strong> revoke the device in that
         desktop's Remote settings. Either end is enough — the channel cannot be re-opened
         without both. Any other desktops the phone is paired with are unaffected.</li>
-        <li><strong>Erase everything on the desktop:</strong> clear the memory store from
-        Settings, or delete the app's user data directory.</li>
+        <li><strong>Erase everything on the desktop:</strong> delete the app's user data
+        directory (and, if you ever chose a memory sync folder, that folder too).</li>
         <li><strong>Stop telemetry:</strong> Settings → General → Privacy has one switch for
         crash reports and one for usage statistics. Both are off by default.</li>
         <li><strong>Turn the compression proxy off:</strong> untick <em>Route new Claude Code
@@ -243,7 +255,7 @@
         Claude Code sessions then go straight to Anthropic.</li>
         <li><strong>Undo the agent connection:</strong> Disconnect in Settings → Agent
         Integration removes the changes Termpolis made to your coding agents' settings.
-        Uninstalling on Windows does the same; on macOS and Linux, disconnect before you
+        Uninstalling on Windows or removing the Linux .deb does the same; on macOS, or with the AppImage, disconnect before you
         remove the app.</li>
       </ul>
       <p>If you are in the EEA, the UK, California or another region with statutory data
@@ -256,7 +268,7 @@
       knowingly collect information from them, and there is no mechanism by which we could.</p>
 
       <h2>8. Security</h2>
-      <p>Memory is encrypted at rest with AES-256-GCM. The remote channel uses X25519 key
+      <p>The memory store is encrypted at rest with AES-256-GCM where the operating system provides a keychain (see section 2 for the exceptions); its link graph and its archive of older memories are not. The remote channel uses X25519 key
       agreement, HKDF-SHA256 key derivation and ChaCha20-Poly1305 authenticated encryption,
       with the safety-word comparison above as the defence against a substituted key. The
       phone's private key sits in the platform keystore, not in application storage. The

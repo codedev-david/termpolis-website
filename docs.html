@@ -21,7 +21,7 @@
   <meta property="og:description" content="Every feature, panel, and keyboard shortcut in Termpolis — the terminal where Claude, Codex, and Gemini work as a team.">
   <meta property="og:image" content="https://termpolis.com/assets/screenshot-welcome.png">
   <meta property="og:image:width" content="1368">
-  <meta property="og:image:height" content="908">
+  <meta property="og:image:height" content="912">
   <meta property="og:image:alt" content="Termpolis welcome screen with AI agents, workspaces, and swarm controls.">
   <meta property="og:locale" content="en_US">
 
@@ -109,7 +109,7 @@
             <li><a href="#sidebar">Sidebar</a></li>
             <li><a href="#workspaces">Workspaces</a></li>
             <li><a href="#terminals">Terminals</a></li>
-            <li><a href="#views">Tabs, splits &amp; grid</a></li>
+            <li><a href="#views">Tabs &amp; splits</a></li>
             <li><a href="#settings">Settings</a></li>
             <li><a href="#processes">Processes</a></li>
             <li><a href="#themes">Themes</a></li>
@@ -134,6 +134,7 @@
           <ul class="docs-toc">
             <li><a href="#agents">AI agent profiles</a></li>
             <li><a href="#second-opinion">Second Opinion</a></li>
+            <li><a href="#remote">Termpolis Remote (phone)</a></li>
             <li><a href="#linked-machines">Linked machines</a></li>
             <li><a href="#capabilities">Capability ratings</a></li>
             <li><a href="#mcp">MCP server</a></li>
@@ -193,7 +194,7 @@
             <p class="docs-lead">
               The definitive guide to Termpolis — <strong>Secure AI-Assisted Development</strong>.
               The local-first multi-agent terminal where Claude, Codex, and Gemini work as a
-              team without your source code leaving the machine. Built-in
+              team. Built-in
               <a href="#security-center">AI Security Center</a>, swarm orchestration, MCP server,
               and a one-shortcut path from terminal to Slack, Teams, or a PR.
               Every feature, every panel, every shortcut.
@@ -228,14 +229,14 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
-              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> <a href="#security-secret-scanner">watches every AI prompt against 97 secret rules and names what leaked</a>, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, enforces Gemini paid-tier mode, and keeps an auditable JSONL log — every check runs locally.</li>
+              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> <a href="#security-secret-scanner">watches every prompt you send to a Claude Code or Codex session started from Termpolis&rsquo;s agent launchers against 97 secret rules and names what leaked</a>, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, flags Gemini&rsquo;s free OAuth tier, and keeps an auditable JSONL log — every check runs locally.</li>
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, and Gemini CLI work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
-              <li><strong>Transparent routing.</strong> Every subtask shows which agent got it, why, and what it cost.</li>
+              <li><strong>Transparent routing.</strong> Every subtask is a card in the Swarm Dashboard with its status and result, and the Trace tab shows the conductor&rsquo;s messages and tool calls as it works.</li>
               <li><strong>Activity observability.</strong> Every token, every tool call, every message from every agent is visible in real time.</li>
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
-              <li><strong>Shared memory.</strong> A RAG-backed memory store that any agent can read and write via MCP.</li>
-              <li><strong>MCP-native end to end.</strong> All three agents speak MCP — no terminal-output parsers, no glue scripts, no bridge code paths.</li>
+              <li><strong>Shared memory.</strong> A RAG-backed memory store that Claude Code and Codex can read and write via MCP.</li>
+              <li><strong>MCP-native.</strong> Once you connect your agents, Termpolis registers its MCP server in Claude Code&rsquo;s and Codex&rsquo;s config &mdash; no config to write by hand. It doesn&rsquo;t connect itself to <code>agy</code>, the CLI Gemini terminals run.</li>
               <li><strong>Share-ready output.</strong> One shortcut from terminal to Slack, Teams, or a PR — see <a href="#copy-share">Copy for Slack / Teams / PRs</a>.</li>
             </ul>
           </section>
@@ -257,7 +258,7 @@
               a prompt you choose to send and cannot guarantee a provider's stated retention
               policy is enforced server-side. The Security Center is <em>defense in depth</em> —
               it catches recognisable secrets, flags oversize code/<code>.env</code> pastes,
-              detects unexpected network endpoints, and writes everything to a local audit log.
+              and writes everything to a local audit log.
               For absolute air-gap, run a local model and accept the quality / hardware
               trade-off.
             </p>
@@ -265,15 +266,15 @@
             <ul class="docs-list">
               <li><strong>Local-first.</strong> Every check runs on the machine. None of these features send data to Termpolis or any third party.</li>
               <li><strong>Native, not a browser/IDE plugin.</strong> Termpolis is a terminal manager, not a Chrome extension piping your buffer to a SaaS backend.</li>
-              <li><strong>No telemetry unless you opt in.</strong> No login, no phone-home. Crash reports and anonymous usage statistics are two separate opt-ins, both off until you tick them, and a crash report replaces your home-folder paths and user name before it is sent.</li>
-              <li><strong>Verifiable.</strong> Every claim links to the provider's published ToS page; a weekly drift watcher (v1.11.52) opens a tracking issue when those pages change.</li>
+              <li><strong>No telemetry unless you opt in.</strong> No login, and no phone-home beyond the update check (a request to GitHub Releases shortly after launch and every four hours). Crash reports and anonymous usage statistics are two separate opt-ins, both off until you tick them, and a crash report replaces your home-folder paths and user name before it is sent.</li>
+              <li><strong>Verifiable.</strong> Every claim links to the provider's published ToS page; a weekly drift watcher (v1.11.52) opens a tracking issue when the Anthropic or Google page changes (OpenAI&rsquo;s page blocks automated checks and is not compared).</li>
               <li><strong>Honest about limits.</strong> Each control below names what it can <em>not</em> catch.</li>
             </ul>
 
             <h3>Per-provider training-disposition facts</h3>
             <p>
               The panel summarizes how each provider treats prompts on their commercial tier, sourced
-              from the official ToS pages and updated with each release of Termpolis:
+              from the official ToS pages as of 2026-05-05:
             </p>
             <ul class="docs-list">
               <li><strong>Anthropic (Claude Code).</strong> API + commercial usage — default off for training.</li>
@@ -283,7 +284,7 @@
 
             <h3 id="security-secret-scanner">Watch every prompt (v1.25.2)</h3>
             <p>
-              Once you launch <code>claude</code>, <code>codex</code>, or <code>gemini</code>
+              Once Termpolis spots an agent launch (the whole <code>claude</code>, <code>codex</code>, or <code>gemini</code> command arriving in one write, which is how its Claude Code and Codex launchers send it; a command typed key by key, or the <code>agy</code> command the Gemini CLI profile runs, is not spotted)
               in a terminal, every Enter and every paste-sized chunk
               (≥32 bytes) is scanned in main-process memory against <strong>97 secret rules</strong>.
               The scan runs on a <strong>shadow copy</strong>. Every byte you type is forwarded to the
@@ -444,17 +445,17 @@
             <h3 id="security-gemini">Gemini account-mode auto-detect + Strict Mode</h3>
             <p>
               The Gemini CLI is the highest-risk surface, because the free OAuth tier may be used
-              for product improvement. Termpolis inspects the running shell environment to identify
+              for product improvement. Termpolis inspects the environment it was itself started with (a variable exported in a terminal, or set only in a shell profile such as <code>~/.bashrc</code>, is not seen) to identify
               which tier the CLI will hit:
             </p>
             <ul class="docs-list">
               <li><strong>Vertex AI</strong> — <code>GOOGLE_APPLICATION_CREDENTIALS</code> + <code>GOOGLE_CLOUD_PROJECT</code>.</li>
               <li><strong>Code Assist (Workspace)</strong> — <code>GOOGLE_GENAI_USE_GCA=true</code>.</li>
               <li><strong>Paid API key</strong> — <code>GEMINI_API_KEY</code> or <code>GOOGLE_API_KEY</code>.</li>
-              <li><strong>Free OAuth fallback</strong> — none of the above. Flagged in red.</li>
+              <li><strong>Free OAuth fallback</strong> — none of the above. Flagged amber and labelled &ldquo;UNSAFE for proprietary code&rdquo;.</li>
             </ul>
             <p>
-              When <strong>Strict Mode</strong> is enabled, Termpolis intercepts <code>gemini</code>
+              When <strong>Strict Mode</strong> is enabled, Termpolis intercepts a <code>gemini</code> command that reaches a terminal in one write (from a custom agent profile, a macro or a paste). It does not see a <code>gemini</code> typed key by key, or the <code>agy</code> command the built-in Gemini CLI profile runs. Within that limit it watches
               invocations from any terminal. If the resolved account mode isn't paid-tier-safe, the
               launch is cancelled with <kbd>Ctrl+C</kbd>, an in-band ANSI banner explains why, and the
               <code>gemini</code> text <strong>never reaches the PTY</strong>. The blocked launch is
@@ -516,7 +517,7 @@
 
             <h3 id="security-audit">Local JSONL audit log (on by default since v1.25)</h3>
             <p>
-              Every AI-agent terminal launch is recorded in <code>ai-security-audit.jsonl</code> inside
+              Every AI-agent launch Termpolis spots (see <a href="#security-secret-scanner">Watch every prompt</a> for which ones) is recorded in <code>ai-security-audit.jsonl</code> inside
               the Termpolis <a href="#install">data directory</a> (<code>%APPDATA%\termpolis\</code> on
               Windows). Each record is one JSON object containing the timestamp, the agent, the terminal
               id, and (optionally) byte counts and hit counts. The file is append-only with 10 MB
@@ -646,9 +647,9 @@
               On a match the watcher writes an audit entry tagged
               <code>sensitive_file_read</code> (with rule id, tool name, source path) and
               fires a <code>terminal:sensitive-file-read</code> IPC event to the renderer
-              which displays a banner naming the file and the agent. A per-terminal counter
+              — but no part of the UI listens for it yet, so no banner appears; the read shows up in the audit log. A per-terminal counter
               is exposed via <code>aiSecurity.sensitiveReads(terminalId)</code> so the
-              Security panel can show "3 sensitive reads this session" alongside the running
+              Security panel could show a per-session count, but the panel never calls it; it shows a &ldquo;recent matches&rdquo; count from the audit log, with the newest five reads in a short running
               list.
             </p>
             <p>
@@ -669,7 +670,7 @@
               (indentation density, braces/punctuation density, common keywords like
               <code>function</code>/<code>class</code>/<code>import</code>/<code>def</code>,
               and module declarations such as <code>import …</code> or <code>#include</code>).
-              When two or more of those signals fire, the prompt is flagged to the UI
+              When two or more of those signals fire, the prompt is reported in a renderer event that no part of the UI displays yet
               (<code>terminal:code-chunk-detected</code>) and written to the audit log as a
               <code><strong>code_chunk_sent</strong></code> event. A separate detector counts
               <code>UPPER_SNAKE=value</code> lines (with an optional <code>export</code>
@@ -693,20 +694,20 @@
 
             <h3 id="security-egress">Per-agent egress audit (v1.11.52)</h3>
             <p>
-              Termpolis asks the OS what TCP connections an AI agent's PID has open
+              Termpolis asks the OS what TCP connections the terminal's own process (the shell it started, not the agent running inside it) has open
               (<code>netstat -ano</code> on Windows, <code>ss -tnp</code> on Linux,
               <code>lsof -nP -iTCP -p &lt;pid&gt;</code> on macOS) and records each unique
-              remote <code>host:port</code> to the audit log, so you can answer "did Claude talk
+              remote <code>host:port</code> in an in-memory list for that terminal (only Egress Guard violations reach the audit log). Nothing in the app displays that list, so it cannot yet answer "did Claude talk
               to anything other than <code>api.anthropic.com</code> today?".
             </p>
             <p>
-              <strong>The poll is on-demand — it runs when you open the Security panel, not on a
+              <strong>The poll is on-demand, and nothing in v1.50.1 requests it (opening the Security panel does not), so it never runs. There is no
               background timer.</strong> That is a deliberate reversal. The original design polled
               every 60 seconds per AI terminal, and that triad — enumerate processes, spawn a
               subprocess, from a freshly-signed executable — was load-bearing in the Windows
               Defender cloud-ML <em>false positive</em> that quarantined v1.11.55. A continuous
               behavioural signature is exactly what heuristic AV hunts for. The cost of moving to
-              on-demand is one extra shell-out the first time you open the panel; the benefit is
+              on-demand is that, until something calls the poll, no egress is sampled at all; the benefit is
               that the security feature stops getting the app flagged as malware.
             </p>
             <p>
@@ -719,12 +720,12 @@
             <h3 id="security-egress-guard">Egress Guard — the allowlist policy (v1.25)</h3>
             <p>
               The egress audit above <em>records</em>. The <strong>Egress Guard</strong> turns that
-              record into a <strong>policy</strong>. Every remote host an agent connects to is checked
+              record into a <strong>policy</strong>. Every host the egress poll returns (in v1.50.1 nothing runs that poll) is checked
               against the known AI-provider allowlist; anything outside it is raised as a
               <strong>violation</strong> and written to the <a href="#security-audit">audit trail</a>.
               Claude talking to <code>api.anthropic.com</code> is expected, and stays quiet. Claude
               talking to a paste site, an unfamiliar VPS, or a host you have never seen before is
-              something you now find out about instead of having to go looking for it.
+              what the guard is built to flag &mdash; but the poll looks only at the shell&rsquo;s own connections, not the agent&rsquo;s, and in v1.50.1 nothing runs it.
             </p>
             <p>
               <strong>Matching is dot-anchored</strong>, which is the entire game for an allowlist: a
@@ -786,7 +787,7 @@
             <p>
               A scheduled GitHub Action
               (<a href="https://github.com/codedev-david/termpolis/blob/main/.github/workflows/tos-drift.yml" target="_blank" rel="noreferrer"><code>.github/workflows/tos-drift.yml</code></a>)
-              runs every Monday at 13:00 UTC. It fetches the three provider pages this app
+              runs every Monday at 13:00 UTC. It fetches the Anthropic and Google pages this app
               cites, normalises the HTML aggressively (strips
               <code>&lt;script&gt;</code>/<code>&lt;style&gt;</code>/<code>&lt;svg&gt;</code>/<code>&lt;head&gt;</code>
               and HTML comments, decodes entities, collapses whitespace), hashes the result,
@@ -833,9 +834,11 @@
             </p>
             <p>
               <strong>Safe Import</strong> (<strong>Settings → General</strong>) is the front door.
-              Point it at a <code>.zip</code> or a folder. Termpolis stages the artifact in a
-              <strong>quarantine</strong> directory, statically analyses every file inside it, and shows
-              you a verdict <em>before</em> anything is installed anywhere your agents can reach.
+              Point it at a folder (on macOS a <code>.zip</code> works too; on Windows and Linux the
+              picker only accepts folders, so unzip it first). Termpolis stages the artifact in a
+              <strong>quarantine</strong> (read into memory, nothing written to disk), statically
+              analyses its text files (the first 512&nbsp;KB of each; binary-looking files are not
+              scanned), and shows you a verdict <em>before</em> anything is installed anywhere your agents can reach.
             </p>
             <div class="docs-callout">
               <p>
@@ -850,7 +853,8 @@
 
             <h3>What it scans for</h3>
             <p>
-              <strong>41 rules</strong> across six families, applied to every file in the artifact. A
+              <strong>41 rules</strong> across six families, applied to every text file in the artifact
+              (the first 512&nbsp;KB of each). A
               live progress bar shows the scan file by file, so a large plugin doesn't just sit on a
               spinner:
             </p>
@@ -872,9 +876,10 @@
                 <code>$HOME</code>, <code>%APPDATA%</code>, an absolute system path). Either is worth a
                 look; together on one line — a destructive op pointed outside the project — they are the
                 shape of a skill that deletes something it was never asked to touch.</li>
-              <li><strong>Obfuscation.</strong> Long base64 or hex blobs, <code>atob</code> piped into
-                an exec, minified single-line payloads — the shapes whose whole purpose is to stop
-                <em>you</em> reading the file. A base64 decode on its own is benign (images, fixtures);
+              <li><strong>Obfuscation.</strong> Long base64 or hex blobs, any <code>atob()</code> call,
+                minified single-line payloads — the shapes whose whole purpose is to stop
+                <em>you</em> reading the file. A <code>Buffer.from(&hellip;, 'base64')</code> or
+                <code>b64decode</code> on its own is only a yellow (images, fixtures);
                 it turns red when the same file also contains something that would
                 <em>execute</em> what the decode produces.</li>
               <li><strong>Prompt injection in the instructions themselves.</strong> The dangerous part
@@ -893,7 +898,8 @@
             <ul class="docs-list">
               <li><strong>🟢 Green</strong> — nothing matched. Install it if you want it.</li>
               <li><strong>🟡 Yellow</strong> — it matched something that legitimate code also does (a
-                skill that calls an API genuinely does need <code>fetch</code>). Your call, with the
+                skill that reads a setting genuinely does need <code>process.env</code>; any network
+                call, <code>fetch</code> included, is red). Your call, with the
                 offending lines in front of you.</li>
               <li><strong>🔴 Red — cannot be installed.</strong> Not &ldquo;warns you loudly&rdquo;.
                 Cannot. The refusal is enforced in the <strong>main process</strong>, independently of
@@ -905,9 +911,9 @@
             <p>
               When you approve an artifact, the approval is pinned to a <strong>SHA-256 of the
               artifact's content</strong> — not to its name and not to its path. If the artifact is
-              later edited, the hash no longer matches and <strong>you are prompted again</strong>. That
-              closes trust-on-first-use-then-swap: a skill cannot pass review as something harmless,
-              settle into your config, and then quietly become something else.
+              changed and you import it again, the new content gets a new hash and goes through the
+              scan and your approval from scratch. Termpolis does not re-check an artifact's files
+              after it is installed.
             </p>
 
             <h3>Where an approved artifact lands</h3>
@@ -917,8 +923,8 @@
               the three CLIs do not all implement the same extension points:
             </p>
             <ul class="docs-list">
-              <li><strong>MCP server → all three agents.</strong> Written into the MCP config for Claude,
-                Codex <em>and</em> Gemini. MCP is the one extension point all three speak.</li>
+              <li><strong>MCP server → Codex (not yet Claude Code, and not the <code>agy</code> Termpolis runs for Gemini, which does not read Gemini&rsquo;s <code>settings.json</code>).</strong> Written into the
+                MCP config for Codex <em>and</em> Gemini. MCP is the one extension point all three speak.</li>
               <li><strong>Slash command → Claude and Gemini.</strong> Both have a
                 user-command directory (<code>~/.claude/commands</code> and the Gemini equivalent).
                 Codex does not, so a command is <em>not</em> installed for Codex.</li>
@@ -929,8 +935,8 @@
             </ul>
             <p>
               So &ldquo;Safe Import wires it into your agents&rdquo; is deliberately <em>not</em> a
-              blanket claim: an MCP server really does reach all three, while a skill only ever reaches
-              Claude. The report tells you which agents a given artifact will actually touch before you
+              blanket claim: an MCP server reaches Codex (and a legacy <code>gemini</code> CLI, but not the <code>agy</code> Termpolis runs for Gemini), while a skill only ever reaches
+              Claude. The report lists the agents whose config a given artifact will be written into; for an MCP server it also ticks Claude and Gemini, even though Claude Code and <code>agy</code> won&rsquo;t load those copies, so you can untick them before you
               approve it.
             </p>
             <p>
@@ -939,7 +945,9 @@
               extraction directory to write somewhere it was never meant to reach) and
               <strong>TOML injection</strong> (an artifact whose fields are crafted to break out of the
               field they belong in and inject extra configuration into an agent's MCP file). Both are
-              <strong>refused</strong> — not sanitised, patched up, and hoped over.
+              stopped: an archive entry with a <code>..</code> path is dropped rather than repaired, and
+              every string written into a TOML file is escaped so it cannot end early and inject
+              configuration.
             </p>
           </section>
 
@@ -955,8 +963,7 @@
             </p>
             <h3>Copy &mdash; <kbd>Ctrl+Shift+C</kbd></h3>
             <p>
-              Copies the current selection &mdash; or the entire visible terminal buffer if nothing is
-              selected &mdash; as clean text. This is the everyday copy, permanently bound to
+              Copies the current selection as clean text. This is the everyday copy, permanently bound to
               <kbd>Ctrl+Shift+C</kbd>.
             </p>
             <h3>Copy for Teams/Slack &mdash; <kbd>Ctrl+Shift+K</kbd></h3>
@@ -968,13 +975,14 @@
             </p>
             <h3>Copy as Code Block &mdash; <kbd>Ctrl+Shift+Q</kbd></h3>
             <p>
-              Wraps the selection, or the whole visible buffer, in triple-backtick fences and copies
+              Wraps the selection in triple-backtick fences and copies
               it to the clipboard. Markdown-ready for GitHub, GitLab, or any wiki that respects
               fenced code, and the monospaced layout survives.
             </p>
             <p>
               These three shortcuts are <strong>reserved defaults</strong>: they always work and a
-              custom keybinding can never override them. Rebind everything else under
+              custom keybinding can never override them. Rebind most other shortcuts (not
+              <kbd>Ctrl+K</kbd>, the panel toggles or <kbd>Alt+1&hellip;9</kbd>) under
               Settings &rarr; Keybindings.
             </p>
             <h3>Selecting across scrollback</h3>
@@ -1009,31 +1017,29 @@
                   <tr><th>Platform</th><th>File</th><th>Signed</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>Windows</td><td><code>termpolis-setup-&lt;ver&gt;.exe</code></td><td>Code-signed</td></tr>
-                  <tr><td>macOS (Apple Silicon)</td><td><code>termpolis-&lt;ver&gt;-arm64.dmg</code></td><td>Notarized</td></tr>
-                  <tr><td>macOS (Intel)</td><td><code>termpolis-&lt;ver&gt;.dmg</code></td><td>Notarized</td></tr>
+                  <tr><td>Windows</td><td><code>Termpolis.Setup.&lt;ver&gt;.exe</code></td><td>Code-signed</td></tr>
+                  <tr><td>macOS (Apple Silicon)</td><td><code>Termpolis-&lt;ver&gt;-arm64.dmg</code></td><td>Notarized</td></tr>
+                  <tr><td>macOS (Intel)</td><td><code>Termpolis-&lt;ver&gt;.dmg</code></td><td>Notarized</td></tr>
                   <tr><td>Linux (Debian / Ubuntu)</td><td><code>termpolis_&lt;ver&gt;_amd64.deb</code></td><td>—</td></tr>
-                  <tr><td>Linux (other distros)</td><td><code>termpolis-&lt;ver&gt;.AppImage</code></td><td>—</td></tr>
+                  <tr><td>Linux (other distros)</td><td><code>Termpolis-&lt;ver&gt;.AppImage</code></td><td>—</td></tr>
                 </tbody>
               </table>
             </div>
             <h3>Installing the .deb on Debian / Ubuntu</h3>
             <p>
-              Use <code>dpkg</code>, <strong>not</strong> <code>sudo apt install ./termpolis*.deb</code>.
-              On Ubuntu 22.04+ apt drops to a sandboxed <code>_apt</code> user that can&rsquo;t read
-              files in your home directory, which fails with
-              <em>&ldquo;Permission denied / pkgAcquireRun: 13&rdquo;</em>. <code>dpkg</code> doesn&rsquo;t
-              drop privileges, so it works regardless of where the .deb is saved:
+              Install it with <code>apt</code>, which pulls in any missing dependencies. If the .deb
+              is in your home folder, apt may print a notice that the download is performed
+              unsandboxed as root; that is harmless and the install continues:
             </p>
-            <pre><code>sudo dpkg -i ./termpolis_*.deb</code></pre>
+            <pre><code>sudo apt install ./termpolis_*.deb</code></pre>
             <p>
-              The package&rsquo;s postinst (v1.11.30+) takes care of the rest automatically:
-              it runs <code>apt-get install -f -y</code> to pull any missing transitive
-              dependencies (libgtk, libnss3, &hellip;), refreshes the desktop and hicolor
-              icon caches so the launcher icon shows up immediately, and ships the .desktop
-              entry with <code>--no-sandbox --disable-gpu</code> baked into the
-              <code>Exec=</code> line so the dock icon launches a working window on
-              NVIDIA / Wayland setups without any manual flags.
+              The package declares its dependencies (libgtk, libnss3, &hellip;), so <code>apt</code>
+              installs any that are missing. Its postinst refreshes the desktop and hicolor
+              icon caches so the launcher icon shows up immediately, and the package ships the .desktop
+              entry with <code>--no-sandbox</code> baked into the <code>Exec=</code> line. GPU
+              acceleration stays on (only VAAPI video decode/encode is turned off); if the window
+              comes up blank on broken drivers, start Termpolis with
+              <code>TERMPOLIS_DISABLE_GPU=1</code>.
             </p>
             <h3 id="install-windows-defender">If Windows Defender quarantines Termpolis after install or auto-update</h3>
             <p>
@@ -1091,7 +1097,7 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
               release that hasn&rsquo;t been classified by Defender&rsquo;s cloud model:
               browse <a href="https://github.com/codedev-david/termpolis/releases" target="_blank" rel="noreferrer">GitHub Releases</a>,
               pick the version right before the one that got flagged, and disable
-              auto-update in Termpolis Settings so it doesn&rsquo;t re-pull the flagged
+              auto-update by setting the user environment variable <code>TERMPOLIS_SKIP_UPDATER=1</code> before you start Termpolis so it doesn&rsquo;t re-pull the flagged
               build.
             </p>
             <h3>Requirements</h3>
@@ -1099,7 +1105,7 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
               <li>Windows 10 or 11 (x64)</li>
               <li>macOS 10.15 (Catalina) or later, Apple Silicon and Intel builds ship separately</li>
               <li>Linux: .deb for Debian/Ubuntu, AppImage for any other modern glibc distro</li>
-              <li>~200 MB disk; 512 MB RAM minimum, 2 GB recommended when running multiple agents</li>
+              <li>~650 MB disk; 512 MB RAM minimum, 2 GB recommended when running multiple agents</li>
             </ul>
             <h3>Data directory</h3>
             <div class="docs-table-wrap">
@@ -1118,16 +1124,16 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
           <section id="api-keys" class="docs-section">
             <h2>Before you begin · API keys</h2>
             <p>
-              Termpolis is a terminal — it doesn't talk to AI providers itself. Each AI agent
+              Termpolis is a terminal — the coding agents are not built into it. Each AI agent
               (Claude Code, Codex, Gemini CLI) is a separate CLI tool you launch
               <em>inside</em> a Termpolis terminal, and that tool needs its own credentials.
-              Termpolis never asks you for an API key, never sees one, and never stores one.
+              Termpolis never asks for a coding agent&rsquo;s API key and never stores one. The only key it asks for is a Groq key, if you turn on <a href="#voice">voice dictation</a>. With the <a href="#headroom">compression proxy</a> on (the default), the Claude Code sessions Termpolis launches send their requests, credentials included, through its local proxy to api.anthropic.com; the proxy passes the credentials on without storing them.
             </p>
             <div class="docs-callout">
               <p>
                 <strong>The minimum to be productive: pick one provider, install its CLI, set
                 its API key once.</strong> You do not need all three. A single agent is enough
-                to use every Termpolis feature except the multi-agent swarm.
+                to get started. The multi-agent swarm needs Claude Code (it runs the conductor), and a few features, such as the compression proxy and Past AI Sessions, work with Claude Code only.
               </p>
             </div>
             <h3>Pick the agent that matches the account you already have</h3>
@@ -1148,16 +1154,16 @@ Start-Process "$env:LOCALAPPDATA\termpolis-updater\pending\Termpolis.Setup.*.exe
                     <td><code>npm install -g @openai/codex</code></td>
                   </tr>
                   <tr>
-                    <td>Google AI Studio key, Vertex AI, or Code Assist (Workspace)</td>
+                    <td>A Google account (Google AI Pro / Ultra for higher limits)</td>
                     <td>Gemini CLI</td>
-                    <td><code>npm install -g @google/gemini-cli</code></td>
+                    <td><code>irm https://antigravity.google/cli/install.ps1 | iex</code> (Windows) or <code>curl -fsSL https://antigravity.google/cli/install.sh | bash</code> (macOS / Linux) &mdash; installs the Antigravity CLI (<code>agy</code>), which Termpolis runs for Gemini.</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <h3>Setting the key (one-time, per provider)</h3>
             <p>
-              Each CLI reads its key from an environment variable. Set it once in your shell's
+              If you have a Claude.ai or ChatGPT plan, just run the CLI once and sign in (for Codex: <code>codex login</code>); the Antigravity CLI behind Gemini signs in with your Google account. To use an API key instead, each CLI reads it from an environment variable. Set it once in your shell's
               startup file (<code>~/.bashrc</code>, <code>~/.zshrc</code>, or your PowerShell
               profile) and Termpolis terminals will pick it up automatically. The exact variable
               name per provider:
@@ -1199,8 +1205,12 @@ source ~/.zshrc</code></pre>
               <strong>Heads-up about Gemini.</strong> The <code>gemini</code> CLI defaults to a
               free OAuth tier when no env var is set, and Google may use that traffic to
               improve products. Termpolis flags this in <strong>Settings → AI Security</strong>
-              and offers a <a href="#security-gemini">Strict Mode</a> that blocks the launch
-              until you set <code>GEMINI_API_KEY</code> (or another paid-tier signal).
+              and offers an opt-in <a href="#security-gemini">Strict Mode</a> that refuses a
+              <code>gemini</code> command until you set <code>GEMINI_API_KEY</code> (or another
+              paid-tier signal). It only catches a <code>gemini</code> command written to the
+              terminal in one piece, such as the cross-AI handoff to Gemini, not one typed key by
+              key, and it does not catch the Antigravity CLI (<code>agy</code>) that
+              Termpolis&rsquo;s Gemini launcher runs.
             </p>
             <h3>Verifying it worked</h3>
             <p>
@@ -1232,15 +1242,15 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               agents connected and nothing sent. If you updated from a version before v1.49,
               Termpolis asks the two questions once instead, your coding agents first, then
               privacy, and sends nothing until you answer. The
-              tour is one-time; you can revisit it any time from <strong>Help / Support →
-              Show tour again</strong>. After dismissing it you land on the welcome view. From
+              tour is one-time. After dismissing it you land on the welcome view. From
               there:
             </p>
             <ol class="docs-list docs-list-ordered">
               <li>
-                <strong>Pick a shell.</strong> Click any of the quick-launch buttons in the
-                center of the welcome view — bash, zsh, PowerShell, cmd, or whichever shells
-                Termpolis detected on your machine. A terminal pane opens.
+                <strong>Pick a shell.</strong> Click <strong>New Terminal</strong> in the
+                center of the welcome view, choose one of the shells Termpolis detected on your
+                machine (bash, zsh, PowerShell, cmd&hellip;) and click <strong>Create</strong>. A
+                terminal pane opens.
               </li>
               <li>
                 <strong>(Optional) Open the AI Agents row.</strong> The sidebar has an
@@ -1258,7 +1268,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <strong>Save your first workspace.</strong> When you've got terminals you'd
                 want to come back to, click <strong>+ Save Workspace</strong> in the sidebar.
                 Termpolis snapshots the names, shells, themes, and working directories so they
-                restore the next time you open the app.
+                come back with one click: next time you open the app, click the workspace in the sidebar.
               </li>
               <li>
                 <strong>Press <kbd>Ctrl</kbd> + <kbd>/</kbd> any time</strong> to jump to the
@@ -1288,8 +1298,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               </li>
               <li>
                 <strong>Click the agent you want to run</strong> — Claude Code, Codex, or Gemini
-                CLI. Termpolis opens a fresh terminal, sets the right working
-                directory, runs the agent's interactive command, and color-codes the tab so
+                CLI. Termpolis asks which project folder to work in, opens a fresh terminal
+                there, runs the agent's interactive command, and color-codes the tab so
                 you can see at a glance which agent is in which pane.
               </li>
               <li>
@@ -1301,16 +1311,18 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 </ul>
               </li>
               <li>
-                <strong>Watch the status bar.</strong> A colored badge appears next to the
-                agent name with running token cost. The
+                <strong>Watch the status bar.</strong> A colored <strong>ctx</strong> percentage
+                shows how full the active agent&rsquo;s context window is. The
                 <a href="#observability-docs">Observability panels</a> light up the moment the
                 agent makes a tool call.
               </li>
               <li>
-                <strong>If the agent runs out of context</strong>, an amber banner offers a
-                <a href="#context-handoff">cross-AI handoff</a> — one click to continue the
-                same conversation in a different model with task, branch, and recent diff
-                already in scope.
+                <strong>If a Claude Code session gets too long</strong>, open
+                <strong>Past AI Sessions</strong> (top-right of the terminal), choose
+                <strong>Continue ▾</strong> on the session and pick another agent. It opens with
+                the original goal, your latest direction, the last answer and the git branch
+                already pasted in, ready for you to send &mdash; see
+                <a href="#context-handoff">cross-AI handoff</a>.
               </li>
             </ol>
             <p>
@@ -1344,7 +1356,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 (e.g. "build the API + write the migration + add tests + write docs", or
                 "rewrite three unrelated modules in the same style.")
                 → <strong>Swarm.</strong> The conductor decomposes the task, hands subtasks to
-                the agents best-rated for each, and merges results.
+                the agents best-rated for each, and tracks them until they finish; in a git repo you can then check what it changed with <code>git diff</code> (the dashboard&rsquo;s Review tab can&rsquo;t be opened yet in v1.50.1; see <a href="#review">Swarm review</a>).
               </li>
               <li>
                 <strong>Is the task a long spec rather than a single ask?</strong>
@@ -1382,7 +1394,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr>
                     <td><strong>Cost</strong></td>
                     <td>Just the agent you're using.</td>
-                    <td>Conductor + each agent it picks. Set a budget cap in the wizard.</td>
+                    <td>Conductor + each agent it picks.</td>
                   </tr>
                   <tr>
                     <td><strong>Visibility</strong></td>
@@ -1408,10 +1420,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Sidebar</h2>
             <p>The sidebar is the navigation spine of the app. From top to bottom:</p>
             <ol class="docs-list docs-list-ordered">
-              <li>Termpolis logo: click to return to the welcome view.</li>
-              <li>Workspaces, one row per open workspace. See the <a href="#workspaces">Workspaces</a> section below for how they work.</li>
-              <li>Tool buttons, Settings, Git Panel, Workflows, Activity, Swarm, each toggleable.</li>
-              <li>Collapse/expand chevron, hides labels to save space.</li>
+              <li>Toolbar: Settings (gear), Split View / Tab View, Git Panel and Swarm Dashboard, with a chevron at the right that collapses the sidebar to a thin strip.</li>
+              <li>AI Agents: launchers for Claude Code, Codex and Gemini CLI, plus your own profiles. Click one and pick a folder to start it there.</li>
+              <li>Workspaces, one row per saved workspace. See the <a href="#workspaces">Workspaces</a> section below for how they work.</li>
+              <li>Workflows, then Terminals (one row per open terminal) and <strong>+ Add Terminal</strong> at the bottom.</li>
             </ol>
           </section>
 
@@ -1419,48 +1431,44 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="workspaces" class="docs-section">
             <h2>Workspaces</h2>
             <p>
-              Workspaces are the <strong>project-level container</strong> in Termpolis. Think of
-              them as the tabs in a browser, except each one holds a full set of terminals, a
-              split/grid layout, an active agent, a scrollback history, per-workspace settings,
-              and any panels you've left pinned. You can run many workspaces side-by-side and
-              switch between them without losing state.
+              Workspaces are saved sets of terminals. Saving one records each open terminal's name,
+              shell, folder, color, theme and font, and the AI agent it was launched with. Clicking a
+              workspace closes the terminals you have open and reopens that set, so only one set is
+              open at a time.
             </p>
             <h3>What a workspace owns</h3>
             <ul class="docs-list">
-              <li><strong>Terminals</strong>, every open pty in that workspace, with its shell, working directory, label, color, and scrollback buffer.</li>
-              <li><strong>Layout</strong>, tab view, split view (the full pane tree), or grid view. Restored exactly on relaunch.</li>
-              <li><strong>Focus</strong>, which terminal was active, cursor position, selection.</li>
-              <li><strong>Agent sessions</strong>, any Claude Code, Codex, or Gemini CLI runs tied to terminals in the workspace.</li>
-              <li><strong>Panel state</strong>, which side panels are open and their size.</li>
-              <li><strong>Per-workspace overrides</strong>, any setting scoped specifically to this workspace (shell default, font size, etc.).</li>
+              <li><strong>Terminals</strong>, each terminal that was open when you saved it, with its name, shell, working directory, color, theme and font. Scrollback is not saved.</li>
+              <li><strong>Agents</strong>, which AI agent (Claude Code, Codex or Gemini CLI) each terminal was launched with. Opening the workspace launches it again in that terminal; the running session itself is not saved.</li>
             </ul>
             <h3>How workspaces persist</h3>
             <p>
-              Everything above is written to <code>session.json</code> in the Termpolis data
-              directory (see <a href="#install">Installation</a> for the per-platform path) as
-              soon as it changes, so an unclean shutdown still leaves you with last-known-good
-              state. Re-opening the app restores the workspaces in the same order with the same
-              terminals, split layouts, and focus.
+              Your saved workspaces are written to <code>session.json</code> in the Termpolis data
+              directory (see <a href="#install">Installation</a> for the per-platform path) about a
+              second after any change, so an unclean shutdown still leaves you with last-known-good
+              state. Re-opening the app keeps your saved workspaces in the sidebar but starts with no
+              terminals open; click a workspace to reopen its terminals.
             </p>
             <h3>Creating a workspace</h3>
             <p>
-              Use the <strong>+ Workspace</strong> button at the top of the sidebar or the
-              <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> shortcut. Each new workspace
-              starts empty; pick a shell to open the first terminal.
+              Open the terminals you want, then click <strong>+ Save Workspace</strong> at the bottom
+              of the Workspaces list and give it a name (<em>Save Workspace</em> in the command
+              palette does the same with an automatic name). It saves the terminals that are open
+              right now; the button stays greyed out until at least one is open.
             </p>
             <h3>Managing workspaces</h3>
-            <p>Right-click any workspace row in the sidebar for:</p>
+            <p>Hover a workspace row in the sidebar for three buttons:</p>
             <ul class="docs-list">
-              <li><strong>Rename</strong>, changes the label in the sidebar and the window title when the workspace is active.</li>
-              <li><strong>Duplicate</strong>, creates a new workspace with the same terminal configuration (shell, cwd, label) but fresh, empty pty sessions. Useful when mirroring a setup for a second feature branch.</li>
-              <li><strong>Close</strong>, removes the workspace. If any terminals have live child processes, a confirmation dialog lists what's still running.</li>
-              <li><strong>Show in file explorer</strong>, opens the workspace's working directory in Finder / Explorer / your Linux file manager.</li>
+              <li><strong>Rename</strong>, changes the workspace's name in the sidebar (✎).</li>
+              <li><strong>Delete</strong> (✕), removes the saved workspace from the list straight away, with no confirmation. Open terminals are not touched.</li>
+              <li><strong>Update with current terminals</strong> (↻), overwrites the workspace with the terminals that are open now.</li>
             </ul>
             <h3>Switching between workspaces</h3>
             <p>
-              Click a workspace row in the sidebar to activate it. Unsaved terminal
-              output in background workspaces keeps streaming, nothing is paused just because
-              it's not visible.
+              Click a workspace row in the sidebar to activate it. Doing so closes every terminal
+              that is open now, ending its process, and opens the workspace's terminals in their
+              saved folders, relaunching the AI agents they were launched with. Save or update first
+              if you want to keep the current set.
             </p>
             <h3>Working directories</h3>
             <p>
@@ -1474,21 +1482,21 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="terminals" class="docs-section">
             <h2>Terminals</h2>
             <figure class="docs-shot">
-              <img src="docs/screenshots/03-new-terminal-modal.png" alt="New terminal modal with shell + agent options.">
-              <figcaption>The new-terminal modal with shell, cwd, and agent profile options.</figcaption>
+              <img src="docs/screenshots/03-new-terminal-modal.png" alt="New terminal modal.">
+              <figcaption>The new-terminal modal: name, folder, shell, font, theme and color.</figcaption>
             </figure>
             <p>
               Every pane is a full pty-backed terminal powered by <code>node-pty</code>, real TTY
               semantics, xterm escapes, signal forwarding. Not a shim.
             </p>
-            <p>Create one with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>. Pick a shell, a working directory, optionally an agent profile, plus a label and color.</p>
+            <p>Create one with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>. Pick a shell and a working directory, plus a name, color, theme and font. To start an AI agent, use the AI Agents list in the sidebar.</p>
             <figure class="docs-shot">
               <img src="docs/screenshots/04-terminal-running.png" alt="A running PowerShell terminal in Termpolis.">
-              <figcaption>A running terminal, copy on selection, 256-color palette, mouse scroll.</figcaption>
+              <figcaption>A running terminal, 256-color palette, mouse scroll.</figcaption>
             </figure>
             <p>
-              Closing a terminal with an active process prompts for confirmation, this protects
-              long-running tasks (model downloads, builds, agent sessions) from accidental loss.
+              Closing a terminal ends its process straight away, with no confirmation. Closing the
+              Termpolis window while an AI agent terminal is open does ask first.
             </p>
             <p>
               <strong>Start fresh with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>.</strong> This clears the
@@ -1502,22 +1510,22 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
           <!-- VIEWS -->
           <section id="views" class="docs-section">
-            <h2>Tabs, splits &amp; grid</h2>
+            <h2>Tabs &amp; splits</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/05-tab-view-multiple.png" alt="Tab view with multiple terminals open.">
               <figcaption>Tab view, every terminal gets its own tab.</figcaption>
             </figure>
             <p>
-              Terminals are arranged in one of three view modes. Pick whichever fits the task, tabs
-              for deep focus, splits for side-by-side work, grid for watching the swarm.
+              Terminals are arranged in one of two view modes. Pick whichever fits the task, tabs
+              for deep focus, splits for side-by-side work.
             </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/06-split-view.png" alt="Split view with two terminals side by side.">
               <figcaption>Split view, recursive, drag the divider to resize.</figcaption>
             </figure>
             <ul class="docs-list">
-              <li>Right-click a pane &rarr; <strong>Split right</strong> / <strong>Split down</strong>, or use the <a href="#command-palette">command palette</a>, to split.</li>
-              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>, toggle split / grid view</li>
+              <li>Right-click a pane &rarr; <strong>Split right</strong> / <strong>Split down</strong>, or use the split buttons in the pane header, to split. Both appear in split view (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>).</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>, toggle tab / split view</li>
               <li><kbd>Alt</kbd> + <kbd>1…9</kbd>, jump straight to terminal N</li>
               <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>, close the focused terminal</li>
               <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>, <a href="#terminals">clear the focused terminal</a>, screen and scrollback</li>
@@ -1529,10 +1537,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Settings</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/07-settings-panel.png" alt="Settings panel.">
-              <figcaption>The settings panel, slides in from the right.</figcaption>
+              <figcaption>The settings panel opens in place of your terminals.</figcaption>
             </figure>
-            <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button.</p>
-            <p>Tabs: <strong>General</strong> (theme, default shell, autocomplete, auto-primer, the crash-report and usage-statistics opt-ins, and <a href="#safe-import">Safe Import</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, <strong>Shell Config</strong>, <a href="#headroom">Token Savings</a> (including the Claude Code compression proxy switch), <strong>Remote</strong>, <strong>Agent Integration</strong> (connect or disconnect your coding agents, and see every change Termpolis made to their settings), <strong>MCP Servers</strong>, and <a href="#processes">Processes</a>.</p>
+            <p>Open with the gear icon in the sidebar. Changes save immediately, no apply button (the Shell Config editor has its own Save button).</p>
+            <p>Tabs: <strong>General</strong> (theme, default shell, auto-primer, the crash-report and usage-statistics opt-ins, and <a href="#safe-import">Safe Import</a>), <strong>Memory &amp; Learning</strong> (the local metrics dashboard), <strong>AI Security</strong> (including the <a href="#security-commit-shield">Commit Shield</a> and the <a href="#security-audit">audit-log viewer</a>), <strong>Voice</strong>, <strong>Keybindings</strong>, <strong>Agent Ratings</strong>, <strong>Shell Config</strong>, <a href="#headroom">Token Savings</a> (including the Claude Code compression proxy switch), <strong>Remote</strong>, <a href="#linked-machines">Linked machines</a>, <strong>Agent Integration</strong> (connect or disconnect your coding agents, and see every change Termpolis made to their settings), <strong>MCP Servers</strong>, and <a href="#processes">Processes</a>.</p>
           </section>
 
           <!-- PROCESSES -->
@@ -1574,13 +1582,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Themes</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/08-themes-picker.png" alt="Themes picker.">
-              <figcaption>The theme picker, curated dark themes plus VS Code import.</figcaption>
+              <figcaption>The theme picker: seven built-in terminal themes, dark and light.</figcaption>
             </figure>
             <p>
-              Ships with Termpolis Dark (default), Dracula, Solarized Dark, Nord, Gruvbox Dark,
-              Tokyo Night, Monokai. Each applies to terminals, app chrome, and AI conversation
-              syntax highlighting. Import any VS Code theme JSON, the parser maps tokenColors to
-              xterm colors automatically.
+              Ships with Dark (default), Light, Solarized Dark, Solarized Light, Monokai, Dracula
+              and Nord. A theme colors the terminal itself. Pick one per terminal (in the
+              new-terminal modal, or right-click the terminal in the sidebar) or set the default for
+              new terminals under Settings &rarr; General.
             </p>
           </section>
 
@@ -1589,7 +1597,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Keybindings</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/09-keybindings.png" alt="Keybindings settings tab.">
-              <figcaption>Every user-facing action is rebindable.</figcaption>
+              <figcaption>Rebind the listed actions (the three copy shortcuts are fixed) and add your own custom shortcuts.</figcaption>
             </figure>
             <p>
               Bindings are platform-aware, <kbd>Ctrl</kbd> becomes <kbd>⌘</kbd> on macOS
@@ -1615,9 +1623,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ol>
             <div class="docs-callout">
               <p>
-                <strong>Your API key never enters the renderer.</strong> It's stored
-                encrypted in your OS keychain (Windows DPAPI, macOS Keychain, Linux
-                libsecret) and used only in the main process to call Groq &mdash; it never
+                <strong>Your API key is never sent back to the renderer.</strong> Once you paste
+                it, it's stored encrypted with your OS keychain (Windows DPAPI, macOS Keychain,
+                Linux libsecret; on a Linux system with no keyring it is saved unencrypted in the
+                data directory) and used only in the main process to call Groq &mdash; it never
                 lands in <code>session.json</code>, settings, or any log. The renderer only
                 ever sees a masked hint (<code>gsk_&bull;&bull;&bull;&bull;abcd</code>) and a
                 connected flag.
@@ -1625,7 +1634,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </div>
             <h3>How to dictate</h3>
             <ul class="docs-list">
-              <li><strong>Tap <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> to start, tap again to stop &mdash; or hold it to talk and release to send.</strong> Both work on the same key by default (<em>tap-or-hold</em>). Pure-hold, tap-to-toggle, and tap-then-press-a-key-to-send modes are selectable under <strong>Activation</strong>; the hotkey and the send key are both rebindable. You can also click the mic button on the terminal pane, or the <strong>Listening&hellip;</strong> badge, to start/stop.</li>
+              <li><strong>Tap <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> to start, tap again to stop &mdash; or hold it to talk and release to send.</strong> Both work on the same key by default (<em>tap-or-hold</em>). Tap-to-toggle and tap-then-press-a-key-to-send modes are also selectable under <strong>Activation</strong>; the hotkey and the send key are both rebindable. You can also click the mic button on the terminal pane, or the <strong>Listening&hellip;</strong> badge, to start/stop.</li>
               <li><strong>In an AI-agent terminal</strong> (Claude &middot; Codex &middot; Gemini) your words are sent straight to the agent as a prompt &mdash; it absorbs minor mis-hearings, so just talk naturally. (Auto-submitting that prompt is an opt-in toggle, off by default, so you can still review before pressing <kbd>Enter</kbd>.)</li>
               <li><strong>In a plain shell</strong> the transcript is inserted but <em>never run automatically</em> &mdash; you review it and press <kbd>Enter</kbd> yourself, so a mis-heard command is never executed for you.</li>
               <li><strong>When dictation ends the caret returns to the terminal</strong> &mdash; keep typing or start another dictation without clicking back in.</li>
@@ -1633,7 +1642,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Accuracy, no-speech handling &amp; privacy</h3>
             <ul class="docs-list">
               <li><strong>Tuned for English.</strong> Groq's model defaults to <code>whisper-large-v3-turbo</code>; you can switch to <code>whisper-large-v3</code> in Settings &rarr; Voice.</li>
-              <li><strong>Never types a phantom word.</strong> Termpolis energy-gates your audio before sending and backstops the reply, so background noise or silence never reaches Groq and a hallucinated filler is never injected &mdash; you get a <strong>&ldquo;No speech detected&rdquo;</strong> notice with the measured mic level instead. If that keeps happening, pick the right mic and run <strong>Test microphone</strong>.</li>
+              <li><strong>Guards against phantom words.</strong> Termpolis energy-gates your audio before sending and backstops the reply, so silence and quiet, steady background hum never reach Groq, and if other sound gets through and Groq answers with a bare filler such as &ldquo;the&rdquo; or &ldquo;you&rdquo;, it is dropped instead of typed &mdash; you get a notice, with the measured mic level when the capture gate caught it. If that keeps happening, pick the right mic and run <strong>Test microphone</strong>.</li>
               <li><strong>Only what you dictate leaves the machine, and only to Groq.</strong> By default Groq does not train on or retain it; for the hardened setup, enable <strong>Zero Data Retention</strong> in your Groq console (the Connect dialog links you there). The free tier covers everyday use; paid is roughly <strong>$0.04 per hour</strong> of audio. If a transcription fails, a red error bar says exactly what went wrong (most often a missing/invalid key or no internet).</li>
             </ul>
           </section>
@@ -1663,9 +1672,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption><kbd>Ctrl</kbd> + <kbd>K</kbd>, the fastest way to do anything.</figcaption>
             </figure>
             <p>
-              The palette is your keyboard-only shortcut to every action in Termpolis. Actions,
-              workspaces, recent commands, files, all searchable with fuzzy matching, exact matches
-              floating to the top.
+              The palette is a keyboard shortcut to Termpolis's common actions. It lists actions,
+              your prompt templates and your open terminals, filtered as you type.
             </p>
             <figure class="docs-shot">
               <img src="docs/screenshots/11b-command-palette-filtered.png" alt="Command palette filtered by 'launch'.">
@@ -1673,9 +1681,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </figure>
             <h3>Why use it</h3>
             <ul class="docs-list">
-              <li><strong>Don't remember keybindings?</strong> Type the feature name, the palette shows the shortcut next to the action.</li>
-              <li><strong>Jump across workspaces in two keystrokes.</strong> <kbd>Ctrl</kbd> + <kbd>K</kbd>, type workspace name, <kbd>Enter</kbd>.</li>
-              <li><strong>Re-run a recent command anywhere.</strong> The palette surfaces your last 50 commands across every terminal, type a fragment, hit Enter, and it runs in the focused pane.</li>
+              <li><strong>Don't remember keybindings?</strong> Type the feature name and run it from the palette.</li>
+              <li><strong>Jump to any open terminal.</strong> <kbd>Ctrl</kbd> + <kbd>K</kbd>, type the terminal's name, <kbd>Enter</kbd>.</li>
+              <li><strong>Run a command from anywhere.</strong> Type <em>run</em> and the command, then press <kbd>Enter</kbd>; it runs in the active terminal. Past commands are in History search (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd>).</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
@@ -1690,35 +1698,33 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Prompt templates</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/12-prompt-templates.png" alt="Prompt templates library.">
-              <figcaption>Reusable prompts with variable substitution, <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open.</figcaption>
+              <figcaption>Reusable prompts, <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open.</figcaption>
             </figure>
             <p>
-              Save the prompts you type over and over. Each template supports
-              <code>{{variables}}</code> that get filled from your current selection, cwd, or a
-              free-form input when you launch it.
+              Save the prompts you type over and over. Clicking one types its text into the active
+              terminal, ready for you to add detail and send.
             </p>
             <h3>Built-in templates</h3>
             <ul class="docs-list">
-              <li><strong>Explain this code</strong>, pastes current selection as context, asks the agent to walk through it.</li>
-              <li><strong>Write tests</strong>, generates unit tests for the focused file.</li>
-              <li><strong>Refactor for readability</strong>, rewrites with a focus on clarity, not behavior changes.</li>
-              <li><strong>Find security issues</strong>, static-analysis-style review for OWASP-top-10 patterns.</li>
-              <li><strong>Document this API</strong>, produces JSDoc / TSDoc / docstrings for the selection.</li>
-              <li><strong>Code review, strict</strong>, adversarial review with a "what would break?" lens.</li>
+              <li><strong>Fix Tests</strong>, &ldquo;Fix the failing tests and explain what was wrong&rdquo;.</li>
+              <li><strong>Code Review</strong>, &ldquo;Review this code for bugs, security issues, and improvements&rdquo;.</li>
+              <li><strong>Explain Code</strong>, &ldquo;Explain what this code does step by step&rdquo;.</li>
+              <li><strong>Refactor</strong>, &ldquo;Refactor this code to be cleaner and more maintainable&rdquo;.</li>
+              <li><strong>Write Tests</strong>, &ldquo;Write comprehensive tests for this code&rdquo;.</li>
+              <li><strong>Add Docs</strong>, &ldquo;Add documentation and comments to this code&rdquo;.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
-              <li>Select the code you want to discuss in any terminal (or leave empty to use free-form input).</li>
+              <li>Click into the terminal (usually an AI agent) you want to prompt.</li>
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.</li>
-              <li>Pick a template, Termpolis fills <code>{{selection}}</code>, <code>{{cwd}}</code>, <code>{{branch}}</code>, etc. automatically.</li>
-              <li>Fill any remaining prompts in the form, then click <strong>Send to active agent</strong>.</li>
-              <li>The fully-expanded prompt is written to the focused agent's stdin.</li>
+              <li>Click a template. Its text is typed into that terminal without pressing Enter.</li>
+              <li>Add any detail, then press <kbd>Enter</kbd> to send.</li>
             </ol>
             <h3>Customizing</h3>
             <p>
-              Click <strong>+ New</strong> in the template picker or edit
-              <code>prompt-templates.json</code> in your data directory directly. Each entry is
-              <code>{id, label, body, variables, defaultAgent}</code>.
+              Click <strong>Add</strong> in the Prompt Templates window, give the template a name and
+              its text, and click <strong>Save</strong>. Your templates are kept in
+              <code>session.json</code> in your data directory; remove one with the &times; on its card.
             </p>
           </section>
 
@@ -1743,8 +1749,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Command</strong> &mdash; run a shell line on a real PTY. Inline or
                 from a script file, any shell (bash, zsh, PowerShell, cmd, git-bash), with an
-                optional timeout and a &ldquo;run visibly&rdquo; toggle that surfaces it in a
-                live terminal pane.</li>
+                optional timeout and a &ldquo;Run visibly&rdquo; box &mdash; leave it unticked. It opens no terminal pane (output streams into the Run tab either way), and a ticked step keeps its shell open, so it ends only at its timeout (10&nbsp;minutes by default) and is marked failed. A Command step written by hand in YAML without <code>visible: false</code> behaves as if ticked.</li>
               <li><strong>Agent</strong> &mdash; launch <strong>Claude Code</strong>,
                 <strong>OpenAI Codex</strong>, or <strong>Gemini CLI</strong> on a prompt and
                 wait for it to finish; a configurable done-marker detects completion.</li>
@@ -1762,8 +1767,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <code>steps.build.exitCode</code>, a step&rsquo;s captured output &mdash; inside
               gates, branch conditions, loop guards, and notify messages. Expressions run
               through a small, pure, sandboxed evaluator with a fixed operator set
-              (<code>==</code>, <code>!=</code>, <code>&amp;&amp;</code>, <code>||</code>,
-              comparisons, <code>contains</code>); never <code>eval</code>, so a workflow
+              (<code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, and <code>=~</code> for &ldquo;contains&rdquo;, plus <code>steps.ID.ok</code> / <code>steps.ID.failed</code> &mdash; one comparison per expression, with a space on each side of the operator and no <code>&amp;&amp;</code> or <code>||</code>); never <code>eval</code>, so a workflow
               file can never execute arbitrary JavaScript.
             </p>
             <figure class="docs-shot">
@@ -1775,8 +1779,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Switch to the <strong>Run</strong> tab and press <strong>Run</strong>. The
               timeline shows every step&rsquo;s status and duration in real time; Command and
               Agent steps stream their output into a pane you can scroll. Press
-              <strong>Cancel</strong> mid-run and every in-flight step is torn down cleanly.
-              Runs are deterministic &mdash; the same workflow and inputs take the same path
+              <strong>Cancel</strong> mid-run to stop it: a running Command step&rsquo;s shell is killed and every later step is marked cancelled. An Agent step is marked failed but its CLI keeps running in the background, and a loop already under way finishes its iterations first.
+              The engine adds no randomness of its own &mdash; the same workflow, inputs, project and step results take the same path
               every time.
             </p>
 
@@ -1830,8 +1834,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               does not replay a commit you already handled. An automatic run is identical to
               pressing Run: same steps, same run history, same live timeline &mdash; and the
               same <strong>workspace-trust</strong> gate, so a folder you have not trusted
-              never fires one. Only one run of a given workflow is in flight at a time; a
-              trigger that fires during a run is applied once the run settles.
+              never fires one. A trigger never starts a second run of a workflow while a run it
+              started is still going: a commit or push that lands meanwhile fires once that run
+              settles, a schedule that comes due fires afterwards when catch-up is ticked (the
+              default), and a file change is dropped. A run you start with the Run button is not
+              counted, so a trigger can still fire alongside it.
             </p>
             <h3>Global workflows, categories and inputs</h3>
             <p>
@@ -1860,7 +1867,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               run that cannot work. Every value is substituted as
               <code>${inputs.NAME}</code> anywhere the expression engine reaches: command
               lines, script paths, step <code>cwd</code>, agent prompts, skill arguments,
-              notify messages and <code>when</code> gates. Alongside them, every run gets
+              notify messages. In <code>when</code> gates and branch or loop conditions, write the reference bare &mdash; <code>inputs.NAME == prod</code>, <code>project.branch == main</code> &mdash; because a <code>${&hellip;}</code> there is compared as literal text. Alongside inputs, every run gets
               <code>${project.cwd}</code>, <code>${project.name}</code> and
               <code>${project.branch}</code> for free, so a workflow can branch on where it
               is running without being told. Resolution is still sandboxed &mdash; no
@@ -1877,33 +1884,23 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> toggles it.</figcaption>
             </figure>
             <p>
-              The Context panel is Termpolis's answer to the "what does the AI actually know right
-              now?" question. It's a sliding pane on the right that shows everything currently in
-              scope for the agents you're working with, so you never have to guess whether Claude
-              saw the file you just edited, or whether Codex knows which branch you're on.
+              The Context panel is a quick look at the folder the focused terminal is in: a narrow pane on the right listing its top-level files and folders, its <code>git status</code> and its last five commits, refreshed every five seconds. It shows what is in the folder, not what an agent has read.
             </p>
             <h3>What it shows</h3>
             <ul class="docs-list">
-              <li><strong>Project root + git branch</strong>, the cwd of the focused terminal and the active branch, so an agent can ground its answers in the right repo state.</li>
-              <li><strong>File tree</strong>, collapsible directory view of the project, click to pin a file into context.</li>
-              <li><strong>Active agent</strong>, which AI is focused and its model.</li>
-              <li><strong>Recent files</strong>, last 20 files the agent (or you) read, edited, or ran. Click to re-open in Monaco's diff view.</li>
-              <li><strong>Pinned items</strong>, anything you've pinned: a file, an activity event, a prompt, a memory entry. Pins stay visible across sessions.</li>
-              <li><strong>Task chain</strong>, when a swarm is running, the current task, its parent, and its dependencies.</li>
+              <li><strong>Git Status</strong> and <strong>Recent Commits</strong>, the folder&rsquo;s <code>git status --short</code> (colour-coded) and its last five commits, with the folder path in the footer.</li>
+              <li><strong>File Tree</strong>, the top level of that folder, folders first. It is a read-only list: folders do not expand and entries cannot be clicked or pinned.</li>
             </ul>
             <h3>Why it's helpful</h3>
             <ul class="docs-list">
-              <li><strong>No more "please re-share the file" loops.</strong> Pin it once and every agent can read it.</li>
-              <li><strong>Explicit context, not implicit slurp.</strong> Agents only see what you've put here, no silent indexing of your filesystem. Safer for private code.</li>
-              <li><strong>Share context across agents.</strong> Pin a spec once and Claude, Codex, and Gemini all read from the same truth.</li>
+              <li><strong>Pinned notes travel by copy-paste.</strong> The separate <strong>Pinned Context</strong> panel (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>) keeps labeled notes per folder and builds a re-injection prompt you copy into any agent; agents cannot read pins on their own.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> to open.</li>
-              <li>Click <strong>File tree</strong> to browse; right-click a file → <strong>Pin to context</strong> to make it permanent.</li>
-              <li>Right-click any activity feed event → <strong>Pin</strong> to float it to the top.</li>
-              <li>When an agent asks "what am I looking at?", it reads from this pane directly via MCP.</li>
-              <li>Click the <strong>×</strong> on any pin to remove it; pins are saved per directory under <code>context-pins/</code> in the Termpolis <a href="#install">data directory</a>.</li>
+              <li>Click <strong>File Tree</strong>, <strong>Git Status</strong> or <strong>Recent Commits</strong> to collapse or expand that section.</li>
+              <li>Agents do not read this pane; Claude Code and Codex get the same facts from their own Termpolis MCP tools, <code>get_file_tree</code> and <code>get_git_status</code>.</li>
+              <li>Pins are not shown here: they live in the separate <strong>Pinned Context</strong> panel (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>). Give each a label, a body and optional tags, click <strong>remove</strong> to delete one, and use <strong>Build re-injection prompt</strong>, then <strong>copy</strong>, to paste them into an agent. Pins are saved per directory under <code>context-pins/</code> in the Termpolis <a href="#install">data directory</a>.</li>
             </ol>
           </section>
 
@@ -1918,7 +1915,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <p>
               It is <strong>on by default for Claude Code</strong> and needs no setup. Every Claude
-              session launches through a local compression proxy running in its own process &mdash;
+              Code session started from the AI Agents list, the welcome screen, a saved workspace, Past AI Sessions or a swarm launches through a local compression proxy running in its own process &mdash;
               never the UI or PTY thread &mdash; which forwards to <code>api.anthropic.com</code>
               and nowhere else. If the proxy is ever unhealthy the launch silently goes
               direct, and a live session self-heals when it recovers, so a proxy hiccup costs you
@@ -1931,8 +1928,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
 
             <figure class="docs-shot">
-              <img src="assets/screenshot-token-savings.png" alt="Settings, Token Savings tab: net tokens saved all-time, the same saving measured against three denominators, the floor check, the untouched prefix, the session-depth advisory and output steering.">
-              <figcaption><strong>Settings &rarr; Token Savings</strong> on one real machine &mdash; 1.53 billion tokens removed all-time, stated against all three denominators at once.</figcaption>
+              <img src="assets/screenshot-token-savings.png" alt="Settings, Token Savings tab: net tokens saved all-time, the same saving measured against three denominators, the floor check, the untouched prefix, output steering and the Claude Code compression card.">
+              <figcaption><strong>Settings &rarr; Token Savings</strong> on one real machine &mdash; 1.53 billion tokens removed all-time, stated against all three denominators at once. Captured before v1.49, so its compression card still reads &ldquo;always on&rdquo; and lists tool inputs; the proxy now has an off switch and never compresses tool inputs (see below).</figcaption>
             </figure>
 
             <h3>What gets compressed</h3>
@@ -1941,7 +1938,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>JSON is compressed as JSON (v1.35).</strong> Long arrays keep their first entries and state how many were elided, long string fields are truncated in place, deep nesting is pruned, and the survivors are re-emitted minified. It refuses the payload entirely when any numeric literal is long enough to lose precision in a round trip &mdash; a corrupted ID the agent <em>believes</em> is worse than an uncompressed one.</li>
               <li><strong>HTML is reduced to its readable text.</strong> Fetched web pages lose their markup, not their content.</li>
               <li><strong>Command output and large file reads</strong> are bounded by a head/tail line window, with structured content given <strong>3&times;</strong> the budget of prose.</li>
-              <li><strong>Pasted images</strong> are downscaled below the model's cap and emitted as PNG or JPEG, whichever is smaller.</li>
+              <li><strong>Pasted PNG images</strong> (screenshots) larger than 1280&nbsp;px on the long edge are downscaled to 1280&nbsp;px and sent as PNG, or as JPEG when the image has no transparency and that comes out smaller. Other image formats pass through untouched.</li>
               <li><strong>Repeats and near-repeats.</strong> A result repeated in the same session collapses to a one-line reference. Since v1.34, a <em>near</em>-duplicate is sent as a patch against the earlier copy: read a file, edit three lines, read it again, and only those lines go over the wire.</li>
               <li><strong>Tool results only &mdash; never a tool call's input (v1.49).</strong> v1.34 compressed both halves of the wire: the tool result that came back, and the <code>tool_use</code> the agent itself wrote. Since v1.49 the input half &mdash; a <code>Bash</code> command, the body of a <code>Write</code>, both sides of an <code>Edit</code>, a subagent prompt &mdash; is forwarded byte-for-byte, however old it is. It is still read as a dedup key and diff base, so a result that reads back a file the agent just wrote still collapses to a patch or a one-line reference.</li>
             </ul>
@@ -1967,7 +1964,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
 
             <div class="docs-callout">
-              <strong>Nothing is lost.</strong> Every compressed block carries a token the agent can
+              <strong>Recoverable while it stays in the 200&nbsp;MB cache.</strong> Every compressed block carries a token the agent can
               hand to the <code>retrieve_full</code> tool to pull the original back. Since v1.34 that
               cache is <strong>disk-backed, byte-capped and survives restarts</strong>, so a token
               issued yesterday still expands today. Since v1.37.1 the per-entry cap is
@@ -1992,7 +1989,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Reading the receipt</h3>
             <p>
               <strong>Settings &rarr; Token Savings</strong> reports against three denominators
-              rather than picking the flattering one. All three are computed from Anthropic's real
+              rather than picking the flattering one. The saving itself is estimated from the text removed (about four characters per token); the second and third figures divide it by Anthropic's real
               usage numbers on your machine, so your figures will differ from the ones below &mdash;
               these are the all-time values from the screenshot above.
             </p>
@@ -2051,7 +2048,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               restart is worth it becomes subtraction. Termpolis refits the curve from your own
               traffic and reports nothing at all until a band has enough samples to be your curve
               rather than one session's accident. Re-priced across the measured corpus, capping at
-              50 turns models to <strong>&minus;24% of the whole bill</strong> even after charging
+              50 turns models to <strong>&minus;19% of the whole bill</strong> even after charging
               the full restart cost, and each restart can absorb about 12 extra requests of
               re-orientation before the saving is gone &mdash; that is the budget the memory brain
               has to fit inside.
@@ -2087,8 +2084,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
 
             <div class="docs-callout">
-              <strong>Your memory is never touched.</strong> Compression lives only on the outbound
-              wire to Anthropic. The <a href="#memory">shared memory</a> store, recall and learning
+              <strong>Your memory is never touched.</strong> Compression touches only tool results and pasted images on the Claude Code wire, and Termpolis&rsquo;s own MCP tool results, which Codex receives too &mdash; and memory tool results are exempt from both. The <a href="#memory">shared memory</a> store, recall and learning
               are untouched by it.
             </div>
           </section>
@@ -2097,9 +2093,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="context-handoff" class="docs-section">
             <h2>Cross-AI context handoff &amp; Past AI Sessions</h2>
             <p>
-              Open <strong>Past AI Sessions</strong> from the sidebar. Termpolis indexes every
+              Open <strong>Past AI Sessions</strong> from the button at the top-right of any AI terminal. Termpolis indexes every
               <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
-              them with project label, age, message count, and size, and lets you continue
+              them with project folder, age, git branch, size and first message, and lets you continue
               the work in any of the three supported agents — without copy-pasting anything
               by hand. (v1.11.47 added the cross-AI bridge; v1.11.48 fixed the freeze on
               large session histories; v1.11.51 added Inject + Resume-here gating;
@@ -2109,7 +2105,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Resume natively</strong> — spawns a new terminal at the original cwd and runs <code>claude --resume &lt;session-id&gt;</code>.</li>
               <li><strong>Resume in active shell</strong> — runs the same <code>claude --resume</code> command in the focused plain terminal instead of opening a new tab. Disabled when the focused tab is already an AI agent (so the command doesn't land inside the running agent's input box).</li>
-              <li><strong>Continue in another AI</strong> — pick Codex or Gemini from the Continue ▾ menu. Termpolis spawns a fresh terminal at the same cwd, boots the chosen agent, and pastes a synthesised <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the new agent picks up exactly where the old one left off.</li>
+              <li><strong>Continue in another AI</strong> — pick Codex, Gemini CLI or Claude Code from the Continue ▾ menu (the Gemini choice types the legacy <code>gemini</code> command, not <code>agy</code>, so it needs the old Gemini CLI on your PATH). Termpolis spawns a fresh terminal at the same cwd, boots the chosen agent, and pastes a synthesised <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the new agent picks up exactly where the old one left off.</li>
               <li><strong>Inject context into the focused AI</strong> — pastes the same handoff prompt into the active AI shell's input box. Disabled for plain shells (where it would just splat into the command line); the tooltip explains why.</li>
             </ul>
             <h3>Pasted as one blob, not a stream of commands</h3>
@@ -2132,8 +2128,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </figure>
             <p>
               Spans every terminal Termpolis has ever opened, not just the current shell's history
-              file. Filter by command, cwd, exit code, time range, or shell type. Click a result to
-              copy, re-run, or pin to context.
+              file. Type part of a command to find it; results are newest first and show the terminal and the time. Click a result to
+              copy it to the clipboard.
             </p>
           </section>
 
@@ -2142,46 +2138,34 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Conversation search</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/16-conversation-search.png" alt="Conversation search panel.">
-              <figcaption>The AI-session equivalent of history search, find any prompt, tool call, or answer across every agent you've ever run.</figcaption>
+              <figcaption>The AI-session equivalent of history search, find a prompt or answer in the AI terminals you have open.</figcaption>
             </figure>
             <p>
               Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>. Every AI agent session in
               Termpolis, Claude Code, Codex, Gemini CLI, swarm runs, and the conductor
               itself, is recorded event-by-event to <code>agent-events.jsonl</code> in the Termpolis <a href="#install">data directory</a>.
-              Conversation search is the UI on top of that log.
+              Conversation search does not read that log: it searches the prompts and replies of the AI terminals open now &mdash; for Claude Code, the newest session transcript for that terminal&rsquo;s folder; for Codex and Gemini CLI, recent turns parsed from what the terminal displayed.
             </p>
             <h3>What's indexed</h3>
             <ul class="docs-list">
               <li><strong>Prompts</strong>, every user message sent to an agent.</li>
-              <li><strong>Assistant messages</strong>, the full reply text, plus intermediate thinking blocks where available.</li>
-              <li><strong>Tool calls</strong>, the tool name and arguments (e.g. <code>Edit</code>, <code>Bash</code>, <code>WebSearch</code>).</li>
-              <li><strong>Tool results</strong>, the response the agent got back (stdout, file contents, etc.).</li>
-              <li><strong>Errors</strong>, anything the agent raised or the pty emitted on stderr.</li>
-              <li><strong>Token updates</strong>, periodic snapshots of cumulative input/output tokens.</li>
-              <li><strong>Interventions</strong>, every Pause / Cancel / Steer action you took, who took it, and when.</li>
+              <li><strong>Assistant messages</strong>, the full reply text.</li>
             </ul>
             <h3>Filters</h3>
             <ul class="docs-list">
-              <li><strong>Full-text</strong>, matches prompt text, assistant replies, and tool arguments.</li>
-              <li><strong>Agent</strong>, narrow to Claude, Codex, Gemini, Conductor, or "all".</li>
-              <li><strong>Kind</strong>, prompt / tool_call / tool_result / error / message.</li>
-              <li><strong>Time range</strong>, last hour, today, last 7 days, or custom.</li>
-              <li><strong>Scope</strong>, current terminal only, current session, or all history.</li>
+              <li><strong>Full-text</strong>, matches prompt text and assistant replies.</li>
             </ul>
             <h3>Why it's helpful</h3>
             <ul class="docs-list">
-              <li><strong>"How did I fix this last time?"</strong>, find the exact prompt and solution from a month ago.</li>
-              <li><strong>Audit what an agent actually did.</strong> When something breaks, grep the tool-call log, every <code>Edit</code>, every <code>Bash</code>, every file touched.</li>
-              <li><strong>Reuse successful prompts.</strong> Click a hit → <strong>Copy prompt</strong> to rerun it in a fresh session.</li>
+              <li><strong>"How did I fix this last time?"</strong>, find the exact prompt and answer from earlier in a session that is still open.</li>
+              <li><strong>Reuse successful prompts.</strong> Find it, then click the hit to jump to the terminal it came from.</li>
               <li><strong>Compare agent answers.</strong> Search the same question across agents to see how Claude, Codex, and Gemini differed.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>.</li>
               <li>Type a query, e.g. <em>"regex for ISO dates"</em>, <em>"docker-compose error"</em>, <em>"why did claude say no"</em>.</li>
-              <li>Narrow with the kind + agent dropdowns if the hit list is noisy.</li>
-              <li>Click a result to expand the full event, prompt and answer side by side.</li>
-              <li>Use the <strong>Copy prompt</strong>, <strong>Re-run in new session</strong>, or <strong>Pin to context</strong> actions from the hit's kebab menu.</li>
+              <li>Click a result to switch to the terminal it came from; <kbd>Esc</kbd> closes the search.</li>
             </ol>
           </section>
 
@@ -2218,7 +2202,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 section header.
               </li>
               <li>
-                <strong>Click a filename to read its diff</strong> in place: additions green,
+                <strong>Click a filename to read its unstaged changes</strong> in place (a file that is only staged, or untracked, shows &ldquo;No diff available&rdquo;): additions green,
                 deletions red, <code>@@</code> hunk headers blue. <kbd>Esc</kbd> goes back to the
                 file list, <kbd>Esc</kbd> again closes the panel.
               </li>
@@ -2248,14 +2232,17 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3 id="git-diff-viewer">Reading a diff an agent printed</h3>
             <p>
               When output in a terminal looks like a diff, a <strong>View Diff</strong> button
-              appears in the top-right of that pane. It reads the pane&rsquo;s scrollback and
+              appears in the top-right of that pane. It reads the last 4&nbsp;KB of the pane&rsquo;s output (not the whole scrollback, so a longer diff is cut to its tail) and
               renders it as a diff rather than as coloured text: ANSI stripped, split per file on
               <code>diff --git</code>, and <strong>real line numbers</strong> reconstructed from
               each <code>@@</code> hunk header, so a line you are looking at is the line you would
               open in an editor. There is a copy button for the whole thing.
             </p>
             <p>
-              This works on any diff that reaches a terminal &mdash; an agent&rsquo;s proposed
+              The button itself appears only when a line of the raw output starts with
+              <code>diff --git</code>, which git&rsquo;s coloured terminal output does not; right-click
+              the pane and choose <strong>View as Diff</strong> to open the same view on any unified
+              diff that reaches a terminal &mdash; an agent&rsquo;s proposed
               patch, a <code>git diff</code> you typed, output piped in from somewhere else.
               Nothing has to have been staged, and it does not need to be a repository Termpolis
               knows about.
@@ -2285,8 +2272,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               The mark follows the shell. <code>cd</code> into a repository and it lights up;
               <code>cd</code> out and it goes inert, in every shell Termpolis supports
-              (<strong>v1.42.1</strong>). Polling is keyed by repository rather than by terminal,
-              so ten terminals open on one repository still cost one <code>git status</code>.
+              (<strong>v1.42.1</strong>). Polling is keyed by working folder rather than by terminal,
+              so ten terminals open in the same folder still cost one <code>git status</code>.
             </p>
             <p>
               The current branch also appears in each terminal&rsquo;s status bar, parsed live
@@ -2300,9 +2287,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               An <strong>agent profile</strong> is a one-click launcher in the sidebar that
               opens a terminal pre-wired for a specific AI CLI: Claude Code, Codex, or Gemini CLI.
-              The profile owns the shell, the working directory, the MCP
-              registration, the tab color, and the label. Click the profile and you go from
-              "I want to use Claude" to "Claude is open and ready" in one step.
+              The profile owns the launch command, the shell, the tab color, the label and, for
+              Claude, the model. You pick the working folder each time you launch it, and MCP
+              registration is not per profile: one switch connects Claude Code and Codex and adds Termpolis to Gemini CLI&rsquo;s <code>settings.json</code>, which the Antigravity CLI (<code>agy</code>) behind the Gemini profile doesn&rsquo;t read (see
+              <a href="#connect-agents">Connecting your coding agents</a>). Click the profile and you go from
+              "I want to use Claude" to "Claude is open and ready" with one click and a folder pick.
             </p>
             <p>
               <strong>New here?</strong> Read <a href="#api-keys">Before you begin · API keys</a>
@@ -2313,11 +2302,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Claude Code</strong> — runs <code>claude</code>. As a swarm worker it runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
               <li><strong>Codex</strong> — runs <code>codex</code>. As a swarm worker it runs <code>codex -a never -s workspace-write</code>: it never stops to ask (a command that fails goes back to the model instead), and its sandbox keeps writes inside the project, with no network access.</li>
-              <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point), and <code>agy --dangerously-skip-permissions</code> as a swarm worker; Strict Mode still guards a manually-typed <code>gemini</code> (see <a href="#security-gemini">Gemini account-mode</a>).</li>
+              <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point), and <code>agy --dangerously-skip-permissions</code> as a swarm worker; Strict Mode doesn&rsquo;t see <code>agy</code>, and guards a <code>gemini</code> command only when it arrives in one write, such as a paste or a custom profile (see <a href="#security-gemini">Gemini account-mode</a>).</li>
             </ul>
             <h3>Pick a model per profile (Claude)</h3>
             <p>
-              When you add or edit an AI profile, a <strong>Model</strong> dropdown lets you choose
+              When you add an AI profile (the <strong>+</strong> in the AI Agents row), a <strong>Model</strong> dropdown lets you choose
               which Claude tier that profile launches with &mdash; <strong>Fable</strong>,
               <strong>Opus</strong>, <strong>Sonnet</strong>, or <strong>Haiku</strong> &mdash; appended to the launch
               command as <code>claude --model &lt;tier&gt;</code>. You pass the <em>alias</em>, not
@@ -2332,8 +2321,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <h3>Install status indicators</h3>
             <p>
-              Each profile shows a green check if Termpolis can find the CLI on your PATH and a
-              red X if it can't. Click a missing one for the <code>npm install</code> command.
+              Each built-in profile shows a green check if Termpolis can find its CLI on your PATH and a
+              red X if it can't. Click a missing one for its install commands (npm for Codex; an install script for Gemini CLI&rsquo;s <code>agy</code>; npm or Anthropic&rsquo;s installer for Claude Code).
               The check runs every launch — install the CLI, restart Termpolis, the indicator
               flips green.
             </p>
@@ -2341,14 +2330,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Click <strong>+</strong> in the AI Agents row to add a profile for any other CLI.
               You name it, point it at the binary (anything in PATH works), pick a shell, color,
-              and optional working directory. Termpolis connects its MCP server only to Claude
+              and, for a Claude command, a model. Termpolis connects its MCP server only to Claude
               Code, Codex and Gemini CLI (see <a href="#connect-agents">Connecting your coding
               agents</a>), so a profile for any other CLI participates as a plain terminal —
               fine for tools that don't speak MCP.
             </p>
             <h3>Renaming an agent terminal</h3>
             <p>
-              Agent terminals get default names ("Claude Code", "Codex", etc). Right-click the
+              Agent terminals are named after their profile ("Claude Code", "OpenAI Codex", "Gemini CLI"). Right-click the
               terminal tab to rename it, change its color, or swap themes — the underlying
               agent stays put.
             </p>
@@ -2378,8 +2367,222 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
             <h3>What it does under the hood</h3>
             <ul class="docs-list">
-              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools and no MCP servers, Codex in its <code>read-only</code> sandbox, <code>agy</code> in plan mode &mdash; so nothing it says touches your repo. The captured text is passed <strong>out-of-band</strong> (never on a command line), so a prompt scraped from your terminal can't inject a command.</li>
+              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools and no MCP servers, Codex in its <code>read-only</code> sandbox, <code>agy</code> in plan mode &mdash; so nothing it says touches your repo. The captured text is never parsed by a shell &mdash; it reaches the agent as one argument (on Windows, PowerShell reads it from a temp file as data and refuses a <code>.cmd</code>/<code>.bat</code> shim), so a prompt scraped from your terminal can't inject a command.</li>
               <li><strong>Install-gated.</strong> Only installed agents appear. Gemini is accessed through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</li>
+            </ul>
+          </section>
+
+          <!-- TERMPOLIS REMOTE -->
+          <section id="remote" class="docs-section">
+            <h2>Termpolis Remote (phone app)</h2>
+            <p>
+              <strong>Termpolis Remote</strong> is an iPhone app that shows the terminals running in
+              Termpolis on your computer and lets you type into them while you are away from the desk.
+              It is a screen and a keyboard for your desktop, not a second Termpolis: nothing runs on
+              the phone. There is no agent, memory or API key on it. Your agents keep running on the
+              desktop, signed in the way they already are; the phone sends what you type and shows what
+              they print. It is on the App Store as
+              <a href="https://apps.apple.com/us/app/termpolis-r/id6809306362" target="_blank" rel="noreferrer">Termpolis R</a>,
+              and the <a href="/mobile/">phone app&rsquo;s page</a> covers pricing, its screens and
+              support.
+            </p>
+            <figure class="docs-shot">
+              <img src="assets/diagram-remote.svg" alt="How Termpolis Remote works: the phone lists your terminals in Termpolis on your computer, shows their output and types into the one you open. Everything crosses a relay sealed end to end; your computer checks the phone's pairing and permissions on every request, types what you sent into the real terminal, and streams the output back." loading="lazy">
+              <figcaption>What you type goes out sealed; the desktop checks the phone&rsquo;s permissions, types it into the real terminal and streams the output back.</figcaption>
+            </figure>
+            <div class="docs-callout">
+              <p>
+                <strong>Off by default.</strong> Remote and <a href="#linked-machines">Linked
+                machines</a> share the relay and one background process, but each has its own switch.
+                A phone has no direct way to send work to a linked computer (with <em>Type into
+                terminals</em> it can still ask an agent on the desktop to), and a linked computer
+                can&rsquo;t see your terminals. Switching either one on or off restarts that process, so the
+                other&rsquo;s connections drop for a moment.
+              </p>
+            </div>
+
+            <h3 id="remote-setup">Turning it on and pairing a phone</h3>
+            <p>
+              You need Termpolis running on the computer, and the app on an iPhone with iOS 16.4 or
+              later. Relay access is a subscription in the app: $4.99 a month on the App Store, with
+              the first week free for new subscribers. The desktop app stays free. Then, in
+              <em>Settings &rarr; Remote</em> on the desktop:
+            </p>
+            <ol class="docs-list docs-list-ordered">
+              <li>Tick <strong>Allow phones to connect</strong>.</li>
+              <li>Leave <strong>Relay address</strong> at <code>wss://relay.termpolis.com</code> unless
+                you run your own relay (see <a href="#remote-security">How it is secured</a>).</li>
+              <li>Under <strong>Pair a device</strong>, type a name for the phone (it defaults to
+                &ldquo;Phone&rdquo;) and tick what it will be allowed to do. Only <strong>Read terminal
+                output</strong> is ticked to begin with; see the <a href="#remote-permissions">next
+                section</a>. Click <strong>Pair a device</strong>.</li>
+              <li>A QR code appears with a countdown. Scan it in the app. It works
+                <strong>once</strong> and expires after <strong>90 seconds</strong>; closing the dialog
+                withdraws it. The desktop shows the code only as a picture, so the app needs camera
+                access to pair.</li>
+              <li>Both screens show the <strong>same eight words</strong>, worked out from the two
+                devices&rsquo; keys. If they match, nothing sits in the middle. If they don&rsquo;t, tap
+                <strong>They do not match &mdash; unpair</strong> on the phone and
+                <strong>Revoke</strong> the phone on the desktop.</li>
+            </ol>
+            <div class="docs-callout">
+              <p>
+                <strong>Treat the QR code like a password for its 90 seconds.</strong> Whoever scans it
+                first is paired, including through a screen share, a video call or a recording, and gets
+                the permissions you ticked straight away: Termpolis doesn&rsquo;t wait for you to compare
+                the words. Pair where nobody else can see the screen. If your phone fails to pair, or
+                <strong>Paired devices</strong> lists a phone you don&rsquo;t have, revoke it.
+              </p>
+            </div>
+
+            <h3 id="remote-permissions">What the phone may do</h3>
+            <p>
+              Each phone has its own permissions, chosen when you pair it and changed at any time with
+              the checkboxes in its row under <strong>Paired devices</strong>. The desktop checks them on
+              every request, and a change takes effect at once. The phone only reports them: its
+              Settings screen lists <em>What the desktop allows</em>, and it hides the controls it
+              isn&rsquo;t allowed to use.
+            </p>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead><tr><th>Permission</th><th>Default</th><th>What it allows</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Read terminal output</strong></td><td>on</td><td>List the terminals in this desktop&rsquo;s sidebar, each with its name and working folder, and stream the output of the one the phone has open. Swarm workers aren&rsquo;t listed.</td></tr>
+                  <tr><td><strong>Start terminals</strong></td><td>off</td><td>Start a terminal on this desktop. The app offers AI terminals only: Claude, Codex or Gemini (<code>agy</code>), in a folder picked by browsing the folders under this computer&rsquo;s home folder. The desktop itself doesn&rsquo;t hold the folder to your home folder, and would also open a plain shell. The agent runs the way Termpolis runs swarm workers: Claude and Gemini with their permission prompts skipped, Codex with approvals off in its <code>workspace-write</code> sandbox.</td></tr>
+                  <tr><td><strong>Type into terminals</strong></td><td>off</td><td>Type into any open terminal and press Enter. This is a keyboard: it skips the command checks the AI terminals run behind, so anything the phone types runs as you.</td></tr>
+                  <tr><td><strong>Close terminals</strong></td><td>off</td><td>End a running terminal. The current phone app has no control for this.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              The risk, stated plainly: <em>Read</em> shows everything your terminals print.
+              <em>Type</em> can run any command as you. <em>Start</em> together with <em>Type</em> gives
+              the phone an agent that acts without asking. Grant those two only to a phone you trust as
+              much as the computer.
+            </p>
+
+            <h3 id="remote-using">Using it</h3>
+            <ul class="docs-list">
+              <li><strong>The terminal list</strong> shows the terminals in that desktop&rsquo;s sidebar,
+                titled with the desktop&rsquo;s name; swarm workers aren&rsquo;t included. Pull down to
+                refresh. While a terminal is open, the phone shows what its agent is doing
+                (<em>Thinking</em>, <em>Working</em>, <em>Waiting for you</em> and so on) with a one-line
+                summary; back on the list, its row keeps the last state the phone saw.</li>
+              <li><strong>Open a terminal</strong> to see its output as it is printed. The desktop works
+                out cursor moves and redraws before sending, so a progress bar or status line shows its
+                latest state, in colour. Opening a terminal brings back what its last 32,768 printed
+                characters draw. Long lines scroll sideways instead of wrapping.</li>
+              <li><strong>Type, then tap Send.</strong> Termpolis types the text into the terminal and
+                then presses Enter, as you would; several lines go in as one paste. There are no special
+                keys (no Esc, Ctrl+C, Tab or arrows, and no Enter on its own), so a prompt that needs one
+                has to be answered at the computer.</li>
+              <li><strong>New AI terminal</strong> (with <em>Start terminals</em>): choose
+                <em>Claude</em>, <em>Codex</em> or <em>Gemini</em>, browse to a folder under the
+                desktop&rsquo;s home folder, and tap <em>Start &hellip; here</em>. The phone opens the new
+                terminal, named after the agent and the folder, for example &ldquo;Claude &middot;
+                myrepo&rdquo;. On the desktop it runs hidden, the way swarm workers do, so it isn&rsquo;t in
+                the sidebar, and once you leave it the phone&rsquo;s list doesn&rsquo;t show it
+                either.</li>
+              <li><strong>Several desktops.</strong> One phone pairs with up to 16 desktops, each with its
+                own key, and shows one at a time. <em>Desktops</em>, at the top left of the terminal
+                list, switches between them.</li>
+              <li><strong>Leaving the app</strong> disconnects it, and it reconnects when you come back.
+                Output printed meanwhile is sent on when it reconnects: the newest 262,144 characters
+                per phone, with a note saying how much older output was skipped. If iOS closed the app,
+                reopening a terminal brings back only its recent output. The full scrollback stays on
+                the desktop.</li>
+              <li><strong>On the desktop</strong>, the title bar shows a phone icon while a phone is
+                connected. Each row under <strong>Paired devices</strong> shows whether that phone is
+                connected or when it was last seen, its four permissions, <strong>Show safety
+                words</strong> and <strong>Revoke</strong>.</li>
+            </ul>
+
+            <h3 id="remote-unpair">Unpairing and revoking</h3>
+            <ul class="docs-list">
+              <li><strong>On the desktop,</strong> <strong>Revoke</strong> in the phone&rsquo;s row
+                (click again on <em>Really revoke?</em>) deletes its record and cuts it off at once. The
+                phone isn&rsquo;t told: it sees the desktop as offline until it is paired again.
+                Terminals it started keep running. Revoking and changing permissions both need
+                <em>Allow phones to connect</em> to be on.</li>
+              <li><strong>On the phone,</strong> <em>Settings &rarr; Unpair from this desktop</em>, or
+                <em>Desktops &rarr; Remove</em>, erases that desktop&rsquo;s key, and works offline. The
+                desktop hears about it only if it is the one on screen and reachable; otherwise its row
+                stays until you revoke it there.</li>
+              <li><strong>Unticking <em>Allow phones to connect</em></strong> ends every phone&rsquo;s
+                session but keeps the pairings, and phones reconnect when you tick it again.</li>
+              <li><strong>After 30 days</strong> without contact, the desktop forgets a phone. Pair it
+                again to reconnect.</li>
+              <li><strong>Deleting the app</strong> isn&rsquo;t a reliable way to unpair, because iOS can
+                keep an app&rsquo;s Keychain entries after it is deleted. Unpair first.</li>
+            </ul>
+
+            <h3 id="remote-security">How it is secured</h3>
+            <ul class="docs-list">
+              <li><strong>End-to-end encrypted.</strong> What you type, terminal output, terminal names,
+                folders and the desktop&rsquo;s name are sealed with ChaCha20-Poly1305 under keys derived
+                (HKDF-SHA256) from an X25519 key agreement between the phone and the desktop: the same
+                construction as <a href="#linked-machines">Linked machines</a>. Each direction has its
+                own key, and a counter in every sealed frame rejects replayed and reordered frames.</li>
+              <li><strong>Fresh keys on every connection.</strong> Each connection mixes in new ephemeral
+                keys, so traffic recorded today can&rsquo;t be decrypted later, even if a device&rsquo;s
+                long-term key leaks. The pairing exchange itself is sealed under the long-term keys
+                only.</li>
+              <li><strong>A pairing the relay can&rsquo;t step into.</strong> The desktop&rsquo;s public
+                key and a one-time secret reach the phone only through the QR code on the desktop&rsquo;s
+                screen, never over the network, so a relay that never saw the code can&rsquo;t open or
+                forge the pairing. The eight words come from both devices&rsquo; long-term keys and are
+                your check against a swapped code. They don&rsquo;t change while the pairing lasts, and
+                both devices can show them again.</li>
+              <li><strong>What the relay does see:</strong> both IP addresses, which side is the desktop
+                and which the phone, when each connects, a room id that stays the same while the phone is
+                paired, the size and timing of every frame (frames aren&rsquo;t padded, so the length of
+                what you send shows), and each frame&rsquo;s unencrypted header (its type, public keys
+                while pairing and connecting, a counter). It can delay or drop frames but can&rsquo;t read
+                or alter them. It stores no frames; the hosting provider&rsquo;s logs keep connection
+                metadata.</li>
+              <li><strong>An encrypted connection.</strong> The phone connects only to a
+                <code>wss://</code> relay, and it takes the address from the QR code. The relay&rsquo;s
+                source is in the Termpolis repository (<code>relay/</code>), so you can run your own: set
+                it under <strong>Relay address</strong>. Phones paired earlier keep using the old relay,
+                so pair them again after changing it. The desktop accepts a <code>ws://</code> address,
+                but the phone won&rsquo;t pair with one.</li>
+              <li><strong>Keys.</strong> The desktop has one identity key for all its phones, encrypted
+                with the OS keychain (Windows DPAPI, macOS Keychain, Linux libsecret) where one is
+                available, and stored unencrypted in the data directory on Linux without a keyring. The
+                app&rsquo;s window only ever sees the public key. The phone makes a new key for each
+                desktop and keeps it in the iPhone&rsquo;s Keychain, usable only while the phone is
+                unlocked and never moved to another device. The list of paired phones
+                (<code>remote-devices.json</code>: names, public keys, room ids, permissions) is a plain file
+                in the data directory.</li>
+              <li><strong>Checked on the desktop.</strong> Every request is checked against that
+                phone&rsquo;s permissions before it runs. Terminal actions then go through the
+                desktop&rsquo;s own MCP server, limited to five tools: list, create, run a command in,
+                type into and close a terminal. Each of those calls is written to the MCP audit log with
+                the phone&rsquo;s device id but not what was typed, and phones share the MCP
+                server&rsquo;s rate limits with your agents. Folder browsing and the output stream are
+                handled by the bridge itself, so they aren&rsquo;t in the audit log. The phone&rsquo;s own
+                requests reach no memory, swarm or other tools, though an agent it types to can use
+                its own.</li>
+              <li><strong>Nothing runs or stays on the phone.</strong> No agent, model credentials,
+                account, analytics or crash reporter. The app never writes output to disk; it holds up to
+                200,000 characters per terminal in memory. The camera is used only to read the pairing
+                code.</li>
+            </ul>
+
+            <h3 id="remote-limits">Limits</h3>
+            <ul class="docs-list">
+              <li><strong>The desktop has to be running and awake</strong>, with <em>Allow phones to
+                connect</em> on. The relay is a meeting point, not a mailbox: nothing is kept for a
+                desktop that isn&rsquo;t there, and Remote doesn&rsquo;t keep the computer awake.</li>
+              <li><strong>Recent output only.</strong> Opening a terminal brings back what its last
+                32,768 printed characters draw; older scrollback stays on the desktop.</li>
+              <li><strong>Agents started from the phone run like swarm workers.</strong> They count
+                toward the limit of 8 terminals agents can open over MCP, they aren&rsquo;t in the
+                desktop&rsquo;s sidebar or the phone&rsquo;s list, and clearing the swarm on the desktop
+                closes them. Once you leave one on the phone, you can&rsquo;t open it there again.</li>
+              <li><strong>The relay limits new connections</strong> to about 30 a minute from one IP
+                address, reconnects included, which can bite behind a shared network.</li>
+              <li><strong>iPhone only for now</strong>, iOS 16.4 or later.</li>
             </ul>
           </section>
 
@@ -2403,7 +2606,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <div class="docs-callout">
               <p>
                 <strong>Off by default.</strong> Linked machines uses the same relay and the same
-                background process as Termpolis Remote, but the two switch on separately: turning on one
+                background process as <a href="#remote">Termpolis Remote</a>, but the two switch on separately: turning on one
                 never lets the other&rsquo;s devices connect.
               </p>
             </div>
@@ -2523,7 +2726,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>End-to-end encrypted.</strong> Prompts, answers, folders and machine names are
                 sealed with ChaCha20-Poly1305 under keys derived (HKDF-SHA256) from an X25519 key agreement
-                between the two computers &mdash; the same pairing and sealing as Termpolis Remote. Each
+                between the two computers &mdash; the same pairing and sealing as <a href="#remote">Termpolis Remote</a>. Each
                 direction has its own key, and a counter in every frame rejects replays.</li>
               <li><strong>Fresh keys on every connection.</strong> Each connection mixes in new ephemeral
                 keys, so prompts and answers recorded today can&rsquo;t be decrypted later, even if a
@@ -2659,21 +2862,22 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Termpolis runs an MCP server on <code>http://localhost:9315</code> (the port is
               shown in the bottom status bar — if 9315 is taken, Termpolis falls back to the
               next free port and writes the actual port to the data directory). It's bound to
-              the loopback interface only and rejects any request without the right bearer
+              the loopback interface only and rejects any MCP request without the right bearer
               token, so nothing on your network can reach it.
             </p>
             <h3>Connecting a custom client</h3>
             <p>
-              Any MCP-aware client can talk to the server. Register it once in the client's MCP
+              Any MCP-aware client can talk to the server. Register it in the client's MCP
               config — Termpolis writes a fresh bearer token to <code>mcp-token</code> in the
               data directory (Windows: <code>%APPDATA%\termpolis\</code>, macOS:
               <code>~/Library/Application Support/termpolis/</code>, Linux:
-              <code>~/.config/termpolis/</code>) on every launch:
+              <code>~/.config/termpolis/</code>) on every launch, so update the header each time
+              Termpolis starts:
             </p>
             <pre class="docs-code"><code>{
   "mcpServers": {
     "termpolis": {
-      "url": "http://localhost:9315",
+      "url": "http://localhost:9315/mcp",
       "headers": {
         "Authorization": "Bearer &lt;contents of mcp-token&gt;"
       }
@@ -2683,7 +2887,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>The 40 tools an agent can call</h3>
             <p>
               Each entry below is a function call an MCP-aware agent makes through the protocol —
-              not a command you type. Every invocation shows up in the
+              not a command you type. Every invocation is logged to <code>mcp-audit.log</code> in the data directory, and a call made by a Claude Code agent running in a Termpolis terminal also shows up, as that agent&rsquo;s tool call, in the
               <a href="#activity">Activity Feed</a>. The <strong>code-graph</strong> tools (new in
               v1.20.0) are backed by a local, native-free symbol index Termpolis builds from your
               workspace on a background timer &mdash; see the <a href="#code-graph">Code graph</a>
@@ -2702,31 +2906,31 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>close_terminal</code></td><td>Kill the underlying pty and remove the terminal.</td></tr>
                   <tr><td><code>run_and_wait</code></td><td>Run a command to completion and return its exit code and output, so the agent sees pass or fail without scraping a terminal.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Project context</td></tr>
-                  <tr><td><code>get_file_tree</code></td><td>Walk the workspace's working directory and return a JSON file tree.</td></tr>
-                  <tr><td><code>get_git_status</code></td><td>Summarise the active repo: current branch, <code>git status --short</code>, and the last 5 commits.</td></tr>
+                  <tr><td><code>get_file_tree</code></td><td>List one folder the agent names &mdash; each entry&rsquo;s name and whether it is a folder (one level deep, and only inside your home folder or the folder Termpolis was started from (on macOS that is usually <code>/</code>, so any folder)).</td></tr>
+                  <tr><td><code>get_git_status</code></td><td>Summarise the repo in a folder the agent names: current branch, <code>git status --short</code>, and the last 5 commits.</td></tr>
                   <tr><td><code>test_coverage</code></td><td>Which lines of a file its own tests cover, from the project&rsquo;s last coverage run.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Token Headroom</td></tr>
                   <tr><td><code>retrieve_full</code></td><td>Expand a compressed block back to the original text, from the token <a href="#headroom">Token Headroom</a> left in its place. This is what makes compression lossless: the agent asks for the detail on the rare turn it actually needs it.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Swarm coordination</td></tr>
                   <tr><td><code>swarm_send_message</code></td><td>Post an inter-agent message (broadcast or directed). Visible in the Messages tab of the Swarm Dashboard.</td></tr>
                   <tr><td><code>swarm_read_messages</code></td><td>Read the message stream — agents poll this to check for handoffs.</td></tr>
-                  <tr><td><code>swarm_create_task</code></td><td>Create a task record in the swarm DAG (called by the conductor for every subtask).</td></tr>
-                  <tr><td><code>swarm_list_tasks</code></td><td>Enumerate tasks with status filters (pending / in-progress / completed / failed).</td></tr>
+                  <tr><td><code>swarm_create_task</code></td><td>Create a task record in the swarm&rsquo;s task list (called by the conductor for every subtask).</td></tr>
+                  <tr><td><code>swarm_list_tasks</code></td><td>List every swarm task with its status (pending / in-progress / completed / failed).</td></tr>
                   <tr><td><code>swarm_update_task</code></td><td>Mark a task complete or failed and attach a result summary.</td></tr>
-                  <tr><td><code>swarm_list_agents</code></td><td>List the running swarm agent terminals so the conductor can route work.</td></tr>
+                  <tr><td><code>swarm_list_agents</code></td><td>List the terminals in the current session (id, name, shell, folder) &mdash; the same list as <code>list_terminals</code> &mdash; so the conductor can route work.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Shared memory</td></tr>
                   <tr><td><code>memory_write</code></td><td>Persist a labeled memory entry into the <a href="#memory">shared memory</a> store.</td></tr>
                   <tr><td><code>memory_search</code></td><td>RAG search (semantic + keyword) across shared memory.</td></tr>
                   <tr><td><code>memory_list</code></td><td>List recent memory entries with filters.</td></tr>
                   <tr><td><code>memory_related</code></td><td>Undirected one-hop traversal &mdash; from a memory entry (or a query) to its neighbours, blending its typed graph edges with nearest semantic neighbours (undirected since v1.23).</td></tr>
-                  <tr><td><code>memory_audit</code></td><td>Audit the integrity of the memory store &mdash; report what is held, what has been archived or superseded, and whether the on-disk store is internally consistent.</td></tr>
+                  <tr><td><code>memory_audit</code></td><td>Read the local, secret-redacted audit trail of what the shared memory did &mdash; recent stores, recalls, learning steps and context injections &mdash; with a count of each.</td></tr>
                   <tr><td><code>memory_link</code></td><td>Record a typed edge between two memories — builds the knowledge graph.</td></tr>
                   <tr><td><code>memory_graph</code></td><td>Multi-hop walk of the knowledge graph from a seed memory.</td></tr>
                   <tr><td><code>memory_primer</code></td><td>Load a ranked background-memory digest for the current project at session start.</td></tr>
                   <tr><td><code>memory_anticipate</code></td><td>Before solving a task, surface the procedural lessons the fleet already found for it — the anti-re-derivation tool.</td></tr>
-                  <tr><td><code>memory_pool</code></td><td>Pool the cross-agent lessons two or more agents independently arrived at — the fleet's most-corroborated knowledge.</td></tr>
+                  <tr><td><code>memory_pool</code></td><td>Pool lessons across all agents into shared ones, each with its sources and how many agents independently reached it, most-corroborated first.</td></tr>
                   <tr><td><code>memory_selfcheck</code></td><td>Report the brain's calibrated self-competence in a domain (confidence + track record) so the agent knows what it knows.</td></tr>
-                  <tr><td><code>memory_feedback</code></td><td>Mark a recalled memory as helpful so repeatedly-useful entries rank a little higher for everyone.</td></tr>
+                  <tr><td><code>memory_feedback</code></td><td>Tell the brain whether a recalled memory helped: helpful ones rank a little higher for everyone, unhelpful ones are demoted, and a net three unhelpful votes drop one from recall.</td></tr>
                   <tr><td><code>memory_conflicts</code></td><td>Surface pairs of lessons that <em>different</em> agents learned that assert opposite things about the same subject, so the fleet&rsquo;s disagreements can be found and resolved. Read-only and deliberately high-precision.</td></tr>
                   <tr><td><code>memory_correct</code></td><td>Retract, amend or demote a memory that recall got wrong. Nothing is deleted, and the reason shows with the memory in later searches.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Code graph <span style="font-weight:400;opacity:0.7;">(local symbol index &mdash; new in v1.20.0)</span></td></tr>
@@ -2746,11 +2950,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </div>
             <h3>Security</h3>
             <ul class="docs-list">
-              <li><strong>Bearer token.</strong> A random 256-bit token is generated per app launch and written to <code>mcp-token</code> in the data directory. Every request must include it in the <code>Authorization</code> header.</li>
+              <li><strong>Bearer token.</strong> A random 256-bit token is generated per app launch and written to <code>mcp-token</code> in the data directory. Every MCP request must include it in the <code>Authorization</code> header; only the health check (<code>/</code>, <code>/health</code>) and CORS preflight requests answer without it.</li>
               <li><strong>Loopback only.</strong> The server binds to <code>127.0.0.1</code> and refuses non-loopback connections.</li>
-              <li><strong>Origin checks.</strong> Requests from browser origins are rejected unless explicitly allowlisted.</li>
-              <li><strong>Rate limits.</strong> Per-client rate limiting protects the host from a runaway agent loop.</li>
-              <li><strong>Audit log.</strong> Every tool call is written to the MCP audit JSONL and emitted as an Activity Feed event.</li>
+              <li><strong>No browser access.</strong> There is no origin allowlist: a web page cannot use the server because it cannot read the bearer token, and the CORS header allows only <code>http://localhost</code>.</li>
+              <li><strong>Rate limits.</strong> One shared limit of 200 requests a minute, plus tighter per-tool limits (<code>create_terminal</code> 10, <code>run_command</code> 60, <code>linked_machines</code> 30 a minute), protects the host from a runaway agent loop.</li>
+              <li><strong>Audit log.</strong> Every tool call, and every denied or rate-limited request, is written as one JSON line to <code>mcp-audit.log</code> in the data directory (rotated at 1&nbsp;MB, one backup kept).</li>
             </ul>
           </section>
 
@@ -2771,30 +2975,29 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </figure>
             <figure class="docs-shot">
               <img src="docs/screenshots/21-swarm-trace-tab.png" alt="Swarm trace tab.">
-              <figcaption>Trace tab, the conductor's event timeline for the active run: plan → delegate → watch → merge.</figcaption>
+              <figcaption>Trace tab, the conductor's own timeline for the active run: what it says, the tools it calls, the tasks it assigns, and errors.</figcaption>
             </figure>
             <h3>What each tab is for</h3>
             <ul class="docs-list">
-              <li><strong>Tasks</strong>, answers <em>"where are we?"</em>. Full DAG with Pending / In&nbsp;progress / Completed columns, per-task assignee and status, dependencies drawn as edges. Click a task to see its prompt, the agent's output so far, and the handoff chain.</li>
+              <li><strong>Tasks</strong>, answers <em>"where are we?"</em>. Three columns, Pending / In&nbsp;progress / Completed (failed tasks land in Completed). Each card shows the title, description, who created it, who it is assigned to, when it was created, and the result once one is posted. Pending cards have <strong>Start</strong> and <strong>Cancel</strong>; in-progress cards have <strong>Done</strong> and <strong>Fail</strong>.</li>
               <li><strong>Messages</strong>, answers <em>"what are the agents saying?"</em>. Live stream of every handoff, broadcast, and tool result routed between agents. Use this to diagnose "why is Codex waiting?"</li>
-              <li><strong>Trace</strong>, answers <em>"what is the conductor thinking?"</em>. Timeline of the conductor's own decisions, planning, re-planning, agent picks, merge calls.</li>
+              <li><strong>Trace</strong>, answers <em>"what is the conductor thinking?"</em>. Timeline of what the conductor says (THINK), the tools it calls (TOOL), the tasks it assigns (ASSIGN), completions (DONE) and errors (ERR). It stays empty until you reveal the conductor's terminal with <strong>Debug</strong>, because Termpolis collects activity only from terminals that aren't hidden.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> at any time, no swarm needs to be running.</li>
               <li>If no swarm is active, click <strong>Start Swarm</strong>. A folder picker opens <em>first</em> &mdash; <a href="#conductor">choose the project directory</a> the swarm will work in, and only then does the Start Swarm wizard appear.</li>
               <li>Switch tabs freely, the dashboard stays scoped to the active run.</li>
-              <li>Right-click any task → <strong>Open agent terminal</strong> to drop into that agent's live pty.</li>
-              <li>Need to abort? Click the trash icon next to the swarm title to clear all messages and tasks (see below).</li>
+              <li>Click <strong>Debug</strong> (shown while a swarm is active) to reveal the conductor's hidden terminal. Agent terminals stay hidden.</li>
+              <li>Need to abort? Click <strong>Clear</strong> (trash icon) at the right end of the tab bar to end the run (see below).</li>
             </ol>
             <figure class="docs-shot">
               <img src="docs/screenshots/18-swarm-dashboard.png" alt="Clear Swarm confirmation dialog.">
               <figcaption>Clearing a swarm, the trash icon prompts for confirmation before wiping the current run's tasks and messages.</figcaption>
             </figure>
             <p>
-              Clearing does <strong>not</strong> kill the underlying agent pty's. Use the
-              <a href="#intervention">intervention controls</a> if you need to stop agents mid-flight
-              too.
+              Clearing ends the run, not just the list: it stops the conductor, kills every agent
+              terminal, and deletes the run's tasks and messages.
             </p>
           </section>
 
@@ -2803,20 +3006,20 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>AI conductor</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/22-start-swarm-wizard.png" alt="Start swarm wizard.">
-              <figcaption>Start Swarm wizard &mdash; describe the task, pick your agents, set a budget. The working directory was already chosen in the folder picker that opened before this wizard, and is shown here for confirmation.</figcaption>
+              <figcaption>Start Swarm wizard &mdash; describe the goal, and optionally add constraints, the expected output, and failure conditions. The working directory was already chosen in the folder picker that opened before this wizard.</figcaption>
             </figure>
             <p>
               The conductor is a dedicated Claude Code instance running with a system prompt
               purpose-built for orchestration. When you launch a swarm, it's the conductor that
-              reads your task, searches <a href="#memory">shared memory</a> for relevant prior work,
+              reads your task,
               decomposes the task into subtasks, picks the best-fit agent per subtask (based on
-              <a href="#capabilities">capability ratings</a> + current load + cost), delegates via
-              <a href="#mcp">MCP</a>, watches progress, and decides when to merge partial results,
-              re-plan, or declare done.
+              <a href="#capabilities">capability ratings</a> and cost tier), delegates via
+              <a href="#mcp">MCP</a>, watches progress, marks each task done as its agent finishes,
+              and declares the swarm complete when every task is completed or failed.
             </p>
             <p>
               Not keyword matching, <strong>actual AI reasoning</strong>, because the conductor is
-              itself a frontier model. Open its terminal and watch it think live.
+              itself a frontier model. Click <strong>Debug</strong> on the Swarm Dashboard to reveal its terminal; it runs in Claude Code's print mode, so its output appears there when it finishes.
             </p>
             <h3>Before you start: a swarm always needs a project directory</h3>
             <p>
@@ -2832,9 +3035,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </p>
             <ul class="docs-list">
               <li>The <strong>conductor</strong> is started in it, so its file reads, greps, and git commands resolve there.</li>
-              <li>Every <strong>agent terminal</strong> the conductor spawns is opened with that same cwd, so no agent can wander into an unrelated repo.</li>
+              <li>The conductor is told to open every <strong>agent terminal</strong> in that same cwd, so agents start in this repo; Termpolis doesn't stop an agent from working outside it.</li>
               <li>The directory is written into the conductor's task contract, so the instructions each agent receives name the path explicitly.</li>
-              <li><strong>Shared memory</strong> and the code graph scope their recall to that project, so agents get context from this repo rather than everything you have ever worked on.</li>
+              <li><strong>Shared memory</strong> leans toward this project: the memory primer lists its memories first (other projects' can still appear), and a search is limited to it only when the agent asks for that. The code-graph tools aren't scoped to the swarm's folder.</li>
               <li>The <strong>pre-swarm git SHA</strong> is captured from it, which is what makes the post-run diff and the "revert this swarm" action possible.</li>
             </ul>
             <div class="docs-callout">
@@ -2847,12 +3050,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
             <h3>Launching a swarm, step by step</h3>
             <ol class="docs-list docs-list-ordered">
-              <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> or click <strong>Start Swarm</strong> on the Welcome screen or the Swarm Dashboard.</li>
+              <li>Click <strong>Start Swarm</strong> on the Welcome screen, or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> to open the Swarm Dashboard and click <strong>Start Swarm</strong> there.</li>
               <li><strong>Pick the project directory</strong> in the folder picker that opens immediately. This is required, the wizard does not appear until you choose one.</li>
-              <li><strong>Task</strong>, describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity. The Launch button stays disabled until this is non-empty.</li>
-              <li><strong>Agents</strong>, toggle which agents are allowed to participate. Unchecked agents won't be assigned work.</li>
-              <li><strong>Budget</strong>, optional token and time ceilings. The conductor halts the run and asks you before exceeding.</li>
-              <li><strong>Launch</strong>, the wizard spawns the conductor in a hidden terminal and opens the <a href="#swarm">Swarm Dashboard</a>. The chosen directory is shown in the wizard so you can confirm it before committing.</li>
+              <li><strong>Goal</strong>, describe what you want built in plain English. Be specific; the conductor's decomposition quality scales with your clarity. <strong>Launch Swarm</strong> stays disabled until Goal is filled in. Optional <strong>Constraints</strong>, <strong>Expected Output</strong> and <strong>Failure Conditions</strong> fields sharpen the brief.</li>
+              <li><strong>Launch Swarm</strong> starts the conductor with your brief, in the hidden terminal the wizard prepared when it opened. The launch screen shows the folder the swarm will work in and closes as soon as the conductor posts its plan or creates a task (or after a minute), leaving you on the <a href="#swarm">Swarm Dashboard</a>.</li>
             </ol>
             <div class="docs-callout">
               <strong>One swarm at a time.</strong> While a swarm is active the Start Swarm button is
@@ -2861,13 +3062,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </div>
             <h3>What happens next</h3>
             <ol class="docs-list docs-list-ordered">
-              <li>Conductor reads your task → queries <a href="#memory">shared memory</a> for related prior work.</li>
-              <li>Decomposes into a DAG of subtasks with explicit dependencies.</li>
-              <li>For each subtask, picks an agent: capability rating × inverse cost × current load.</li>
+              <li>Conductor reads your task and posts its plan to the Messages tab.</li>
+              <li>Breaks the work into subtasks and creates a task record for each; agents work on them in parallel.</li>
+              <li>For each subtask, picks an agent from the installed agents' capability ratings and cost tiers.</li>
               <li>Spawns the agent terminal via <code>create_terminal</code> (MCP) and sends the prompt via <code>write_to_terminal</code>.</li>
-              <li>Watches tool calls + token usage via the Activity Feed; intervenes if an agent stalls or errors out.</li>
-              <li>When a task completes, writes the result to shared memory and unblocks dependents.</li>
-              <li>When the DAG is done, presents a summary and offers a <a href="#review">swarm review</a>.</li>
+              <li>Polls <code>swarm_list_tasks</code> and <code>swarm_read_messages</code>, reads each agent's output with <code>read_output</code>, and sends guidance with <code>write_to_terminal</code> if an agent looks stuck.</li>
+              <li>When a task is marked completed or failed, Termpolis records the outcome and, if the task carries enough detail, distills a lesson from it into shared memory.</li>
+              <li>When every task is completed or failed, presents a summary and offers a <a href="#review">swarm review</a>.</li>
             </ol>
             <p>
               Not sure whether your task fits a swarm or a single agent? See the
@@ -2883,15 +3084,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>Observability layer for every agent, every session.</figcaption>
             </figure>
             <p>
-              Open from the sidebar (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd>) or any
-              terminal's context menu. Event types: <code>message</code>, <code>tool_call</code>,
+              Open it with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd>; it opens scoped to the
+              active terminal. Event types: <code>message</code>, <code>tool_call</code>,
               <code>tool_result</code>, <code>token_update</code>, <code>compaction</code>,
-              <code>error</code>, <code>status_change</code>, <code>mcp_audit</code>.
+              <code>error</code>, <code>status_change</code>, <code>mcp_audit</code> (the last three appear in the filter, but no agent watcher emits them).
             </p>
             <p>
               Three filters combine: full-text search, kind dropdown, agent-type dropdown. Open
               scoped to a terminal or globally across all sessions, scope is labeled in the header.
-              Right-click an event → <strong>Pin</strong> to float it to the top of the context panel.
             </p>
           </section>
 
@@ -2907,8 +3107,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
             <p>
               Every agent is a pty, so writing control chars or text to stdin is the fastest, most
-              reliable way to take over. No new IPC surface. Each intervention is logged as an event
-             , full audit trail of every mid-flight correction.
+              reliable way to take over. No new IPC surface. The last intervention you sent is shown
+              under the buttons; interventions are not recorded as events.
             </p>
           </section>
 
@@ -2916,14 +3116,17 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
           <section id="review" class="docs-section">
             <h2>Swarm review</h2>
             <p>
-              When a task requires review before handoff (default for code-review tasks), the
-              conductor pauses and opens the <strong>Swarm Review Panel</strong>, task title,
-              assignee output, diff if applicable, and three buttons: <strong>Approve</strong>,
-              <strong>Request Changes</strong>, <strong>Reject</strong>, plus an optional comment.
-            </p>
-            <p>
-              Approve hands off downstream. Request Changes reassigns to the same agent with your
-              comment. Reject drops the output and re-plans.
+              When a swarm in a git repository finishes, the Swarm Complete dialog offers
+              <strong>Review Changes</strong> and the Swarm Dashboard adds a <strong>Review</strong>
+              tab showing what the swarm changed in tracked files since the commit it started from.
+              <strong>Accept</strong> or <strong>Reject</strong> each hunk (or use
+              <strong>Accept all</strong>, <strong>Reject all</strong> or <strong>Reject entire
+              file</strong>), optionally <strong>Run tests</strong>, then <strong>Commit</strong> what
+              you kept or <strong>Revert all</strong> back to that commit; <strong>Refine</strong>
+              reopens the Start Swarm wizard on the same folder with your note and the previous
+              swarm's summary filled in. In v1.50.1, though, the Swarm Complete dialog stays on top of
+              the dashboard and closing it removes the Review tab, so the panel can't be opened yet;
+              check a swarm's changes with <code>git diff</code> instead.
             </p>
           </section>
 
@@ -2939,8 +3142,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               or even months ago &mdash; instead of you re-explaining context every session.
             </p>
             <figure class="docs-shot">
-              <img src="assets/diagram-mneme.svg" alt="How Mneme works: every agent's work is captured, embedded locally into vectors, and stored in a vector database (find by meaning) plus a knowledge graph (find by connection) persisted as JSONL — then recalled and ranked, getting smarter over time.">
-              <figcaption>How Mneme works: it files each memory by <em>meaning</em> (a local vector database) and by <em>connection</em> (a knowledge graph), both persisted as plain JSONL on your disk &mdash; then recalls and ranks them on demand.</figcaption>
+              <img src="assets/diagram-mneme.svg?v=20261008" alt="How Mneme works: every agent's work is captured, embedded locally into vectors, and stored in a vector database (find by meaning) plus a knowledge graph (find by connection) persisted as JSONL — then recalled and ranked, getting smarter over time.">
+              <figcaption>How Mneme works: it files each memory by <em>meaning</em> (a local vector database) and by <em>connection</em> (a knowledge graph), both persisted as JSONL files on your disk &mdash; then recalls and ranks them on demand.</figcaption>
             </figure>
             <figure class="docs-shot">
               <img src="assets/diagram-learning-loop.svg" alt="Mneme's learning loop: reflect, consolidate, connect, rank, anticipate — repeating after every finished task so the shared memory keeps getting smarter.">
@@ -2997,7 +3200,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 cheerfully explained that your brain fills up as you work. Measured on that real
                 store: 314,563 entries, 2.3&nbsp;GB, decoded in about four seconds. Shards now also
                 <strong>rotate at 1.5&nbsp;GB</strong> so no single file can reach the ceiling again;
-                rotated shards load read-only, so compaction leaves them alone. A shard that will not read is <strong>recorded and shown as a
+                rotated shards are never appended to, and compaction rewrites them together with the active shard. A shard that will not read is <strong>recorded and shown as a
                 banner</strong> &mdash; &ldquo;failed to load&rdquo; must never look identical to
                 &ldquo;new and empty&rdquo; &mdash; and nothing is lost either way, because compaction
                 reads before it writes, so a shard it cannot read is a shard it cannot overwrite.</li>
@@ -3023,21 +3226,24 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <a href="#linked-machines">Linked machines</a>: an agent there starts from that
                 machine&rsquo;s own memory and works on its files.</li>
               <li><strong>Portable &mdash; export / import the whole brain (v1.21).</strong>
-                <strong>Export Memory</strong> (app menu) writes a
+                <strong>Export…</strong> (Settings &rarr; General &rarr; Import / Export Memory) writes a
                 <code>termpolis-brain-&lt;date&gt;.zip</code> holding your memories, the knowledge
                 graph, per-domain competence, identity, metrics, and the code graph &mdash; each
-                SHA-256&rsquo;d in a manifest. <strong>Import Memory</strong> verifies the zip CRCs
+                SHA-256&rsquo;d in a manifest. <strong>Import…</strong> verifies the zip CRCs
                 <em>and</em> every hash before applying anything (a corrupt or tampered archive is
                 refused whole, never half-merged), then grow-only-merges: memories and edges union in;
                 the device-local learning files restore only on a fresh machine, never overwriting an
                 existing brain. Your per-machine identity, sync config, and encryption salt are
                 deliberately excluded. Back up, seed a new machine, or move your brain over any
                 transport you like.</li>
-              <li><strong>Encrypted at rest by default.</strong> A local store is sealed with
+              <li><strong>Encrypted at rest by default.</strong> The main memory log is sealed with
                 <strong>AES-256-GCM</strong> under a per-device key generated into your OS keychain
                 (Windows DPAPI, macOS Keychain, Linux libsecret) &mdash; no passphrase required, and
                 where no keychain is available it stays plaintext and reports so honestly rather than
-                writing a key beside the data. Termpolis transparently decrypts on read.</li>
+                writing a key beside the data. Termpolis transparently decrypts on read. Memories the
+                idle pass moves to the recoverable archive (<code>swarm-memory.archive.jsonl</code>),
+                the corrections log, and the knowledge-graph links are still written as plain
+                JSON.</li>
               <li><strong>Scales into six figures.</strong> Vectors are packed into a typed-array
                 store (about half the RAM of boxed arrays); past tens of thousands of entries an
                 <strong>HNSW</strong> approximate-nearest-neighbour index engages automatically so
@@ -3071,8 +3277,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 crowding out varied context, with a floor so a thin recall never starves the agent.</li>
               <li><strong>Auto-recovers from compaction.</strong> When Claude Code compacts its
                 conversation to fit the context window, Termpolis watches the terminal, waits for the
-                compaction to settle, and re-injects the most relevant memories into the agent&rsquo;s
-                input (ready to send, never auto-submitted) so it picks right back up. Debounced
+                compaction to settle, and once the agent&rsquo;s input line is empty, types a one-line
+                instruction to reload its memory digest with <code>memory_primer</code> and presses
+                Enter, so it picks right back up (a Claude session Termpolis launched with its memory
+                seed reloads the digest itself, so nothing is typed). Debounced
                 through the whole compaction and cooldown-guarded to fire once; opt-out in Settings.</li>
               <li><strong>See compaction coming.</strong> A live context-pressure pill in the status
                 bar shows how full the focused agent&rsquo;s window is &mdash; <em>healthy → filling
@@ -3162,18 +3370,17 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               switch.
             </p>
             <p>
-              <strong>Why this needs a panel at all.</strong> Your vectors live in the
-              <strong>main process</strong> &mdash; the same thread that pumps the PTY. So vector RAM
-              is not an abstraction: at multi-gigabyte scale it means garbage-collection pauses on the
-              one thread whose stalls you feel as <strong>typing lag</strong>. (We have been here
-              before: an in-process WASM embedder pinning the main thread was a real, shipped lag bug.)
+              <strong>Why this needs a panel at all.</strong> Since v1.26 your vectors live in a
+              separate <strong>memory process</strong>, not in the main process that pumps the PTY, so
+              a large store costs RAM rather than typing lag. (If that process ever fails to start,
+              the brain falls back to the main process, and the Memory &amp; Learning tab says so.)
               Nobody can answer <em>&ldquo;should I enable int8 vector quantization?&rdquo;</em> in the
               abstract, and a bare toggle would be a trap &mdash; it sounds like an optimization, so
               people would flip it on principle. It is therefore a <strong>decision aid</strong>:
-              it measures <em>your</em> machine, live, and tells you what to do.
+              it reads <em>your</em> store&rsquo;s vector count when you open the tab (or press Refresh) and tells you whether the toggle is worth it.
             </p>
 
-            <h3>What it measures (polled live, every 2&nbsp;s)</h3>
+            <h3>What it reads (when you open the tab, or press Refresh)</h3>
             <div class="docs-table-wrap">
               <table class="docs-table">
                 <thead>
@@ -3182,10 +3389,6 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <tbody>
                   <tr><td><strong>Vectors</strong></td><td>How many, at what dimension, and in which representation &mdash; <code>float32</code> (4&nbsp;B/component, exact) or <code>int8</code> (1&nbsp;B/component).</td></tr>
                   <tr><td><strong>Vector RAM</strong></td><td>What they actually hold right now, and what they <em>would</em> hold in the other representation. (They live in <code>arrayBuffers</code>, off the V8 heap &mdash; so a heap graph would not have shown you this.)</td></tr>
-                  <tr><td><strong>Process RAM</strong></td><td>The resident set, and the vectors&rsquo; <strong>share</strong> of it. This is the number that decides whether the toggle is even relevant.</td></tr>
-                  <tr><td><strong>Main-thread stall (p99)</strong></td><td>Event-loop delay &mdash; the actual symptom. Above <strong>50&nbsp;ms</strong> is roughly three dropped frames: the point where keystroke echo stops feeling instant.</td></tr>
-                  <tr><td><strong>Longest GC pause</strong></td><td>The worst stop-the-world pause, plus how many major collections have run. A &gt;50&nbsp;ms pause is a visible hitch.</td></tr>
-                  <tr><td><strong>Time spent in GC</strong></td><td>GC as a share of wall-clock over the sampling window. Above a few percent, the thread is fighting the collector.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -3201,17 +3404,15 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><th>Verdict</th><th>When</th><th>What it says</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td><strong>Not needed</strong></td><td>Vectors under ~256&nbsp;MB</td><td>There is no version of this that helps &mdash; stalling or not. Leave it off. This is the correct state for most users, forever, and the panel will tell you if that changes.</td></tr>
-                  <tr><td><strong>Won&rsquo;t help</strong></td><td>Thread <em>is</em> stalling, but the vectors are under ~20% of the process</td><td><em>&ldquo;Your main thread is stalling &mdash; but not because of the vectors.&rdquo;</em> Freeing them would not fix the stalls, and you would lose exactness for nothing. Look elsewhere.</td></tr>
-                  <tr><td><strong>Your call</strong></td><td>Vectors are large, nothing is degrading</td><td>The thread is healthy, so there is no problem to fix &mdash; but the memory is real, so taking the headroom back is defensible.</td></tr>
-                  <tr><td><strong>Recommended</strong></td><td>Thread is stalling <em>and</em> the vectors are a large share of it</td><td>Worth turning on. It names how much it expects to free.</td></tr>
+                  <tr><td><strong>Not needed</strong></td><td>Vectors under ~256&nbsp;MB</td><td>There is no version of this that helps. Leave it off. This is the correct state for most users, forever, and the panel will tell you if that changes.</td></tr>
+                  <tr><td><strong>Your call</strong></td><td>Vectors at ~256&nbsp;MB or more</td><td>int8 would free a real amount of RAM and is reversible, but the panel does not measure whether that RAM is costing you anything, so it does not claim it is. Turn it on if you want the headroom back; leaving it off is not a mistake.</td></tr>
                   <tr><td><strong>int8 on</strong></td><td>Already enabled</td><td>Exact floats are still on disk; switch back at any time and lose nothing.</td></tr>
                 </tbody>
               </table>
             </div>
             <div class="docs-callout">
               <strong>A control that only ever markets itself is an upsell, not a tool.</strong>
-              <code>Won&rsquo;t help</code> is the verdict that makes the other four worth reading. The
+              <code>Not needed</code> is the verdict that makes the other two worth reading. The
               cost of a wrong <em>yes</em> here is invisible (you quietly approximate the one thing the
               brain exists to do) while the benefit is imperceptible until the corpus is genuinely
               large &mdash; so the panel is built to be willing to talk you out of it.
@@ -3224,7 +3425,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               those candidates with the exact float query against the dequantized rows, which recovers
               the precision that matters for the final ranking. The offline recall benchmark runs the
               real bundled <code>bge-small-en-v1.5</code> model against the float baseline and
-              <strong>fails the build</strong> if int8 regresses it: measured
+              <strong>fails the build</strong> if int8 falls more than 0.04 below the committed float baseline on recall@10, nDCG@10 or MRR. Measured:
               <strong><code>recall@10</code> and <code>recall@5</code> identical</strong> to the exact-float
               baseline, with nDCG and MRR within 0.001. It is only worth shipping if it keeps recall, so
               that is a CI gate rather than a promise.
@@ -3352,12 +3553,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Observability</h2>
             <p>A full observability stack for AI work, the "watchers" system. A lightweight in-process event bus that watches for:</p>
             <ul class="docs-list">
-              <li><strong>Stuck sessions</strong>, agent silent for &gt; N seconds.</li>
-              <li><strong>Error cascades</strong>, repeated errors in a short window.</li>
               <li><strong>Redundancy</strong>, two agents doing overlapping work.</li>
-              <li><strong>Efficiency</strong>, rolling token-cost-per-task average.</li>
+              <li><strong>Efficiency</strong>, tokens in and out, tool calls per message, error rate and files touched for each Claude Code and Codex agent over the last 30 minutes (Gemini terminals run <code>agy</code>, whose sessions Termpolis doesn&rsquo;t read, so they don&rsquo;t appear).</li>
             </ul>
-            <p>Watchers surface alerts in the status bar, activity feed, or system notifications. Thresholds tunable in settings.</p>
+            <p>Redundancy (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd>) and Efficiency (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd>) are panels you open yourself, next to the Activity feed (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>). Nothing is raised in the status bar or as a system notification, and there are no thresholds to tune.</p>
           </section>
 
           <!-- STATUS BAR -->
@@ -3365,12 +3564,16 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Status bar</h2>
             <figure class="docs-shot">
               <img src="docs/screenshots/24-status-bar.png" alt="Status bar at the bottom of the window.">
-              <figcaption>Active workspace, git branch, agents, swarm status, tokens, MCP health.</figcaption>
+              <figcaption>Each terminal&rsquo;s blue strip (shell, folder, git branch) above the app footer (version, swarm status, context fill, MCP address).</figcaption>
             </figure>
             <p>
-              Bottom strip, left to right: workspace + git branch, focused terminal's shell + cwd,
-              active-agents summary, swarm progress %, session-wide token counter, watcher
-              notifications, MCP server indicator (green = healthy).
+              Each terminal has its own blue strip: a REC badge while recording, the agent badge,
+              shell, working directory and git branch. The bottom strip shows, left to right:
+              copyright, license and your Termpolis version; then <em>Swarm Active</em> with
+              running/total agents and any errors (only while a swarm runs), the focused
+              agent&rsquo;s context-window fill (<em>ctx N%</em>, when known), the MCP address
+              (always <code>localhost:9315</code>; it is not a health light), Sponsor, and
+              Help / Support.
             </p>
           </section>
 
@@ -3385,13 +3588,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <tbody>
                   <tr><td>Command palette</td><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td><kbd>⌘</kbd>+<kbd>K</kbd></td></tr>
                   <tr><td>New terminal</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>T</kbd></td></tr>
-                  <tr><td>New terminal (global — works when minimized)</td><td><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>T</kbd></td></tr>
+                  <tr><td>New terminal (global — works when minimized)</td><td><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td><kbd>⌃</kbd>+<kbd>⌥</kbd>+<kbd>T</kbd></td></tr>
                   <tr><td>Close focused terminal</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>W</kbd></td></tr>
-                  <tr><td>Next / previous terminal</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td><kbd>⌘</kbd>+<kbd>Tab</kbd> / <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Tab</kbd></td></tr>
-                  <tr><td>Jump to terminal N</td><td><kbd>Alt</kbd>+<kbd>1…9</kbd></td><td><kbd>⌥</kbd>+<kbd>1…9</kbd></td></tr>
+                  <tr><td>Next / previous terminal</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td><kbd>⌃</kbd>+<kbd>Tab</kbd> / <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>Tab</kbd></td></tr>
+                  <tr><td>Jump to terminal N</td><td><kbd>Alt</kbd>+<kbd>1…9</kbd></td><td>Not available (⌥ turns the digit into a symbol)</td></tr>
                   <tr><td>Launch agent 1–3 (Claude / Codex / Gemini)</td><td><kbd>Ctrl</kbd>+<kbd>1…3</kbd></td><td><kbd>⌘</kbd>+<kbd>1…3</kbd></td></tr>
                   <tr><td>Toggle sidebar</td><td><kbd>Ctrl</kbd>+<kbd>B</kbd></td><td><kbd>⌘</kbd>+<kbd>B</kbd></td></tr>
-                  <tr><td>Toggle split / grid view</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>G</kbd></td></tr>
+                  <tr><td>Toggle tab / split view</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>G</kbd></td></tr>
                   <tr><td>Clear terminal &mdash; screen <em>and</em> scrollback</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>X</kbd></td></tr>
                   <tr><td>Prompt templates</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd></td></tr>
                   <tr><td>Context panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>E</kbd></td></tr>
@@ -3402,11 +3605,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td>Redundancy panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>D</kbd></td></tr>
                   <tr><td>Efficiency panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Y</kbd></td></tr>
                   <tr><td>Swarm dashboard</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>S</kbd></td></tr>
-                  <tr><td>Memory panel <em>(copies the selection as a code block when a terminal is focused)</em></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>M</kbd></td></tr>
+                  <tr><td>Memory panel</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>M</kbd></td></tr>
                   <tr><td>Voice dictation (push-to-talk)</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>L</kbd></td></tr>
                   <tr><td>Copy / paste (in terminal)</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td><kbd>⌘</kbd>+<kbd>C</kbd> / <kbd>⌘</kbd>+<kbd>V</kbd></td></tr>
+                  <tr><td>Copy selection as code block</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd></td><td><kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>Q</kbd></td></tr>
                   <tr><td>Keyboard select / copy mode</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Space</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>Space</kbd></td></tr>
-                  <tr><td>Trigger autocomplete</td><td><kbd>Ctrl</kbd>+<kbd>Space</kbd></td><td><kbd>⌘</kbd>+<kbd>Space</kbd></td></tr>
                   <tr><td>App log <em>(what Termpolis itself is printing)</em></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd></td><td><kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>O</kbd></td></tr>
                   <tr><td>Keyboard-shortcuts list (Settings → Keybindings)</td><td><kbd>Ctrl</kbd>+<kbd>/</kbd></td><td><kbd>⌘</kbd>+<kbd>/</kbd></td></tr>
                 </tbody>
@@ -3431,7 +3634,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  ├── Session persistence (session.json)             │
 │  ├── Git adapter                                    │
 │  ├── MCP server (HTTP, 40 tools)                    │
-│  ├── Swarm memory (JSONL + embeddings)              │
+│  ├── Memory brain (separate utility process)        │
 │  ├── AI conductor (spawns Claude Code as a child)   │
 │  └── Watchers (event bus + alerts)                  │
 └──────────────────┬──────────────────────────────────┘
@@ -3440,7 +3643,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 │  AI agents (Claude, Codex, Gemini)                  │
 │  Each in its own pty-backed terminal                │
 └─────────────────────────────────────────────────────┘</pre>
-            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (7,000+ tests across 344 files, 98%+ line / 94%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
+            <p><strong>Tech stack:</strong> Electron 30, React 18, TypeScript 5, Vite 5 (electron-vite), node-pty, xterm.js, Vitest (14,000+ tests across 613 files, 99%+ line / 97%+ branch coverage), Playwright, electron-builder, SSL.com code signing, notarytool.</p>
           </section>
 
           <!-- TROUBLESHOOTING -->
@@ -3474,35 +3677,35 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p><strong>macOS: "Termpolis is damaged and can't be opened."</strong> Gatekeeper couldn't verify the signature, usually a partial download. Re-download the DMG from GitHub Releases, verify the file size matches, and mount again. If it still fails, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the bottom, and click <strong>Open Anyway</strong> next to the Termpolis entry.</p>
             <p><strong>macOS: "Permission denied" when launching a terminal.</strong> Grant Termpolis <strong>Full Disk Access</strong> in System Settings → Privacy &amp; Security → Full Disk Access. Re-launch after granting.</p>
             <p><strong>Linux: AppImage won't run.</strong> Mark it executable: <code>chmod +x Termpolis-*.AppImage</code>. On systems with hardened FUSE, extract and run the inner binary: <code>./Termpolis-*.AppImage --appimage-extract &amp;&amp; ./squashfs-root/termpolis</code>.</p>
-            <p><strong>Linux: .deb fails with &ldquo;Permission denied / pkgAcquireRun: 13&rdquo;.</strong> apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home directory on Ubuntu 22.04+. Install with <code>dpkg</code> instead, which doesn&rsquo;t drop privileges: <code>sudo dpkg -i ./termpolis_*.deb</code>. v1.11.30+ ships a postinst that auto-runs <code>apt-get install -f -y</code> to resolve any missing dependencies, so a single <code>dpkg -i</code> is now enough.</p>
-            <p><strong>Linux: window opens as a blank black box.</strong> Common on Ubuntu setups with NVIDIA proprietary drivers or some Wayland compositors &mdash; Chromium&rsquo;s GPU process initializes but fails to compose output. v1.11.30+ ships <code>--no-sandbox --disable-gpu</code> baked into the .desktop launcher so the dock icon Just Works on these systems. If you launch the binary directly from a shell on an older build, pass the same flags: <code>/opt/Termpolis/termpolis --no-sandbox --disable-gpu</code>. <code>TERMPOLIS_DISABLE_GPU=1 termpolis</code> remains as an env-var escape hatch.</p>
+            <p><strong>Linux: apt prints &ldquo;Permission denied / pkgAcquire::Run (13)&rdquo; while installing the .deb.</strong> apt&rsquo;s sandboxed <code>_apt</code> user can&rsquo;t read files in your home directory on Ubuntu 22.04+, so apt notes that it is downloading unsandboxed as root and carries on: the notice is harmless, and <code>sudo apt install ./termpolis_*.deb</code> still installs the package and its dependencies. If you installed with <code>sudo dpkg -i</code> instead and it reports missing dependencies, run <code>sudo apt-get install -f</code>; the postinst no longer installs them for you.</p>
+            <p><strong>Linux: window opens as a blank black box.</strong> Common on Ubuntu setups with NVIDIA proprietary drivers or some Wayland compositors &mdash; Chromium&rsquo;s GPU process initializes but fails to compose output. v1.11.30 to v1.26 baked <code>--no-sandbox --disable-gpu</code> into the .desktop launcher; since v1.27 it passes only <code>--no-sandbox</code>, because Termpolis now turns off VAAPI video decoding on Linux by default (the most-reported cause of a black window) and keeps the GPU on. If you launch the binary directly from a shell on an older build, pass the same flags: <code>/opt/Termpolis/termpolis --no-sandbox --disable-gpu</code>. <code>TERMPOLIS_DISABLE_GPU=1 /opt/Termpolis/termpolis --no-sandbox</code> remains as an env-var escape hatch that turns the GPU fully off (the .deb adds no <code>termpolis</code> command to your PATH).</p>
             <p><strong>Data directory didn't appear.</strong> Termpolis creates it on first run, make sure you actually clicked "Open" rather than dismissing the first-launch dialog. Paths: <code>%APPDATA%\termpolis\</code> (Windows), <code>~/Library/Application Support/termpolis/</code> (macOS), <code>~/.config/termpolis/</code> (Linux).</p>
 
             <h3>Terminals</h3>
-            <p><strong>Terminal won't start.</strong> Check <strong>Default Shell</strong> in Settings → General. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; WSL needs <code>wsl.exe</code> on PATH. On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access, launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
+            <p><strong>Terminal won't start.</strong> Check <strong>Default Shell</strong> in Settings → General. On Windows, PowerShell 7 lives at <code>C:\Program Files\PowerShell\7\pwsh.exe</code>; Git Bash is detected only at <code>C:\Program Files\Git\bin\bash.exe</code> (or the <code>Program Files (x86)</code> equivalent). On macOS, if <code>/bin/zsh</code> gives "permission denied", re-grant Termpolis Full Disk Access, launchd blocks unsigned/unapproved apps from spawning shells by default.</p>
             <p><strong>Terminal hangs on first prompt.</strong> Your shell's startup files (<code>.bashrc</code>, <code>.zshrc</code>, PowerShell <code>$PROFILE</code>) may be waiting on input or hitting a slow network check. Open the shell outside Termpolis to confirm; the fix is in your dotfiles, not the app.</p>
             <p><strong>Output looks garbled / escape codes show as text.</strong> Termpolis runs every shell in a real terminal (<code>TERM=xterm-256color</code>), so this usually means a profile script sets <code>TERM</code> or prints escape codes itself. Settings → Shell Config opens your shell profiles to check.</p>
             <p><strong>Copy/paste shortcuts don't work.</strong> On Windows/Linux, use <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> / <kbd>V</kbd> inside terminals (bare <kbd>Ctrl</kbd> + <kbd>C</kbd> sends SIGINT). On macOS, <kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>V</kbd> work everywhere.</p>
-            <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load (usually due to a theme override), re-select a built-in theme in Settings → General → Terminal Defaults.</p>
+            <p><strong>Font looks wrong / icons are boxes.</strong> The app ships its own icon font, but if it failed to load, reinstall Termpolis; themes only change terminal colors, so switching theme won&rsquo;t bring it back. If a terminal&rsquo;s text is in the wrong font, right-click its tab in the sidebar to change it, or set <strong>Default Font Family</strong> in Settings → General → Terminal Defaults for new terminals.</p>
 
             <h3>Agents &amp; CLI tools</h3>
-            <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
+            <p><strong>Agent launch button shows setup instructions instead of launching.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, or <code>agy</code> for Gemini CLI) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
             <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> (<code>where claude</code> on Windows) to see which one Termpolis will launch, and remove or reorder the copy you don't want.</p>
             <p><strong>An agent can&rsquo;t run <code>sudo</code> (Linux and macOS).</strong> An agent runs its commands without a terminal, so plain <code>sudo</code> has nowhere to ask for your password. Since v1.50.1, every Termpolis terminal sets <code>SUDO_ASKPASS</code>, so <code>sudo -A</code> there asks through a Termpolis password dialog that shows the whole command about to run. Termpolis tells Codex, and Claude Code in projects with saved memory, to use it; for other agents, mention <code>sudo -A</code> in your prompt. Type your password only for a command you expected, because whatever you approve runs as administrator. The helper behind the dialog (<code>askpass/sudo-askpass</code> in the data directory, set as <code>SUDO_ASKPASS</code> in every terminal) won&rsquo;t run unless sudo started it, and won&rsquo;t ask at all for a command too long to show in full. It can&rsquo;t protect you from a program that is already hostile and running as you, which could show a lookalike dialog of its own. A <code>SUDO_ASKPASS</code> you set yourself is left alone. On Linux the dialog uses zenity, kdialog or ssh-askpass, tried in that order; with none of them installed, <code>sudo -A</code> fails with a message saying so. On macOS it uses the system dialog.</p>
             <p><strong><code>sudo</code> fails in every terminal with <em>sudo: The &ldquo;no new privileges&rdquo; flag is set</em> (Linux).</strong> In-app updates of the .deb from Termpolis 1.50.0 and earlier reopened the app in a way Linux marks &ldquo;no new privileges&rdquo;, which stops <code>sudo</code>, <code>su</code> and <code>pkexec</code> in every terminal it opens. Quit Termpolis and open it again from your applications menu. Since v1.50.1, updates no longer cause it, and a window that starts with the flag says so and, where <code>systemd-run</code> is available, offers to restart itself properly. A window with the flag can&rsquo;t install a .deb update either, because installing needs the administrator password, so reopen it first.</p>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
             <h3>Swarm, MCP, and memory</h3>
-            <p><strong>MCP indicator in status bar is red.</strong> The MCP server failed to start. Common causes:</p>
+            <p><strong>Agents can&rsquo;t reach Termpolis over MCP.</strong> The MCP server failed to start. Common causes:</p>
             <ul class="docs-list">
-              <li><strong>Port 9315 already in use</strong>, another instance or a crashed process still owns it. Termpolis automatically tries the next free port (9315&ndash;9319) and writes the one it bound to <code>mcp-port</code> in the data directory; the status bar shows the active port. Kill stray <code>termpolis</code> processes if none can bind.</li>
+              <li><strong>Port 9315 already in use</strong>, another instance or a crashed process still owns it. Termpolis automatically tries the next free port (9315&ndash;9319) and writes the one it bound to <code>mcp-port</code> in the data directory; the status bar always reads <code>localhost:9315</code>, so check <code>mcp-port</code> for the real one. Kill stray <code>termpolis</code> processes if none can bind.</li>
               <li><strong>Firewall blocking localhost</strong>, rare but possible. Add an exception for the Termpolis binary.</li>
               <li><strong>Token file write failed</strong>, <code>mcp-token</code> couldn&rsquo;t be written to the data directory. Make sure your <a href="#install">data directory</a> is writable.</li>
             </ul>
             <p><strong>Start Swarm does nothing / the wizard never opens.</strong> Start Swarm opens an OS folder picker <em>before</em> the wizard, and the wizard only appears once a directory is chosen. If you dismissed the picker (Esc or Cancel) nothing launches, that is the expected behaviour. Click <strong>Start Swarm</strong> again and <a href="#conductor">pick a project directory</a>. If the button reads <em>Swarm Active</em> instead, a swarm is already running, clear it first.</p>
-            <p><strong>Agents can't find files / edit outside their task.</strong> Almost always a too-narrow project directory. Every agent terminal inherits the swarm's working directory, so a swarm rooted at <code>src/components</code> cannot reach the tests, lockfile, or config that live above it. Clear the swarm and relaunch from the repository root.</p>
-            <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Open the conductor&rsquo;s terminal (Swarm Dashboard &rarr; right-click the task &rarr; <strong>Open agent terminal</strong>), or use <a href="#conversation">Conversation search</a> (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>), to see its startup output.</p>
-            <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. Use <strong>Pause → Reset session</strong> in the Swarm Dashboard to recover. If a specific agent repeatedly drops, its MCP token probably expired, restart Termpolis for fresh tokens.</p>
+            <p><strong>Agents can't find files / edit outside their task.</strong> Almost always a too-narrow project directory. Every agent terminal starts in the swarm's working directory, so agents in a swarm rooted at <code>src/components</code> tend to miss the tests, lockfile, or config that live above it. Clear the swarm and relaunch from the repository root.</p>
+            <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Open the conductor&rsquo;s terminal (Swarm Dashboard &rarr; <strong>Debug</strong>, shown while a swarm is active), or use <a href="#conversation">Conversation search</a> (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>), to see its startup output.</p>
+            <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. To recover, <strong>Clear</strong> the swarm in the Swarm Dashboard (it stops every agent, closes their terminals and deletes the swarm&rsquo;s tasks and messages), then start it again. If a specific agent repeatedly drops, relaunch that agent. The MCP token doesn&rsquo;t expire: Termpolis makes a new one only when Termpolis restarts, and each agent reads it when the agent starts.</p>
             <p><strong>Memory search returns nothing.</strong> Embeddings run in-process via WASM (bundled <code>bge-small-en-v1.5</code>) &mdash; no Ollama required. If recall is empty, the brain may simply be unindexed: open the Memory panel (<code>Ctrl+Shift+M</code>) and run <em>Index past conversations</em> / <em>Index this repo&rsquo;s code</em>, or wait for the background indexer (first pass ~10&nbsp;s after launch). The first embed lazily unpacks the WASM model, so the very first search after a cold start can take a few seconds.</p>
 
             <h3>Updates &amp; performance</h3>
@@ -3512,7 +3715,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
             <h3>Session corruption &amp; reset</h3>
             <p><strong>App opens to a blank screen.</strong> Sign of a broken <code>session.json</code>. Close Termpolis, rename <code>session.json</code> in the data directory, relaunch, the app creates a fresh session. Workspaces will be empty but the app is usable again; the old file is preserved for diffing later.</p>
-            <p><strong>Reset everything.</strong> Close Termpolis, delete the entire data directory (see <a href="#install">Installation</a>), relaunch. Wipes workspaces, settings, themes, prompt templates, custom workflows, swarm history, and memory.</p>
+            <p><strong>Reset everything.</strong> Close Termpolis, delete the entire data directory (see <a href="#install">Installation</a>), relaunch. Wipes workspaces, settings, themes, prompt templates, global workflows, swarm history, and memory (project workflows in a repo&rsquo;s <code>.termpolis/workflows</code> folder stay).</p>
 
             <h3>Reporting a bug</h3>
             <p>If none of the above fixes your problem, <a href="https://github.com/codedev-david/termpolis/issues/new?template=bug_report.md" target="_blank" rel="noreferrer">open an issue</a>. Please include:</p>
