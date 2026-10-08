@@ -233,7 +233,7 @@
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, and Gemini CLI work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask is a card in the Swarm Dashboard with its status and result, and the Trace tab shows the conductor&rsquo;s messages and tool calls as it works.</li>
-              <li><strong>Activity observability.</strong> Every token, every tool call, every message from every agent is visible in real time.</li>
+              <li><strong>Activity observability.</strong> Every token, tool call and message from your Claude Code and Codex agents is visible in real time.</li>
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
               <li><strong>Shared memory.</strong> A RAG-backed memory store that Claude Code and Codex can read and write via MCP.</li>
               <li><strong>MCP-native.</strong> Once you connect your agents, Termpolis registers its MCP server in Claude Code&rsquo;s and Codex&rsquo;s config &mdash; no config to write by hand. It doesn&rsquo;t connect itself to <code>agy</code>, the CLI Gemini terminals run.</li>
@@ -3135,10 +3135,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Mneme &mdash; the shared memory that learns and never forgets</h2>
             <p>
               <strong>Mneme</strong> &mdash; named for the Greek muse of memory &mdash; is the local,
-              growing &ldquo;brain&rdquo; shared by every agent that <strong>learns as you
-              work</strong>. It indexes your past AI conversations (Claude Code, Codex, Gemini) and
+              growing &ldquo;brain&rdquo; that Claude Code and Codex share and that <strong>learns as you
+              work</strong>. It indexes your past AI conversations (Claude Code, Codex, and older Gemini CLI sessions) and
               your repo&rsquo;s code into a vector store on disk, distills a reusable lesson from each
-              finished task, and lets any agent semantically recall what was decided or written weeks
+              finished task, and lets either agent semantically recall what was decided or written weeks
               or even months ago &mdash; instead of you re-explaining context every session.
             </p>
             <figure class="docs-shot">
@@ -3180,9 +3180,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 &ldquo;connections&rdquo; could read as empty on a machine that had already indexed
                 thousands of call edges. The real code graph now surfaces as its own tile, so what you
                 built is what you see.</li>
-              <li><strong>Shared across all three agents.</strong> Claude, Codex, and Gemini all
-                read and write the same store over MCP, so a fact one agent learns is instantly
-                available to the others.</li>
+              <li><strong>Shared by Claude and Codex.</strong> Both read and write the same store
+                over MCP, so a fact one agent learns is instantly available to the other. Gemini
+                terminals run <code>agy</code>, which isn&rsquo;t connected to it yet.</li>
               <li><strong>Flags cross-agent contradictions (new in v1.19.5).</strong> When two
                 agents record lessons that assert opposite things about the same subject &mdash; a
                 Claude lesson says &ldquo;always run migrations before seeding,&rdquo; a Codex lesson
@@ -3522,8 +3522,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               the PATH) won&rsquo;t wipe a graph you&rsquo;ve already built.
             </p>
             <p>
-              <strong>How agents use it.</strong> The graph is exposed to every agent you connect (Claude Code,
-              Codex, Gemini CLI) over MCP as six read-only tools, and Termpolis nudges them to
+              <strong>How agents use it.</strong> The graph is exposed to the agents Termpolis connects (Claude Code
+              and Codex; not yet the <code>agy</code> behind Gemini) over MCP as six read-only tools, and Termpolis nudges them to
               prefer these over grepping:
             </p>
             <ul class="docs-list">

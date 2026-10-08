@@ -109,7 +109,7 @@
           <p class="hero-text">
             At the heart of Termpolis is <strong>Mneme</strong> &mdash; a local memory brain that
             Claude and Codex share, and that <strong>learns as you work</strong>.
-            Every agent already knows your project, your decisions, and what got figured out yesterday; and
+            Both already know your project, your decisions, and what got figured out yesterday; and
             when an agent finishes a task, Mneme quietly distills the lesson into the shared brain, so your
             whole fleet gets smarter the more you use it. <strong>No re-explaining, no reloading context, and
             your memory is stored on your own machine.</strong>
@@ -195,7 +195,7 @@
           <article class="card">
             <h3>One memory, shared by Claude and Codex</h3>
             <p>
-              Every agent reads and writes the same store over the built-in MCP server
+              Claude and Codex read and write the same store over the built-in MCP server
               (<code>memory_search</code> / <code>memory_write</code> / <code>memory_list</code>).
               A fact Claude figures out is instantly available to Codex &mdash; no copy-paste, no
               re-discovery.
@@ -304,7 +304,7 @@
             <strong>2. Embed</strong> &mdash; each chunk becomes a 384-dim vector locally, in
             process, via <code>onnxruntime-web</code> (WASM). <strong>3. Store</strong> &mdash;
             chunks and vectors persist in a durable on-disk log, deduplicated by content hash so
-            re-indexing is cheap. <strong>4. Recall</strong> &mdash; any agent calls
+            re-indexing is cheap. <strong>4. Recall</strong> &mdash; Claude or Codex calls
             <code>memory_search</code> over MCP and gets the most relevant past context back,
             blending semantic vector search with keyword matching. <strong>5. Learn</strong> &mdash;
             on task boundaries, sessions are distilled into reusable lessons and per-domain
@@ -1656,7 +1656,7 @@
               An approval is pinned to the artifact's <strong>content hash</strong>, so editing an
               approved skill re-prompts — there is no trust-on-first-use-then-swap. On approval,
               Termpolis installs it wherever that <em>kind</em> of artifact actually goes: an
-              <strong>MCP server</strong> into all three agents; a <strong>slash command</strong>
+              <strong>MCP server</strong> into Codex (not yet Claude Code, nor the <code>agy</code> behind Gemini); a <strong>slash command</strong>
               into Claude and Gemini; a <strong>skill, subagent or plugin</strong> into
               Claude Code, which is the only one of the three with a skills system. The installer
               refuses <strong>zip-slip</strong> paths and <strong>TOML-injection</strong> in the
@@ -1837,7 +1837,7 @@
           <p>
             Run five agents at once and the usual problem shows up fast: two of them are doing the same work, one is about
             to run out of context, and another is quietly burning tokens. Termpolis ships a local observability layer that
-            watches every agent you open in a Termpolis terminal. No cloud, no external dashboard, bounded memory, 90%+ test coverage.
+            watches every Claude Code and Codex agent you open in a Termpolis terminal (not yet Gemini&rsquo;s <code>agy</code>). No cloud, no external dashboard, bounded memory, 90%+ test coverage.
           </p>
         </div>
         <div class="feature-grid">
@@ -2260,7 +2260,7 @@
             <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 14 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts, audit, correct) + 6 code-graph tools (explore, callers, callees, impact, search, locate) + run-and-wait, test coverage, retrieve-full, 2 MCP-gateway tools and <a href="#linked">linked machines</a>.</p>
           </article>
           <article class="card">
-            <h3>Connects to every agent &mdash; after it asks</h3>
+            <h3>Connects to your agents &mdash; after it asks</h3>
             <p>Termpolis shows you exactly what it would add to the Claude Code, Codex, and Gemini CLI config files on the first step of the tour, and writes nothing until you finish or skip it &mdash; the <strong>Connect agents</strong> box starts ticked, and clearing it says no. <strong>Settings &rarr; Agent Integration</strong> lists every change, and <strong>Disconnect</strong> removes all of it.</p>
           </article>
           <article class="card">
