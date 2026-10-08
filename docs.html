@@ -134,6 +134,7 @@
           <ul class="docs-toc">
             <li><a href="#agents">AI agent profiles</a></li>
             <li><a href="#second-opinion">Second Opinion</a></li>
+            <li><a href="#linked-machines">Linked machines</a></li>
             <li><a href="#capabilities">Capability ratings</a></li>
             <li><a href="#mcp">MCP server</a></li>
             <li><a href="#swarm">Swarm dashboard</a></li>
@@ -2382,6 +2383,215 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
           </section>
 
+          <!-- LINKED MACHINES -->
+          <section id="linked-machines" class="docs-section">
+            <h2>Linked machines (v1.50)</h2>
+            <p>
+              <strong>Linked machines</strong> pairs your Termpolis desktops with each other, the way a
+              phone pairs with one. An agent on one computer can then have a Claude, Codex or Gemini agent
+              on another do a task <strong>headlessly</strong> and get its final answer back as an ordinary
+              tool result. It works in both directions and across any network:
+              <em>&ldquo;Have Claude on linux implement the parser in ~/repos/foo and commit it, then review
+              the commit yourself.&rdquo;</em> Nothing is typed into a terminal and no terminal opens on
+              either machine. The work runs as a background job, and both computers list it under
+              <strong>Activity</strong>.
+            </p>
+            <figure class="docs-shot">
+              <img src="assets/diagram-linked-machines.svg" alt="How Linked machines works: your agent calls the linked_machines tool; the request crosses an encrypted relay as sealed frames; your other computer checks the link and its permissions, runs a fresh headless agent, and sends the final answer back sealed." loading="lazy">
+              <figcaption>One request, end to end: sealed on this computer, checked and run on the other, answered back sealed.</figcaption>
+            </figure>
+            <div class="docs-callout">
+              <p>
+                <strong>Off by default.</strong> Linked machines uses the same relay and the same
+                background process as Termpolis Remote, but the two switch on separately: turning on one
+                never lets the other&rsquo;s devices connect.
+              </p>
+            </div>
+
+            <h3 id="linked-setup">Turning it on</h3>
+            <p><em>Settings &rarr; Linked machines</em>, on <strong>both</strong> computers.</p>
+            <ol class="docs-list docs-list-ordered">
+              <li>Tick <strong>Let this computer link with my other computers</strong>. The pane shows the
+                relay in use, which you change under <em>Settings &rarr; Remote</em>. Making or entering a
+                code requires an encrypted <code>wss://</code> relay.</li>
+              <li>On one computer, go to <strong>Link a computer</strong>. Choose what the new computer may
+                do here (see below) and click <strong>Create code</strong>. A code starting
+                <code>termpolis-link:</code> appears with <strong>Copy</strong>, a countdown and
+                <strong>Cancel</strong>. It works <strong>once</strong> and expires after
+                <strong>5 minutes</strong>.</li>
+              <li>Carry the code to the other computer any way you like: a chat message, a shared folder,
+                or typing it. Paste it under <strong>Enter a code from another computer</strong>, choose
+                what the first computer may do there, and click <strong>Link</strong>.</li>
+              <li>Both screens show the <strong>same eight words</strong>, and each suggests the other
+                computer&rsquo;s hostname as its name. Rename it if you like. Compare the words, then click
+                <strong>They match &mdash; link</strong> on <strong>both</strong> computers. The words come
+                from the two computers&rsquo; keys, so they match only if nothing sits in the middle.</li>
+            </ol>
+            <div class="docs-callout">
+              <p>
+                <strong>Treat the code like a one-time password.</strong> Whoever uses it first can ask to
+                link. If the other screen shows no words, or different ones, click <strong>Cancel</strong>
+                instead of confirming.
+              </p>
+            </div>
+            <p>
+              Each computer runs nothing for the other until you confirm the words <strong>on it</strong>,
+              and your agent won&rsquo;t send work to a machine you haven&rsquo;t confirmed. Until then, the
+              other computer can learn only this one&rsquo;s name and Termpolis version. Each linked
+              computer gets a row in <strong>Linked computers</strong> with an online dot, its name (click
+              to rename), its two permissions, when it last did anything, and <strong>Unlink</strong>.
+              <strong>Activity</strong> lists the 20 latest jobs in both directions.
+            </p>
+
+            <h3 id="linked-permissions">What a linked computer may do here</h3>
+            <p>Each computer decides what the <strong>other</strong> may do <strong>on it</strong>, per linked machine. You choose when the link is made and can change it at any time.</p>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead><tr><th>Permission</th><th>Default</th><th>What it allows</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Run agents here (read-only)</strong></td><td>on</td><td>Start a headless agent here in its own read-only mode. Claude runs in plan mode with only Read, Grep and Glob and no MCP servers. Codex runs in its <code>read-only</code> sandbox with Termpolis&rsquo;s MCP server switched off. Gemini (<code>agy</code>) runs in plan mode. Codex keeps any other MCP servers in its own config, and <code>agy</code> keeps the ones in its own list, which Termpolis doesn&rsquo;t add itself to.</td></tr>
+                  <tr><td><strong>Let agents edit files and run commands here</strong></td><td>off</td><td>The agent runs unattended here, as you. Claude and Gemini run with permission prompts skipped; Codex runs in its <code>workspace-write</code> sandbox, which keeps its writes to the working folder and temporary folders unless your Codex config allows more. Turning it on turns on <em>Run agents here</em> too.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              The risk, stated plainly: a machine with <em>Run agents here</em> can have an agent read any
+              file you can read on this computer and send it back. With <em>edit</em>, it can change files
+              and run commands as you. Grant <em>edit</em> only to a machine you trust as much as this one.
+              Permissions are checked <strong>on the computer that does the work</strong>, before any agent
+              starts, and again when you change them: switching <em>edit</em> off stops that
+              machine&rsquo;s running edit jobs, switching <em>Run agents here</em> off stops all of its
+              jobs, and unlinking stops all of its jobs. Stopping a job doesn&rsquo;t undo what it already
+              changed. The computer doing the work doesn&rsquo;t ask you per job: the permissions are the
+              decision.
+            </p>
+
+            <h3 id="linked-how">How your agent decides to use another machine</h3>
+            <p>
+              Termpolis doesn&rsquo;t split your work or schedule anything across machines. Your agent gets
+              one MCP tool, <code>linked_machines</code>, and uses it the way it uses any tool: when you ask
+              it to (<em>&ldquo;have codex on linux run the integration tests and summarise the
+              failures&rdquo;</em>), or when it judges a task belongs on the other computer &mdash; Codex is
+              blocked on this network, or the repo, the hardware or the test environment is over there. A
+              <a href="#workflows">workflow</a> you build can also call it as a step. A typical exchange:
+            </p>
+            <ol class="docs-list docs-list-ordered">
+              <li><code>list</code> &mdash; which machines are linked and online, which agents each has
+                installed, and whether this computer may run or edit there.</li>
+              <li><code>run</code> &mdash; a machine, an agent and a <strong>self-contained</strong> prompt,
+                optionally a folder on that machine and <code>write: true</code>. The agent over there has
+                none of this conversation, so the prompt carries what it needs: a commit SHA, earlier
+                findings.</li>
+              <li>The answer comes back as the tool result, or, for a job still going after the wait, as a
+                <code>jobId</code> the agent collects with <code>result</code>.</li>
+              <li>Your agent reviews the answer like any other and carries on: it can check the commit the
+                other agent pushed, ask a follow-up in a new <code>run</code>, or report back to you.</li>
+            </ol>
+
+            <h3 id="linked-tool">The <code>linked_machines</code> tool</h3>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead><tr><th>Action</th><th>Arguments</th><th>Returns</th></tr></thead>
+                <tbody>
+                  <tr><td><code>list</code></td><td>&mdash;</td><td><code>thisMachine</code>, and for each linked machine <code>name</code>, <code>online</code>, <code>confirmed</code>, <code>agents</code> (installed there), <code>canRun</code>, <code>canWrite</code>, and a <code>note</code> explaining anything it could not find out</td></tr>
+                  <tr><td><code>run</code></td><td><code>machine</code>, <code>agent</code> (<code>claude</code>, <code>codex</code> or <code>gemini</code>), <code>prompt</code>; optional <code>cwd</code>, <code>write</code>, <code>model</code>, <code>waitSec</code></td><td><code>jobId</code>, <code>machine</code>, <code>agent</code>, <code>status</code> (<code>running</code>, <code>done</code>, <code>failed</code> or <code>cancelled</code>), plus <code>output</code>, <code>truncated</code>, <code>error</code>, <code>durationMs</code> and <code>note</code> where they apply</td></tr>
+                  <tr><td><code>result</code></td><td><code>jobId</code>; optional <code>waitSec</code></td><td>the same as <code>run</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="docs-list">
+              <li><strong><code>machine</code></strong> is the name you gave it on this computer, in any case.</li>
+              <li><strong><code>prompt</code></strong> must be self-contained, up to 20,000 characters. The
+                agent over there gets it after one line naming the computer that asked and the working
+                folder. Like any headless run there, it also starts with that computer&rsquo;s own memory
+                primer (up to 6,000 characters), so its answer can quote that machine&rsquo;s memory.</li>
+              <li><strong><code>cwd</code></strong> is a folder on the other machine, absolute or starting
+                with <code>~</code>. It defaults to the home folder and must exist there. UNC network paths
+                (<code>\\server\share</code>) are refused.</li>
+              <li><strong><code>write: true</code></strong> works only if that machine lets this one edit.</li>
+              <li><code>run</code> waits up to <strong>45 seconds</strong> by default (<code>waitSec</code>,
+                at most 50), under the 60 seconds Codex gives one tool call. The other computer keeps a
+                finished job for up to 2 hours, in memory.</li>
+              <li>Every failure comes back as data, <code>{ "error": "&hellip;" }</code>, worded for the
+                agent to act on or pass on to you.</li>
+              <li>Termpolis never pre-approves this tool: a Claude Code session asks you before using it
+                (unless it skips permission prompts), and Codex is not told to trust it. Agents can call it
+                at most 30 times a minute.</li>
+            </ul>
+
+            <h3 id="linked-security">How it is secured</h3>
+            <ul class="docs-list">
+              <li><strong>End-to-end encrypted.</strong> Prompts, answers, folders and machine names are
+                sealed with ChaCha20-Poly1305 under keys derived (HKDF-SHA256) from an X25519 key agreement
+                between the two computers &mdash; the same pairing and sealing as Termpolis Remote. Each
+                direction has its own key, and a counter in every frame rejects replays.</li>
+              <li><strong>Fresh keys on every connection.</strong> Each connection mixes in new ephemeral
+                keys, so prompts and answers recorded today can&rsquo;t be decrypted later, even if a
+                computer&rsquo;s long-term key leaks.</li>
+              <li><strong>An encrypted relay.</strong> Making or entering a code requires a
+                <code>wss://</code> relay. Keep <em>Settings &rarr; Remote</em> on a <code>wss://</code>
+                address: links this computer created use that setting when they reconnect. The relay&rsquo;s
+                source is in the Termpolis repository (<code>relay/</code>), so you can run your own.</li>
+              <li><strong>What the relay does see:</strong> both computers&rsquo; IP addresses, a room id
+                for the link, when each computer connects, the size and timing of each frame, and each
+                frame&rsquo;s unencrypted header (public keys while pairing and connecting, a frame
+                counter). It stores no frames; the hosting provider&rsquo;s logs keep connection
+                metadata.</li>
+              <li><strong>Keys.</strong> The computer that enters a code makes a new key pair for that link;
+                the computer that made the code uses its one identity key for all its links. Private keys
+                are encrypted with the OS keychain (Windows DPAPI, macOS Keychain, Linux libsecret) where
+                one is available. On Linux without a keyring, they are stored unencrypted in the data
+                directory.</li>
+              <li><strong>Confirmed on each computer.</strong> A computer runs nothing for another until you
+                confirm the eight words on it.</li>
+              <li><strong>Checked where the work happens.</strong> Permissions are enforced by the computer
+                that would do the work, before any agent starts.</li>
+              <li><strong>Jobs, nothing else.</strong> The link carries only these jobs: a linked computer
+                can&rsquo;t list, read or type into your terminals, and gets none of a phone&rsquo;s
+                abilities. A job with <em>edit</em> permission runs as you, though, and can do whatever you
+                can.</li>
+              <li><strong>Answers are scanned.</strong> Every answer is scanned for prompt injection on
+                arrival, and one that looks like an injection is flagged as untrusted data. Prompts and
+                answers are <em>not</em> scanned for secrets, so don&rsquo;t put secrets in a prompt.</li>
+              <li><strong>No passing the work on.</strong> A delegated job doesn&rsquo;t get
+                Termpolis&rsquo;s tools: Claude and Codex jobs run with Termpolis&rsquo;s MCP server switched
+                off, Termpolis doesn&rsquo;t connect itself to <code>agy</code>, and its agent connection
+                refuses <code>linked_machines</code> inside a delegated job. A job with <em>edit</em>
+                permission runs as you, though, so it can reach anything you can.</li>
+              <li><strong>Your AI providers.</strong> Each agent&rsquo;s provider sees what that agent is
+                asked and answers, as always, and a job uses the doing computer&rsquo;s AI account.</li>
+              <li><strong>Memory.</strong> Termpolis doesn&rsquo;t save a job&rsquo;s result to the doing
+                computer&rsquo;s memory itself, but a Claude or Codex job&rsquo;s session is saved like any
+                other, and the memory indexer can pick it up there.</li>
+              <li><strong>Records.</strong> The asking computer&rsquo;s MCP audit log records each call an
+                agent makes over MCP (not the prompt). The doing computer keeps its <em>Activity</em> list in memory until
+                Termpolis quits.</li>
+            </ul>
+
+            <h3 id="linked-limits">Limits</h3>
+            <ul class="docs-list">
+              <li><strong>Both computers need Termpolis running</strong>, with Linked machines on and a
+                connection to the relay. The relay is a meeting point, not a mailbox, so a request to a
+                machine that isn&rsquo;t there fails at once as offline instead of waiting.</li>
+              <li><strong>A computer that is asleep or shut down is offline.</strong> While it runs a job for
+                another computer, Termpolis keeps it from idle-sleeping until the job ends; the display can
+                still turn off, and closing a laptop&rsquo;s lid can still put it to sleep.</li>
+              <li><strong>On a Mac, closing the window does not take the computer offline.</strong> Termpolis
+                keeps running in the Dock, links and all. Quit it (<kbd>⌘</kbd>+<kbd>Q</kbd>) to go
+                offline.</li>
+              <li><strong>Every run is a fresh headless session.</strong> No conversation carries over,
+                though its memory digest can include earlier jobs once the indexer has picked them up.
+                Linked machines does not copy files; code moves through Git.</li>
+              <li><strong>A job runs for up to 15 minutes by default.</strong> A computer runs at most 2 jobs
+                at a time for any one machine, and 4 in all.</li>
+              <li><strong>The end of a long answer is kept</strong>, up to the last 200,000 characters.
+                Agents put their conclusion last; a shortened answer says <code>truncated: true</code>.</li>
+              <li><strong>Up to 16 linked machines</strong> per computer, counting both directions.</li>
+              <li><strong>Jobs live in memory.</strong> Quitting Termpolis stops every job it is running for
+                other computers and forgets the finished ones.</li>
+            </ul>
+          </section>
+
           <!-- MCP -->
           <section id="mcp" class="docs-section">
             <h2>MCP server</h2>
@@ -2490,9 +2700,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>write_to_terminal</code></td><td>Type arbitrary text or control chars into a terminal's stdin (this is how the conductor sends task prompts to other agents).</td></tr>
                   <tr><td><code>read_output</code></td><td>Read the recent output buffer from a terminal.</td></tr>
                   <tr><td><code>close_terminal</code></td><td>Kill the underlying pty and remove the terminal.</td></tr>
+                  <tr><td><code>run_and_wait</code></td><td>Run a command to completion and return its exit code and output, so the agent sees pass or fail without scraping a terminal.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Project context</td></tr>
                   <tr><td><code>get_file_tree</code></td><td>Walk the workspace's working directory and return a JSON file tree.</td></tr>
                   <tr><td><code>get_git_status</code></td><td>Summarise the active repo: current branch, <code>git status --short</code>, and the last 5 commits.</td></tr>
+                  <tr><td><code>test_coverage</code></td><td>Which lines of a file its own tests cover, from the project&rsquo;s last coverage run.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Token Headroom</td></tr>
                   <tr><td><code>retrieve_full</code></td><td>Expand a compressed block back to the original text, from the token <a href="#headroom">Token Headroom</a> left in its place. This is what makes compression lossless: the agent asks for the detail on the rare turn it actually needs it.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Swarm coordination</td></tr>
@@ -2516,6 +2728,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>memory_selfcheck</code></td><td>Report the brain's calibrated self-competence in a domain (confidence + track record) so the agent knows what it knows.</td></tr>
                   <tr><td><code>memory_feedback</code></td><td>Mark a recalled memory as helpful so repeatedly-useful entries rank a little higher for everyone.</td></tr>
                   <tr><td><code>memory_conflicts</code></td><td>Surface pairs of lessons that <em>different</em> agents learned that assert opposite things about the same subject, so the fleet&rsquo;s disagreements can be found and resolved. Read-only and deliberately high-precision.</td></tr>
+                  <tr><td><code>memory_correct</code></td><td>Retract, amend or demote a memory that recall got wrong. Nothing is deleted, and the reason shows with the memory in later searches.</td></tr>
                   <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Code graph <span style="font-weight:400;opacity:0.7;">(local symbol index &mdash; new in v1.20.0)</span></td></tr>
                   <tr><td><code>code_explore</code></td><td>Ask one structural question and get the matching symbol&rsquo;s verbatim source plus its direct callers and callees &mdash; instead of grepping and reading files. Backed by a pre-indexed local code graph.</td></tr>
                   <tr><td><code>code_callers</code></td><td>List the symbols that call a given symbol &mdash; &ldquo;who uses this?&rdquo; &mdash; straight from the code graph, no grep.</td></tr>
@@ -2523,6 +2736,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>code_impact</code></td><td>Blast radius: the transitive set of symbols that directly or indirectly call a symbol &mdash; what could break if you change it. Run it before editing a shared function.</td></tr>
                   <tr><td><code>code_search</code></td><td>Find symbols (functions, classes, types) whose name matches a substring across the indexed codebase &mdash; a fast structural lookup.</td></tr>
                   <tr><td><code>code_locate</code></td><td>Predict <em>where</em> an issue lives &mdash; give it an error or problem description and get back a ranked list of <code>{file, symbol, why:[past&nbsp;lessons]}</code>, the code most likely responsible with the fixes/decisions that point there. Crosses the memory&harr;code bridge (new in v1.23.0).</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">MCP gateway</td></tr>
+                  <tr><td><code>gateway_list_tools</code></td><td>List the tools on the MCP servers you added in Settings &rarr; MCP Servers.</td></tr>
+                  <tr><td><code>gateway_call</code></td><td>Call one of those tools under the gateway&rsquo;s policy: arguments are secret-scanned on the way out, results are injection-scanned on the way back, and every call is audited.</td></tr>
+                  <tr><td colspan="2" style="font-weight:600;color:#7ee2a3;">Linked machines</td></tr>
+                  <tr><td><code>linked_machines</code></td><td>Have a Claude, Codex or Gemini agent on another of your <a href="#linked-machines">linked computers</a> do a task and return its final answer (<code>list</code>, <code>run</code>, <code>result</code>). Never pre-approved, so Claude Code asks before using it unless the session skips permission prompts.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -2779,8 +2997,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 cheerfully explained that your brain fills up as you work. Measured on that real
                 store: 314,563 entries, 2.3&nbsp;GB, decoded in about four seconds. Shards now also
                 <strong>rotate at 1.5&nbsp;GB</strong> so no single file can reach the ceiling again;
-                rotated shards load read-only, so compaction leaves them alone and they never inflate
-                the sync device count. A shard that will not read is <strong>recorded and shown as a
+                rotated shards load read-only, so compaction leaves them alone. A shard that will not read is <strong>recorded and shown as a
                 banner</strong> &mdash; &ldquo;failed to load&rdquo; must never look identical to
                 &ldquo;new and empty&rdquo; &mdash; and nothing is lost either way, because compaction
                 reads before it writes, so a shard it cannot read is a shard it cannot overwrite.</li>
@@ -2798,11 +3015,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Secrets are never indexed.</strong> The code indexer reuses the same
                 sensitive-file denylist as the read watcher, so <code>.env</code> files, keys, and
                 cloud credentials are excluded.</li>
-              <li><strong>Syncs across machines.</strong> Point the memory at any synced folder
-                (Dropbox, OneDrive, iCloud&nbsp;Drive, Google&nbsp;Drive in mirror mode, or
-                Syncthing) and every device shares one brain. Each machine writes its own shard
-                (<code>&lt;device-id&gt;.jsonl</code>), so the merge is conflict-free &mdash; a
-                grow-only union with tombstones, no central server and no Termpolis account.</li>
+              <li><strong>Each computer keeps its own memory.</strong> The Memory panel&rsquo;s
+                <em>Sync across machines</em> setting doesn&rsquo;t work reliably in current versions:
+                Termpolis forgets the chosen folder when it restarts, and turning it on for a store
+                that is already encrypted can conflict with that store&rsquo;s key. Leave it off. To
+                use what another of your computers knows, link the two with
+                <a href="#linked-machines">Linked machines</a>: an agent there starts from that
+                machine&rsquo;s own memory and works on its files.</li>
               <li><strong>Portable &mdash; export / import the whole brain (v1.21).</strong>
                 <strong>Export Memory</strong> (app menu) writes a
                 <code>termpolis-brain-&lt;date&gt;.zip</code> holding your memories, the knowledge
@@ -2818,9 +3037,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <strong>AES-256-GCM</strong> under a per-device key generated into your OS keychain
                 (Windows DPAPI, macOS Keychain, Linux libsecret) &mdash; no passphrase required, and
                 where no keychain is available it stays plaintext and reports so honestly rather than
-                writing a key beside the data. With cross-machine sync the key is instead derived with
-                <code>scrypt</code> from a passphrase you share, never stored in the synced folder, so
-                your cloud provider only ever sees ciphertext. Termpolis transparently decrypts on read.</li>
+                writing a key beside the data. Termpolis transparently decrypts on read.</li>
               <li><strong>Scales into six figures.</strong> Vectors are packed into a typed-array
                 store (about half the RAM of boxed arrays); past tens of thousands of entries an
                 <strong>HNSW</strong> approximate-nearest-neighbour index engages automatically so
@@ -2874,6 +3091,32 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 and friends); and an adaptive relevance floor keeps weak, off-topic hits out of the
                 digest entirely.</li>
             </ul>
+            <h3 id="memory-limits">What memory can and can&rsquo;t tell an agent</h3>
+            <ul class="docs-list">
+              <li><strong>Recall returns excerpts.</strong> A past conversation is stored in pieces of
+                about 2,000 characters, so a search hit can start or end mid-sentence. Pieces from one
+                session are usually linked in order: <code>memory_graph</code> with the hit&rsquo;s id
+                and relation <code>follows</code> reads on, and <code>precedes</code> reads back. If
+                reading on stops early, search again. The primer tells agents this.</li>
+              <li><strong>Search ranks by similarity, and rarely comes back empty.</strong>
+                Even a search with no relevant memory usually returns its closest matches with high-looking
+                scores, so judge a hit by what it says, not by its score. For the latest entries in
+                order, use <code>memory_list</code> with your project.</li>
+              <li><strong>Memory records what was said, not what is true now.</strong> A note that a
+                disk was 48% full was true when it was written. Agents are told to verify anything
+                they rely on.</li>
+              <li><strong>Each computer has its own memory.</strong> Something you did on another
+                computer isn&rsquo;t in this one&rsquo;s memory, and something that happened outside an
+                agent session (plugging in a drive, say) isn&rsquo;t in any. An agent on a
+                <a href="#linked-machines">linked computer</a> starts with a short digest of that
+                machine&rsquo;s memory (up to 6,000 characters), but can&rsquo;t search it.</li>
+              <li><strong>Lessons are extracted automatically, and the extractor can be wrong
+                (improved in v1.50.1).</strong> Through v1.50.0 it read many ordinary sentences as
+                problems and decisions, and those lessons ranked first in recall. v1.50.1 tightens its
+                rules and, once, demotes the lessons it stored by mistake, so they rank lower in search.
+                A demoted lesson is still stored and still returned, ranked lower. Correct a bad lesson
+                as it surfaces with <code>memory_correct</code>; nothing is deleted.</li>
+            </ul>
             <p>The MCP tools any agent can call:</p>
             <ul class="docs-list">
               <li><strong>Search</strong> via <code>memory_search</code>, semantic vector search blended with keyword overlap.</li>
@@ -2885,6 +3128,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Pool</strong> via <code>memory_pool</code>, gather the cross-agent lessons that two or more agents independently arrived at &mdash; the fleet&rsquo;s most-corroborated knowledge.</li>
               <li><strong>Self-check</strong> via <code>memory_selfcheck</code>, ask the brain how reliable it has been in a domain (calibrated confidence from past outcomes).</li>
               <li><strong>Reinforce</strong> via <code>memory_feedback</code>, mark a recalled memory as helpful so the ones that keep paying off rank a little higher for everyone.</li>
+              <li><strong>Correct</strong> via <code>memory_correct</code>, retract, amend or demote a memory that recall got wrong; nothing is deleted.</li>
+              <li><strong>Prime</strong> via <code>memory_primer</code>, load the project&rsquo;s background digest at the start of a session.</li>
             </ul>
             <p>
               Why it matters: when Claude figures out your auth module, Codex shouldn&rsquo;t have to
@@ -3243,6 +3488,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Agents &amp; CLI tools</h3>
             <p><strong>Agent launch button fails silently.</strong> The CLI isn't on your PATH. Run <code>claude --version</code> (or <code>codex</code>, <code>gemini</code>) in a Termpolis terminal to confirm. On macOS, GUI-launched apps don't always inherit <code>$PATH</code>, restart Termpolis after updating <code>~/.zprofile</code> (not just <code>~/.zshrc</code>), or relaunch from Terminal with <code>open -a Termpolis</code>.</p>
             <p><strong>Wrong <code>claude</code> / <code>codex</code> binary runs.</strong> If you've installed the CLI via multiple package managers (Homebrew, npm, cargo), PATH order decides the winner. Use <code>which claude</code> (<code>where claude</code> on Windows) to see which one Termpolis will launch, and remove or reorder the copy you don't want.</p>
+            <p><strong>An agent can&rsquo;t run <code>sudo</code> (Linux and macOS).</strong> An agent runs its commands without a terminal, so plain <code>sudo</code> has nowhere to ask for your password. Since v1.50.1, every Termpolis terminal sets <code>SUDO_ASKPASS</code>, so <code>sudo -A</code> there asks through a Termpolis password dialog that shows the whole command about to run. Termpolis tells Codex, and Claude Code in projects with saved memory, to use it; for other agents, mention <code>sudo -A</code> in your prompt. Type your password only for a command you expected, because whatever you approve runs as administrator. The helper behind the dialog (<code>askpass/sudo-askpass</code> in the data directory, set as <code>SUDO_ASKPASS</code> in every terminal) won&rsquo;t run unless sudo started it, and won&rsquo;t ask at all for a command too long to show in full. It can&rsquo;t protect you from a program that is already hostile and running as you, which could show a lookalike dialog of its own. A <code>SUDO_ASKPASS</code> you set yourself is left alone. On Linux the dialog uses zenity, kdialog or ssh-askpass, tried in that order; with none of them installed, <code>sudo -A</code> fails with a message saying so. On macOS it uses the system dialog.</p>
+            <p><strong><code>sudo</code> fails in every terminal with <em>sudo: The &ldquo;no new privileges&rdquo; flag is set</em> (Linux).</strong> In-app updates of the .deb from Termpolis 1.50.0 and earlier reopened the app in a way Linux marks &ldquo;no new privileges&rdquo;, which stops <code>sudo</code>, <code>su</code> and <code>pkexec</code> in every terminal it opens. Quit Termpolis and open it again from your applications menu. Since v1.50.1, updates no longer cause it, and a window that starts with the flag says so and, where <code>systemd-run</code> is available, offers to restart itself properly. A window with the flag can&rsquo;t install a .deb update either, because installing needs the administrator password, so reopen it first.</p>
             <p><strong>Agent exits with "API key not set".</strong> Each agent's env vars come from the login shell, not from a <code>.env</code> in your workspace. Put <code>export ANTHROPIC_API_KEY=...</code> in <code>~/.zprofile</code> / <code>~/.bash_profile</code> / PowerShell <code>$PROFILE</code>, then relaunch Termpolis.</p>
 
             <h3>Swarm, MCP, and memory</h3>

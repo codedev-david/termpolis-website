@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="How Linked machines works: your agent asks an agent on your other computer through an encrypted relay. The relay passes the sealed prompts and answers along without being able to read them. The other computer checks the link and its permissions, runs a fresh headless agent in the folder you named, and sends the final answer back, sealed. An answer that looks like a prompt injection arrives flagged as untrusted data.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16161d"/>
+      <stop offset="1" stop-color="#101015"/>
+    </linearGradient>
+    <linearGradient id="relayGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.10"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#6b6b82"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#7ee2a3"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="798" rx="22" fill="url(#bg)" stroke="#2a2a38" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="40" y="52" fill="#f4f4fa" font-size="30" font-weight="700">How Linked machines works</text>
+  <text x="40" y="84" fill="#a6a6bd" font-size="17">Your agent asks an agent on your other computer. Prompts and answers are <tspan fill="#7ee2a3" font-weight="600">sealed end to end</tspan>.</text>
+
+  <!-- Step badges -->
+  <g font-size="12" font-weight="700" letter-spacing="1.5" fill="#8b8ba3">
+    <text x="46" y="132">1 &#183; YOU ASK</text>
+    <text x="446" y="132">2 &#183; SEALED IN TRANSIT</text>
+    <text x="826" y="132">3 &#183; CHECKED, THEN RUN THERE</text>
+  </g>
+
+  <!-- THIS COMPUTER -->
+  <g>
+    <rect x="40" y="148" width="340" height="356" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="64" y="182" fill="#f4f4fa" font-size="18" font-weight="700">This computer</text>
+    <text x="64" y="204" fill="#8b8ba3" font-size="13">e.g. your work laptop</text>
+
+    <rect x="60" y="222" width="300" height="78" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <text x="76" y="248" fill="#a6a6bd" font-size="13" font-weight="600">You</text>
+    <text x="76" y="270" fill="#e9e9f2" font-size="14">&#8220;Have Codex on linux run the</text>
+    <text x="76" y="289" fill="#e9e9f2" font-size="14">integration tests and summarise.&#8221;</text>
+
+    <rect x="60" y="314" width="300" height="172" rx="10" fill="#1d1d28" stroke="#33333f"/>
+    <circle cx="82" cy="340" r="7" fill="#d97757"/>
+    <text x="98" y="345" fill="#e9e9f2" font-size="14" font-weight="600">Your agent decides to ask</text>
+    <text x="76" y="372" fill="#a6a6bd" font-size="13">It calls the one tool it is given:</text>
+    <text x="76" y="396" fill="#c7f5da" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">linked_machines run</text>
+    <text x="76" y="418" fill="#a6a6bd" font-size="13">machine &#183; agent &#183; prompt &#183; folder</text>
+    <text x="76" y="446" fill="#8b8ba3" font-size="12.5">Never pre-approved: Claude Code asks</text>
+    <text x="76" y="464" fill="#8b8ba3" font-size="12.5">first, unless its prompts are turned off.</text>
+  </g>
+
+  <!-- RELAY -->
+  <g>
+    <rect x="440" y="196" width="320" height="260" rx="16" fill="url(#relayGrad)" stroke="#4b3fa0"/>
+    <!-- lock -->
+    <rect x="583" y="232" width="34" height="26" rx="5" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+    <path d="M589 232 v-8 a11 11 0 0 1 22 0 v8" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+    <text x="600" y="292" text-anchor="middle" fill="#f4f4fa" font-size="18" font-weight="700">Relay</text>
+    <text x="600" y="314" text-anchor="middle" fill="#a6a6bd" font-size="13">wss:// connection by default</text>
+    <text x="600" y="346" text-anchor="middle" fill="#e9e9f2" font-size="13.5">Passes sealed frames along.</text>
+    <text x="600" y="372" text-anchor="middle" fill="#8b8ba3" font-size="13">Sees: IPs, sizes, times, headers.</text>
+    <text x="600" y="396" text-anchor="middle" fill="#8b8ba3" font-size="13">Can&#8217;t read the prompt, the files</text>
+    <text x="600" y="416" text-anchor="middle" fill="#8b8ba3" font-size="13">or the answer.</text>
+  </g>
+
+  <!-- arrows: request (top) and answer (bottom) -->
+  <path d="M380 262 L436 262" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M760 262 L816 262" fill="none" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="408" y="250" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">sealed</text>
+  <text x="788" y="250" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">sealed</text>
+
+  <path d="M820 420 L764 420" fill="none" stroke="#7ee2a3" stroke-width="2" marker-end="url(#arrowG)"/>
+  <path d="M440 420 L384 420" fill="none" stroke="#7ee2a3" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="792" y="440" text-anchor="middle" fill="#7ee2a3" font-size="11" font-weight="700">answer</text>
+  <text x="412" y="440" text-anchor="middle" fill="#7ee2a3" font-size="11" font-weight="700">answer</text>
+
+  <!-- OTHER COMPUTER -->
+  <g>
+    <rect x="820" y="148" width="340" height="356" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="844" y="182" fill="#f4f4fa" font-size="18" font-weight="700">Your other computer</text>
+    <text x="844" y="204" fill="#8b8ba3" font-size="13">e.g. the Linux box you named &#8220;linux&#8221;</text>
+
+    <g font-size="13" fill="#e9e9f2">
+      <text x="844" y="236"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  Linked, and you confirmed the</text>
+      <text x="862" y="254" fill="#a6a6bd">eight safety words on this computer</text>
+      <text x="844" y="280"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  Allowed to run agents here</text>
+      <text x="862" y="298" fill="#a6a6bd">read-only unless you granted edit</text>
+      <text x="844" y="324"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  The folder exists on this machine</text>
+      <text x="844" y="350"><tspan fill="#7ee2a3" font-weight="700">&#10003;</tspan>  Not busy: 2 jobs per machine, 4 in all</text>
+    </g>
+
+    <rect x="840" y="368" width="300" height="118" rx="10" fill="#16241c" stroke="#2f5741"/>
+    <circle cx="862" cy="394" r="7" fill="#cfcfe0"/>
+    <text x="878" y="399" fill="#c7f5da" font-size="14" font-weight="600">A fresh headless Codex</text>
+    <text x="856" y="424" fill="#a6a6bd" font-size="13">runs in that folder, read-only unless it</text>
+    <text x="856" y="444" fill="#a6a6bd" font-size="13">asked to edit and you allowed that, starting</text>
+    <text x="856" y="464" fill="#a6a6bd" font-size="13">from a digest of this machine&#8217;s memory.</text>
+  </g>
+
+  <!-- RESULT back on this computer -->
+  <g>
+    <rect x="40" y="532" width="1120" height="92" rx="14" fill="#1c1c26" stroke="#33333f"/>
+    <text x="64" y="564" fill="#8b8ba3" font-size="12" font-weight="700" letter-spacing="1.5">4 &#183; THE ANSWER COMES BACK</text>
+    <text x="64" y="592" fill="#e9e9f2" font-size="14.5">The other agent&#8217;s final message comes back sealed, as an ordinary tool result. One that looks like a prompt</text>
+    <text x="64" y="612" fill="#e9e9f2" font-size="14.5">injection arrives <tspan fill="#7ee2a3" font-weight="600">flagged as untrusted data</tspan>. Your agent reviews it like any answer; both computers list the job.</text>
+  </g>
+
+  <!-- Footer: pairing & control -->
+  <g font-size="13.5">
+    <rect x="40" y="648" width="356" height="112" rx="12" fill="#1d1d28" stroke="#33333f"/>
+    <text x="60" y="676" fill="#f4f4fa" font-weight="700">Pair once</text>
+    <text x="60" y="700" fill="#a6a6bd">A one-time code that expires in 5 minutes,</text>
+    <text x="60" y="720" fill="#a6a6bd">then the same eight words on both screens.</text>
+    <text x="60" y="740" fill="#a6a6bd">Fresh session keys on every connection.</text>
+
+    <rect x="422" y="648" width="356" height="112" rx="12" fill="#1d1d28" stroke="#33333f"/>
+    <text x="442" y="676" fill="#f4f4fa" font-weight="700">You set the permissions</text>
+    <text x="442" y="700" fill="#a6a6bd">Each computer decides what the other</text>
+    <text x="442" y="720" fill="#a6a6bd">may do on it. Read-only is the default;</text>
+    <text x="442" y="740" fill="#a6a6bd">editing stays off unless you grant it.</text>
+
+    <rect x="804" y="648" width="356" height="112" rx="12" fill="#1d1d28" stroke="#33333f"/>
+    <text x="824" y="676" fill="#f4f4fa" font-weight="700">Jobs, nothing else</text>
+    <text x="824" y="700" fill="#a6a6bd">The link carries agent jobs only: it can&#8217;t list,</text>
+    <text x="824" y="720" fill="#a6a6bd">read or type into your terminals. Unlinking</text>
+    <text x="824" y="740" fill="#a6a6bd">stops that computer&#8217;s running jobs.</text>
+  </g>
+</svg>

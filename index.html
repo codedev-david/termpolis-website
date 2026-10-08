@@ -77,6 +77,7 @@
         <a href="#memory">Mneme</a>
         <a href="#proof">Proof</a>
         <a href="#second-opinion">Second Opinion</a>
+        <a href="#linked">Linked</a>
         <a href="#headroom">Headroom</a>
         <a href="#why">Why us</a>
         <a href="#context-handoff">Handoff</a>
@@ -100,7 +101,8 @@
             <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 Mneme · one memory, all 3 agents</li>
             <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🌱 Learns from every session</li>
             <li style="background:#f2b94b22;color:#f2b94b;border:1px solid #f2b94b55;border-radius:999px;padding:4px 10px;">🔀 Second Opinion · agents review each other</li>
-            <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 100% local · no cloud · no telemetry unless you opt in</li>
+            <li style="background:#22d3ee22;color:#67e8f9;border:1px solid #22d3ee55;border-radius:999px;padding:4px 10px;">🔗 <a href="#linked" style="color:inherit;text-decoration:none;">Linked machines · agents work across your computers</a></li>
+            <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 Local by default · no cloud account · no telemetry unless you opt in</li>
             <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📦 Free &amp; open source</li>
             <li style="background:#ff7a4522;color:#ff9a6e;border:1px solid #ff7a4555;border-radius:999px;padding:4px 10px;">📱 <a href="#mobile" style="color:inherit;text-decoration:none;">Termpolis Remote · now on iPhone</a></li>
           </ul>
@@ -226,12 +228,13 @@
             </p>
           </article>
           <article class="card">
-            <h3>Syncs across your machines</h3>
+            <h3>Each computer keeps its own memory</h3>
             <p>
-              Point the memory at any synced folder &mdash; Dropbox, OneDrive, iCloud&nbsp;Drive,
-              Google&nbsp;Drive (mirror mode), or Syncthing &mdash; and every device shares one
-              brain. Each machine writes its own shard, so there are no merge conflicts: the union
-              is conflict-free, even when two devices edit offline. No Termpolis cloud, no account.
+              Memory isn&rsquo;t shared between computers automatically. To use what another of
+              your computers knows, <a href="#linked">link the two</a>: your agent asks an agent over
+              there, which starts with a digest of that machine&rsquo;s memory and works on its files. Sharing one memory
+              store through a synced folder doesn&rsquo;t work reliably in current versions, so
+              leave that setting off.
             </p>
           </article>
           <article class="card">
@@ -242,7 +245,7 @@
               single integrity-checked <code>.zip</code> you can back up or carry anywhere.
               <strong>Import Memory</strong> verifies every file&rsquo;s hash before merging it in
               (grow-only, so it never clobbers an existing brain). A manual, portable snapshot
-              alongside the automatic folder sync.
+              you control.
             </p>
           </article>
           <article class="card">
@@ -251,8 +254,7 @@
               A local store is <strong>encrypted by default</strong> with <strong>AES-256-GCM</strong>
               under a per-device key generated into your OS keychain (Windows DPAPI / macOS Keychain /
               Linux libsecret) &mdash; no passphrase, and where no keychain is available it stays
-              plaintext and says so rather than faking it. Turn on cross-machine sync and the key is a
-              <code>scrypt</code> passphrase you share; your cloud provider only ever sees ciphertext.
+              plaintext and says so rather than faking it.
             </p>
           </article>
           <article class="card">
@@ -330,8 +332,11 @@
             <p>
               When a task finishes &mdash; or a solo session pauses &mdash; Mneme distills the episode
               into a reusable lesson (the problem, the fix or decision, the gotcha) and updates its own
-              per-domain track record. A high-precision gate means only substantive work is distilled,
-              and a flaky distiller model can never block the task.
+              per-domain track record. The extractor can misread an ordinary sentence as a lesson:
+              v1.50.1 tightened its rules and pushed the lessons it had stored by mistake down in
+              search, and an agent can correct a lesson that surfaces wrong with
+              <code>memory_correct</code>.
+              A flaky distiller model can never block the task.
             </p>
           </article>
           <article class="card">
@@ -647,6 +652,135 @@
         </div>
       </section>
 
+      <!-- LINKED MACHINES -->
+      <section id="linked" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🔗 New in v1.50 &middot; Linked machines</p>
+          <h2>Your agents can work together across your computers</h2>
+          <p>
+            Link two Termpolis desktops, and an agent on one can have a Claude, Codex or Gemini agent
+            on the other do a task and hand back its final answer. It works in both directions, across
+            any network, encrypted end to end. Ask Claude on your laptop to <em>&ldquo;have Codex on
+            linux run the integration tests and summarise the failures,&rdquo;</em> and fix them here
+            once the summary comes back. Nothing is typed into a terminal, and no terminal opens on
+            either machine.
+          </p>
+          <p>
+            It is <strong>off by default</strong>, and each computer decides what the other may do on
+            it. Read-only is the default; editing files and running commands stays off until you
+            grant it, per machine.
+          </p>
+        </div>
+        <figure style="margin:24px 0 8px;padding:0;">
+          <img src="assets/diagram-linked-machines.svg" alt="How Linked machines works: your agent calls the linked_machines tool; the request crosses an encrypted relay as sealed frames the relay can't read; your other computer checks the link and its permissions, runs a fresh headless agent in the folder you named, and sends the final answer back sealed. An answer that looks like a prompt injection arrives flagged as untrusted data." style="width:100%;height:auto;display:block;">
+        </figure>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>1 &middot; Pair once</h3>
+            <p>
+              Turn on <em>Settings &rarr; Linked machines</em> on both computers. One makes a code that
+              works <strong>once</strong> and expires in <strong>5 minutes</strong>; you paste it on the
+              other. Both screens then show the same <strong>eight safety words</strong>, worked out from
+              the two computers&rsquo; keys. Click <em>They match &mdash; link</em> on each, and name the
+              machine whatever you like: &ldquo;linux&rdquo;, &ldquo;studio Mac&rdquo;. Treat the code
+              like a one-time password: if the other screen shows no words, or different ones, cancel.
+            </p>
+          </article>
+          <article class="card">
+            <h3>2 &middot; Your agent decides when to ask</h3>
+            <p>
+              There is no scheduler splitting your work. Your agent gets one tool,
+              <code>linked_machines</code>, and uses it the way it uses any tool: when you ask, or when
+              it judges a task belongs on the other computer &mdash; Codex is blocked on this network, or
+              the repo, the GPU or the test environment is over there. It lists the machines to see which
+              agents each has and what it may do there, then sends a self-contained task.
+            </p>
+          </article>
+          <article class="card">
+            <h3>3 &middot; The other computer checks, then runs it</h3>
+            <p>
+              Before any agent starts, the computer doing the work checks that you confirmed the link on
+              it, that the asking machine may run agents there (and edit, if asked), that the folder
+              exists, and that it isn&rsquo;t busy. Then it runs a <strong>fresh headless agent</strong>
+              in that folder, starting from that computer&rsquo;s own memory. It doesn&rsquo;t stop to ask
+              you: the permissions you set are the decision. The job shows under <em>Activity</em> on
+              both computers.
+            </p>
+          </article>
+          <article class="card">
+            <h3>4 &middot; The answer comes back</h3>
+            <p>
+              The other agent&rsquo;s final message returns as an ordinary tool result, after up to 45
+              seconds, or as a job id your agent checks back on. Every answer is scanned on arrival, and
+              one that looks like a prompt injection is flagged as untrusted data. Your agent reviews the
+              answer like any other. Code moves between the machines through Git, as usual.
+            </p>
+          </article>
+        </div>
+
+        <div class="section-heading" style="margin-top:56px;">
+          <p class="eyebrow">🔒 How Linked machines is secured</p>
+          <h2>Encrypted end to end, read-only by default, and every limit named</h2>
+          <p>
+            Linked machines reuses the trust stack built for <a href="#mobile">Termpolis Remote</a>: the
+            same key agreement, the same sealing and the same untrusted relay. A link carries agent jobs
+            and nothing else: it can&rsquo;t list, read or type into your terminals, and it gets none of a
+            phone&rsquo;s abilities.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>The relay can&rsquo;t read your prompts or answers</h3>
+            <p>
+              Prompts, answers, folders and machine names are sealed with
+              <strong>ChaCha20-Poly1305</strong> under keys from an <strong>X25519</strong> key agreement
+              between your two computers. Every connection gets <strong>fresh session keys</strong>, so
+              prompts and answers recorded today can&rsquo;t be decrypted later. Making or entering a code requires an
+              encrypted <code>wss://</code> relay, and the relay&rsquo;s source is in the Termpolis repo if
+              you&rsquo;d rather run your own. <strong>Limit:</strong> the relay sees both computers&rsquo;
+              IP addresses, a room id, the size and timing of each frame, and each frame&rsquo;s
+              unencrypted header (public keys while connecting, a counter). Each agent&rsquo;s AI
+              provider sees that agent&rsquo;s task and answer, as it always does.
+            </p>
+          </article>
+          <article class="card">
+            <h3>You check the link yourself</h3>
+            <p>
+              The eight safety words come from the two computers&rsquo; keys, so they match only if
+              nothing sits in the middle. A computer runs nothing for another until you confirm the words
+              <strong>on that computer</strong>, and your agent won&rsquo;t send work to a machine you
+              haven&rsquo;t confirmed. <strong>Limit:</strong> the pairing code is a one-time password for
+              five minutes. Whoever uses it first can ask to link, so compare the words, and cancel if the
+              other screen shows none or different ones.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Checked where the work happens</h3>
+            <p>
+              Permissions are enforced by the computer that would do the work, before any agent starts.
+              Read-only starts agents only in their own read-only modes: Claude limited to reading and
+              searching, Codex in its read-only sandbox, Gemini in plan mode. Turning a permission off stops
+              the jobs it allowed, and unlinking stops all of that machine&rsquo;s jobs.
+              <strong>Limit:</strong> read-only still
+              lets an agent read any file you can read on that computer and send it back, and Codex and
+              Gemini keep any other MCP servers you gave them. <em>Edit</em> runs the agent unattended, as
+              you. Grant it only to a machine you trust as much as that one.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Never pre-approved, and bounded</h3>
+            <p>
+              Termpolis never pre-approves the tool, so a Claude Code session asks you before using it,
+              and agents can call it at most 30 times a minute. Each computer runs at most 2 jobs for any
+              one machine and 4 in all, and a job stops after 15 minutes by default.
+              <strong>Limit:</strong> a session that skips permission prompts won&rsquo;t ask, and the
+              computer doing the work doesn&rsquo;t ask per job. Its record is the <em>Activity</em> list,
+              kept in memory until Termpolis quits.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <!-- TOKEN HEADROOM -->
       <section id="headroom" class="section reveal">
         <div class="section-heading">
@@ -895,7 +1029,7 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — agents via MCP plugin</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Persistent shared memory across agents &amp; sessions</strong><br><span style="opacity:0.7;font-size:12px;">One local brain Claude · Codex · Gemini all read/write; auto-indexes past chats + the code of repos you open; semantic recall + knowledge graph; encrypted cross-machine sync</span></td>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Persistent shared memory across agents &amp; sessions</strong><br><span style="opacity:0.7;font-size:12px;">One local brain Claude · Codex · Gemini all read/write; auto-indexes past chats + the code of repos you open; semantic recall + knowledge graph; encrypted at rest</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, cross-agent — distills a reusable lesson from every session</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Agent Memory: cloud, preview-only</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Per-chat history only</td>
@@ -1568,10 +1702,11 @@
             </p>
           </article>
           <article class="card">
-            <h3>The relay cannot read a byte</h3>
+            <h3>The relay cannot read your sessions</h3>
             <p>
               X25519 key agreement and ChaCha20-Poly1305, with the keys derived by your two
-              devices when you pair. The relay in the middle sees a room id, a size and a time.
+              devices when you pair. The relay in the middle sees IP addresses, a room id, and each
+              frame&rsquo;s size, time and unencrypted header.
               Eight safety words on both screens let you check that for yourself, any time.
             </p>
           </article>
@@ -2108,7 +2243,7 @@
         <div class="feature-grid">
           <article class="card">
             <h3>40 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 14 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts, audit) + 6 code-graph tools (explore, callers, callees, impact, search, locate).</p>
+            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 14 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts, audit, correct) + 6 code-graph tools (explore, callers, callees, impact, search, locate) + run-and-wait, test coverage, retrieve-full, 2 MCP-gateway tools and <a href="#linked">linked machines</a>.</p>
           </article>
           <article class="card">
             <h3>Connects to every agent &mdash; after it asks</h3>
