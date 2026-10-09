@@ -229,14 +229,14 @@
             </p>
             <p><strong>What makes it different:</strong></p>
             <ul class="docs-list">
-              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> <a href="#security-secret-scanner">watches every prompt you send to a Claude Code or Codex session started from Termpolis&rsquo;s agent launchers against 97 secret rules and names what leaked</a>, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, flags Gemini&rsquo;s free OAuth tier, and keeps an auditable JSONL log — every check runs locally.</li>
+              <li><strong>Secure AI-assisted development.</strong> Built-in <a href="#security-center">AI Security Center</a> <a href="#security-secret-scanner">watches every prompt you send to a Claude Code, Codex or Gemini session started from Termpolis&rsquo;s agent launchers against 97 secret rules and names what leaked</a>, <a href="#security-commit-shield">blocks the commit or push that would leak one</a>, <a href="#safe-import">statically vets any third-party skill, plugin, or MCP server before it can be installed</a>, flags Gemini&rsquo;s free OAuth tier, and keeps an auditable JSONL log — every check runs locally.</li>
               <li><strong>Multi-agent swarm.</strong> Claude Code, Codex, and Gemini CLI work together on a task. A dedicated Claude Code instance acts as the conductor.</li>
               <li><strong>MCP server baked in.</strong> AI agents control Termpolis via Model Context Protocol, open terminals, run commands, send messages.</li>
               <li><strong>Transparent routing.</strong> Every subtask is a card in the Swarm Dashboard with its status and result, and the Trace tab shows the conductor&rsquo;s messages and tool calls as it works.</li>
               <li><strong>Activity observability.</strong> Every token, tool call and message from your Claude Code and Codex agents is visible in real time.</li>
               <li><strong>Intervention controls.</strong> Pause, cancel, or steer any agent mid-task without leaving the feed.</li>
-              <li><strong>Shared memory.</strong> A RAG-backed memory store that Claude Code and Codex can read and write via MCP.</li>
-              <li><strong>MCP-native.</strong> Once you connect your agents, Termpolis registers its MCP server in Claude Code&rsquo;s and Codex&rsquo;s config &mdash; no config to write by hand. It doesn&rsquo;t connect itself to <code>agy</code>, the CLI Gemini terminals run.</li>
+              <li><strong>Shared memory.</strong> A RAG-backed memory store that Claude Code, Codex and Gemini can read and write via MCP.</li>
+              <li><strong>MCP-native.</strong> Once you connect your agents, Termpolis registers its MCP server in the configs of Claude Code, Codex and the Antigravity CLI (<code>agy</code>) that Gemini terminals run &mdash; no config to write by hand.</li>
               <li><strong>Share-ready output.</strong> One shortcut from terminal to Slack, Teams, or a PR — see <a href="#copy-share">Copy for Slack / Teams / PRs</a>.</li>
             </ul>
           </section>
@@ -284,7 +284,7 @@
 
             <h3 id="security-secret-scanner">Watch every prompt (v1.25.2)</h3>
             <p>
-              Once Termpolis spots an agent launch (the whole <code>claude</code>, <code>codex</code>, or <code>gemini</code> command arriving in one write, which is how its Claude Code and Codex launchers send it; a command typed key by key, or the <code>agy</code> command the Gemini CLI profile runs, is not spotted)
+              Once Termpolis spots an agent launch (the whole <code>claude</code>, <code>codex</code>, <code>agy</code> or <code>gemini</code> command arriving in one write, which is how its agent launchers send it; an <code>agy</code> launch is recorded as <code>gemini</code>, and a command typed key by key is not spotted)
               in a terminal, every Enter and every paste-sized chunk
               (≥32 bytes) is scanned in main-process memory against <strong>97 secret rules</strong>.
               The scan runs on a <strong>shadow copy</strong>. Every byte you type is forwarded to the
@@ -455,7 +455,7 @@
               <li><strong>Free OAuth fallback</strong> — none of the above. Flagged amber and labelled &ldquo;UNSAFE for proprietary code&rdquo;.</li>
             </ul>
             <p>
-              When <strong>Strict Mode</strong> is enabled, Termpolis intercepts a <code>gemini</code> command that reaches a terminal in one write (from a custom agent profile, a macro or a paste). It does not see a <code>gemini</code> typed key by key, or the <code>agy</code> command the built-in Gemini CLI profile runs. Within that limit it watches
+              When <strong>Strict Mode</strong> is enabled, Termpolis intercepts a <code>gemini</code> command that reaches a terminal in one write (from a custom agent profile, a macro or a paste). It does not see a <code>gemini</code> typed key by key, or the <code>agy</code> command the built-in Gemini / Antigravity CLI profile runs. Within that limit it watches
               invocations from any terminal. If the resolved account mode isn't paid-tier-safe, the
               launch is cancelled with <kbd>Ctrl+C</kbd>, an in-band ANSI banner explains why, and the
               <code>gemini</code> text <strong>never reaches the PTY</strong>. The blocked launch is
@@ -1232,7 +1232,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <em>Connect your coding agents</em> → <em>What Termpolis is</em> → <em>Set an API
               key</em> → <em>Launch your first agent (or swarm)</em> → <em>Security</em> →
               <em>Your privacy choices</em>. The first step shows exactly what Termpolis would
-              change in the Claude Code, Codex and Gemini CLI settings on this machine, with two
+              change in the Claude Code, Codex and Gemini / Antigravity CLI settings on this machine, with two
               boxes ticked to start: connect the agents, and also load project memory when any
               Claude Code session starts (see <a href="#connect-agents">Connecting your coding
               agents</a>). The last step has two unticked boxes, one for crash reports and one for
@@ -1255,7 +1255,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>
                 <strong>(Optional) Open the AI Agents row.</strong> The sidebar has an
                 <strong>AI Agents</strong> section with one-click launchers for Claude Code,
-                Codex, and Gemini CLI. A green check means the CLI is installed; a
+                Codex, and Gemini / Antigravity CLI. A green check means the CLI is installed; a
                 red X means it isn't (click for install instructions). Skip this on the first
                 run if you just want to use Termpolis as a terminal.
               </li>
@@ -1297,8 +1297,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 Workspaces, with the robot icon).
               </li>
               <li>
-                <strong>Click the agent you want to run</strong> — Claude Code, Codex, or Gemini
-                CLI. Termpolis asks which project folder to work in, opens a fresh terminal
+                <strong>Click the agent you want to run</strong> — Claude Code, Codex, or Gemini /
+                Antigravity CLI. Termpolis asks which project folder to work in, opens a fresh terminal
                 there, runs the agent's interactive command, and color-codes the tab so
                 you can see at a glance which agent is in which pane.
               </li>
@@ -1421,7 +1421,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>The sidebar is the navigation spine of the app. From top to bottom:</p>
             <ol class="docs-list docs-list-ordered">
               <li>Toolbar: Settings (gear), Split View / Tab View, Git Panel and Swarm Dashboard, with a chevron at the right that collapses the sidebar to a thin strip.</li>
-              <li>AI Agents: launchers for Claude Code, Codex and Gemini CLI, plus your own profiles. Click one and pick a folder to start it there.</li>
+              <li>AI Agents: launchers for Claude Code, Codex and Gemini / Antigravity CLI, plus your own profiles. Click one and pick a folder to start it there.</li>
               <li>Workspaces, one row per saved workspace. See the <a href="#workspaces">Workspaces</a> section below for how they work.</li>
               <li>Workflows, then Terminals (one row per open terminal) and <strong>+ Add Terminal</strong> at the bottom.</li>
             </ol>
@@ -1887,7 +1887,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ol class="docs-list docs-list-ordered">
               <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> to open.</li>
               <li>Click <strong>File Tree</strong>, <strong>Git Status</strong> or <strong>Recent Commits</strong> to collapse or expand that section.</li>
-              <li>Agents do not read this pane; Claude Code and Codex get the same facts from their own Termpolis MCP tools, <code>get_file_tree</code> and <code>get_git_status</code>.</li>
+              <li>Agents do not read this pane; Claude Code, Codex and Gemini get the same facts from their own Termpolis MCP tools, <code>get_file_tree</code> and <code>get_git_status</code>.</li>
               <li>Pins are not shown here: they live in the separate <strong>Pinned Context</strong> panel (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>). Give each a label, a body and optional tags, click <strong>remove</strong> to delete one, and use <strong>Build re-injection prompt</strong>, then <strong>copy</strong>, to paste them into an agent. Pins are saved per directory under <code>context-pins/</code> in the Termpolis <a href="#install">data directory</a>.</li>
             </ol>
           </section>
@@ -2072,7 +2072,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
 
             <div class="docs-callout">
-              <strong>Your memory is never touched.</strong> Compression touches only tool results and pasted images on the Claude Code wire, and Termpolis&rsquo;s own MCP tool results, which Codex receives too &mdash; and memory tool results are exempt from both. The <a href="#memory">shared memory</a> store, recall and learning
+              <strong>Your memory is never touched.</strong> Compression touches only tool results and pasted images on the Claude Code wire, and Termpolis&rsquo;s own MCP tool results, which Codex and Gemini receive too &mdash; and memory tool results are exempt from both. The <a href="#memory">shared memory</a> store, recall and learning
               are untouched by it.
             </div>
           </section>
@@ -2274,10 +2274,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>AI agent profiles</h2>
             <p>
               An <strong>agent profile</strong> is a one-click launcher in the sidebar that
-              opens a terminal pre-wired for a specific AI CLI: Claude Code, Codex, or Gemini CLI.
+              opens a terminal pre-wired for a specific AI CLI: Claude Code, Codex, or Gemini / Antigravity CLI.
               The profile owns the launch command, the shell, the tab color, the label and, for
               Claude, the model. You pick the working folder each time you launch it, and MCP
-              registration is not per profile: one switch connects Claude Code and Codex and adds Termpolis to Gemini CLI&rsquo;s <code>settings.json</code>, which the Antigravity CLI (<code>agy</code>) behind the Gemini profile doesn&rsquo;t read (see
+              registration is not per profile: one switch connects Claude Code, Codex and the Gemini / Antigravity CLI (see
               <a href="#connect-agents">Connecting your coding agents</a>). Click the profile and you go from
               "I want to use Claude" to "Claude is open and ready" with one click and a folder pick.
             </p>
@@ -2290,7 +2290,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Claude Code</strong> — runs <code>claude</code>. As a swarm worker it runs <code>claude --dangerously-skip-permissions</code> in interactive mode so the swarm conductor can drive it via MCP.</li>
               <li><strong>Codex</strong> — runs <code>codex</code>. As a swarm worker it runs <code>codex -a never -s workspace-write</code>: it never stops to ask (a command that fails goes back to the model instead), and its sandbox keeps writes inside the project, with no network access.</li>
-              <li><strong>Gemini CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point), and <code>agy --dangerously-skip-permissions</code> as a swarm worker; Strict Mode doesn&rsquo;t see <code>agy</code>, and guards a <code>gemini</code> command only when it arrives in one write, such as a paste or a custom profile (see <a href="#security-gemini">Gemini account-mode</a>).</li>
+              <li><strong>Gemini / Antigravity CLI</strong> — runs <code>agy</code>, the Antigravity CLI (Gemini&rsquo;s current headless entry point), and <code>agy --dangerously-skip-permissions</code> as a swarm worker; Strict Mode doesn&rsquo;t see <code>agy</code>, and guards a <code>gemini</code> command only when it arrives in one write, such as a paste or a custom profile (see <a href="#security-gemini">Gemini account-mode</a>).</li>
             </ul>
             <h3>Pick a model per profile (Claude)</h3>
             <p>
@@ -2310,7 +2310,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Install status indicators</h3>
             <p>
               Each built-in profile shows a green check if Termpolis can find its CLI on your PATH and a
-              red X if it can't. Click a missing one for its install commands (npm for Codex; an install script for Gemini CLI&rsquo;s <code>agy</code>; npm or Anthropic&rsquo;s installer for Claude Code).
+              red X if it can't. Click a missing one for its install commands (npm for Codex; an install script for the Gemini / Antigravity CLI&rsquo;s <code>agy</code>; npm or Anthropic&rsquo;s installer for Claude Code).
               The check runs every launch — install the CLI, restart Termpolis, the indicator
               flips green.
             </p>
@@ -2319,13 +2319,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               Click <strong>+</strong> in the AI Agents row to add a profile for any other CLI.
               You name it, point it at the binary (anything in PATH works), pick a shell, color,
               and, for a Claude command, a model. Termpolis connects its MCP server only to Claude
-              Code, Codex and Gemini CLI (see <a href="#connect-agents">Connecting your coding
+              Code, Codex and Gemini / Antigravity CLI (see <a href="#connect-agents">Connecting your coding
               agents</a>), so a profile for any other CLI participates as a plain terminal —
               fine for tools that don't speak MCP.
             </p>
             <h3>Renaming an agent terminal</h3>
             <p>
-              Agent terminals are named after their profile ("Claude Code", "OpenAI Codex", "Gemini CLI"). Right-click the
+              Agent terminals are named after their profile ("Claude Code", "OpenAI Codex", "Gemini / Antigravity CLI"). Right-click the
               terminal tab to rename it, change its color, or swap themes — the underlying
               agent stays put.
             </p>
@@ -2355,7 +2355,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             </ul>
             <h3>What it does under the hood</h3>
             <ul class="docs-list">
-              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools and no MCP servers, Codex in its <code>read-only</code> sandbox, <code>agy</code> in plan mode &mdash; so nothing it says touches your repo. The captured text is never parsed by a shell &mdash; it reaches the agent as one argument (on Windows, PowerShell reads it from a temp file as data and refuses a <code>.cmd</code>/<code>.bat</code> shim), so a prompt scraped from your terminal can't inject a command.</li>
+              <li><strong>Read-only &amp; safe.</strong> A review never needs file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools and no MCP servers, Codex in its <code>read-only</code> sandbox with Termpolis&rsquo;s MCP server switched off, <code>agy</code> in plan mode with Termpolis&rsquo;s own tools cut to the read-only memory and code-index ones &mdash; so nothing it says touches your repo. The captured text is never parsed by a shell &mdash; it reaches the agent as one argument (on Windows, PowerShell reads it from a temp file as data and refuses a <code>.cmd</code>/<code>.bat</code> shim), so a prompt scraped from your terminal can't inject a command.</li>
               <li><strong>Install-gated.</strong> Only installed agents appear. Gemini is accessed through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</li>
             </ul>
           </section>
@@ -2640,7 +2640,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <table class="docs-table">
                 <thead><tr><th>Permission</th><th>Default</th><th>What it allows</th></tr></thead>
                 <tbody>
-                  <tr><td><strong>Run agents here (read-only)</strong></td><td>on</td><td>Start a headless agent here in its own read-only mode. Claude runs in plan mode with only Read, Grep and Glob and no MCP servers. Codex runs in its <code>read-only</code> sandbox with Termpolis&rsquo;s MCP server switched off. Gemini (<code>agy</code>) runs in plan mode. Codex keeps any other MCP servers in its own config, and <code>agy</code> keeps the ones in its own list, which Termpolis doesn&rsquo;t add itself to.</td></tr>
+                  <tr><td><strong>Run agents here (read-only)</strong></td><td>on</td><td>Start a headless agent here in its own read-only mode. Claude runs with only Read, Grep and Glob, and none of your other MCP servers. Codex runs in its <code>read-only</code> sandbox. Gemini (<code>agy</code>) runs in plan mode. Each can also search this computer&rsquo;s memory and code index through read-only Termpolis tools (see <a href="#linked-security">How it is secured</a>). Codex keeps any other MCP servers in its own config, and <code>agy</code> keeps the ones in its own list.</td></tr>
                   <tr><td><strong>Let agents edit files and run commands here</strong></td><td>off</td><td>The agent runs unattended here, as you. Claude and Gemini run with permission prompts skipped; Codex runs in its <code>workspace-write</code> sandbox, which keeps its writes to the working folder and temporary folders unless your Codex config allows more. Turning it on turns on <em>Run agents here</em> too.</td></tr>
                 </tbody>
               </table>
@@ -2744,14 +2744,29 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Answers are scanned.</strong> Every answer is scanned for prompt injection on
                 arrival, and one that looks like an injection is flagged as untrusted data. Prompts and
                 answers are <em>not</em> scanned for secrets, so don&rsquo;t put secrets in a prompt.</li>
-              <li><strong>No passing the work on.</strong> A delegated job doesn&rsquo;t get
-                Termpolis&rsquo;s tools: Claude and Codex jobs run with Termpolis&rsquo;s MCP server switched
-                off, Termpolis doesn&rsquo;t connect itself to <code>agy</code>, and its agent connection
-                refuses <code>linked_machines</code> inside a delegated job. A job with <em>edit</em>
-                permission runs as you, though, so it can reach anything you can.</li>
+              <li><strong>Read-only tools, and no passing the work on (v1.51).</strong> A delegated job
+                keeps Termpolis&rsquo;s MCP server, cut down to the doing computer&rsquo;s memory and code
+                index: <code>memory_search</code>, <code>memory_list</code>, <code>memory_related</code>,
+                <code>memory_graph</code>, <code>memory_anticipate</code>, <code>memory_selfcheck</code>,
+                <code>memory_conflicts</code>, <code>code_search</code>, <code>code_locate</code>,
+                <code>code_explore</code>, <code>code_callers</code>, <code>code_callees</code>,
+                <code>code_impact</code>, <code>get_git_status</code>, <code>test_coverage</code> and
+                <code>retrieve_full</code>. No memory writes, terminals, swarm, gateway or other machines.
+                Termpolis&rsquo;s agent connection (the stdio adapter) enforces it: it offers the job only
+                those tools, refuses anything else, and refuses <code>linked_machines</code> with
+                <em>Nested delegation is not allowed: this agent was itself started by a linked
+                machine.</em> A Claude job gets a per-run config holding only Termpolis&rsquo;s server
+                (<code>--strict-mcp-config</code>, so your other MCP servers don&rsquo;t load), and a
+                read-only one has only Read, Grep and Glob besides. A Codex job gets the job marker on its
+                own <code>termpolis</code> server for that run when Codex&rsquo;s <code>config.toml</code>
+                holds Termpolis&rsquo;s server; otherwise the server is switched off for the run.
+                <code>agy</code> itself passes the marker to the Termpolis server in its own config. A job
+                with <em>edit</em> permission runs as you, though, so it can reach anything you can.</li>
               <li><strong>Your AI providers.</strong> Each agent&rsquo;s provider sees what that agent is
                 asked and answers, as always, and a job uses the doing computer&rsquo;s AI account.</li>
-              <li><strong>Memory.</strong> Termpolis doesn&rsquo;t save a job&rsquo;s result to the doing
+              <li><strong>Memory.</strong> The agent doing the work starts with that computer&rsquo;s own
+                memory primer and can search that memory, read-only; it can&rsquo;t write to it.
+                Termpolis doesn&rsquo;t save a job&rsquo;s result to the doing
                 computer&rsquo;s memory itself, but a Claude or Codex job&rsquo;s session is saved like any
                 other, and the memory indexer can pick it up there.</li>
               <li><strong>Records.</strong> The asking computer&rsquo;s MCP audit log records each call an
@@ -2809,13 +2824,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Termpolis doesn't register itself with an agent until you say so. The first step of
               the tour, or <strong>Settings → Agent Integration</strong> at any time, lists exactly
-              what it would change for each of Claude Code, Codex and Gemini CLI installed on this
+              what it would change for each of Claude Code, Codex and Gemini / Antigravity CLI installed on this
               machine. Connected, Termpolis:
             </p>
             <ul class="docs-list">
               <li><strong>Claude Code</strong> &mdash; adds the <code>termpolis</code> MCP server at user scope in <code>~/.claude.json</code> (under your <code>CLAUDE_CONFIG_DIR</code> if you set one) and allows 27 read-only and memory tools in <code>settings.json</code> so they run without asking; tools that run commands or type into terminals still ask. It marks each folder you open an agent in as trusted &mdash; never your home folder, a folder above it, a drive root or a network share root &mdash; and, optionally, adds a <strong>SessionStart hook</strong> that loads your project memory whenever a Claude Code session starts, including sessions started outside Termpolis.</li>
               <li><strong>Codex</strong> &mdash; adds the <code>termpolis</code> MCP server to <code>config.toml</code> (a different server you already named <code>termpolis</code> is left alone), pre-approves the 14 <code>memory_*</code> tools unless you already chose a setting for them, and answers the folder-trust prompt for a folder you open it in, with the same exclusions. Its memory instruction rides on the launch command (<code>-c developer_instructions</code>) for that session only, and not at all if you set your own; nothing is written into your projects.</li>
-              <li><strong>Gemini CLI</strong> &mdash; adds the <code>termpolis</code> MCP server to its <code>settings.json</code>.</li>
+              <li><strong>Gemini / Antigravity CLI</strong> &mdash; adds the <code>termpolis</code> MCP server where the Antigravity CLI (<code>agy</code>, which Termpolis runs for Gemini) reads it, <code>~/.gemini/config/mcp_config.json</code>, and lets the same 27 read-only and memory tools Claude Code gets run without asking, as <code>mcp(termpolis/&lt;tool&gt;)</code> rules in <code>~/.gemini/antigravity-cli/settings.json</code> (never a wildcard); tools that run commands or type into terminals still ask. Each file is written only once <code>agy</code> has created its folder. It also keeps the server in Gemini CLI&rsquo;s <code>settings.json</code> for the older CLI. Disconnect removes exactly these entries and rules, and nothing <code>agy</code> wrote.</li>
             </ul>
             <p>
               When Termpolis answers a folder-trust prompt, it selects the trust option itself
@@ -3123,14 +3138,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h2>Mneme &mdash; the shared memory that learns and never forgets</h2>
             <p>
               <strong>Mneme</strong> &mdash; named for the Greek muse of memory &mdash; is the local,
-              growing &ldquo;brain&rdquo; that Claude Code and Codex share and that <strong>learns as you
+              growing &ldquo;brain&rdquo; that Claude Code, Codex and Gemini share and that <strong>learns as you
               work</strong>. It indexes your past AI conversations (Claude Code, Codex, and older Gemini CLI sessions) and
               your repo&rsquo;s code into a vector store on disk, distills a reusable lesson from each
-              finished task, and lets either agent semantically recall what was decided or written weeks
+              finished task, and lets any of them semantically recall what was decided or written weeks
               or even months ago &mdash; instead of you re-explaining context every session.
             </p>
             <figure class="docs-shot">
-              <img src="assets/diagram-mneme.svg?v=20261008" alt="How Mneme works: every agent's work is captured, embedded locally into vectors, and stored in a vector database (find by meaning) plus a knowledge graph (find by connection) persisted as JSONL — then recalled and ranked, getting smarter over time.">
+              <img src="assets/diagram-mneme.svg?v=20261008b" alt="How Mneme works: every agent's work is captured, embedded locally into vectors, and stored in a vector database (find by meaning) plus a knowledge graph (find by connection) persisted as JSONL — then recalled and ranked, getting smarter over time.">
               <figcaption>How Mneme works: it files each memory by <em>meaning</em> (a local vector database) and by <em>connection</em> (a knowledge graph), both persisted as JSONL files on your disk &mdash; then recalls and ranks them on demand.</figcaption>
             </figure>
             <figure class="docs-shot">
@@ -3142,8 +3157,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 finishes a chunk of work, Termpolis distills what happened into a reusable lesson
                 &mdash; the problem, the fix or decision, the gotcha &mdash; and records the
                 fleet&rsquo;s self-competence per project, so recall keeps improving. Automatic for
-                Claude, Codex, and Gemini (read from their session transcripts on a task pause or when
-                the terminal closes).
+                Claude and Codex (read from their session transcripts on a task pause or when
+                the terminal closes). Gemini (<code>agy</code>) keeps its sessions where Termpolis
+                can&rsquo;t read them, so it is asked at launch to record its own lessons with
+                <code>memory_write</code>.
                 Opt-out in Settings.</li>
               <li><strong>Competence calibrated from real work (v1.25).</strong> The brain tracks how
                 reliable it has actually been in each domain &mdash; the calibrated confidence that
@@ -3161,9 +3178,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 &ldquo;connections&rdquo; could read as empty on a machine that had already indexed
                 thousands of call edges. The real code graph now surfaces as its own tile, so what you
                 built is what you see.</li>
-              <li><strong>Shared by Claude and Codex.</strong> Both read and write the same store
-                over MCP, so a fact one agent learns is instantly available to the other. Gemini
-                terminals run <code>agy</code>, which isn&rsquo;t connected to it yet.</li>
+              <li><strong>Shared across all three agents.</strong> Claude, Codex and Gemini all read
+                and write the same store over MCP once you <a href="#connect-agents">connect them</a>,
+                so a fact one agent learns is instantly available to the others.</li>
               <li><strong>Flags cross-agent contradictions (new in v1.19.5).</strong> When two
                 agents record lessons that assert opposite things about the same subject &mdash; a
                 Claude lesson says &ldquo;always run migrations before seeding,&rdquo; a Codex lesson
@@ -3205,7 +3222,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 that is already encrypted can conflict with that store&rsquo;s key. Leave it off. To
                 use what another of your computers knows, link the two with
                 <a href="#linked-machines">Linked machines</a>: an agent there starts from that
-                machine&rsquo;s own memory and works on its files.</li>
+                machine&rsquo;s own memory, can search it read-only, and works on its files.</li>
               <li><strong>Portable &mdash; export / import the whole brain (v1.21).</strong>
                 <strong>Export…</strong> (Settings &rarr; General &rarr; Import / Export Memory) writes a
                 <code>termpolis-brain-&lt;date&gt;.zip</code> holding your memories, the knowledge
@@ -3298,7 +3315,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 computer isn&rsquo;t in this one&rsquo;s memory, and something that happened outside an
                 agent session (plugging in a drive, say) isn&rsquo;t in any. An agent on a
                 <a href="#linked-machines">linked computer</a> starts with a short digest of that
-                machine&rsquo;s memory (up to 6,000 characters), but can&rsquo;t search it.</li>
+                machine&rsquo;s memory (up to 6,000 characters) and, since v1.51, can search it
+                read-only.</li>
               <li><strong>Lessons are extracted automatically, and the extractor can be wrong
                 (improved in v1.50.1).</strong> Through v1.50.0 it read many ordinary sentences as
                 problems and decisions, and those lessons ranked first in recall. v1.50.1 tightens its
@@ -3503,8 +3521,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               the PATH) won&rsquo;t wipe a graph you&rsquo;ve already built.
             </p>
             <p>
-              <strong>How agents use it.</strong> The graph is exposed to the agents Termpolis connects (Claude Code
-              and Codex; not yet the <code>agy</code> behind Gemini) over MCP as six read-only tools, and Termpolis nudges them to
+              <strong>How agents use it.</strong> The graph is exposed to every agent you connect (Claude Code,
+              Codex, and Gemini through <code>agy</code>) over MCP as six read-only tools, and Termpolis nudges them to
               prefer these over grepping:
             </p>
             <ul class="docs-list">

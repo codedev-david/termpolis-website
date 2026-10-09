@@ -96,9 +96,11 @@
       tour; both of its boxes start ticked, and you can clear either. Versions before 1.49
       connected them without asking, so after an update from one they stay connected until
       you answer the one-time question Termpolis then asks. Connected, Termpolis
-      adds its local MCP server to the Claude Code, Codex and Gemini CLI settings. In Claude
-      Code it also lets its read-only and memory tools run without asking (tools that run
-      commands or type into a terminal still ask), in Codex its memory tools, and in both it
+      adds its local MCP server to the Claude Code, Codex and Gemini settings (for Gemini, the
+      Antigravity CLI's <code>~/.gemini/config/mcp_config.json</code> and the older Gemini CLI's
+      <code>settings.json</code>). In Claude Code and the Antigravity CLI it also lets its read-only
+      and memory tools run without asking (tools that run commands or type into a terminal still
+      ask), in Codex its memory tools, and in Claude Code and Codex it
       marks folders you open the agent in as trusted — never your home folder, a folder
       above it, a drive root or the root of a network share. The second box adds a Claude Code start-up
       hook that loads your project memory whenever a Claude Code session starts, including
