@@ -2436,7 +2436,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <thead><tr><th>Permission</th><th>Default</th><th>What it allows</th></tr></thead>
                 <tbody>
                   <tr><td><strong>Read terminal output</strong></td><td>on</td><td>List the terminals in this desktop&rsquo;s sidebar, each with its name and working folder, and stream the output of the one the phone has open. Swarm workers aren&rsquo;t listed.</td></tr>
-                  <tr><td><strong>Start terminals</strong></td><td>off</td><td>Start a terminal on this desktop. The app offers AI terminals only: Claude, Codex or Gemini (<code>agy</code>), in a folder picked by browsing the folders under this computer&rsquo;s home folder. The desktop itself doesn&rsquo;t hold the folder to your home folder, and would also open a plain shell. The agent runs the way Termpolis runs swarm workers: Claude and Gemini with their permission prompts skipped, Codex with approvals off in its <code>workspace-write</code> sandbox.</td></tr>
+                  <tr><td><strong>Start terminals</strong></td><td>off</td><td>Start a terminal on this desktop. The app offers AI terminals only: Claude, Codex or Gemini (<code>agy</code>), in a folder picked by browsing this computer&rsquo;s folders. The picker opens at the home folder, which also lists every drive the computer can see (<code>C:\</code>, <code>D:\</code> and so on, mapped drives included; <code>/</code> on macOS and Linux). Network paths (<code>\\server\share</code>) are refused. The desktop itself would also open a plain shell. The agent runs the way Termpolis runs swarm workers: Claude and Gemini with their permission prompts skipped, Codex with approvals off in its <code>workspace-write</code> sandbox.</td></tr>
                   <tr><td><strong>Type into terminals</strong></td><td>off</td><td>Type into any open terminal and press Enter. This is a keyboard: it skips the command checks the AI terminals run behind, so anything the phone types runs as you.</td></tr>
                   <tr><td><strong>Close terminals</strong></td><td>off</td><td>End a running terminal. The current phone app has no control for this.</td></tr>
                 </tbody>
@@ -2465,8 +2465,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 keys (no Esc, Ctrl+C, Tab or arrows, and no Enter on its own), so a prompt that needs one
                 has to be answered at the computer.</li>
               <li><strong>New AI terminal</strong> (with <em>Start terminals</em>): choose
-                <em>Claude</em>, <em>Codex</em> or <em>Gemini</em>, browse to a folder under the
-                desktop&rsquo;s home folder, and tap <em>Start &hellip; here</em>. The phone opens the new
+                <em>Claude</em>, <em>Codex</em> or <em>Gemini</em>, browse to a folder on any of the
+                desktop&rsquo;s drives (listed at the top of its home folder), and tap <em>Start &hellip; here</em>. The phone opens the new
                 terminal, named after the agent and the folder, for example &ldquo;Claude &middot;
                 myrepo&rdquo;. On the desktop it runs hidden, the way swarm workers do, so it isn&rsquo;t in
                 the sidebar, and once you leave it the phone&rsquo;s list doesn&rsquo;t show it
