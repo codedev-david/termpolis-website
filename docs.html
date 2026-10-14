@@ -550,6 +550,11 @@
               <li><code>memory_scrub</code> — a secret was
                 <a href="#security-memory-scrub">stripped before a memory was written</a>. Rule ids
                 only.</li>
+              <li><code>linked_secret_removed</code> / <code>linked_secret_flagged</code> &mdash; screening
+                of a prompt or answer passing to or from a <a href="#linked-security">linked computer</a>
+                removed a credential, or found a possible one and left it in (v1.53). Rule ids, counts and
+                the other computer&rsquo;s name, never the value; the viewer counts them as <em>Linked:
+                removed</em> and <em>Linked: possible</em>.</li>
               <li><code>terminal_open</code> — an AI terminal was launched (and, for a
                 <a href="#security-gemini">Strict Mode</a> refusal, that the launch was blocked).</li>
             </ul>
@@ -1747,7 +1752,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 wait for it to finish; a configurable done-marker detects completion.</li>
               <li><strong>Skill</strong> &mdash; call one of Termpolis&rsquo;s built-in tools
                 (code search, memory, git status&hellip;) with JSON arguments, in-process,
-                no terminal required.</li>
+                no terminal required. Since v1.53 its calls are held to the MCP server&rsquo;s
+                <a href="#mcp-security">rate limits</a> and written to its audit log, as an agent&rsquo;s are.</li>
               <li><strong>Control</strong> &mdash; <code>wait</code>, <code>branch</code>,
                 <code>loop</code>, or <code>notify</code>: the flow control that turns a list
                 of steps into a real program.</li>
@@ -2260,7 +2266,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               The mark follows the shell. <code>cd</code> into a repository and it lights up;
               <code>cd</code> out and it goes inert, in every shell Termpolis supports
-              (<strong>v1.42.1</strong>). Polling is keyed by working folder rather than by terminal,
+              (<strong>v1.42.1</strong>). It no longer takes the <code>~</code> in an ssh or WSL
+              prompt inside the terminal for your own home folder, unless that prompt looks like your
+              own shell&rsquo;s: in a zsh terminal, a prompt ending in <code>%</code> or <code>#</code> still
+              does (<strong>v1.53.0</strong>). Polling is keyed by working folder rather than by terminal,
               so ten terminals open in the same folder still cost one <code>git status</code>.
             </p>
             <p>
@@ -2532,16 +2541,37 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <code>wss://</code> relay, and it takes the address from the QR code. The relay&rsquo;s
                 source is in the Termpolis repository (<code>relay/</code>), so you can run your own: set
                 it under <strong>Relay address</strong>. Phones paired earlier keep using the old relay,
-                so pair them again after changing it. The desktop accepts a <code>ws://</code> address,
-                but the phone won&rsquo;t pair with one.</li>
+                so pair them again after changing it. Since v1.53 the desktop refuses a plain
+                <code>ws://</code> address too, except for a relay on the same computer
+                (<code>localhost</code> or <code>127.0.0.1</code>): over <code>ws://</code> to another
+                computer, anyone on the network in between could see when your devices connect and take
+                their place in the relay first. A <code>ws://</code> address saved by an earlier version is
+                kept but no longer used. Nothing connects through it, and the Remote and Linked machines
+                panes both say so until you save a <code>wss://</code> address or click <strong>Use the
+                default relay</strong>.</li>
               <li><strong>Keys.</strong> The desktop has one identity key for all its phones, encrypted
                 with the OS keychain (Windows DPAPI, macOS Keychain, Linux libsecret) where one is
-                available, and stored unencrypted in the data directory on Linux without a keyring. The
-                app&rsquo;s window only ever sees the public key. The phone makes a new key for each
+                available, and stored unencrypted in the data directory on Linux without a keyring, which
+                <em>Settings &rarr; Remote</em> and <em>&rarr; Linked machines</em> both say. If a keyring
+                turns up later, restart Termpolis: <strong>Encrypt keys now</strong> in either pane then
+                encrypts the keys saved
+                without one (the identity key and the file of links this computer joined), and from then on
+                they open only while the keyring does. The app&rsquo;s window only ever sees the public
+                key. The phone makes a new key for each
                 desktop and keeps it in the iPhone&rsquo;s Keychain, usable only while the phone is
                 unlocked and never moved to another device. The list of paired phones
                 (<code>remote-devices.json</code>: names, public keys, room ids, permissions) is a plain file
                 in the data directory.</li>
+              <li><strong>A key the keychain can&rsquo;t open is never replaced (v1.53).</strong> That
+                happens when the keyring is locked or not running, after a password reset, or when the data
+                folder came from another computer or user account. Nothing that needs the key starts,
+                nothing is written over it, and both panes say why. Restart Termpolis once the keychain is
+                back and every pairing returns. For a key that will never open, <strong>Start
+                over&hellip;</strong> (it asks again before doing anything) renames the identity key, the
+                links file and <code>remote-devices.json</code> aside
+                (<code>&lt;name&gt;.retired-&lt;time&gt;</code>, never deleted) and makes a new identity;
+                every phone and linked computer then has to pair again. Earlier versions replaced such a key
+                without a word, which lost every pairing.</li>
               <li><strong>Checked on the desktop.</strong> Every request is checked against that
                 phone&rsquo;s permissions before it runs. Terminal actions then go through the
                 desktop&rsquo;s own MCP server, limited to five tools: list, create, run a command in,
@@ -2605,14 +2635,16 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>Tick <strong>Let this computer link with my other computers</strong>. The pane shows the
                 relay in use, which you change under <em>Settings &rarr; Remote</em>. Making or entering a
                 code requires an encrypted <code>wss://</code> relay.</li>
-              <li>On one computer, go to <strong>Link a computer</strong>. Choose what the new computer may
-                do here (see below) and click <strong>Create code</strong>. A code starting
+              <li>On one computer, go to <strong>Link a computer</strong>. Choose whether the new computer
+                may run read-only agents here (see below) and click <strong>Create code</strong>. A code starting
                 <code>termpolis-link:</code> appears with <strong>Copy</strong>, a countdown and
                 <strong>Cancel</strong>. It works <strong>once</strong> and expires after
                 <strong>5 minutes</strong>.</li>
               <li>Carry the code to the other computer any way you like: a chat message, a shared folder,
                 or typing it. Paste it under <strong>Enter a code from another computer</strong>, choose
-                what the first computer may do there, and click <strong>Link</strong>.</li>
+                whether the first computer may run read-only agents there, and click <strong>Link</strong>.
+                Edit permission comes later, from the computer&rsquo;s row (see
+                <a href="#linked-permissions">below</a>).</li>
               <li>Both screens show the <strong>same eight words</strong>, and each suggests the other
                 computer&rsquo;s hostname as its name. Rename it if you like. Compare the words, then click
                 <strong>They match &mdash; link</strong> on <strong>both</strong> computers. The words come
@@ -2630,31 +2662,62 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               and your agent won&rsquo;t send work to a machine you haven&rsquo;t confirmed. Until then, the
               other computer can learn only this one&rsquo;s name and Termpolis version. Each linked
               computer gets a row in <strong>Linked computers</strong> with an online dot, its name (click
-              to rename), its two permissions, when it last did anything, and <strong>Unlink</strong>.
-              <strong>Activity</strong> lists the 20 latest jobs in both directions.
+              to rename), its two permissions, a <strong>full access</strong> badge while it may edit, when
+              it last did anything, and <strong>Unlink</strong>. <strong>Activity</strong> lists the 20
+              latest jobs in both directions. A job another computer is running here has a
+              <strong>Stop</strong> button, and the computer that asked is told <em>Stopped on &lt;this
+              computer&gt; by its user.</em>
+            </p>
+            <p>
+              <strong>Job history on this computer</strong> (v1.53) lists the latest 50 entries: jobs other
+              computers started here, with how each ended, and requests this computer refused, with the
+              reason. Unlike
+              <em>Activity</em> it is kept across restarts (see <em>Records</em> under
+              <a href="#linked-security">How it is secured</a>). A job&rsquo;s row shows the machine, the
+              agent, <strong>edit</strong> for a job with edit permission, the folder, the first line of the
+              prompt and any credential rules screening matched; a refusal&rsquo;s row shows the machine,
+              the reason and how many more came that minute.
+            </p>
+            <p>
+              <strong>Notify me when a linked computer starts a job here</strong> is on by default. Each job
+              another computer starts here then shows a system notification naming the computer, the agent,
+              read-only or edit, and the folder, with the task&rsquo;s first line quoted under them; several
+              from one computer within a minute share one notification. Click it to open this pane. A
+              refused request never notifies, and Linux without a notification daemon shows none. The
+              notification is not a question: the job is already
+              running, and <strong>Stop</strong> is how to end it.
             </p>
 
             <h3 id="linked-permissions">What a linked computer may do here</h3>
-            <p>Each computer decides what the <strong>other</strong> may do <strong>on it</strong>, per linked machine. You choose when the link is made and can change it at any time.</p>
+            <p>Each computer decides what the <strong>other</strong> may do <strong>on it</strong>, per linked machine. You choose <em>Run agents here</em> when the link is made. Either permission can be switched off at any time; <em>edit</em> is switched on only as described below the table.</p>
             <div class="docs-table-wrap">
               <table class="docs-table">
                 <thead><tr><th>Permission</th><th>Default</th><th>What it allows</th></tr></thead>
                 <tbody>
                   <tr><td><strong>Run agents here (read-only)</strong></td><td>on</td><td>Start a headless agent here in its own read-only mode. Claude runs with only Read, Grep and Glob, and none of your other MCP servers. Codex runs in its <code>read-only</code> sandbox. Gemini (<code>agy</code>) runs in plan mode. Each can also search this computer&rsquo;s memory and code index through read-only Termpolis tools (see <a href="#linked-security">How it is secured</a>). Codex keeps any other MCP servers in its own config, and <code>agy</code> keeps the ones in its own list.</td></tr>
-                  <tr><td><strong>Let agents edit files and run commands here</strong></td><td>off</td><td>The agent runs unattended here, as you. Claude and Gemini run with permission prompts skipped; Codex runs in its <code>workspace-write</code> sandbox, which keeps its writes to the working folder and temporary folders unless your Codex config allows more. Turning it on turns on <em>Run agents here</em> too.</td></tr>
+                  <tr><td><strong>Let agents edit files and run commands here</strong></td><td>off</td><td>The agent runs unattended here, as you. <strong>Claude and Gemini get full access</strong>: permission prompts skipped and a shell, so they can read and change any file you can, use your Termpolis terminals and reach your other linked computers. <strong>Codex</strong> runs in its <code>workspace-write</code> sandbox, which keeps its writes to the working folder and temporary folders unless your Codex config allows more, and since v1.53 Termpolis switches the sandbox&rsquo;s network off for the job (<code>-c sandbox_workspace_write.network_access=false</code>), whatever your Codex config says. <strong>On a Windows computer, treat a Codex edit job as full access too</strong>: whether Codex&rsquo;s sandbox there keeps a job from the computer&rsquo;s own local services, Termpolis&rsquo;s among them, isn&rsquo;t confirmed, and the pane says so on Windows. Turning it on turns on <em>Run agents here</em> too.</td></tr>
                 </tbody>
               </table>
             </div>
             <p>
+              <strong>Edit is never chosen along with a code (v1.53).</strong> Whoever enters a code first
+              hasn&rsquo;t had its words checked yet, so a new link can at most run read-only agents. To let
+              a computer edit, confirm its words first, then tick the permission on its row: a panel says
+              what it means for each agent, and only <strong>Allow edit</strong> turns it on. Switching it
+              off needs no confirmation. A link made with <em>edit</em> by an earlier version keeps it if its
+              words were already confirmed, and loses it when they are confirmed if they weren&rsquo;t.
+            </p>
+            <p>
               The risk, stated plainly: a machine with <em>Run agents here</em> can have an agent read any
-              file you can read on this computer and send it back. With <em>edit</em>, it can change files
-              and run commands as you. Grant <em>edit</em> only to a machine you trust as much as this one.
+              file you can read on this computer and send it back. With <em>edit</em>, a Claude or Gemini
+              agent it starts here can do anything you can. Grant <em>edit</em> only to a machine you trust as much as this one.
               Permissions are checked <strong>on the computer that does the work</strong>, before any agent
               starts, and again when you change them: switching <em>edit</em> off stops that
               machine&rsquo;s running edit jobs, switching <em>Run agents here</em> off stops all of its
               jobs, and unlinking stops all of its jobs. Stopping a job doesn&rsquo;t undo what it already
-              changed. The computer doing the work doesn&rsquo;t ask you per job: the permissions are the
-              decision.
+              changed. The computer doing the work doesn&rsquo;t ask you per job, but it tells you: each job
+              goes into the job history and, unless you turn notifications off, shows a notification, and a
+              running one can be stopped from <strong>Activity</strong>.
             </p>
 
             <h3 id="linked-how">How your agent decides to use another machine</h3>
@@ -2706,8 +2769,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>Every failure comes back as data, <code>{ "error": "&hellip;" }</code>, worded for the
                 agent to act on or pass on to you.</li>
               <li>Termpolis never pre-approves this tool: a Claude Code session asks you before using it
-                (unless it skips permission prompts), and Codex is not told to trust it. Agents can call it
-                at most 30 times a minute.</li>
+                (unless it skips permission prompts), and Codex is not told to trust it. Agents and workflow
+                steps together can call it at most 30 times a minute, and every call, a workflow&rsquo;s
+                included, is written to the MCP audit log.</li>
             </ul>
 
             <h3 id="linked-security">How it is secured</h3>
@@ -2720,30 +2784,63 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 keys, so prompts and answers recorded today can&rsquo;t be decrypted later, even if a
                 computer&rsquo;s long-term key leaks.</li>
               <li><strong>An encrypted relay.</strong> Making or entering a code requires a
-                <code>wss://</code> relay. Keep <em>Settings &rarr; Remote</em> on a <code>wss://</code>
-                address: links this computer created use that setting when they reconnect. The relay&rsquo;s
-                source is in the Termpolis repository (<code>relay/</code>), so you can run your own.</li>
+                <code>wss://</code> relay (<code>ws://</code> only to a relay on the same computer), and since
+                v1.53 <em>Settings &rarr; Remote</em> accepts nothing else. Links this computer created
+                reconnect through that setting; if it still holds a plain <code>ws://</code> address saved by
+                an earlier version, Termpolis connects none of them through it, and both panes say so until
+                it is changed. Links made by entering another computer&rsquo;s code use that computer&rsquo;s
+                relay, held to the same rule on every reconnect. The relay&rsquo;s source is in the
+                Termpolis repository (<code>relay/</code>), so you can run your own.</li>
               <li><strong>What the relay does see:</strong> both computers&rsquo; IP addresses, a room id
                 for the link, when each computer connects, the size and timing of each frame, and each
                 frame&rsquo;s unencrypted header (public keys while pairing and connecting, a frame
                 counter). It stores no frames; the hosting provider&rsquo;s logs keep connection
                 metadata.</li>
               <li><strong>Keys.</strong> The computer that enters a code makes a new key pair for that link;
-                the computer that made the code uses its one identity key for all its links. Private keys
-                are encrypted with the OS keychain (Windows DPAPI, macOS Keychain, Linux libsecret) where
-                one is available. On Linux without a keyring, they are stored unencrypted in the data
-                directory.</li>
+                the computer that made the code uses its one identity key, the one its phones pair with, for
+                all its links. Private keys are encrypted with the OS keychain (Windows DPAPI, macOS
+                Keychain, Linux libsecret) where one is available. On Linux without a keyring, they are
+                stored unencrypted in the data directory, and this pane says so; <strong>Encrypt keys
+                now</strong> encrypts them once a keyring is there. A key the keychain can&rsquo;t open is
+                never replaced (v1.53): no new link can be made until it opens again, or until you choose
+                <strong>Start over&hellip;</strong>, which costs every link and every phone (see
+                <a href="#remote-security">Remote&rsquo;s keys</a>). When only the file of links can&rsquo;t
+                be opened and the identity still can, this pane says so, and no link can be confirmed,
+                renamed or given other permissions either; its <strong>Start over&hellip;</strong> sets that
+                file alone aside: the links this computer joined have to be
+                made again, and a computer that entered a code from this one has to be confirmed again, its
+                permissions set again, but every phone keeps working.</li>
               <li><strong>Confirmed on each computer.</strong> A computer runs nothing for another until you
                 confirm the eight words on it.</li>
               <li><strong>Checked where the work happens.</strong> Permissions are enforced by the computer
                 that would do the work, before any agent starts.</li>
               <li><strong>Jobs, nothing else.</strong> The link carries only these jobs: a linked computer
                 can&rsquo;t list, read or type into your terminals, and gets none of a phone&rsquo;s
-                abilities. A job with <em>edit</em> permission runs as you, though, and can do whatever you
-                can.</li>
-              <li><strong>Answers are scanned.</strong> Every answer is scanned for prompt injection on
-                arrival, and one that looks like an injection is flagged as untrusted data. Prompts and
-                answers are <em>not</em> scanned for secrets, so don&rsquo;t put secrets in a prompt.</li>
+                abilities. A Claude or Gemini job with <em>edit</em> permission runs as you, though, and can
+                do whatever you can.</li>
+              <li><strong>Answers are labelled and scanned.</strong> Every answer is scanned for prompt
+                injection on arrival, and so are its error and any refusal worded over there. Every answer,
+                and a failed job&rsquo;s error (its stderr, as much the agent&rsquo;s own text as its
+                output), reaches your agent under a label saying it is data from another computer, not
+                instructions from you; one that looks like an injection gets an <strong>UNTRUSTED
+                CONTENT</strong> banner instead, telling the agent not to follow it.</li>
+              <li><strong>Vendor tokens and private keys don&rsquo;t cross (v1.53).</strong> Prompts and answers are screened
+                with the <a href="#security-secret-scanner">AI Security</a> secret rules on both computers:
+                the prompt before it leaves and when it arrives, the answer before it leaves and when it
+                arrives (in case the other computer runs a version that doesn&rsquo;t screen). A credential
+                whose own shape names it, a vendor token such as <code>sk-ant-&hellip;</code>,
+                <code>ghp_&hellip;</code>, <code>github_pat_&hellip;</code>, <code>AKIA&hellip;</code> or
+                <code>xox&hellip;</code>, or a whole private-key block, is removed and replaced with
+                <code>[REDACTED:&lt;rule&gt;]</code>, and your agent is told how many were removed and by
+                which rules. Anything that only looks like a credential is left in, because a job&rsquo;s
+                answer is usually code and its test fixtures look like credentials too: a
+                <code>password = "&hellip;"</code> line, a <code>postgres://user:pass@</code> URL, a JWT, a
+                value assigned to <code>API_KEY</code>, a private-key header with no key under it. Your agent
+                then gets a note naming the rules that matched: <em>Possible credential in &hellip;, not
+                removed.</em> Each finding is written to the <a href="#security-audit">AI Security audit
+                log</a> on the computer that screened it, as rule ids and counts, never the value. A
+                credential you want on the other computer should live in a file there, not in the
+                prompt.</li>
               <li><strong>Read-only tools, and no passing the work on (v1.51).</strong> A delegated job
                 keeps Termpolis&rsquo;s MCP server, cut down to the doing computer&rsquo;s memory and code
                 index: <code>memory_search</code>, <code>memory_list</code>, <code>memory_related</code>,
@@ -2760,18 +2857,41 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 read-only one has only Read, Grep and Glob besides. A Codex job gets the job marker on its
                 own <code>termpolis</code> server for that run when Codex&rsquo;s <code>config.toml</code>
                 holds Termpolis&rsquo;s server; otherwise the server is switched off for the run.
-                <code>agy</code> itself passes the marker to the Termpolis server in its own config. A job
-                with <em>edit</em> permission runs as you, though, so it can reach anything you can.</li>
+                <code>agy</code> itself passes the marker to the Termpolis server in its own config. These
+                limits bind read-only jobs. A Claude or Gemini job with <em>edit</em> permission has a shell
+                and runs as you, so it can get around them, for example by calling Termpolis&rsquo;s local MCP
+                server with its token: treat <em>edit</em> as full access. A Codex edit job&rsquo;s commands
+                run in Codex&rsquo;s sandbox with its network switched off, which is what keeps them from
+                that server; on Windows that isn&rsquo;t confirmed, so treat a Codex edit job there as full
+                access too.</li>
               <li><strong>Your AI providers.</strong> Each agent&rsquo;s provider sees what that agent is
                 asked and answers, as always, and a job uses the doing computer&rsquo;s AI account.</li>
               <li><strong>Memory.</strong> The agent doing the work starts with that computer&rsquo;s own
-                memory primer and can search that memory, read-only; it can&rsquo;t write to it.
-                Termpolis doesn&rsquo;t save a job&rsquo;s result to the doing
-                computer&rsquo;s memory itself, but a Claude or Codex job&rsquo;s session is saved like any
-                other, and the memory indexer can pick it up there.</li>
+                memory primer and can search that memory, read-only; it can&rsquo;t write to it. Since
+                v1.53 nothing of the job becomes that computer&rsquo;s own memory: Termpolis doesn&rsquo;t
+                save its result, Claude Code and Codex are told not to save the session
+                (<code>--no-session-persistence</code>, <code>codex exec --ephemeral</code>) when the installed
+                version can be, and the memory indexer and the learning reflex skip a session another
+                computer started even if it was saved, along with the transcripts of any subagents it ran.
+                What versions 1.50 to 1.52 had already stored from such jobs is demoted once, whole sessions
+                at a time, after the first full indexer pass following the update. Demoted memories only rank
+                lower: nothing is deleted. Gemini jobs run through <code>agy</code>, whose own conversation store
+                Termpolis doesn&rsquo;t read.</li>
               <li><strong>Records.</strong> The asking computer&rsquo;s MCP audit log records each call an
-                agent makes over MCP (not the prompt). The doing computer keeps its <em>Activity</em> list in memory until
-                Termpolis quits.</li>
+                agent makes over MCP (not the prompt). The doing computer keeps its <em>Activity</em> list in
+                memory until Termpolis quits, and its job history in <code>linked-jobs.jsonl</code> in the
+                data directory: a line when a job starts (the machine, the agent, read-only or edit, the
+                folder, the first line of the screened prompt and the credential rules matched), a line when
+                it ends (how, and how long it took), and a line for a refusal, with its reason. The
+                prompt&rsquo;s first line is kept to 80 characters and, there and in the job&rsquo;s
+                notification, has anything that might be a credential taken out, even what the agent was
+                given because it only looked like one. When a computer is refused again within a minute,
+                the first refusal is written at once and the rest of that minute as one more line with their
+                count, so a computer refused again and again adds at most two lines a minute, not one for every
+                request. Never the prompt or the answer. Past 2&nbsp;MiB the
+                file moves to <code>linked-jobs.prev.jsonl</code>, replacing the one there. It is a record,
+                not evidence: a Claude or Gemini job with <em>edit</em> permission runs as you and could
+                rewrite it like any other file you own.</li>
             </ul>
 
             <h3 id="linked-limits">Limits</h3>
@@ -2786,15 +2906,17 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 keeps running in the Dock, links and all. Quit it (<kbd>⌘</kbd>+<kbd>Q</kbd>) to go
                 offline.</li>
               <li><strong>Every run is a fresh headless session.</strong> No conversation carries over,
-                though its memory digest can include earlier jobs once the indexer has picked them up.
-                Linked machines does not copy files; code moves through Git.</li>
+                and since v1.53 earlier jobs don&rsquo;t become that computer&rsquo;s memory either (see
+                <em>Memory</em> under <a href="#linked-security">How it is secured</a>), so the prompt
+                carries what the agent needs. Linked machines does not copy files; code moves through
+                Git.</li>
               <li><strong>A job runs for up to 15 minutes by default.</strong> A computer runs at most 2 jobs
                 at a time for any one machine, and 4 in all.</li>
               <li><strong>The end of a long answer is kept</strong>, up to the last 200,000 characters.
                 Agents put their conclusion last; a shortened answer says <code>truncated: true</code>.</li>
               <li><strong>Up to 16 linked machines</strong> per computer, counting both directions.</li>
               <li><strong>Jobs live in memory.</strong> Quitting Termpolis stops every job it is running for
-                other computers and forgets the finished ones.</li>
+                other computers and forgets the finished ones. The job history keeps a line for each.</li>
             </ul>
           </section>
 
@@ -2951,13 +3073,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 </tbody>
               </table>
             </div>
-            <h3>Security</h3>
+            <h3 id="mcp-security">Security</h3>
             <ul class="docs-list">
               <li><strong>Bearer token.</strong> A random 256-bit token is generated per app launch and written to <code>mcp-token</code> in the data directory. Every MCP request must include it in the <code>Authorization</code> header; only the health check (<code>/</code>, <code>/health</code>) and CORS preflight requests answer without it.</li>
+              <li><strong>Token file readable only by you.</strong> <code>mcp-token</code> and <code>mcp-port</code> are mode <code>600</code> on macOS and Linux. On Windows they get an access list that removes what the folder passes down and grants your account full control: Everyone, Users and Authenticated Users get nothing, and entries set on the file itself, which can include SYSTEM and Administrators (who can read any file anyway), are left alone.</li>
               <li><strong>Loopback only.</strong> The server binds to <code>127.0.0.1</code> and refuses non-loopback connections.</li>
               <li><strong>No browser access.</strong> There is no origin allowlist: a web page cannot use the server because it cannot read the bearer token, and the CORS header allows only <code>http://localhost</code>.</li>
-              <li><strong>Rate limits.</strong> One shared limit of 200 requests a minute, plus tighter per-tool limits (<code>create_terminal</code> 10, <code>run_command</code> 60, <code>linked_machines</code> 30 a minute), protects the host from a runaway agent loop.</li>
-              <li><strong>Audit log.</strong> Every tool call, and every denied or rate-limited request, is written as one JSON line to <code>mcp-audit.log</code> in the data directory (rotated at 1&nbsp;MB, one backup kept).</li>
+              <li><strong>Rate limits.</strong> One shared limit of 200 requests a minute, plus tighter per-tool limits (<code>create_terminal</code> 10, <code>run_command</code> 60, <code>linked_machines</code> 30 a minute), protects the host from a runaway agent loop. A <a href="#workflows">workflow</a>&rsquo;s Skill steps call the same tools in-process and are held to the same limits (v1.53): <code>linked_machines</code> shares its 30 a minute with your agents, while a workflow&rsquo;s calls overall, and its calls to the other limited tools, count against separate limits of the same size, so a looping workflow can&rsquo;t use up your agents&rsquo; overall, <code>create_terminal</code> or <code>run_command</code> allowance.</li>
+              <li><strong>Audit log.</strong> Every tool call, and every denied or rate-limited request, is written as one JSON line to <code>mcp-audit.log</code> in the data directory (rotated at 1&nbsp;MB, one backup kept). A workflow&rsquo;s Skill-step calls are written there too, marked <code>"via": "workflow"</code>.</li>
             </ul>
           </section>
 
@@ -3203,7 +3326,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 &ldquo;new and empty&rdquo; &mdash; and nothing is lost either way, because compaction
                 reads before it writes, so a shard it cannot read is a shard it cannot overwrite.</li>
               <li><strong>Feeds itself.</strong> A background indexer ingests new sessions on a quiet
-                timer (idempotent, content-hash deduped), so the brain grows with no action from you.</li>
+                timer (idempotent, content-hash deduped), so the brain grows with no action from you. It
+                skips any session another computer started here over
+                <a href="#linked-machines">Linked machines</a> (v1.53): that work belongs to the computer
+                that asked.</li>
               <li><strong>Never stores the same thing twice.</strong> Every write is content-addressed
                 (SHA-256 over normalized text), so identical information is a no-op &mdash; the vector
                 store and the on-disk log never accumulate duplicates, and nothing the brain already
@@ -3216,11 +3342,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Secrets are never indexed.</strong> The code indexer reuses the same
                 sensitive-file denylist as the read watcher, so <code>.env</code> files, keys, and
                 cloud credentials are excluded.</li>
-              <li><strong>Each computer keeps its own memory.</strong> The Memory panel&rsquo;s
-                <em>Sync across machines</em> setting doesn&rsquo;t work reliably in current versions:
-                Termpolis forgets the chosen folder when it restarts, and turning it on for a store
-                that is already encrypted can conflict with that store&rsquo;s key. Leave it off. To
-                use what another of your computers knows, link the two with
+              <li><strong>Each computer keeps its own memory.</strong> <em>Sync across machines</em> is
+                unavailable in this version (<strong>v1.53</strong>): the old shared-folder design could lock
+                or overwrite a computer&rsquo;s memory, so the Memory panel shows it as unavailable and
+                Termpolis won&rsquo;t turn it on while it is rebuilt. A sync an earlier version switched on
+                can still be turned off there. To use what another of your computers knows, link the two with
                 <a href="#linked-machines">Linked machines</a>: an agent there starts from that
                 machine&rsquo;s own memory, can search it read-only, and works on its files.</li>
               <li><strong>Portable &mdash; export / import the whole brain (v1.21).</strong>
@@ -3238,10 +3364,28 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <strong>AES-256-GCM</strong> under a per-device key generated into your OS keychain
                 (Windows DPAPI, macOS Keychain, Linux libsecret) &mdash; no passphrase required, and
                 where no keychain is available it stays plaintext and reports so honestly rather than
-                writing a key beside the data. Termpolis transparently decrypts on read. Memories the
-                idle pass moves to the recoverable archive (<code>swarm-memory.archive.jsonl</code>),
-                the corrections log, and the knowledge-graph links are still written as plain
-                JSON.</li>
+                writing a key beside the data. Termpolis transparently decrypts on read. Since v1.53,
+                memories the idle pass moves to the recoverable archive
+                (<code>swarm-memory.archive.jsonl</code>) are written under the same key; entries an earlier
+                version archived while the store was already encrypted stay plain text for now, and the
+                corrections log and the knowledge-graph
+                links are still written as plain JSON.</li>
+              <li><strong>The memory key is never overwritten or deleted (v1.53).</strong> The key lives in
+                <code>memory-sync.key</code> in the <a href="#install">data directory</a>, wrapped by the OS
+                keychain, and Termpolis creates one only when there is none. If this computer can&rsquo;t
+                open it (the keychain isn&rsquo;t available, a password reset or a moved profile changed what
+                the keychain can unwrap, or the file is damaged), memory comes up <strong>locked</strong>
+                instead of starting over: nothing new is saved, and agents get a clear error rather than a
+                write into a store they can&rsquo;t read; the background indexer, reflection and
+                consolidation pause, and pick up where they stopped once memory unlocks; and the Memory panel
+                says why. If the key comes back, restart Termpolis and every memory returns. If it won&rsquo;t,
+                click <strong>Start a new memory key&hellip;</strong> in the Memory panel and confirm with
+                <strong>Start a new key</strong> (this needs a working OS keychain; without one, Termpolis
+                says so and changes nothing): the old key file is renamed aside
+                (<code>memory-sync.key.retired-&lt;time&gt;</code>), never deleted, and a new key is created
+                so memory saves again. Older memories stay on disk, unreadable until the old key works
+                again; Termpolis tries every retired key at every launch, so they come back by themselves if
+                it ever does.</li>
               <li><strong>Scales into six figures.</strong> Vectors are packed into a typed-array
                 store (about half the RAM of boxed arrays); past tens of thousands of entries an
                 <strong>HNSW</strong> approximate-nearest-neighbour index engages automatically so
@@ -3699,13 +3843,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Port 9315 already in use</strong>, another instance or a crashed process still owns it. Termpolis automatically tries the next free port (9315&ndash;9319) and writes the one it bound to <code>mcp-port</code> in the data directory; the status bar always reads <code>localhost:9315</code>, so check <code>mcp-port</code> for the real one. Kill stray <code>termpolis</code> processes if none can bind.</li>
               <li><strong>Firewall blocking localhost</strong>, rare but possible. Add an exception for the Termpolis binary.</li>
-              <li><strong>Token file write failed</strong>, <code>mcp-token</code> couldn&rsquo;t be written to the data directory. Make sure your <a href="#install">data directory</a> is writable.</li>
+              <li><strong>Token file write failed</strong>, <code>mcp-token</code> couldn&rsquo;t be written to the data directory, and the app log says <code>[mcp-token] could not write</code>. The rest of Termpolis still starts. Termpolis first grants itself back into a token file it was locked out of, then replaces it with a fresh one, which also drops any other account the old permissions let in (versions up to 1.52 could leave one on Windows when the account name had a space or an accent, or when a local account had the same name). If it persists, make sure your <a href="#install">data directory</a> is writable by your account.</li>
             </ul>
             <p><strong>Start Swarm does nothing / the wizard never opens.</strong> Start Swarm opens an OS folder picker <em>before</em> the wizard, and the wizard only appears once a directory is chosen. If you dismissed the picker (Esc or Cancel) nothing launches, that is the expected behaviour. Click <strong>Start Swarm</strong> again and <a href="#conductor">pick a project directory</a>. If the button reads <em>Swarm Active</em> instead, a swarm is already running, clear it first.</p>
             <p><strong>Agents can't find files / edit outside their task.</strong> Almost always a too-narrow project directory. Every agent terminal starts in the swarm's working directory, so agents in a swarm rooted at <code>src/components</code> tend to miss the tests, lockfile, or config that live above it. Clear the swarm and relaunch from the repository root.</p>
             <p><strong>Swarm conductor doesn't launch.</strong> The conductor spawns a Claude Code child process that needs <code>claude</code> on PATH. Open the conductor&rsquo;s terminal (Swarm Dashboard &rarr; <strong>Debug</strong>, shown while a swarm is active), or use <a href="#conversation">Conversation search</a> (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>), to see its startup output.</p>
             <p><strong>Swarm hangs mid-task / agents stop posting activity.</strong> Open Activity Feed, if the agent is running but not emitting events, its MCP connection may have dropped. To recover, <strong>Clear</strong> the swarm in the Swarm Dashboard (it stops every agent, closes their terminals and deletes the swarm&rsquo;s tasks and messages), then start it again. If a specific agent repeatedly drops, relaunch that agent. The MCP token doesn&rsquo;t expire: Termpolis makes a new one only when Termpolis restarts, and each agent reads it when the agent starts.</p>
             <p><strong>Memory search returns nothing.</strong> Embeddings run in-process via WASM (bundled <code>bge-small-en-v1.5</code>) &mdash; no Ollama required. If recall is empty, the brain may simply be unindexed: open the Memory panel (<code>Ctrl+Shift+M</code>) and run <em>Index past conversations</em> / <em>Index this repo&rsquo;s code</em>, or wait for the background indexer (first pass ~10&nbsp;s after launch). The first embed lazily unpacks the WASM model, so the very first search after a cold start can take a few seconds.</p>
+            <p><strong>The Memory panel says <em>Memory is locked &mdash; nothing new is being saved</em>.</strong> This computer can&rsquo;t open its memory key, and the text under that heading says why. Nothing on disk was changed, and Settings &rarr; Memory &amp; Learning shows the same warning rather than reading your brain as empty. If the keychain or the original account comes back, restart Termpolis and every memory returns. If it never will, <strong>Start a new memory key&hellip;</strong> lets memory save again and keeps the old key; it needs a working OS keychain (see <a href="#memory">Mneme</a>).</p>
 
             <h3>Updates &amp; performance</h3>
             <p><strong>Update notification appears but the update doesn't install.</strong> The auto-updater needs write access to the app bundle. On Windows, run the installer manually from GitHub Releases if the in-app updater fails. On macOS, drag the new DMG contents over the existing app. On Linux, download and replace the AppImage.</p>

@@ -55,7 +55,7 @@
 
     <main class="legal">
       <h1>Privacy Policy</h1>
-      <p class="stamp">Effective 8 October 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+      <p class="stamp">Effective 14 October 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
 
       <div class="callout">
         <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
@@ -82,13 +82,21 @@
       <ul>
         <li>Terminal sessions, scrollback and command history.</li>
         <li>The shared memory ("Mneme") built from your sessions and code — its text, its
-        embeddings and its graph. The memory store itself is encrypted at rest with AES-256-GCM, under a key protected by your operating system's keychain; where there is no keychain, or if you sync memory without setting a passphrase, it is plain text. Its link graph, and the archive that older, little-used memories are moved to, are not encrypted.</li>
+        embeddings and its graph. The memory store itself is encrypted at rest with AES-256-GCM, under a key protected by your operating system's keychain; where there is no keychain, or on a computer still syncing memory through a folder an earlier version set up (1.53 can&rsquo;t turn sync on), it can be plain text. Its link graph and its corrections log (the text of any amended memory, and why) are not encrypted, and memories that versions before 1.53 moved to the archive of older, little-used ones can still be plain text; since 1.53 the archive is written under the same key as the store.</li>
         <li>Your settings, workspaces, shell configuration and keybindings.</li>
         <li>Any credentials the CLI agents you use store for themselves. Termpolis does not
         read them and does not copy them anywhere.</li>
         <li>The original text of whatever Termpolis's token compression shortened, so an
         agent can ask for it back. This store is capped at 200 MB and, unlike the memory,
         is <strong>not</strong> encrypted.</li>
+        <li>If you turn on Linked machines, a job history (<code>linked-jobs.jsonl</code>, and
+        <code>linked-jobs.prev.jsonl</code> once it passes 2 MiB): one line when another of your
+        computers starts a job on this one, one when the job ends and one when a request is refused
+        (more refusals of that computer within the same minute share one more line, with their count),
+        with that computer's name, the agent, read-only or edit, the folder, the first line of the
+        prompt (at most 80 characters, with anything that might be a credential taken out), the
+        credential rules it matched, how the job ended and why a request was refused. Never the rest
+        of the prompt, or the answer.</li>
       </ul>
       <p>Termpolis also changes your coding agents' own settings, but only if you connect
       them. The first step of the first-run tour shows exactly what it would change for each
@@ -270,7 +278,7 @@
       knowingly collect information from them, and there is no mechanism by which we could.</p>
 
       <h2>8. Security</h2>
-      <p>The memory store is encrypted at rest with AES-256-GCM where the operating system provides a keychain (see section 2 for the exceptions); its link graph and its archive of older memories are not. The remote channel uses X25519 key
+      <p>The memory store is encrypted at rest with AES-256-GCM where the operating system provides a keychain (see section 2 for the exceptions); its link graph and corrections log are not, and memories archived by a version before 1.53 may not be. The remote channel uses X25519 key
       agreement, HKDF-SHA256 key derivation and ChaCha20-Poly1305 authenticated encryption,
       with the safety-word comparison above as the defence against a substituted key. The
       phone's private key sits in the platform keystore, not in application storage. The

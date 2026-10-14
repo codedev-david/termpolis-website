@@ -236,8 +236,8 @@
               your computers knows, <a href="#linked">link the two</a>: your agent asks an agent over
               there, which starts with a digest of that machine&rsquo;s memory, can search that memory and
               its code graph read-only, and works on its files. Sharing one memory
-              store through a synced folder doesn&rsquo;t work reliably in current versions, so
-              leave that setting off.
+              store through a synced folder is unavailable in this version while it is rebuilt, so
+              that it can never lock or overwrite a computer&rsquo;s memory.
             </p>
           </article>
           <article class="card">
@@ -257,10 +257,15 @@
               A local store is <strong>encrypted by default</strong> with <strong>AES-256-GCM</strong>
               under a per-device key generated into your OS keychain (Windows DPAPI / macOS Keychain /
               Linux libsecret) &mdash; no passphrase, and where no keychain is available it stays
-              plaintext rather than faking it. The encryption covers the memory store itself, not every file
-              beside it: memories that idle consolidation moves to the cold archive
-              (<code>swarm-memory.archive.jsonl</code>) are written there unencrypted, and the memory audit
-              log (<code>memory-audit.jsonl</code>) keeps short, secret-redacted plaintext previews of what was stored.
+              plaintext rather than faking it. The key is never overwritten: if this computer can&rsquo;t
+              open it (a locked keyring, a password reset), memory comes up <strong>locked</strong> &mdash;
+              nothing is lost and no new memory is saved &mdash; and the Memory panel says why. With a
+              working keychain it can start a new key, keeping the old one in case it opens again. The
+              encryption covers the memory store itself, not every file beside it: memories that idle
+              consolidation moved to the cold archive (<code>swarm-memory.archive.jsonl</code>) before v1.53
+              can still be unencrypted there, the link graph and the corrections log (with the text of any
+              amended memory) are plain, and the memory audit log (<code>memory-audit.jsonl</code>) keeps
+              short, secret-redacted plaintext previews of what was stored.
             </p>
           </article>
           <article class="card">
@@ -707,17 +712,25 @@
               exists, and that it isn&rsquo;t busy. Then it runs a <strong>fresh headless agent</strong>
               in that folder, starting from that computer&rsquo;s own memory and able to search it and its
               code graph, read-only. It doesn&rsquo;t stop to ask
-              you: the permissions you set are the decision. The job shows under <em>Activity</em> on
-              both computers.
+              you: the permissions you set are the decision. It does tell you: each job another computer
+              starts there shows a notification (unless you turn that off), sits under <em>Activity</em> on both computers with a
+              <em>Stop</em> button on the one doing the work, and goes into a job history kept across
+              restarts.
             </p>
           </article>
           <article class="card">
             <h3>4 &middot; The answer comes back</h3>
             <p>
               The other agent&rsquo;s final message returns as an ordinary tool result, after up to 45
-              seconds, or as a job id your agent checks back on. Every answer is scanned on arrival, and
-              one that looks like a prompt injection is flagged as untrusted data. Your agent reviews the
-              answer like any other. Code moves between the machines through Git, as usual.
+              seconds, or as a job id your agent checks back on. Every answer arrives labelled as data from
+              another computer, not instructions, and is scanned on arrival: one that looks like a prompt
+              injection is flagged as untrusted. Vendor tokens and private keys don&rsquo;t cross: prompts
+              and answers are screened on both computers, and a token whose own shape names it or a
+              private-key block is removed on the way. Anything that only looks like a credential (a
+              password in code, a database URL, a JWT, an AWS secret key) is left in, and your agent is
+              told which rules matched.
+              Your agent reviews the answer like any other. Code moves between the machines through Git, as
+              usual.
             </p>
           </article>
         </div>
@@ -739,9 +752,10 @@
               Prompts, answers, folders and machine names are sealed with
               <strong>ChaCha20-Poly1305</strong> under keys from an <strong>X25519</strong> key agreement
               between your two computers. Every connection gets <strong>fresh session keys</strong>, so
-              prompts and answers recorded today can&rsquo;t be decrypted later. Making or entering a code requires an
-              encrypted <code>wss://</code> relay, and the relay&rsquo;s source is in the Termpolis repo if
-              you&rsquo;d rather run your own. <strong>Limit:</strong> the relay sees both computers&rsquo;
+              prompts and answers recorded today can&rsquo;t be decrypted later. Termpolis connects only
+              through an encrypted <code>wss://</code> relay (plain <code>ws://</code> only to one on the same
+              computer), for codes and for every reconnect, and the relay&rsquo;s source is in the
+              Termpolis repo if you&rsquo;d rather run your own. <strong>Limit:</strong> the relay sees both computers&rsquo;
               IP addresses, a room id, the size and timing of each frame, and each frame&rsquo;s
               unencrypted header (public keys while connecting, a counter). Each agent&rsquo;s AI
               provider sees that agent&rsquo;s task and answer, as it always does.
@@ -771,18 +785,23 @@
               <strong>Limit:</strong> read-only still
               lets an agent read any file you can read on that computer and send it back, and Codex and
               Gemini keep any other MCP servers you gave them. <em>Edit</em> runs the agent unattended, as
-              you. Grant it only to a machine you trust as much as that one.
+              you: Claude and Gemini get full access, and Codex works in its sandbox with the network off
+              (on Windows, treat it as full access too). It is turned on only from a linked computer&rsquo;s
+              row, once you have confirmed its words, after a panel says what it allows. Grant it only to
+              a machine you trust as much as that one.
             </p>
           </article>
           <article class="card">
             <h3>Never pre-approved, and bounded</h3>
             <p>
               Termpolis never pre-approves the tool, so a Claude Code session asks you before using it,
-              and agents can call it at most 30 times a minute. Each computer runs at most 2 jobs for any
-              one machine and 4 in all, and a job stops after 15 minutes by default.
-              <strong>Limit:</strong> a session that skips permission prompts won&rsquo;t ask, and the
-              computer doing the work doesn&rsquo;t ask per job. Its record is the <em>Activity</em> list,
-              kept in memory until Termpolis quits.
+              and agents and workflow steps together can call it at most 30 times a minute. Each computer
+              runs at most 2 jobs for any one machine and 4 in all, and a job stops after 15 minutes by
+              default. <strong>Limit:</strong> a session that skips permission prompts won&rsquo;t ask,
+              and the computer doing the work doesn&rsquo;t ask per job. It notifies you instead (unless you
+              turn that off), and keeps a job history (<code>linked-jobs.jsonl</code>) of the jobs (who,
+              which agent, which folder, the task&rsquo;s first line, how it ended) and the refusals, never
+              the whole prompt or the answer.
             </p>
           </article>
         </div>
