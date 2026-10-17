@@ -2840,7 +2840,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 removed.</em> Each finding is written to the <a href="#security-audit">AI Security audit
                 log</a> on the computer that screened it, as rule ids and counts, never the value. A
                 credential you want on the other computer should live in a file there, not in the
-                prompt.</li>
+                prompt. Since v1.53.1 a long answer is screened before it is cut to its end (the last
+                200,000 characters of its output, 4,000 of its error), with up to 65,536 characters
+                before the cut in view, so a key block or token the cut runs through is still removed
+                whole. That needs v1.53.1 on the computer doing the job: up to v1.53.0 it cut first, so such
+                a credential could arrive without its start, which no rule recognises.</li>
               <li><strong>Read-only tools, and no passing the work on (v1.51).</strong> A delegated job
                 keeps Termpolis&rsquo;s MCP server, cut down to the doing computer&rsquo;s memory and code
                 index: <code>memory_search</code>, <code>memory_list</code>, <code>memory_related</code>,
@@ -3854,6 +3858,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
 
             <h3>Updates &amp; performance</h3>
             <p><strong>Update notification appears but the update doesn't install.</strong> The auto-updater needs write access to the app bundle. On Windows, run the installer manually from GitHub Releases if the in-app updater fails. On macOS, drag the new DMG contents over the existing app. On Linux, download and replace the AppImage.</p>
+            <p><strong>Linux .deb: Restart asks for the administrator password, then Termpolis stops responding.</strong> That was how 1.53.0 and earlier installed a .deb update: inside the window. Since v1.53.1, <strong>Restart now</strong> closes Termpolis at once, your desktop asks for your administrator password once, and Termpolis opens again by itself, on the new version or, if nothing was installed, on the one you had, with the update banner saying why (the prompt was cancelled, no administrator rights, or the dpkg error, whose full output is in <code>update-install.log</code> in the data directory). Quitting Termpolis no longer installs an update or asks for your password. The update from 1.53.0 to 1.53.1 itself still runs 1.53.0&rsquo;s installer, so it stops responding one last time: click <strong>Wait</strong> and Termpolis restarts on 1.53.1. Cancelling the password dialog brings a second one (1.53.0 then tries <code>apt-get install -f</code>); cancel both to stay on 1.53.0. Or quit Termpolis and install it yourself with <code>sudo apt install ./termpolis_1.53.1_amd64.deb</code>.</p>
             <p><strong>App is slow to start / very high memory.</strong> A corrupted session file occasionally causes runaway restoration. Back up <code>session.json</code> in your data directory, delete it, and relaunch, you lose restored workspace state but get a clean baseline.</p>
             <p><strong>Terminal scrollback is sluggish.</strong> Each terminal keeps 10,000 lines of scrollback (3,000 for swarm agents). If you've pasted very large logs, scrolling slows down. <strong>Ctrl+Shift+X</strong> (Clear Terminal) clears the screen and scrollback without restarting.</p>
 
