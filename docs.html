@@ -3030,7 +3030,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                   <tr><td><code>list_terminals</code></td><td>Enumerate open terminals — find an existing session to work in.</td></tr>
                   <tr><td><code>create_terminal</code></td><td>Spawn a new terminal with a chosen name, shell, and working directory.</td></tr>
                   <tr><td><code>run_command</code></td><td>Run a one-shot command in a terminal (used to start a long-running agent CLI).</td></tr>
-                  <tr><td><code>write_to_terminal</code></td><td>Type arbitrary text or control chars into a terminal's stdin (this is how the conductor sends task prompts to other agents).</td></tr>
+                  <tr><td><code>write_to_terminal</code></td><td>Type arbitrary text or control chars into a terminal's stdin. With <code>submit: true</code> it waits until the agent is ready, types the text, presses Enter and reports whether the agent took it (this is how the conductor sends task prompts to other agents).</td></tr>
                   <tr><td><code>read_output</code></td><td>Read the recent output buffer from a terminal.</td></tr>
                   <tr><td><code>close_terminal</code></td><td>Kill the underlying pty and remove the terminal.</td></tr>
                   <tr><td><code>run_and_wait</code></td><td>Run a command to completion and return its exit code and output, so the agent sees pass or fail without scraping a terminal.</td></tr>
@@ -3111,14 +3111,14 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <ul class="docs-list">
               <li><strong>Tasks</strong>, answers <em>"where are we?"</em>. Three columns, Pending / In&nbsp;progress / Completed (failed tasks land in Completed). Each card shows the title, description, who created it, who it is assigned to, when it was created, and the result once one is posted. Pending cards have <strong>Start</strong> and <strong>Cancel</strong>; in-progress cards have <strong>Done</strong> and <strong>Fail</strong>.</li>
               <li><strong>Messages</strong>, answers <em>"what are the agents saying?"</em>. Live stream of every handoff, broadcast, and tool result routed between agents. Use this to diagnose "why is Codex waiting?"</li>
-              <li><strong>Trace</strong>, answers <em>"what is the conductor thinking?"</em>. Timeline of what the conductor says (THINK), the tools it calls (TOOL), the tasks it assigns (ASSIGN), completions (DONE) and errors (ERR). It stays empty until you reveal the conductor's terminal with <strong>Debug</strong>, because Termpolis collects activity only from terminals that aren't hidden.</li>
+              <li><strong>Trace</strong>, answers <em>"what is the conductor thinking?"</em>. Timeline of what the conductor says (THINK), the tools it calls (TOOL), the tasks it assigns (ASSIGN), completions (DONE) and errors (ERR). It starts within 15 seconds of the conductor&rsquo;s first message or task, so those first moments aren&rsquo;t in it: Termpolis then follows the newest Claude Code transcript in the swarm&rsquo;s folder, which is the conductor&rsquo;s unless another Claude Code session there wrote to its own at that moment.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
               <li>Open with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> at any time, no swarm needs to be running.</li>
               <li>If no swarm is active, click <strong>Start Swarm</strong>. A folder picker opens <em>first</em> &mdash; <a href="#conductor">choose the project directory</a> the swarm will work in, and only then does the Start Swarm wizard appear.</li>
               <li>Switch tabs freely, the dashboard stays scoped to the active run.</li>
-              <li>Click <strong>Debug</strong> (shown while a swarm is active) to reveal the conductor's hidden terminal. Agent terminals stay hidden.</li>
+              <li>Click <strong>Debug</strong> to see what the conductor printed, read-only, while the swarm runs and after it ends. It is there while a conductor terminal exists, and it unhides nothing: the conductor and the agents stay hidden.</li>
               <li>Need to abort? Click <strong>Clear</strong> (trash icon) at the right end of the tab bar to end the run (see below).</li>
             </ol>
             <figure class="docs-shot">
@@ -3195,10 +3195,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>Conductor reads your task and posts its plan to the Messages tab.</li>
               <li>Breaks the work into subtasks and creates a task record for each; agents work on them in parallel.</li>
               <li>For each subtask, picks an agent from the installed agents' capability ratings and cost tiers.</li>
-              <li>Spawns the agent terminal via <code>create_terminal</code> (MCP) and sends the prompt via <code>write_to_terminal</code>.</li>
+              <li>Spawns the agent terminal via <code>create_terminal</code> (MCP) and sends the prompt via <code>write_to_terminal</code> with <code>submit: true</code>, which waits until the agent is ready, presses Enter and checks the agent took it.</li>
               <li>Polls <code>swarm_list_tasks</code> and <code>swarm_read_messages</code>, reads each agent's output with <code>read_output</code>, and sends guidance with <code>write_to_terminal</code> if an agent looks stuck.</li>
               <li>When a task is marked completed or failed, Termpolis records the outcome and, if the task carries enough detail, distills a lesson from it into shared memory.</li>
-              <li>When every task is completed or failed, presents a summary and offers a <a href="#review">swarm review</a>.</li>
+              <li>When every task is completed or failed, presents a summary and offers a <a href="#review">swarm review</a>. Only the conductor completes a task: a worker printing &ldquo;done&rdquo; completes nothing.</li>
+              <li>If a worker stops on its usage limit or on a menu, the dashboard says why and the conductor is told: it checks the worker&rsquo;s screen, then gives the task to another installed agent or answers the menu.</li>
+              <li>If the conductor itself exits, the dashboard says <em>Conductor exited (code N)</em> with its last lines; if a minute after launch it has created no task and posted nothing, a banner says it seems stuck. <strong>Debug</strong> shows what it printed.</li>
             </ol>
             <p>
               Not sure whether your task fits a swarm or a single agent? See the
