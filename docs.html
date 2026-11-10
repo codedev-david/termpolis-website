@@ -124,6 +124,7 @@
             <li><a href="#workflows">Workflow Orchestrator</a></li>
             <li><a href="#context">Context panel</a></li>
             <li><a href="#headroom">Token Headroom</a></li>
+            <li><a href="#choosing-the-model">Model per message</a></li>
             <li><a href="#context-handoff">Cross-AI context handoff</a></li>
             <li><a href="#history">History search</a></li>
             <li><a href="#conversation">Conversation search</a></li>
@@ -1913,7 +1914,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               never the UI or PTY thread &mdash; which forwards to <code>api.anthropic.com</code>
               and nowhere else. If the proxy is ever unhealthy the launch silently goes
               direct, and a live session self-heals when it recovers, so a proxy hiccup costs you
-              compression, not your agent. Codex, Gemini CLI and your shells never go through it.
+              compression, not your agent. Gemini CLI and your shells never go through it, and
+              Codex goes through it only to have each message's reasoning effort picked (see
+              <a href="#choosing-the-model">Model per message</a>); nothing in a Codex request is compressed.
             </p>
             <ul class="docs-list">
               <li><strong>Turn it off</strong> with <strong>Route new Claude Code sessions through the local compression proxy</strong> in <strong>Settings &rarr; Token Savings</strong> (the tour's last step and the one-time privacy review offer the same switch). New sessions then talk to Anthropic directly; a session that is already running keeps its route until it ends.</li>
@@ -2088,6 +2091,57 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <strong>Your memory is never touched.</strong> Compression touches only tool results and pasted images on the Claude Code wire, and Termpolis&rsquo;s own MCP tool results, which Codex and Gemini receive too &mdash; and memory tool results are exempt from both. The <a href="#memory">shared memory</a> store, recall and learning
               are untouched by it.
             </div>
+          </section>
+
+          <!-- MODEL PER MESSAGE -->
+          <section id="choosing-the-model" class="docs-section">
+            <h2>Default models, Auto and Model per message</h2>
+            <p>
+              <strong>Default models</strong> (Settings &rarr; General &rarr; Default Models) pick the model
+              each of Claude Code, OpenAI Codex and the Antigravity CLI starts on in a <em>new</em> terminal.
+              Claude's menu holds its four aliases (Fable, Opus, Sonnet, Haiku, each always the newest in its
+              family) and <strong>Auto (best for the task)</strong>: a <strong>What's the task?</strong> box above
+              the agents in the sidebar picks the model and effort for that one launch and becomes the session's
+              first prompt. A new install starts on Auto.
+            </p>
+
+            <h3>Model per message (v1.56)</h3>
+            <p>
+              <strong>Model per message</strong>, under the defaults, runs each message you send to Claude on the
+              model it needs: Haiku for a quick question, Sonnet for building, Opus for design and hard bugs.
+              The switch is made in Termpolis's local proxy, so the request's model is changed before it leaves
+              your computer, nothing is typed into the terminal and the session is not restarted. It works in the
+              Claude terminals Termpolis opens with token compression on. Choose which terminals it routes:
+              <strong>Claude terminals started on Auto, and Codex</strong> (the default), <strong>Every Claude and
+              Codex terminal</strong>, or <strong>Off</strong>.
+            </p>
+            <ul class="docs-list">
+              <li><strong>Decided on your computer.</strong> bge-small, the embedding model already installed for memory, compares the message with 120 labelled examples and your own corrections and votes; the word rules Auto uses decide when the vote is unsure, or when it is not back within 350&nbsp;ms. A decision takes a few milliseconds and is never sent anywhere.</li>
+              <li><strong>Haiku only when it is sure (v1.56.2).</strong> Haiku is picked only when the vote is clearly for it and the message is short and asks for nothing that sounds like work (making or changing something, a status check, a &ldquo;why&rdquo;, something you don't see, a file path or a link). Anything else runs on Sonnet.</li>
+              <li><strong>It moves only when the move pays.</strong> A new model re-reads the conversation without its cache, so the router moves down only when that still saves at least 10%, moves up only when it is sure and the conversation is under 150,000 tokens (or the target's cache is still warm), never sends a conversation over 180,000 tokens to Haiku, and keeps a short &ldquo;yes, go ahead&rdquo; on the model doing the work.</li>
+              <li><strong>Effort too (v1.57).</strong> Each model has a range it picks from: Haiku low or medium, Sonnet low to xhigh, Opus medium to max. The prompt cache is kept per model and effort, so a change of effort is weighed like a change of model. A model's own default is never written.</li>
+              <li><strong>Subagents (v1.57).</strong> A subagent's first request is held for up to 300&nbsp;ms while its task is read, then sent on the model and effort that task needs (a file search on Haiku, a design review on Opus). Its conversation is new, so nothing cached is lost.</li>
+              <li><strong>More thought while tools fail (v1.57).</strong> Two failing tool turns in a row raise the effort one level, four raise it two, never above xhigh. It stays raised until your next message. The model is never changed for this.</li>
+              <li><strong>You see every pick, and can correct it.</strong> The pane header shows each pick (for example &ldquo;Opus &rarr; Haiku &middot; low &middot; 4&nbsp;ms&rdquo;); hover it for why, how sure and the estimated saving. Its <strong>Should have been&hellip;</strong> menu teaches the router: the message's vector, never its text, is kept as an example. Picking a model in the pane's <strong>Model&hellip;</strong> menu stops routing that pane.</li>
+              <li><strong>Refused?</strong> If your account refuses the model or the effort, the request is sent again as Claude Code asked for it, and that change is not tried again in that terminal.</li>
+            </ul>
+
+            <h3>Codex: a reasoning effort per message (v1.58)</h3>
+            <p>
+              In a Codex terminal the router picks the <strong>reasoning effort</strong> of each message you type,
+              never the model (Codex's encrypted reasoning does not carry from one model to another): low for a
+              quick question, medium or high for building, high or xhigh for design and hard bugs. Termpolis
+              starts the Codex terminal with <code>-c openai_base_url=&hellip;</code> pointing at its local proxy,
+              which changes only the request's <code>effort</code> value and forwards it to the endpoint Codex
+              would have used: <code>chatgpt.com</code> when you sign in with ChatGPT, <code>api.openai.com</code>
+              with an API key. The header reads like &ldquo;Codex &middot; medium &rarr; low &middot; 6&nbsp;ms&rdquo;.
+            </p>
+            <ul class="docs-list">
+              <li><strong>Plain HTTP.</strong> The proxy answers Codex's WebSocket with &ldquo;upgrade required&rdquo;, so Codex uses its own HTTP fallback; streaming still works.</li>
+              <li><strong>Refusals.</strong> A refused effort is resent exactly as Codex asked. If that goes through, the effort is not tried again in that terminal (xhigh falls back to high); after three refused efforts the terminal is no longer routed.</li>
+              <li><strong>When it steps aside.</strong> Only Codex terminals launched from the sidebar's agents are routed. Codex launches as it is when its command or the top level of its <code>config.toml</code> names its own endpoint, provider or profile, when <code>OPENAI_BASE_URL</code> or a proxy variable is set, or when the compression proxy is off. Termpolis reads only <code>config.toml</code>, never Codex's sign-in. A ChatGPT workspace that pins its data to a region may use another host, so leave such an account on <strong>Off</strong>.</li>
+              <li><strong>Switching (v1.58.1).</strong> Changing a routed Codex terminal's model from its header keeps it routed. Switching it to another account in place does not, because that account may choose its own endpoint; open a new terminal from the sidebar to route it again.</li>
+            </ul>
           </section>
 
           <!-- CROSS-AI CONTEXT HANDOFF -->

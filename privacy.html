@@ -55,7 +55,7 @@
 
     <main class="legal">
       <h1>Privacy Policy</h1>
-      <p class="stamp">Effective 14 October 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+      <p class="stamp">Effective 10 November 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
 
       <div class="callout">
         <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
@@ -134,8 +134,19 @@
           command, a file edit) is never rewritten.</td>
           <td>By default, for Claude Code sessions Termpolis launches. It forwards only to
           <code>api.anthropic.com</code>, steps aside if you already route Claude Code
-          yourself, and one switch in Settings → Token Savings turns it off. We never see
-          this traffic either.</td>
+          yourself, and one switch in Settings → Token Savings turns it off. With
+          <em>Model per message</em> on, the same proxy also changes the request's model and effort;
+          that choice is made on your computer, and only the vectors of your corrections are kept,
+          never their text. We never see this traffic either.</td>
+        </tr>
+        <tr>
+          <td>OpenAI, through the same proxy</td>
+          <td>Codex's requests, unchanged except for the reasoning effort Termpolis picks for each
+          message. Nothing is compressed. Termpolis reads Codex's <code>config.toml</code> only to see
+          whether you chose your own endpoint, never its sign-in.</td>
+          <td>Only for Codex terminals launched from the sidebar while <em>Model per message</em>
+          routes Codex (the default) and the proxy is on. It forwards to the endpoint Codex would have
+          used (<code>chatgpt.com</code> or <code>api.openai.com</code>). We never see this traffic.</td>
         </tr>
         <tr>
           <td>GitHub</td>

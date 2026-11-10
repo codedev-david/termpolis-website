@@ -1026,6 +1026,46 @@
         </div>
       </section>
 
+      <!-- MODEL PER MESSAGE -->
+      <section id="model-per-message" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">🧭 New in v1.56&ndash;v1.58 &middot; Model per message</p>
+          <h2>Every message on the model and effort it needs</h2>
+          <p>
+            Haiku for a quick question, Sonnet for building, Opus for design and hard bugs. Termpolis's local
+            proxy changes the request's model and effort <strong>before it leaves your computer</strong>: nothing
+            is typed into the terminal and the session is never restarted. The decision takes a few milliseconds
+            and is <strong>made on your machine</strong>. Turn it on or off in Settings &rarr; General &rarr; Default Models.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Decided locally <span class="badge-new">v1.56</span></h3>
+            <p>The bge-small embedding model already installed for memory compares each message with 120 labelled examples and your own corrections, and votes. When the vote is unsure, or isn't back within 350&nbsp;ms, the word rules Auto uses decide. Nothing about the decision is sent anywhere.</p>
+          </article>
+          <article class="card">
+            <h3>Moves only when the move pays <span class="badge-new">v1.56</span></h3>
+            <p>A new model re-reads the conversation without its cache, so the router moves down only when that still saves at least 10%, moves up only when it is sure and the cache cost is small, and never sends a long conversation to Haiku. Haiku is picked only for short messages that ask for no work.</p>
+          </article>
+          <article class="card">
+            <h3>Effort too <span class="badge-new">v1.57</span></h3>
+            <p>Each model picks from its own range: Haiku low or medium, Sonnet low to xhigh, Opus medium to max. Subagents get the model and effort their task needs (a file search on Haiku, a design review on Opus), and two failing tool turns in a row raise the effort until your next message.</p>
+          </article>
+          <article class="card">
+            <h3>Codex gets an effort per message <span class="badge-new">v1.58</span></h3>
+            <p>In Codex terminals the router picks the reasoning effort of each message (low for a quick question, high or xhigh for hard bugs), never the model. The request goes to the endpoint Codex would have used anyway, and Termpolis steps aside whenever you route Codex yourself.</p>
+          </article>
+          <article class="card">
+            <h3>You see every pick</h3>
+            <p>The pane header shows each choice, such as &ldquo;Opus &rarr; Haiku &middot; low &middot; 4&nbsp;ms&rdquo;. Hover it for why and the estimated saving, or use <strong>Should have been&hellip;</strong> to correct it: only the message's vector is kept, never its text. Picking a model yourself stops routing that pane.</p>
+          </article>
+          <article class="card">
+            <h3>Refusals fall back cleanly</h3>
+            <p>If your account refuses a model or effort, the request is sent again exactly as the agent asked for it, and that change isn't tried again in that terminal. <a href="docs.html#choosing-the-model">Read how it works &rarr;</a></p>
+          </article>
+        </div>
+      </section>
+
       <!-- WHY TERMPOLIS vs THE BARE CLIs -->
       <section id="why" class="section reveal">
         <div class="section-heading">
@@ -2369,7 +2409,7 @@
           </article>
           <article class="card">
             <h3>Token-saving model broker</h3>
-            <p>Run the cheapest viable model per task: pin a Claude model per profile or switch a running agent's model from the terminal header (Sonnet ≈40% cheaper than Opus, Haiku ≈80%; Codex and Gemini terminals list their own models), and let the swarm conductor downshift the simpler subtasks automatically. Relevance-gated memory recall keeps context windows lean so agents don't burn tokens re-deriving what they already know.</p>
+            <p>Run the cheapest viable model per task: pin a Claude model per profile or switch a running agent's model from the terminal header (Sonnet ≈40% cheaper than Opus, Haiku ≈80%; Codex and Gemini terminals list their own models), and let the swarm conductor downshift the simpler subtasks automatically. With <a href="#model-per-message">Model per message</a> on, each message you send runs on the model and effort it needs, picked on your computer. Relevance-gated memory recall keeps context windows lean so agents don't burn tokens re-deriving what they already know.</p>
           </article>
           <article class="card">
             <h3>No plugins, by design</h3>
