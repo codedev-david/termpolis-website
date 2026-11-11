@@ -60,7 +60,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=20260922b">
+  <link rel="stylesheet" href="styles.css?v=20261110a">
 
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "69e1842746294b5bbb72378c748cb522"}'></script>
@@ -74,19 +74,13 @@
         <span class="brand-text">Termpolis</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
-        <a href="#memory">Mneme</a>
-        <a href="#proof">Proof</a>
-        <a href="#second-opinion">Second Opinion</a>
-        <a href="#linked">Linked</a>
-        <a href="#headroom">Headroom</a>
-        <a href="#why">Why us</a>
-        <a href="#context-handoff">Handoff</a>
-        <a href="#swarm">Swarm</a>
+        <a href="#memory">Memory</a>
+        <a href="#headroom">Tokens</a>
         <a href="#security">Security</a>
-        <a href="#compare">Compare</a>
+        <a href="#remote">Remote</a>
         <a href="#features">Features</a>
-        <a href="#downloads">Downloads</a>
-        <a href="/mobile/">Mobile</a>
+        <a href="#compare">Compare</a>
+        <a href="#downloads">Download</a>
         <a href="docs.html">Docs</a>
       </nav>
     </header>
@@ -97,44 +91,17 @@
           <p class="eyebrow">Local-first AI terminal · Claude · Codex · Gemini</p>
           <h1>Termpolis</h1>
           <p class="tagline">Stop re-explaining your codebase to AI.</p>
-          <ul class="hero-security-pills" aria-label="Key highlights" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 18px;font-size:12px;">
-            <li style="background:#7c5cff22;color:#b9a7ff;border:1px solid #7c5cff55;border-radius:999px;padding:4px 10px;">🧠 Mneme · one memory, all 3 agents</li>
-            <li style="background:#1f6e3a22;color:#7ee2a3;border:1px solid #1f6e3a55;border-radius:999px;padding:4px 10px;">🌱 Learns from every session</li>
-            <li style="background:#f2b94b22;color:#f2b94b;border:1px solid #f2b94b55;border-radius:999px;padding:4px 10px;">🔀 Second Opinion · agents review each other</li>
-            <li style="background:#22d3ee22;color:#67e8f9;border:1px solid #22d3ee55;border-radius:999px;padding:4px 10px;">🔗 <a href="#linked" style="color:inherit;text-decoration:none;">Linked machines · agents work across your computers</a></li>
-            <li style="background:#0078d422;color:#5ab1ff;border:1px solid #0078d455;border-radius:999px;padding:4px 10px;">🔒 Local by default · no cloud account · no telemetry unless you opt in</li>
-            <li style="background:#7ee2a322;color:#7ee2a3;border:1px solid #7ee2a355;border-radius:999px;padding:4px 10px;">📦 Free &amp; open source</li>
-            <li style="background:#ff7a4522;color:#ff9a6e;border:1px solid #ff7a4555;border-radius:999px;padding:4px 10px;">📱 <a href="#mobile" style="color:inherit;text-decoration:none;">Termpolis Remote · now on iPhone</a></li>
-          </ul>
           <p class="hero-text">
-            At the heart of Termpolis is <strong>Mneme</strong> &mdash; a local memory brain that
-            Claude, Codex, and Gemini all share, and that <strong>learns as you work</strong>.
-            All three already know your project, your decisions, and what got figured out yesterday; and
-            when an agent finishes a task, Mneme quietly distills the lesson into the shared brain, so your
-            whole fleet gets smarter the more you use it. <strong>No re-explaining, no reloading context, and
-            your memory is stored on your own machine.</strong>
-          </p>
-          <p class="free-forever">
-            <span class="free-forever-pill">Free forever</span>
-            Termpolis is free and open source, and will always remain free. If it's useful to you, consider <a href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer">sponsoring the project</a>.
+            Claude, Codex and Gemini share one memory in Termpolis, and it <strong>learns as you work</strong>.
+            A new terminal opens already knowing your project, your decisions and what got figured out
+            yesterday. The memory is stored on your own computer.
           </p>
           <div class="hero-actions">
-            <a class="button" href="#downloads">Download</a>
-            <a class="button button-secondary" href="#memory">Meet Mneme</a>
-            <a class="button button-sponsor" href="https://github.com/sponsors/codedev-david" target="_blank" rel="noreferrer" aria-label="Sponsor Termpolis on GitHub">
-              <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" style="vertical-align:-3px;margin-right:6px;">
-                <path fill="currentColor" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-              </svg>
-              Sponsor
-            </a>
-            <a class="button button-ghost" href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">View GitHub</a>
+            <a class="button" href="#downloads">Download free</a>
+            <a class="button button-secondary" href="#memory">See how it works</a>
+            <a class="button button-ghost" href="https://github.com/codedev-david/termpolis" target="_blank" rel="noreferrer">GitHub</a>
           </div>
-          <ul class="hero-points" aria-label="Key product highlights">
-            <li><strong>Never re-explain context</strong> — a fresh Claude, Codex or Gemini terminal opens already knowing your project</li>
-            <li><strong>Learns automatically</strong> — distills the fix, the decision, the gotcha from every session</li>
-            <li><strong>Local &amp; private by default</strong> — in-process embeddings, default-on at-rest encryption (OS-keychain device key), no server, no telemetry unless you opt in</li>
-            <li><strong>Runs your real agents</strong> — Claude, Codex, Gemini unchanged, with prompt security scanning on all three + an optional swarm</li>
-          </ul>
+          <p class="hero-meta">Windows · macOS · Linux &nbsp;·&nbsp; Free and open source (Apache 2.0) &nbsp;·&nbsp; No account &nbsp;·&nbsp; <a href="#remote">iPhone app</a></p>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
@@ -146,1058 +113,196 @@
         </div>
       </section>
 
-      <section class="stats reveal" aria-label="Product overview">
+      <section id="proof" class="stats stats-4 reveal" aria-label="Measured results">
         <article>
-          <strong>One brain, 3 agents</strong>
-          <span>Claude, Codex &amp; Gemini read and write the same local memory over MCP — a fact one learns, the others recall</span>
+          <strong>3 agents, 1 memory</strong>
+          <span>What Claude learns, Codex and Gemini can recall</span>
         </article>
         <article>
-          <strong>Learns as you work</strong>
-          <span>Every session distills into reusable lessons + self-competence, so the fleet gets smarter the more you use it</span>
+          <strong>0.97 recall@10</strong>
+          <span>The right memory is in the top 10 for 97% of test queries</span>
         </article>
         <article>
-          <strong>0.97+ recall · local by default</strong>
-          <span>In-process embeddings, millisecond retrieval, CI-proven cross-agent recall — no server, no telemetry unless you opt in</span>
+          <strong>~20&nbsp;ms lookup</strong>
+          <span>Local search, nothing leaves your machine</span>
+        </article>
+        <article>
+          <strong>Tested in CI</strong>
+          <span>The build fails if recall or speed slips. <a href="docs.html#proof">Reproduce it</a></span>
         </article>
       </section>
 
-      <!-- SHARED MEMORY -->
+      <!-- PILLAR 1: MEMORY -->
       <section id="memory" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🧠 Meet Mneme · the memory that learns</p>
-          <h2>Mneme: one memory for Claude, Codex and Gemini — that learns as you work</h2>
-          <p>
-            <strong>Mneme</strong> &mdash; named for the Greek muse of memory &mdash; is the local
-            brain at the heart of Termpolis, and it does more than remember: <strong>it learns</strong>.
-            Every AI session normally starts cold: you re-explain what you're doing and burn tokens
-            reloading context. Mneme is a local &ldquo;brain&rdquo; that <strong>Claude, Codex and Gemini
-            share</strong>, that <strong>learns from every session</strong>, and that <strong>lasts
-            between terminals, agents, and app restarts.</strong> It parses your past AI transcripts,
-            embeds them locally and offline, and &mdash; when an agent finishes a task &mdash; distills
-            the lesson (the fix, the decision, the gotcha) into the shared store; then all three
-            recall the most relevant context on demand over the built-in MCP
-            server. Nothing to set up, nothing to click.
-          </p>
-        </div>
-        <figure style="margin:24px 0 8px;padding:0;">
-          <img src="assets/diagram-mneme.svg?v=20261008b" alt="How Mneme works: every agent's work is captured, embedded locally into vectors, and stored in a vector database (find by meaning) plus a knowledge graph (find by connection) persisted as JSONL — then recalled and ranked, getting smarter over time." style="width:100%;height:auto;display:block;">
-        </figure>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Learns from every session</h3>
+        <div class="pillar">
+          <div class="pillar-copy">
+            <p class="eyebrow">🧠 Mneme · the memory that learns</p>
+            <h2>One memory for all your agents</h2>
             <p>
-              When an agent finishes a chunk of work, Termpolis quietly distills what it learned
-              &mdash; the fix, the decision, the gotcha &mdash; plus its own track record into the
-              brain, so the fleet gets smarter the more you use it. Automatic for Claude and Codex
-              (from their session transcripts); Gemini, whose sessions Termpolis can&rsquo;t read, is
-              asked at launch to record its own lessons with <code>memory_write</code>.
+              Every AI session normally starts cold, so you re-explain the project and pay tokens to
+              reload it. Mneme reads your past sessions, keeps what matters, and gives every agent the
+              relevant part when it needs it.
             </p>
-          </article>
-          <article class="card">
-            <h3>One memory, three agents</h3>
-            <p>
-              Claude, Codex and Gemini read and write the same store over the built-in MCP server
-              (<code>memory_search</code> / <code>memory_write</code> / <code>memory_list</code>).
-              A fact Claude figures out is instantly available to Codex &mdash; no copy-paste, no
-              re-discovery.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Survives close &amp; reopen</h3>
-            <p>
-              Memories and their vectors are persisted as JSONL on disk
-              (<code>swarm-memory.jsonl</code> in the Termpolis data directory, encrypted line by line by
-              default, with the knowledge graph&rsquo;s edges in <code>memory-graph.jsonl</code>) &mdash; a
-              portable log, no native database to install. Embeddings and edges reload at
-              startup, so you can quit Termpolis, reopen it tomorrow &mdash; the context is still there.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Feeds itself, automatically</h3>
-            <p>
-              A background indexer ingests your past Claude and Codex transcripts (and older Gemini CLI ones) on a quiet
-              timer (10&nbsp;s after launch, then every 30&nbsp;min). It's idempotent &mdash; only
-              genuinely new content is embedded &mdash; so the brain grows with zero effort.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Fully offline. No server. No secrets.</h3>
-            <p>
-              Embeddings run in-process via WASM with a bundled <code>bge-small-en-v1.5</code>
-              model &mdash; no Ollama, no native binaries, nothing leaves your machine. The indexer
-              reuses the sensitive-file denylist, so <code>.env</code> files, keys, and credentials
-              are never embedded.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Each computer keeps its own memory</h3>
-            <p>
-              Memory isn&rsquo;t shared between computers automatically. To use what another of
-              your computers knows, <a href="#linked">link the two</a>: your agent asks an agent over
-              there, which starts with a digest of that machine&rsquo;s memory, can search that memory and
-              its code graph read-only, and works on its files. Sharing one memory
-              store through a synced folder is unavailable in this version while it is rebuilt, so
-              that it can never lock or overwrite a computer&rsquo;s memory.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Portable: export your whole brain to a .zip</h3>
-            <p>
-              New in <strong>v1.21</strong>: <strong>Export Memory</strong> writes your entire brain
-              &mdash; memories, the knowledge graph, learning stats, and the code graph &mdash; to a
-              single integrity-checked <code>.zip</code> you can back up or carry anywhere.
-              <strong>Import Memory</strong> verifies every file&rsquo;s hash before merging it in
-              (grow-only, so it never clobbers an existing brain). A manual, portable snapshot
-              you control.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Encrypted at rest, key in your keychain</h3>
-            <p>
-              A local store is <strong>encrypted by default</strong> with <strong>AES-256-GCM</strong>
-              under a per-device key generated into your OS keychain (Windows DPAPI / macOS Keychain /
-              Linux libsecret) &mdash; no passphrase, and where no keychain is available it stays
-              plaintext rather than faking it. The key is never overwritten: if this computer can&rsquo;t
-              open it (a locked keyring, a password reset), memory comes up <strong>locked</strong> &mdash;
-              nothing is lost and no new memory is saved &mdash; and the Memory panel says why. With a
-              working keychain it can start a new key, keeping the old one in case it opens again. The
-              encryption covers the memory store itself, not every file beside it: memories that idle
-              consolidation moved to the cold archive (<code>swarm-memory.archive.jsonl</code>) before v1.53
-              can still be unencrypted there, the link graph and the corrections log (with the text of any
-              amended memory) are plain, and the memory audit log (<code>memory-audit.jsonl</code>) keeps
-              short, secret-redacted plaintext previews of what was stored.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Vector RAM, and an int8 toggle willing to say &ldquo;no&rdquo;</h3>
-            <p>
-              New in <strong>v1.25.5</strong>. Your vectors live in Mneme&rsquo;s own <strong>background process</strong>
-              (since v1.26), not on the thread that pumps the terminal, so on a normal start a large store
-              costs RAM, not <strong>typing lag</strong>. So <strong>Settings &rarr; Memory &amp; Learning &rarr;
-              Vector memory</strong> is a <strong>decision aid</strong>, not a bare toggle. It reads
-              your vector count once, when you open the tab or press Refresh, and recommends from
-              <em>that store</em>: under 256&nbsp;MB of vectors it says plainly that int8 is
-              <strong>not needed</strong>; above that it calls it <em>your call</em>, because it does not
-              measure your main thread and will not pretend to know whether the RAM is costing you anything. A control that only ever markets itself is an upsell,
-              not a tool. int8 is <strong>4&times; less vector RAM</strong>, <strong>off by
-              default</strong>, recall parity against the exact-float baseline is benchmarked and
-              CI-gated, and it is <strong>losslessly reversible</strong> &mdash; disk always keeps
-              exact floats, so this is an in-RAM representation, never a data migration.
-              <a href="docs.html#vector-memory">How it decides &rarr;</a>
-            </p>
-          </article>
-          <article class="card">
-            <h3>A brain that outgrew its own file format <span class="badge-new">v1.38</span></h3>
-            <p>
-              A 2.3&nbsp;GB memory store <strong>silently failed to load at all</strong>: Node's
-              <code>readFileSync</code> refuses any file over <strong>2&nbsp;GiB</strong>, the loader
-              swallowed the throw, and the pane cheerfully explained that your brain fills up as you
-              work. Shards are now <strong>streamed 8&nbsp;MiB at a time</strong> &mdash; 314,563
-              entries and 2.3&nbsp;GB decoded in about four seconds &mdash; and they
-              <strong>rotate at 1.5&nbsp;GB</strong>, so no single file can reach the ceiling again.
-              A shard that will not read is <strong>recorded and flagged in the pane</strong>:
-              &ldquo;failed to load&rdquo; must never render identically to &ldquo;new and empty.&rdquo;
-              Nothing is lost either way &mdash; compaction reads before it writes, so a shard it
-              cannot read is a shard it cannot overwrite.
-            </p>
-          </article>
-        </div>
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">How it works</p>
-          <h2>Capture → embed → store → recall → learn</h2>
-          <p>
-            <strong>1. Capture</strong> &mdash; your on-disk AI transcripts are parsed (tool-call,
-            reasoning, and system-prompt noise stripped) and split into chunks.
-            <strong>2. Embed</strong> &mdash; each chunk becomes a 384-dim vector locally, in
-            process, via <code>onnxruntime-web</code> (WASM). <strong>3. Store</strong> &mdash;
-            chunks and vectors persist in a durable on-disk log, deduplicated by content hash so
-            re-indexing is cheap. <strong>4. Recall</strong> &mdash; Claude, Codex or Gemini calls
-            <code>memory_search</code> over MCP and gets the most relevant past context back,
-            blending semantic vector search with keyword matching. <strong>5. Learn</strong> &mdash;
-            on task boundaries, sessions are distilled into reusable lessons and per-domain
-            self-competence, so what the fleet recalls keeps getting better. The result: stop
-            re-explaining context every session, and stop paying to reload it.
-          </p>
-        </div>
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">The learning loop</p>
-          <h2>Not just storage &mdash; a memory that gets smarter</h2>
-          <p>
-            Most &ldquo;AI memory&rdquo; is a bucket you write to and read from. Mneme runs a full
-            learning cycle on top of the store: it <strong>reflects</strong> on finished work,
-            <strong>consolidates</strong> while idle, <strong>reasons</strong> over how memories
-            connect, <strong>ranks</strong> recall by what has actually helped before, and
-            <strong>flags</strong>, when an agent asks, lessons two agents learned that contradict each other &mdash;
-            all local, and all but that last step automatic.
-          </p>
-        </div>
-        <figure style="margin:24px 0 8px;padding:0;">
-          <img src="assets/diagram-learning-loop.svg" alt="Mneme's learning loop: Reflect, Consolidate, Connect, Rank, Anticipate — repeating after every finished task so the shared memory keeps getting smarter." style="width:100%;height:auto;display:block;">
-        </figure>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>1 &middot; Reflect</h3>
-            <p>
-              When a task finishes &mdash; or a solo session pauses &mdash; Mneme distills the episode
-              into a reusable lesson (the problem, the fix or decision, the gotcha) and updates its own
-              per-domain track record. The extractor can misread an ordinary sentence as a lesson:
-              v1.50.1 tightened its rules and pushed the lessons it had stored by mistake down in
-              search, and an agent can correct a lesson that surfaces wrong with
-              <code>memory_correct</code>.
-              A flaky distiller model can never block the task.
-            </p>
-          </article>
-          <article class="card">
-            <h3>2 &middot; Consolidate &mdash; the &ldquo;sleep&rdquo; pass</h3>
-            <p>
-              Between tasks Mneme compresses the brain the way sleep consolidates memory: stale,
-              untagged, unconnected chatter decays out, near-duplicates merge, and dense clusters roll
-              up into summaries. It only ever <em>plans</em> compression and writes archival edges
-              &mdash; a tagged, linked, or important memory is never forgotten.
-            </p>
-          </article>
-          <article class="card">
-            <h3>3 &middot; Connect &mdash; reason over the graph</h3>
-            <p>
-              Typed edges aren&rsquo;t inert labels. At recall time a <em>solves</em> or
-              <em>caused-by</em> link pulls its neighbour up, a memory a newer one <em>supersedes</em>
-              is dropped so stale answers stop resurfacing, and a connection outside its valid time
-              window is skipped.
-            </p>
-          </article>
-          <article class="card">
-            <h3>4 &middot; Rank by what actually helped</h3>
-            <p>
-              Recall doesn&rsquo;t rank on similarity alone. It fuses semantic relevance, recency,
-              <strong>importance</strong> (a distilled lesson outranks raw chatter), and how often a
-              memory has proven useful &mdash; then a diversity rerank keeps near-identical hits from
-              crowding out varied context, with a floor so a thin recall never starves the agent.
-            </p>
-          </article>
-          <article class="card">
-            <h3>5 &middot; Anticipate</h3>
-            <p>
-              Before you solve a task, <code>memory_anticipate</code> surfaces the solutions the fleet
-              already found for it, <code>memory_pool</code> gathers what two or more agents
-              independently arrived at (the most-corroborated knowledge), and
-              <code>memory_selfcheck</code> reports calibrated confidence from past outcomes &mdash; so
-              the agent starts already knowing what the fleet knows.
-            </p>
-          </article>
-          <article class="card">
-            <h3>6 &middot; Reconcile &mdash; catch cross-agent contradictions</h3>
-            <p>
-              New in <strong>v1.19.5</strong>: <code>memory_conflicts</code> scans the shared brain
-              for pairs of lessons that <em>different</em> agents learned that assert opposite things
-              about the same subject &mdash; one agent says &ldquo;always run migrations before
-              seeding,&rdquo; another &ldquo;never.&rdquo; It surfaces the disagreement so you can
-              resolve it (keep the winner, mark the loser with a <code>supersedes</code> link).
-              Read-only and deliberately high-precision &mdash; it would rather miss a subtle conflict
-              than raise a false one.
-            </p>
-          </article>
-        </div>
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">🕸 New in v1.23 &middot; The Weave</p>
-          <h2>One fabric across memory, code, and every repo</h2>
-          <p>
-            v1.23 weaves the brain and the code graph into a single fabric. Recall stops being just
-            <em>text</em> and starts pointing at the <em>code</em> a lesson is about &mdash; and the
-            non-obvious connections across your whole workspace are drawn <strong>ahead of time</strong>,
-            so agents reason faster.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Memory &harr; code bridge</h3>
-            <p>
-              Stored lessons and decisions now carry structured <strong>code anchors</strong> (file +
-              symbol), so recall crosses straight from &ldquo;this is how we fixed the auth bug&rdquo; to
-              the exact function it lives in &mdash; and, in reverse, from a function to everything the
-              brain knows about it. The two stores used to be islands; now they share a key.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Predict where to fix it</h3>
-            <p>
-              Hand <code>code_locate</code> an error or a problem description and it returns a ranked list
-              of <code>{file, symbol, why:[past lessons]}</code> &mdash; the code most likely responsible,
-              each with the fixes and decisions that point there. The 32nd MCP tool, so an agent reaches
-              for it <em>first</em> when debugging instead of grepping blindly.
-            </p>
-          </article>
-          <article class="card">
-            <h3>The Weave &mdash; a background connection-miner</h3>
-            <p>
-              While you&rsquo;re idle, a weaver continuously draws connections across the <em>entire</em>
-              unified brain: <strong>cross-repo code-structure analogies</strong>, cross-repo
-              answer/decision analogies, and the bridge edges above &mdash; materialized ahead of time
-              with provenance and a weight floor so the graph stays high-signal. The connections are
-              already there when an agent needs them.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Per-repo graph &amp; a memory that never deletes</h3>
-            <p>
-              The code graph is now keyed <strong>per repository</strong> &mdash; a second repo no longer
-              clobbers the first, and each repo&rsquo;s durable on-disk store means a transient non-git
-              directory won&rsquo;t wipe it. And idle consolidation moves aged memories to a
-              <strong>cold-archive tier</strong> instead of
-              deleting them, so nothing curated is ever lost: archived memories stay on disk in
-              <code>swarm-memory.archive.jsonl</code>, though recall no longer searches them.
-            </p>
-          </article>
-        </div>
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">🌱 New in v1.25 &middot; Learns from what you ship</p>
-          <h2>Real work is the training signal</h2>
-          <p>
-            A brain that only learns from its own chatter is a brain that flatters itself. In
-            v1.25 the learning loop is fed by the things that are actually true or false about
-            your work &mdash; a commit that landed, a test suite that passed or failed &mdash;
-            and the code graph it has been quietly building is finally something you can see.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Competence calibrates on commits &amp; tests</h3>
-            <p>
-              Self-competence used to learn only from swarm tasks, so if you worked solo the
-              &ldquo;competence by domain&rdquo; panel simply sat empty. Now a <strong>landed
-              commit</strong> and a <strong>test run &mdash; passing <em>or</em> failing</strong>
-              &mdash; both feed the calibration. The failing suite is the important half: it is
-              what moves confidence <em>down</em>, and a self-assessment that can only go up
-              isn&rsquo;t calibration, it&rsquo;s flattery.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Code connections, finally visible</h3>
-            <p>
-              Indexing a repo has always built a structural <strong>code graph</strong> (symbols,
-              plus call and reference edges) &mdash; but the dashboard only ever counted the
-              <em>semantic memory</em> graph, so &ldquo;connections&rdquo; could read empty on a
-              fully indexed repo. A new <strong>Code connections</strong> tile surfaces the real
-              code graph beside it: two graphs, two honest counts.
-            </p>
-          </article>
-          <article class="card">
-            <h3>The Weave: &ldquo;what is this code <em>for</em>?&rdquo;</h3>
-            <p>
-              A new typed <code>explains</code> edge links the memory that <em>explains</em> a
-              piece of code to the code chunk itself &mdash; so recall can answer &ldquo;why is
-              this function like this?&rdquo; with the decision that made it. The edge only mints
-              when <strong>both</strong> the embedding similarity <em>and</em> a shared
-              file/symbol anchor agree, so a merely chatty neighbour can&rsquo;t claim to explain
-              code it never touched. Analogies now also mint <strong>within</strong> a repo
-              (previously cross-repo only), with the similarity floor relaxed
-              0.82&nbsp;&rarr;&nbsp;0.72.
-            </p>
-          </article>
-        </div>
-        <figure class="dashboard-preview">
-          <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-memory-dashboard.png" data-lightbox-alt="Sample-data preview of the Termpolis Memory & Learning dashboard, full view — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts." aria-label="Open the full Memory &amp; Learning dashboard preview">
-            <img src="assets/screenshot-memory-dashboard.png" width="2096" height="5162" loading="lazy" alt="Sample-data preview of the Termpolis Memory & Learning dashboard — store composition by cognitive type, a live force-directed knowledge graph, learning over time, reliability SLIs, model portability, cross-agent teaching, and receipts.">
-            <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View the full dashboard</span>
-          </button>
-          <figcaption class="dashboard-caption">A <strong>sample-data preview</strong> of the <strong>Memory &amp; Learning</strong> dashboard (Settings) &mdash; what's stored by cognitive type, the live knowledge graph, learning over time, reliability, cross-agent teaching, and receipts. The shipped tab differs in places: no Qwen Code agent, no contradictions tile, no AES-256 badge. <strong>In the app, every number is computed on your machine, offline, from the local store.</strong></figcaption>
-        </figure>
-      </section>
-
-      <!-- PROOF -->
-      <section id="proof" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🔬 Proof, not claims</p>
-          <h2>Measured &mdash; and reproducible &mdash; against the tools you'd compare us to</h2>
-          <p>
-            Don't take our word for it. Every number below is produced by a test in the open-source
-            repo that runs against the <strong>real on-device model in CI</strong> and
-            <strong>fails the build if it breaks a guard</strong> (recall, nDCG or MRR more than 0.04 below the committed baseline, lookup over 200&nbsp;ms, leverage under 3&times;) &mdash; reproduce them yourself with
-            <code>bash scripts/download-embedding-model.sh</code> (fetches the model; needs Python&nbsp;3), then <code>npm run bench:proof</code> and <code>npm run bench:recall</code>. Competitor
-            capabilities are sourced from each vendor's public docs as of <strong>July&nbsp;2026</strong>
-            (marks: ✅&nbsp;ships, ⚠&nbsp;partial&nbsp;/&nbsp;opt-in&nbsp;/&nbsp;preview, ❌&nbsp;not&nbsp;available).
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>~20&nbsp;ms lookup</h3>
-            <p>Median local semantic recall (p50) over a 180-memory store &mdash; and it never leaves your machine. Verify: <code>npm run bench:proof</code>.</p>
-          </article>
-          <article class="card">
-            <h3>0.97 recall@10</h3>
-            <p>The right memory lands in the top&nbsp;10 for <strong>97% of queries</strong>
-              (nDCG&nbsp;0.80, MRR&nbsp;0.74) on a 34-query labeled set. Verify: <code>npm run bench:recall</code>.</p>
-          </article>
-          <article class="card">
-            <h3>38&times; token leverage</h3>
-            <p>One recall hands the agent <strong>~305 tokens of relevant context</strong> for an
-              ~8-token query &mdash; context you'd otherwise re-type or re-read <em>every</em> session.</p>
-          </article>
-          <article class="card">
-            <h3>It learns &amp; relates</h3>
-            <p>Mark a memory unhelpful three times and it <strong>leaves recall</strong>; a bug and its fix become a
-              <strong>typed, traversable link</strong> (<code>bug&nbsp;&rarr;&nbsp;solved-by&nbsp;&rarr;&nbsp;fix</code>). Both measured, both gated.</p>
-          </article>
-          <article class="card">
-            <h3>Sub-linear at scale</h3>
-            <p>Past ~50k memories a pure-TypeScript <strong>HNSW</strong> approximate-nearest-neighbour
-              index engages automatically &mdash; the same class of index behind Pinecone, Weaviate and
-              pgvector, but <strong>native-free and 100% local</strong>. (Smaller stores use an exact scan;
-              the ~20&nbsp;ms above is that exact path.)</p>
-          </article>
-        </div>
-        <div class="section-heading" style="margin-top:52px;">
-          <p class="eyebrow">Head to head</p>
-          <h2>Memory &amp; learning vs Claude Code, OpenAI Codex &amp; Antigravity</h2>
-          <p>
-            The real gap isn't speed alone &mdash; it's that a persistent, <em>learning</em> memory with
-            <em>typed relationships</em>, shared across your Claude, Codex and Gemini agents and running <em>fully local</em>, is
-            something the incumbents structurally don't have. Their memory is stored facts / notes /
-            grep&#8209;able files, not a brain that ranks by feedback and models how things connect.
-          </p>
-        </div>
-        <div class="compare-table-wrapper" style="overflow-x:auto;border:1px solid #2a2a2e;border-radius:14px;">
-          <table class="compare-table" style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:860px;">
-            <thead>
-              <tr style="background:#1a1a1e;text-align:left;">
-                <th scope="col" style="padding:14px 18px;border-bottom:1px solid #2a2a2e;">Memory &amp; learning capability</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">Termpolis</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Claude&nbsp;Code</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">OpenAI&nbsp;Codex</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Antigravity</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Persistent cross-session memory</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ local JSONL, survives restart</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">✅ <code>CLAUDE.md</code> files</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ opt-in preview</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ preview, ~20-item cap</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Semantic recall of memory (by meaning)</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ on-device embeddings (0.97)</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ loads <code>CLAUDE.md</code> verbatim</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ greps <code>MEMORY.md</code></td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ notes (semantic over <em>code</em> only)</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Learns from feedback (demote / reinforce)</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ measured</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ static instructions</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ no feedback ranking</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ static notes</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Typed relationship graph (bug&rarr;fix, decision&rarr;superseded)</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ traversable, measured</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat markdown</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ flat files</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ code graph &ne; memory graph</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Memory anchored to the code it explains</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ typed <code>explains</code> edge</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ prose, no code anchor</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ prose, no code anchor</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ notes don't link into the code graph</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #2a2a2e;">Shared across <em>all</em> your agents</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">✅ Claude + Codex + Gemini</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ Claude-only (its own <code>CLAUDE.md</code>)</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">❌ OpenAI-only</td>
-                <td style="padding:12px;border-bottom:1px solid #2a2a2e;">⚠ in-app models only</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;">100% local / offline / no telemetry unless you opt in</td>
-                <td style="padding:12px;color:#7ee2a3;">✅ on-device WASM, no server</td>
-                <td style="padding:12px;">❌ cloud model</td>
-                <td style="padding:12px;">❌ cloud</td>
-                <td style="padding:12px;">❌ cloud</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="font-size:12.5px;opacity:0.72;margin-top:14px;">
-          The Termpolis recall, feedback and bug&rarr;fix cells are backed by reproducible tests (<code>npm run bench:proof</code>,
-          <code>npm run bench:recall</code>) that gate CI. Competitor cells sourced July&nbsp;2026 from
-          <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noreferrer">Claude Code memory docs</a>,
-          <a href="https://developers.openai.com/codex/memories" target="_blank" rel="noreferrer">Codex Memories docs</a>, and
-          <a href="https://antigravity.google/docs/knowledge" target="_blank" rel="noreferrer">Antigravity Knowledge docs</a>.
-          Spot something out of date? <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">File an issue</a> and we'll fix it.
-        </p>
-      </section>
-
-      <!-- SECOND OPINION -->
-      <section id="second-opinion" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🔀 Second Opinion</p>
-          <h2>Have a different agent double-check the last answer</h2>
-          <p>
-            Every model has blind spots. From any AI terminal, hand the most recent answer to a
-            <strong>different</strong> agent for a fast, read-only critique &mdash; the feedback is pasted
-            right back into your terminal, ready to send to your primary agent or just read and discard.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Pick any installed agent and model</h3>
-            <p>A <strong>Second Opinion</strong> dropdown on each AI terminal has one group per agent you have installed &mdash; <strong>Claude</strong>, <strong>OpenAI Codex</strong>, <strong>Gemini</strong> &mdash; each listing that agent's own models: Claude's always-latest <strong>Fable &middot; Opus &middot; Sonnet &middot; Haiku</strong>, and whichever models your installed Codex and Gemini CLIs currently offer. So while you drive Opus, you can have <strong>Fable</strong> &mdash; or a specific Codex or Gemini model &mdash; sanity-check the last solution.</p>
-          </article>
-          <article class="card">
-            <h3>It reviews the real, recent work</h3>
-            <p>Termpolis captures the terminal's most recent output, asks the chosen agent to review the latest solution or approach, and injects its concise feedback back as an <strong>unsent block</strong> &mdash; you decide whether to act on it.</p>
-          </article>
-          <article class="card">
-            <h3>Read-only &amp; safe by design</h3>
-            <p>A review needs no file access, so it runs the agent in one-shot headless mode, read-only as the CLI itself enforces it &mdash; Claude in plan mode with no tools, Codex in its read-only sandbox, <code>agy</code> in plan mode &mdash; so nothing it says touches your repo. The captured text is never parsed by a shell &mdash; it reaches the agent as a single argument (on Windows, via a temp file), so a prompt scraped from your terminal can't inject a command.</p>
-          </article>
-          <article class="card">
-            <h3>Only what's installed shows up</h3>
-            <p>The menu reflects real install detection and appears only on AI terminals. Gemini runs through the <strong>Antigravity CLI (<code>agy</code>)</strong>, its current headless entry point.</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- LINKED MACHINES -->
-      <section id="linked" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🔗 New in v1.50 &middot; Linked machines</p>
-          <h2>Your agents can work together across your computers</h2>
-          <p>
-            Link two Termpolis desktops, and an agent on one can have a Claude, Codex or Gemini agent
-            on the other do a task and hand back its final answer. It works in both directions, across
-            any network, encrypted end to end. Ask Claude on your laptop to <em>&ldquo;have Codex on
-            linux run the integration tests and summarise the failures,&rdquo;</em> and fix them here
-            once the summary comes back. Nothing is typed into a terminal, and no terminal opens on
-            either machine.
-          </p>
-          <p>
-            It is <strong>off by default</strong>, and each computer decides what the other may do on
-            it. Read-only is the default; editing files and running commands stays off until you
-            grant it, per machine.
-          </p>
-        </div>
-        <figure style="margin:24px 0 8px;padding:0;">
-          <img src="assets/diagram-linked-machines.svg" alt="How Linked machines works: your agent calls the linked_machines tool; the request crosses an encrypted relay as sealed frames the relay can't read; your other computer checks the link and its permissions, runs a fresh headless agent in the folder you named, and sends the final answer back sealed. An answer that looks like a prompt injection arrives flagged as untrusted data." style="width:100%;height:auto;display:block;">
-        </figure>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>1 &middot; Pair once</h3>
-            <p>
-              Turn on <em>Settings &rarr; Linked machines</em> on both computers. One makes a code that
-              works <strong>once</strong> and expires in <strong>5 minutes</strong>; you paste it on the
-              other. Both screens then show the same <strong>eight safety words</strong>, worked out from
-              the two computers&rsquo; keys. Click <em>They match &mdash; link</em> on each, and name the
-              machine whatever you like: &ldquo;linux&rdquo;, &ldquo;studio Mac&rdquo;. Treat the code
-              like a one-time password: if the other screen shows no words, or different ones, cancel.
-            </p>
-          </article>
-          <article class="card">
-            <h3>2 &middot; Your agent decides when to ask</h3>
-            <p>
-              There is no scheduler splitting your work. Your agent gets one tool,
-              <code>linked_machines</code>, and uses it the way it uses any tool: when you ask, or when
-              it judges a task belongs on the other computer &mdash; Codex is blocked on this network, or
-              the repo, the GPU or the test environment is over there. It lists the machines to see which
-              agents each has and what it may do there, then sends a self-contained task.
-            </p>
-          </article>
-          <article class="card">
-            <h3>3 &middot; The other computer checks, then runs it</h3>
-            <p>
-              Before any agent starts, the computer doing the work checks that you confirmed the link on
-              it, that the asking machine may run agents there (and edit, if asked), that the folder
-              exists, and that it isn&rsquo;t busy. Then it runs a <strong>fresh headless agent</strong>
-              in that folder, starting from that computer&rsquo;s own memory and able to search it and its
-              code graph, read-only. It doesn&rsquo;t stop to ask
-              you: the permissions you set are the decision. It does tell you: each job another computer
-              starts there shows a notification (unless you turn that off), sits under <em>Activity</em> on both computers with a
-              <em>Stop</em> button on the one doing the work, and goes into a job history kept across
-              restarts.
-            </p>
-          </article>
-          <article class="card">
-            <h3>4 &middot; The answer comes back</h3>
-            <p>
-              The other agent&rsquo;s final message returns as an ordinary tool result, after up to 45
-              seconds, or as a job id your agent checks back on. Every answer arrives labelled as data from
-              another computer, not instructions, and is scanned on arrival: one that looks like a prompt
-              injection is flagged as untrusted. Vendor tokens and private keys don&rsquo;t cross: prompts
-              and answers are screened on both computers, and a token whose own shape names it or a
-              private-key block is removed on the way. Anything that only looks like a credential (a
-              password in code, a database URL, a JWT, an AWS secret key) is left in, and your agent is
-              told which rules matched.
-              Your agent reviews the answer like any other. Code moves between the machines through Git, as
-              usual.
-            </p>
-          </article>
-        </div>
-
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">🔒 How Linked machines is secured</p>
-          <h2>Encrypted end to end, read-only by default, and every limit named</h2>
-          <p>
-            Linked machines reuses the trust stack built for <a href="#mobile">Termpolis Remote</a>: the
-            same key agreement, the same sealing and the same untrusted relay. A link carries agent jobs
-            and nothing else: it can&rsquo;t list, read or type into your terminals, and it gets none of a
-            phone&rsquo;s abilities.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>The relay can&rsquo;t read your prompts or answers</h3>
-            <p>
-              Prompts, answers, folders and machine names are sealed with
-              <strong>ChaCha20-Poly1305</strong> under keys from an <strong>X25519</strong> key agreement
-              between your two computers. Every connection gets <strong>fresh session keys</strong>, so
-              prompts and answers recorded today can&rsquo;t be decrypted later. Termpolis connects only
-              through an encrypted <code>wss://</code> relay (plain <code>ws://</code> only to one on the same
-              computer), for codes and for every reconnect, and the relay&rsquo;s source is in the
-              Termpolis repo if you&rsquo;d rather run your own. <strong>Limit:</strong> the relay sees both computers&rsquo;
-              IP addresses, a room id, the size and timing of each frame, and each frame&rsquo;s
-              unencrypted header (public keys while connecting, a counter). Each agent&rsquo;s AI
-              provider sees that agent&rsquo;s task and answer, as it always does.
-            </p>
-          </article>
-          <article class="card">
-            <h3>You check the link yourself</h3>
-            <p>
-              The eight safety words come from the two computers&rsquo; keys, so they match only if
-              nothing sits in the middle. A computer runs nothing for another until you confirm the words
-              <strong>on that computer</strong>, and your agent won&rsquo;t send work to a machine you
-              haven&rsquo;t confirmed. <strong>Limit:</strong> the pairing code is a one-time password for
-              five minutes. Whoever uses it first can ask to link, so compare the words, and cancel if the
-              other screen shows none or different ones.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Checked where the work happens</h3>
-            <p>
-              Permissions are enforced by the computer that would do the work, before any agent starts.
-              Read-only starts agents only in their own read-only modes: Claude limited to reading and
-              searching, Codex in its read-only sandbox, Gemini in plan mode. Each can also search that
-              computer&rsquo;s memory and code index through read-only Termpolis tools (Codex and Gemini once that computer&rsquo;s agents are connected to Termpolis), and gets nothing
-              else of Termpolis&rsquo;s: no memory writes, no terminals, and no passing the job on to another
-              machine. Turning a permission off stops
-              the jobs it allowed, and unlinking stops all of that machine&rsquo;s jobs.
-              <strong>Limit:</strong> read-only still
-              lets an agent read any file you can read on that computer and send it back, and Codex and
-              Gemini keep any other MCP servers you gave them. <em>Edit</em> runs the agent unattended, as
-              you: Claude and Gemini get full access, and Codex works in its sandbox with the network off
-              (on Windows, treat it as full access too). It is turned on only from a linked computer&rsquo;s
-              row, once you have confirmed its words, after a panel says what it allows. Grant it only to
-              a machine you trust as much as that one.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Never pre-approved, and bounded</h3>
-            <p>
-              Termpolis never pre-approves the tool, so a Claude Code session asks you before using it,
-              and agents and workflow steps together can call it at most 30 times a minute. Each computer
-              runs at most 2 jobs for any one machine and 4 in all, and a job stops after 15 minutes by
-              default. <strong>Limit:</strong> a session that skips permission prompts won&rsquo;t ask,
-              and the computer doing the work doesn&rsquo;t ask per job. It notifies you instead (unless you
-              turn that off), and keeps a job history (<code>linked-jobs.jsonl</code>) of the jobs (who,
-              which agent, which folder, the task&rsquo;s first line, how it ended) and the refusals, never
-              the whole prompt or the answer.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <!-- MOBILE -->
-      <section id="mobile" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">📱 Termpolis Remote &middot; on the App Store</p>
-          <h2>Your agents keep working. Now you can watch them from anywhere.</h2>
-          <p>
-            Work does not stop because you left the desk. It stops because an agent hit a
-            question at 4pm and nobody was there to answer it. <strong>Termpolis Remote</strong> is
-            an iPhone app that shows the terminals running in Termpolis on your computer and types
-            into them, end to end encrypted &mdash; so a three-hour block becomes a ten-second reply.
-          </p>
-          <p>
-            Linked machines lets your <em>agent</em> hand work to another computer. Remote puts
-            <em>you</em> in front of this one: the phone is a screen and a keyboard for the terminals
-            on your desktop, and nothing runs on the phone itself. The two share the relay and the
-            way they pair, but each has its own switch, its own pairings and its own permissions. A
-            phone can&rsquo;t reach a linked computer directly, and a linked computer can&rsquo;t see
-            your terminals.
-          </p>
-        </div>
-        <figure style="margin:24px 0 8px;padding:0;">
-          <img src="assets/diagram-remote.svg" alt="How Termpolis Remote works: the phone lists your terminals in Termpolis on your computer, shows their output and types into the one you open. Everything crosses a relay sealed end to end; the relay passes the frames along without being able to read them. Your computer checks the phone's pairing and permissions on every request, types what you sent into the real terminal, and streams the output back while your agents keep running there." style="width:100%;height:auto;display:block;">
-        </figure>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>1 &middot; Pair once</h3>
-            <p>
-              On the desktop, open <em>Settings &rarr; Remote</em>, tick <em>Allow phones to
-              connect</em>, choose what the phone may do and click <em>Pair a device</em>. Scan the QR
-              code with the app: it works <strong>once</strong>, within <strong>90 seconds</strong>.
-              Both screens then show the same <strong>eight safety words</strong>. If they don&rsquo;t
-              match, revoke the phone on the desktop. One phone can pair with up to 16 desktops, each
-              with its own key.
-            </p>
-          </article>
-          <article class="card">
-            <h3>2 &middot; The desktop decides what the phone may do</h3>
-            <p>
-              Four permissions, per phone: read terminal output, start terminals, type into
-              terminals, close terminals. Only <em>Read terminal output</em> is ticked to begin with. Change any of
-              them later in the phone&rsquo;s row, and the change takes effect at once. The desktop
-              checks them on every request; the phone can show what it has been allowed, but it
-              can&rsquo;t grant itself anything.
-            </p>
-          </article>
-          <article class="card">
-            <h3>3 &middot; Watch, then answer</h3>
-            <p>
-              The app lists the terminals in that desktop&rsquo;s sidebar; swarm workers, and terminals you start from the phone once you leave them, aren&rsquo;t included. Open
-              one and its output streams in as it is printed, in colour, with what the agent is doing
-              shown above it. With <em>Type into terminals</em> allowed, type a reply and tap
-              <em>Send</em>: Termpolis types it into the real session and presses Enter. With
-              permission to start terminals, you can also launch Claude, Codex or Gemini in a folder
-              you pick on the desktop.
-            </p>
-          </article>
-          <article class="card">
-            <h3>4 &middot; The work stays on your computer</h3>
-            <p>
-              Your agents run on the desktop, signed in as they already are. The phone holds no
-              agent, no API key and no account, and it keeps output in memory only. Put the phone
-              away and the agents carry on; the app reconnects when you open it again.
-            </p>
-          </article>
-        </div>
-
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">🔒 How Remote is secured</p>
-          <h2>Sealed end to end, and the desktop stays in charge</h2>
-          <p>
-            Remote is <strong>off by default</strong>. It uses the same key agreement, the same
-            sealing and the same untrusted relay as Linked machines. Here is what each layer
-            protects, and where it stops.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>The relay can&rsquo;t read your terminals</h3>
-            <p>
-              What you type, what your terminals print, their names and your folders are sealed with
-              <strong>ChaCha20-Poly1305</strong> under keys from an <strong>X25519</strong> key
-              agreement between your phone and your desktop. Every connection gets <strong>fresh
-              session keys</strong>, and the phone connects only over <code>wss://</code>.
-              <strong>Limit:</strong> the relay sees both IP addresses, when each side connects, a
-              room id that stays the same while the phone is paired, the size and timing of every
-              frame, and each frame&rsquo;s unencrypted header (public keys while connecting, a
-              counter).
-            </p>
-          </article>
-          <article class="card">
-            <h3>You check the pairing yourself</h3>
-            <p>
-              The desktop&rsquo;s key reaches the phone only through the QR code on its screen, so the
-              relay can&rsquo;t step into a pairing it never saw. The eight safety words come from the
-              two devices&rsquo; keys and don&rsquo;t change while the pairing lasts, so you can compare
-              them again at any time. <strong>Limit:</strong> for its 90 seconds, the code works for
-              whoever scans it first, including through a screen share or a recording, and the
-              permissions you ticked apply straight away. Pair where nobody else can see the screen,
-              and revoke any phone you don&rsquo;t recognise.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Checked on the desktop, every time</h3>
-            <p>
-              Each request is checked against that phone&rsquo;s permissions before anything happens.
-              The phone&rsquo;s own requests reach your terminals, plus a folder browser for starting
-              one, and never your memory, your swarm or your other tools. <strong>Limit:</strong>
-              <em>Type into terminals</em> is a keyboard, so what the phone types runs as you, and an
-              agent it types to can use every tool that agent has. Claude and Gemini terminals started
-              from the phone run with their permission prompts skipped, and Codex with approvals off,
-              as swarm workers do. Grant <em>Start terminals</em> and <em>Type into terminals</em> only to a phone you trust as much as the desktop.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Nothing runs on the phone</h3>
-            <p>
-              No agent, no model credentials, no account, no analytics, no crash reporter. The app
-              never writes output to disk, and the phone&rsquo;s key for each desktop stays in the
-              iPhone&rsquo;s Keychain, usable only while the phone is unlocked. Unpairing on the phone works
-              offline, and revoking on the desktop cuts the phone off at once.
-              <strong>Limit:</strong> a revoked phone isn&rsquo;t told; it just sees the desktop as
-              offline. The desktop also forgets a phone it hasn&rsquo;t heard from in 30 days.
-            </p>
-          </article>
-        </div>
-        <aside class="companion-strip" style="margin-top:24px;">
-          <span class="platform-dot phone" aria-hidden="true"></span>
-          <div>
-            <h3>Free to install &middot; iPhone, iOS 16.4+</h3>
-            <p>Relay access is <strong>$4.99 a month</strong> with the first week free. The desktop
-            app stays free and open source. Android follows.</p>
+            <ul class="detail-list">
+              <li><strong>Learns from every session.</strong> When a Claude or Codex agent finishes a task, the fix, the decision or the gotcha is saved as a lesson the others can use. Gemini is asked to record its own.</li>
+              <li><strong>Gets better with use.</strong> Memories that help rank higher, ones that don't fade, and contradictions between agents are flagged.</li>
+              <li><strong>Knows your code.</strong> A local code graph lets agents find callers and see what a change would break before they edit.</li>
+              <li><strong>Private by default.</strong> Embeddings run on your computer, the store is encrypted with a key in your OS keychain, and you can export it all to a .zip.</li>
+            </ul>
+            <p class="read-more"><a href="docs.html#memory">How the memory works &rarr;</a></p>
           </div>
-          <div class="strip-actions">
-            <a class="button" href="https://apps.apple.com/us/app/termpolis-r/id6809306362" target="_blank" rel="noreferrer">Get it on the App Store</a>
-            <a class="button button-secondary" href="/mobile/">Setup &amp; support</a>
-          </div>
-        </aside>
+          <figure class="pillar-media">
+            <img src="assets/diagram-mneme.svg?v=20261008b" alt="How Mneme works: Claude, Codex and Gemini write to and recall from one local memory that distills lessons from each session." loading="lazy">
+          </figure>
+        </div>
       </section>
 
-      <!-- TOKEN HEADROOM -->
+      <!-- PILLAR 2: TOKENS -->
       <section id="headroom" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">⚡ Updated in v1.38 &middot; Token Headroom</p>
-          <h2>Compress what Claude Code sends &mdash; and cut your burn rate</h2>
-          <p>
-            Long sessions hit rate limits and compaction fast, and the biggest culprit is the
-            <strong>file reads, command output, and pasted images</strong> the agent ships to the model every
-            turn. Token Headroom compresses that traffic <strong>before it reaches Anthropic</strong>, so you
-            get more work done per session before you hit a wall &mdash; and it shows you the receipt.
-          </p>
-        </div>
-        <div class="headroom-shots">
-          <figure class="dashboard-preview shot-preview">
-            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings.png" data-lightbox-alt="Termpolis Settings → Token Savings: net tokens saved all-time, the same saving measured three ways, the floor check, the untouched prefix, output steering, and the Claude Code compression card." aria-label="Open the Token Savings receipt screenshot full size">
-              <img src="assets/screenshot-token-savings.png" width="1368" height="912" loading="lazy" alt="Token Savings settings tab: 1,531,703,480 tokens saved all-time, and the same saving stated three ways — 50% of compressible text, 11% of all input tokens, 8% of effective cost.">
+        <span id="model-per-message" class="anchor-alias" aria-hidden="true"></span>
+        <div class="pillar pillar-flip">
+          <div class="pillar-copy">
+            <p class="eyebrow">⚡ Token Headroom · spend less per task</p>
+            <h2>Get more work out of every session</h2>
+            <p>
+              The biggest cost in a long session isn't your prompts. It's the file reads, command
+              output and screenshots sent back to the model on every turn. Termpolis cuts that on
+              your computer before it leaves.
+            </p>
+            <ul class="detail-list">
+              <li><strong>Compression on by default for Claude Code.</strong> A local proxy shrinks tool output and pasted images, never your words or the model's replies, and keeps the prompt cache intact.</li>
+              <li><strong>The right model for each message.</strong> Turn it on and each message goes to the model and effort it needs, decided on your machine in milliseconds.</li>
+              <li><strong>A fresh session when it pays.</strong> When starting over would halve the cost of each turn, the pane offers a Fresh session that carries a handoff note forward.</li>
+              <li><strong>An honest receipt.</strong> Savings are shown against compressible text, all input and your whole bill, so a big percentage is never mistaken for a big discount.</li>
+            </ul>
+            <p class="read-more"><a href="docs.html#headroom">How Token Headroom works &rarr;</a> &nbsp; <a href="docs.html#choosing-the-model">Model per message &rarr;</a></p>
+          </div>
+          <figure class="pillar-media">
+            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings.png" data-lightbox-alt="Termpolis Settings, Token Savings: tokens saved, and the same saving stated against compressible text, all input and effective cost." aria-label="Open the Token Savings screenshot full size">
+              <img src="assets/screenshot-token-savings.png" width="1368" height="912" loading="lazy" alt="Token Savings settings tab showing tokens saved and the saving stated three ways.">
               <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View full size</span>
             </button>
-            <figcaption class="dashboard-caption">
-              <strong>Settings &rarr; Token Savings.</strong> One real machine: <strong>1.53 billion tokens</strong>
-              removed all-time, stated against all three denominators at once &mdash; with the give-back from
-              every <code>retrieve_full</code> call subtracted rather than hidden.
-            </figcaption>
           </figure>
-          <figure class="dashboard-preview shot-preview">
-            <button type="button" class="dashboard-thumb" data-lightbox="assets/screenshot-token-savings-controls.png" data-lightbox-alt="The Claude Code compression card — tool results versus tool inputs, images compressed, prompt-cache health — followed by every Token Headroom control: compression tier, savings floor, history age-out, output-token steering and the extended-thinking budget cap." aria-label="Open the Token Headroom controls screenshot full size">
-              <img src="assets/screenshot-token-savings-controls.png" width="1368" height="912" loading="lazy" alt="The Claude Code compression card with prompt-cache health, above the Token Headroom controls: aggressiveness tier, 50% savings floor, history age-out, output steering and thinking-budget cap.">
-              <span class="dashboard-thumb-cue" aria-hidden="true">🔍 View full size</span>
-            </button>
-            <figcaption class="dashboard-caption">
-              The same pane, scrolled: the <strong>Claude Code compression proxy</strong> (on by default) with its own receipt and a
-              live <strong>prompt-cache health</strong> line, then every control &mdash; tier, savings floor,
-              history age-out, output steering, thinking-budget cap.
-            </figcaption>
-          </figure>
-        </div>
-        <div class="feature-grid" style="margin-top:28px;">
-          <article class="card">
-            <h3>On by default for Claude Code &mdash; and yours to switch off</h3>
-            <p>Claude Code agents launched from the sidebar, a workspace, Past AI Sessions or the swarm go through a <strong>local, off-thread compression proxy</strong> &mdash; its own process, never the UI/PTY thread &mdash; that forwards to <code>api.anthropic.com</code> and nowhere else. No setup, and one switch in <strong>Settings &rarr; Token Savings</strong> sends new sessions direct instead. Already route Claude Code yourself? If <code>ANTHROPIC_BASE_URL</code>, <code>HTTPS_PROXY</code> / <code>HTTP_PROXY</code> / <code>ALL_PROXY</code>, or a Bedrock / Vertex / Foundry switch is set &mdash; in Termpolis's environment or in the <code>env</code> block of Claude Code's own <code>settings.json</code> &mdash; the proxy <strong>steps aside</strong>: Claude Code keeps your route, nothing is compressed, and Settings names the variable it found. If it's ever unhealthy the launch goes <strong>direct</strong>, and a live session self-heals when the proxy recovers &mdash; so a hiccup costs you compression, <em>not</em> your agent.</p>
-          </article>
-          <article class="card">
-            <h3>It shrinks what actually costs you</h3>
-            <p>Verbose <strong>Bash output</strong>, large <strong>file Reads</strong>, <strong>fetched web pages</strong> (HTML stripped to its text), and <strong>pasted images</strong> (downscaled below the model's cap) are compressed deterministically &mdash; and a result <strong>repeated within a session collapses to a one-line reference</strong>. Since v1.34 a <em>near</em>-duplicate is sent as a <strong>patch against the earlier copy</strong>: read a file, edit three lines, read it again, and only those lines go over the wire. Originals are kept on disk (up to 200 MB, oldest aged out first), so the agent can call <code>retrieve_full</code> to pull a compressed result back when it needs the detail.</p>
-          </article>
-          <article class="card">
-            <h3>Code is outlined, not truncated <span class="badge-new">v1.35</span></h3>
-            <p>A head/tail line window throws away the middle of every file &mdash; usually the part the agent needed. Headroom <strong>outlines</strong> source instead: imports, declarations and every class/function <strong>signature</strong> survive, while bodies collapse to <code>&hellip; 24 lines &hellip;</code>. You keep the API surface of the <em>whole</em> file for a fraction of the bytes &mdash; this app's own <code>wireCompress.ts</code> outlines from 30,313 characters to 5,170, an <strong>82.9% cut with all 21 exported signatures intact</strong>. ~25 languages by file extension (39 extensions), brace- and indentation-delimited alike. It <strong>refuses to fire</strong> when the text isn't code, or when the outline wouldn't be meaningfully smaller.</p>
-          </article>
-          <article class="card">
-            <h3>JSON is compressed as JSON <span class="badge-new">v1.35</span></h3>
-            <p>A line window is nearly useless on JSON: minified payloads are one enormous line it can never split, and pretty-printed ones bury the interesting keys in the middle. Headroom understands the shape &mdash; long arrays keep their first entries and say how many were elided, long strings are truncated in place, deep nesting is pruned, and the survivors are re-emitted <strong>minified</strong>. It <strong>refuses the whole payload</strong> when a number is long enough to lose precision in a round trip: <code>12345678901234567890</code> silently becomes <code>&hellip;567000</code>, and a corrupted ID the agent <em>believes</em> is far worse than an uncompressed one.</p>
-          </article>
-          <article class="card">
-            <h3>What the agent <em>wrote</em> is never rewritten <span class="badge-new">v1.37.1</span></h3>
-            <p>A tool <em>result</em> is something the model watched happen &mdash; eliding it is safe, because the model knows it didn't write those bytes and can ask for them back. A tool <strong>input</strong> is not: those are bytes the model itself emitted, and it <strong>replays them verbatim into your files and shells</strong> on the next turn. Compressing them rewrote history, and an elision marker became a real artifact &mdash; <code>[headroom]: command not found</code> in a shell, a stray <code>&hellip;</code> in a source file. v1.37.1 stopped touching the artifact-bearing fields (<code>content</code>, <code>command</code>, <code>file_text</code>, <code>old_str</code>/<code>new_str</code>, <code>patch</code>), keyed on behaviour rather than on which client sits in front of the proxy, for <strong>~1.7% of measured savings</strong>. Since <strong>v1.49</strong> the proxy <strong>never rewrites any part of a tool call's input, at any age</strong> &mdash; a subagent prompt included, and aging out old history skips inputs too &mdash; because the model reuses its own earlier inputs as templates. Inputs are still <em>read</em> as dedup keys, so a result that reads back a file the agent just wrote still collapses. That is the right trade.</p>
-          </article>
-          <article class="card">
-            <h3>Prompt-cache safe &mdash; proven</h3>
-            <p>Naive compression <strong>busts</strong> Anthropic's prompt cache and costs you more. Headroom compresses <strong>deterministically</strong> &mdash; stash tokens are <strong>content hashes</strong>, not counters, so the same block gets the same token no matter what came before it. A dedicated suite asserts the compressed prefix is <strong>byte-identical across ten successive appends</strong>. One deliberate exception, on by default: aging out old history pays a cache rebuild when a conversation reaches 128 messages, and again each time it doubles, to shrink every later turn &mdash; and the pane above prints your live cache-read vs cache-create ratio, so you can check it on your own traffic.</p>
-          </article>
-          <article class="card">
-            <h3>Measured, not asserted</h3>
-            <p>4,183 real requests from one developer's own transcripts &mdash; <strong>35.2 GB of request bodies</strong> &mdash; replayed through the compressor. At the shipped default: <strong>61.0% of compressible tool text removed</strong>, median request <strong>61.4%</strong>, and <strong>93.8% of requests clear 50%</strong>. At the Maximum tier, <strong>72.3%</strong>. (Measured before v1.49 stopped compressing tool-call inputs.) A regression test fails the build if a threshold is ever loosened. The live all-time figure in the screenshot above is <strong>50%</strong> of about 3 billion compressible tokens (1.5 billion removed) &mdash; a different and much larger corpus, and it is the app's own running number rather than the lab's.</p>
-          </article>
-          <article class="card">
-            <h3>The receipt states its denominator <span class="badge-new">v1.34</span></h3>
-            <p>&ldquo;50% saved&rdquo; is meaningless without a base, so <strong>Settings &rarr; Token Savings</strong> shows all three honest ones side by side: the <strong>compressible wire text</strong> the compressor actually sees, <strong>all input tokens</strong> including the cached prefix re-read every turn, and <strong>effective cost</strong> after cache weighting &mdash; the smallest figure, and the only spendable one. Above, that reads <strong>50% / 11% / 8%</strong>. The last two are smaller by arithmetic, not by weakness: compression reaches tool results and pasted images only &mdash; never a tool call's input, the system prompt, the tool schemas, your own words or the model's replies &mdash; and about <strong>30% of effective spend is output tokens</strong>, billed at 5&times; input, which no inbound compressor can reach. We say so rather than quote the flattering number alone. Your memory brain is never touched.</p>
-          </article>
-          <article class="card">
-            <h3>The prefix nobody was counting <span class="badge-new">v1.36</span></h3>
-            <p>The system prompt and tool schemas ride in front of <em>every</em> request, are re-sent every turn, and are exactly what a cache write is billed <strong>1.25&times;</strong> for. No compression layer can touch them &mdash; and until v1.36 nothing <em>counted</em> them, so the receipt could not explain its own ceiling. Termpolis now measures that head on every request and names it in plain text, separating <strong>its own MCP schemas from everyone else's</strong> (63 tokens of 3,123 on the machine above). It is measured <em>before</em> the round-trip guard on purpose: a request we decline to compress still costs money, and those were precisely the requests whose cost was invisible.</p>
-          </article>
-          <article class="card">
-            <h3>It tells you when the <em>conversation</em> is the cost <span class="badge-new">v1.37</span></h3>
-            <p>Every other control here shrinks the <em>body</em> of a request. This one measures what no compressor can reach: a long conversation <strong>re-reads its whole history every turn</strong>, and across <strong>24,163 requests in 89 real sessions</strong> that re-read is the largest line on the bill. Termpolis refits the curve from <em>your own</em> traffic and prices a turn on cache-read <strong>and</strong> cache-write together &mdash; so the price of establishing a fresh prefix is already inside the comparison, and no fudged &ldquo;cost of restarting&rdquo; constant is needed. Capping at 50 turns models to <strong>&minus;19% of the bill</strong> even after charging the full restart. It only ever <strong>advises</strong>: it never ends a session on its own.</p>
-          </article>
-          <article class="card">
-            <h3>A fresh session is offered before compaction <span class="badge-new">v1.59</span></h3>
-            <p>When a terminal's conversation is long enough that starting fresh would cut the cost of each turn by <strong>at least half</strong>, measured on your own sessions, the pane header says so: &ldquo;Long session. A fresh one saves 55% a turn.&rdquo; On typical traffic that is around 100 messages, well before Claude compacts. Click <strong>Fresh session</strong> and Claude writes a handoff note into memory, quits, and a new session starts from that note. Dismiss it and it comes back only at the next depth band. It works for a <code>claude</code> you typed yourself too, and keeps the flags you started it with.</p>
-          </article>
         </div>
       </section>
 
-      <!-- MODEL PER MESSAGE -->
-      <section id="model-per-message" class="section reveal">
+      <!-- PILLAR 3: SECURITY -->
+      <section id="security" class="section reveal">
+        <div class="pillar">
+          <div class="pillar-copy">
+            <p class="eyebrow">🛡 AI Security Center</p>
+            <h2>Safer use of hosted models</h2>
+            <p>
+              Any tool that talks to a hosted model sends your prompt to that provider, and Termpolis
+              can't change that. What it can do is catch secrets where they actually escape and check
+              what you install. Every check runs locally and every log stays on your computer.
+            </p>
+            <ul class="detail-list">
+              <li><strong>Commit Shield.</strong> A commit or push that carries a key is blocked, not just logged: from the Git panel out of the box, and from any terminal or IDE once you install its git hooks.</li>
+              <li><strong>Secrets never enter the memory.</strong> They are scrubbed before anything is embedded or written.</li>
+              <li><strong>Safe Import.</strong> Third-party skills, plugins and MCP servers are scanned before they install. A red result can't install.</li>
+              <li><strong>Prompts watched.</strong> What you type to an agent is checked against 97 secret rules. A hit is recorded and named so you know what to rotate. It doesn't block the prompt, and we say so.</li>
+            </ul>
+            <p class="read-more"><a href="docs.html#security-center">What each check does and doesn't do &rarr;</a></p>
+          </div>
+          <figure class="pillar-media">
+            <img src="assets/diagram-security.svg?v=20261110b" width="1200" height="780" loading="lazy" alt="Where Termpolis checks for secrets: Commit Shield blocks a key in a commit or push, the memory scrub removes secrets before anything is stored, Safe Import gates add-ons before they install, and the prompt watch detects and names a secret in a prompt without blocking it.">
+          </figure>
+        </div>
+      </section>
+
+      <!-- PILLAR 4: REMOTE + LINKED -->
+      <section id="remote" class="section reveal">
+        <span id="mobile" class="anchor-alias" aria-hidden="true"></span>
         <div class="section-heading">
-          <p class="eyebrow">🧭 New in v1.56&ndash;v1.58 &middot; Model per message</p>
-          <h2>Every message on the model and effort it needs</h2>
+          <p class="eyebrow">📱 Termpolis Remote · 🔗 Linked machines</p>
+          <h2>Your agents, wherever you are</h2>
           <p>
-            Haiku for a quick question, Sonnet for building, Opus for design and hard bugs. Termpolis's local
-            proxy changes the request's model and effort <strong>before it leaves your computer</strong>: nothing
-            is typed into the terminal and the session is never restarted. The decision takes a few milliseconds
-            and is <strong>made on your machine</strong>. Turn it on or off in Settings &rarr; General &rarr; Default Models.
+            Both are off until you turn them on, and both are encrypted end to end. The relay passes
+            sealed messages and can't read your terminals, prompts or answers.
           </p>
         </div>
         <div class="feature-grid">
           <article class="card">
-            <h3>Decided locally <span class="badge-new">v1.56</span></h3>
-            <p>The bge-small embedding model already installed for memory compares each message with 120 labelled examples and your own corrections, and votes. When the vote is unsure, or isn't back within 350&nbsp;ms, the word rules Auto uses decide. Nothing about the decision is sent anywhere.</p>
+            <h3>Termpolis Remote for iPhone</h3>
+            <p>See the terminals running on your computer and answer an agent's question from your phone, so a blocked task becomes a ten-second reply. The desktop decides what the phone may do, and nothing runs on the phone.</p>
+            <p class="mini-note">Free to install, iOS 16.4+. Relay access $4.99 a month, first week free. Android follows.</p>
+            <p class="card-actions"><a class="button" href="https://apps.apple.com/us/app/termpolis-r/id6809306362" target="_blank" rel="noreferrer">App Store</a> <a class="button button-secondary" href="/mobile/">Setup &amp; support</a></p>
           </article>
-          <article class="card">
-            <h3>Moves only when the move pays <span class="badge-new">v1.56</span></h3>
-            <p>A new model re-reads the conversation without its cache, so the router moves down only when that still saves at least 10%, moves up only when it is sure and the cache cost is small, and never sends a long conversation to Haiku. Haiku is picked only for short messages that ask for no work.</p>
-          </article>
-          <article class="card">
-            <h3>Effort too <span class="badge-new">v1.57</span></h3>
-            <p>Each model picks from its own range: Haiku low or medium, Sonnet low to xhigh, Opus medium to max. Subagents get the model and effort their task needs (a file search on Haiku, a design review on Opus), and two failing tool turns in a row raise the effort until your next message.</p>
-          </article>
-          <article class="card">
-            <h3>Codex gets an effort per message <span class="badge-new">v1.58</span></h3>
-            <p>In Codex terminals the router picks the reasoning effort of each message (low for a quick question, high or xhigh for hard bugs), never the model. The request goes to the endpoint Codex would have used anyway, and Termpolis steps aside whenever you route Codex yourself.</p>
-          </article>
-          <article class="card">
-            <h3>You see every pick</h3>
-            <p>The pane header shows each choice, such as &ldquo;Opus &rarr; Haiku &middot; low &middot; 4&nbsp;ms&rdquo;. Hover it for why and the estimated saving, or use <strong>Should have been&hellip;</strong> to correct it: only the message's vector is kept, never its text. Picking a model yourself stops routing that pane.</p>
-          </article>
-          <article class="card">
-            <h3>Refusals fall back cleanly</h3>
-            <p>If your account refuses a model or effort, the request is sent again exactly as the agent asked for it, and that change isn't tried again in that terminal. <a href="docs.html#choosing-the-model">Read how it works &rarr;</a></p>
+          <article class="card" id="linked">
+            <h3>Linked machines</h3>
+            <p>Link two Termpolis computers and an agent on one can have Claude, Codex or Gemini on the other do a task and hand back the answer. Ask Claude on your laptop to <em>&ldquo;have Codex on linux run the integration tests and summarise the failures.&rdquo;</em></p>
+            <p class="mini-note">Read-only by default. Editing files and running commands stay off until you allow them, per computer.</p>
+            <p class="card-actions"><a class="button button-secondary" href="docs.html#linked-machines">How Linked machines works</a></p>
           </article>
         </div>
       </section>
 
-      <!-- WHY TERMPOLIS vs THE BARE CLIs -->
-      <section id="why" class="section reveal">
+      <!-- EVERYTHING ELSE -->
+      <section id="features" class="section reveal">
+        <span id="why" class="anchor-alias" aria-hidden="true"></span>
         <div class="section-heading">
-          <p class="eyebrow">Why not just use Claude Code or Codex?</p>
-          <h2>The same agents &mdash; but with one memory that remembers and learns</h2>
-          <p>
-            Claude Code, OpenAI Codex, and Gemini (through Google&rsquo;s Antigravity CLI) are excellent, and you'll keep using
-            them &mdash; Termpolis <strong>runs those exact CLIs, unchanged</strong>. On their own,
-            though, each one <strong>starts cold every session</strong>, <strong>can't see what the
-            others did</strong>, and <strong>never learns</strong>. Termpolis wraps them in one shared,
-            local, long-term memory &mdash; <strong>Mneme</strong> &mdash; so your whole fleet remembers
-            your project and gets smarter the more you use it.
-          </p>
+          <p class="eyebrow">And a full terminal around it</p>
+          <h2>Everything else you get</h2>
+          <p>Your real Claude Code, Codex and Gemini, unchanged, plus the tools for running several at once.</p>
         </div>
-        <div class="compare-table-wrapper" style="overflow-x:auto;border:1px solid #2a2a2e;border-radius:14px;">
-          <table class="compare-table" style="width:100%;border-collapse:collapse;font-size:14px;min-width:720px;">
-            <thead>
-              <tr style="background:#1a1a1e;text-align:left;">
-                <th scope="col" style="padding:14px 18px;border-bottom:1px solid #2a2a2e;">What you get</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;">Claude Code / Codex on their own</th>
-                <th scope="col" style="padding:14px 12px;border-bottom:1px solid #2a2a2e;color:#7ee2a3;">The same agent inside Termpolis</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Long-term memory</strong></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">Starts each launch with only its own notes files (<code>CLAUDE.md</code>, <code>AGENTS.md</code>) &mdash; you re-explain the rest and re-pay the tokens to reload context</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;"><strong>Mneme</strong>: a local brain that holds months of context and survives restarts &mdash; recall in milliseconds</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Shared across your tools</strong></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">Each app is siloed &mdash; Codex has no idea what Claude just figured out</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">Claude Code, Codex and Gemini read &amp; write <strong>one memory</strong> &mdash; a fact one learns, the others instantly recall</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>It learns</strong></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">Notes files only &mdash; nothing is ranked, demoted or reinforced by feedback</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">Reflects on every finished task and agent session, distills a lesson when it finds a fix, decision or gotcha, and tracks its own competence, so recall keeps improving</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Every new session</strong></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">Re-explain your codebase and conventions from scratch</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">Opens already knowing the project; one-click handoff moves a task between agents with no re-explaining</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Your data &amp; lock-in</strong></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;">One vendor's account and cloud; retention/telemetry vary</td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#cbb8ff;">Local by default, Apache-2.0, no account; the relay behind Remote and Linked machines, and telemetry, are opt-in; prompts to Claude Code, Codex and Gemini watched for secrets &mdash; a leak is named in a local audit log, and blocked at commit and push from the Git panel &mdash; or from any terminal, in repos you protect with the Commit Shield hooks (<code>--no-verify</code> skips them)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="margin-top:18px;opacity:0.85;font-size:15px;">
-          <strong>Same agents, same accounts you already pay for</strong> &mdash; Termpolis is the workspace around
-          them that remembers, learns, and keeps you out of the cold-start loop.
-        </p>
-      </section>
-
-      <!-- CONTEXT HANDOFF -->
-      <section id="context-handoff" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🔁 Cross-AI context handoff</p>
-          <h2>Move a Claude session to Codex or Gemini — without re-explaining</h2>
-          <p>
-            Open <strong>Past AI Sessions</strong> from the button at the top-right of any AI terminal. Termpolis indexes every
-            <code>~/.claude/projects/**/*.jsonl</code> transcript on your machine, shows
-            them grouped by project with age, git branch, size and first message, and lets you continue
-            the work in any of the three supported agents — without manually copy-pasting
-            anything.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Resume natively</h3>
-            <p>
-              Spawns a new terminal at the original cwd and runs
-              <code>claude --resume &lt;session-id&gt;</code>. Or, if you already have a
-              plain shell focused, "Resume in active shell" runs the resume command in
-              the focused terminal — no new tab.
-            </p>
+        <div class="feature-grid feature-grid-3">
+          <article class="card" id="second-opinion">
+            <h3>Second Opinion</h3>
+            <p>Have a different agent and model check the last answer. The reviewer is read-only.</p>
+            <a class="card-link" href="docs.html#second-opinion">Docs &rarr;</a>
           </article>
-          <article class="card">
-            <h3>Continue in another AI</h3>
-            <p>
-              Pick Codex from the Continue ▾ menu (its Gemini entry still types the legacy <code>gemini</code> command, not <code>agy</code>, so it works only where the old Gemini CLI is installed). Termpolis spawns a fresh
-              terminal at the same cwd, boots the chosen agent, and pastes a synthesised
-              <code>CONTEXT HANDOFF</code> prompt summarising what's been done so the
-              new agent starts from the original goal, your latest direction and the last reply instead of from scratch.
-            </p>
+          <article class="card" id="context-handoff">
+            <h3>Cross-AI handoff</h3>
+            <p>Move a Claude session to Codex or Gemini without re-explaining it.</p>
+            <a class="card-link" href="docs.html#context-handoff">Docs &rarr;</a>
           </article>
-          <article class="card">
-            <h3>Inject into the focused AI</h3>
-            <p>
-              Already have an AI shell open? "Inject context into active shell" pastes the
-              handoff prompt straight into that agent's input box. The button is disabled
-              for plain shells (where it would just splat into the command line) and the
-              tooltip explains why.
-            </p>
+          <article class="card" id="swarm">
+            <h3>Multi-agent swarm</h3>
+            <p>Describe a goal and a local conductor splits it across up to 8 agents, then you review the result.</p>
+            <a class="card-link" href="docs.html#swarm">Docs &rarr;</a>
           </article>
-          <article class="card">
-            <h3>Pasted as one blob, not a stream of commands</h3>
-            <p>
-              The handoff prompt is wrapped in xterm bracketed-paste markers
-              (<code>ESC[200~ … ESC[201~</code>) so the receiving agent treats it as a
-              single paste rather than dispatching one keypress / submit per embedded
-              newline. Result: the agent sees one coherent context block, not what looks
-              like a flurry of random commands.
-            </p>
+          <article class="card" id="workflow-orchestrator">
+            <h3>Workflow Orchestrator</h3>
+            <p>Chain agents, commands and skills into one repeatable run, with branches and loops.</p>
+            <a class="card-link" href="docs.html#workflows">Docs &rarr;</a>
           </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-past-sessions.png" alt="A Termpolis PowerShell terminal with the Past AI Sessions button in its top-right corner (earlier build).">
-          </figure>
+          <article class="card" id="observability">
+            <h3>See what agents are doing</h3>
+            <p>An activity feed, context pins, a redundancy detector and per-agent efficiency stats.</p>
+            <a class="card-link" href="docs.html#observability-docs">Docs &rarr;</a>
+          </article>
+          <article class="card" id="git">
+            <h3>Git panel and diffs</h3>
+            <p>Stage, read diffs, commit, pull and push, and open any diff an agent prints.</p>
+            <a class="card-link" href="docs.html#git">Docs &rarr;</a>
+          </article>
+          <article class="card" id="ai-native">
+            <h3>40 MCP tools</h3>
+            <p>Agents can drive terminals, coordinate a swarm, and search the memory and code graph.</p>
+            <a class="card-link" href="docs.html#mcp">Docs &rarr;</a>
+          </article>
+          <article class="card" id="share">
+            <h3>Share-ready output</h3>
+            <p>Copy terminal output cleanly for Teams, Slack or a pull request with one shortcut.</p>
+            <a class="card-link" href="docs.html#copy-share">Docs &rarr;</a>
+          </article>
+          <article class="card" id="workspaces">
+            <h3>Terminal basics, done well</h3>
+            <p>Split panes, saved workspaces, themes, keybindings and autocomplete, on PowerShell, cmd, Git Bash, bash or zsh.</p>
+            <a class="card-link" href="docs.html#workspaces">Docs &rarr;</a>
+          </article>
         </div>
       </section>
 
-      <!-- COMPARISON TABLE -->
+      <!-- COMPARE -->
       <section id="compare" class="section reveal">
         <div class="section-heading">
           <p class="eyebrow">⚖ How Termpolis compares</p>
           <h2>Termpolis vs other AI terminals</h2>
           <p>
-            We won't fabricate competitor features — every cell below is sourced from each
-            tool's own public documentation as of <strong>October 2026</strong>. If a vendor
-            ships a feature we missed, <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">file an issue</a>
-            and we'll update. Marks: ✅ ships in product, ⚠ partial / opt-in / 3rd-party,
-            ❌ not available, — unknown.
+            Every competitor cell is sourced from that tool's own public documentation as of
+            <strong>October 2026</strong>. Marks: ✅ ships, ⚠ partial / opt-in / third-party, ❌ not available.
           </p>
         </div>
         <div class="compare-table-wrapper" style="overflow-x:auto;border:1px solid #2a2a2e;border-radius:14px;">
@@ -1231,7 +336,7 @@
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Multi-agent swarm (parallel agents w/ live conductor)</strong><br><span style="opacity:0.7;font-size:12px;">Runs Claude + Codex + Gemini together</span></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Up to 8, local conductor</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local conductor runs Claude, Codex and Gemini together</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Parallel local or cloud subagents; conductor runs via Warp's servers</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Parallel agent blocks; no conductor</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Parallel agents in Git worktrees; no live conductor</td>
@@ -1254,7 +359,7 @@
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌ Terminal only — bounded buffer reads via a community MCP plugin</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Prompts watched for secrets (97 rules)</strong><br><span style="opacity:0.7;font-size:12px;">Detection, not prevention &mdash; the hit is named in a local audit log (<code>DB_PASSWORD</code>, never the value) so you know what to rotate</span></td>
+                <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Prompts watched for secrets (97 rules)</strong><br><span style="opacity:0.7;font-size:12px;">Detection, not prevention &mdash; the hit is named in a local audit log (<code>DB_PASSWORD</code>, never the value) so you know what to rotate, and a warning banner names it in the app right away</span></td>
                 <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ Local, can't be turned off — Claude Code, Codex and Gemini sessions started from Termpolis's launchers</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Secret Redaction (~20 patterns, opt-in)</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
@@ -1311,7 +416,7 @@
               </tr>
               <tr>
                 <td style="padding:12px 18px;border-bottom:1px solid #232327;"><strong>Cross-AI context handoff</strong><br><span style="opacity:0.7;font-size:12px;">Resume a Claude session inside Codex / Gemini</span></td>
-                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ One click into Codex; Gemini via an open Gemini tab — bracketed-paste safe</td>
+                <td style="padding:12px;border-bottom:1px solid #232327;color:#7ee2a3;">✅ One click into Codex or Gemini (agy), or back into Claude Code — bracketed-paste safe</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">❌</td>
                 <td style="padding:12px;border-bottom:1px solid #232327;">⚠ Same IDE, no auto-digest</td>
@@ -1352,484 +457,10 @@
             </tbody>
           </table>
         </div>
-        <p style="margin-top:18px; font-size:13px; opacity:0.78;">
-          <strong>How to read this table.</strong> A ✅ in the Termpolis column does not mean
-          the other tools are bad — they're optimised for different threat models and use
-          cases. Warp ships the cleanest UI; Wave ships workspace blocks; Air ships
-          agent-first tooling across JetBrains IDEs, a desktop app, and the cloud; Tabby ships a fast self-hostable terminal whose plugin store
-          offers third-party AI and MCP plugins. Termpolis trades all of that polish for security primitives that hosted-model
-          users currently have to build by hand: a prompt watch that names what leaked, a
-          secret block at the git boundary, static scanning of third-party skills and MCP servers
-          before they install, ToS drift,
-          a sensitive-file-read audit, parallel multi-agent orchestration with a local conductor, and a
-          persistent cross-agent memory brain that lives on your machine (no cloud, no account).
-          Pick the one that maps to your threat model. If something here is wrong, please file
-          a GitHub issue and we'll fix it.
+        <p class="table-note">
+          Spot something out of date? <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">File an issue</a> and we'll fix it.
+          <a href="docs.html#comparison-notes">Notes and sources for each row &rarr;</a>
         </p>
-        <p style="margin-top:10px; font-size:12px; opacity:0.6;">
-          <strong>Sourcing notes (October&nbsp;2026).</strong> Warp open-sourced its client on April&nbsp;28,&nbsp;2026
-          (<a href="https://github.com/warpdotdev/warp" target="_blank" rel="noreferrer">github.com/warpdotdev/warp</a>) under
-          AGPL&nbsp;v3 (UI crates MIT), but the AI, agents, Oz orchestration, and Warp&nbsp;Drive backend remain proprietary
-          cloud — the OSS client is not self-hostable for AI. Warp ships local <em>Secret&nbsp;Redaction</em> (~20 built-in
-          patterns plus custom, redacted before data leaves the machine, opt-in / off by default), so its secret-scanner
-          cell is ⚠ rather than ❌; Warp Agent (formerly Oz) now auto-orchestrates parallel multi-harness subagents,
-          locally or in the cloud, but the conductor is cloud-hosted, not a local one. Since September&nbsp;2026, JetBrains Air is a system of products (Air in JetBrains IDEs,
-          Air Teams, Air Governance, and more); this column rates the Air desktop app, built on the retired Fleet codebase
-          and still in preview on macOS, Linux, and Windows (Windows landed June&nbsp;2026). It runs agents in parallel Git
-          worktrees and can spin up a fresh-session reviewer agent that comments on changes, files, or branches — a
-          code-scoped second opinion, hence the ⚠ marks
-          (<a href="https://www.jetbrains.com/help/air/air-app.html" target="_blank" rel="noreferrer">jetbrains.com/help/air</a>).
-          Tabby is the open-source terminal at
-          <a href="https://github.com/Eugeny/tabby" target="_blank" rel="noreferrer">github.com/Eugeny/tabby</a>;
-          its desktop app ships Mixpanel analytics on by default (Tabby + OS version, opt-out), and AI agents reach it only
-          via third-party plugins (MCP servers, AI side panels, agent-tab managers); sessions are not orchestrated
-          end-to-end the way a Termpolis swarm is.
-          <strong>On the memory row:</strong> Warp's cross-agent <em>Agent Memory</em> (Oz) is the
-          closest equivalent but is cloud-hosted, account/team-bound, and in research preview as of
-          July&nbsp;2026 — it auto-extracts facts and supersedes contradictions, but lacks the decay&nbsp;/ causal-rank&nbsp;/ self-adaptation learning
-          loop Mneme runs; Wave keeps only per-chat history; JetBrains Air uses manual instruction/rules files with no
-          auto-memory; Tabby is a terminal with no AI memory. Termpolis's brain is local, automatic, cross-agent, semantic,
-          and <em>learning</em> — it distills reusable lessons (fixes, decisions, gotchas) from your sessions and tracks its own
-          competence (<a href="docs.html#memory">see the docs</a>).
-          <strong>On the two v1.25 security rows:</strong> Warp's <em>Secret Redaction</em> is scoped to data leaving
-          for the AI provider, not to <code>git commit</code>&nbsp;/&nbsp;<code>git push</code>, so it is ❌ on the
-          git-boundary row rather than ⚠; and none of the four documents a security scan of third-party AI artifacts
-          (skills, subagents, MCP servers) before installing them — Tabby ships a plugin store, but without an
-          artifact scanner. If that has changed, please file an issue and we'll update the row.
-          <strong>On the prompt row, the two claims are different things and should be read that way:</strong>
-          Warp's redaction attempts <em>prevention</em> (opt-in, off by default); Termpolis
-          <em>detects and records</em> — always on, 97 rules, naming what leaked so you can rotate it — and does
-          <em>not</em> claim to stop a secret you send to a model. Prevention in Termpolis lives at the git boundary
-          and the memory layer, where it is actually enforceable
-          (<a href="docs.html#security-secret-scanner">why the prompt path is detection-only</a>).
-          <strong>On the compression row (checked August&nbsp;2026):</strong> none of the four
-          documents a feature that shrinks tool traffic on every turn before it reaches the model. Warp shows a
-          context-window usage indicator (with a per-segment breakdown) and automatically summarizes a conversation
-          once it overflows the window (plus <code>/compact</code>) &mdash; history summarization, not per-turn
-          tool-output compression, hence ⚠ (an absolute token-count display is still an open request); Wave publishes no compression or token figures; JetBrains Air added
-          context-window and token-usage <em>display</em> for Claude Agent in July&nbsp;2026, which is
-          visibility rather than compression, hence ⚠; Tabby is a terminal whose AI arrives through
-          community plugins, where the nearest equivalents are bounded buffer reads
-          (<code>startLine</code>&nbsp;/&nbsp;<code>endLine</code>) and lossy context trimming (head-and-tail
-          truncation, summaries of old turns), not compression. Termpolis's
-          61% figure is the share of <em>compressible tool text</em> removed &mdash; see
-          <a href="docs.html#headroom">the three denominators</a> rather than reading it as 61% off
-          your bill.
-        </p>
-      </section>
-
-      <!-- SECURITY (AI SECURITY CENTER) -->
-      <section id="security" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">🛡 AI Security Center</p>
-          <h2>Defense in depth for the hosted-model path</h2>
-          <p>
-            <strong>The honest framing:</strong> any tool that lets you talk to a hosted model
-            is, by definition, sending your prompt to that provider. Termpolis cannot
-            air-gap a prompt you choose to send, cannot guarantee a provider's stated
-            retention policy is enforced server-side, and cannot stop a provider from later
-            changing their terms. If your threat model requires those guarantees, run a local
-            model — but accept the quality and hardware trade-off.
-          </p>
-          <p>
-            What Termpolis <em>can</em> do is make the hosted path substantially safer than
-            typing into a stock terminal, a browser, or a VS&nbsp;Code plug-in. Every in-app check
-            below runs locally, every log stays on the machine, and every limit is named.
-          </p>
-          <p>
-            <strong>New in v1.25:</strong> the perimeter now covers the places a secret actually
-            escapes &mdash; and the place a threat actually walks in. The
-            <strong>git boundary</strong> (a commit or push carrying a key is <em>blocked</em>,
-            not just logged), the <strong>memory store</strong> (a secret is scrubbed before it
-            can ever be embedded or written), and
-            <strong>third-party AI artifacts</strong> &mdash; skills, plugins, subagents, and MCP
-            servers are statically scanned <em>before</em> they are wired into an agent.
-          </p>
-          <p>
-            <strong>New in v1.25.2:</strong> the prompt path is <strong>watch, not block</strong> &mdash;
-            and it now says so. Every byte you type reaches the agent immediately and unmodified; on
-            submit, a shadow copy is scanned against <strong>97 rules</strong> and a hit is
-            <em>recorded</em>, never withheld. Termpolis does <strong>not prevent</strong> a secret
-            reaching a model through a prompt &mdash; nothing in a terminal can, once the agent already
-            holds your line. It <strong>names what leaked</strong> so you can rotate it. Prevention
-            happens where it is actually possible: the git boundary and the memory layer.
-          </p>
-          <p>
-            <strong>New in v1.25.6 &mdash; three of these controls were lying, and now aren&rsquo;t.</strong>
-            A coverage sweep put real tests on security code nobody had ever tested, and found them.
-            The <strong>GnuPG private-keyring</strong> watcher rule <em>could never fire</em>:
-            <code>secring.gpg</code> &mdash; the private keyring, the one file the rule exists to catch
-            &mdash; had been grouped into the rule&rsquo;s own <em>exclusion</em> list beside the public
-            ones, so an agent reading it was met with total silence, which reads exactly like
-            &ldquo;nothing happened&rdquo;. A <code>NaN</code> limit defeated the
-            <strong>audit-log</strong> clamp and returned the whole log instead of a capped page
-            (<code>typeof NaN === 'number'</code> is true, and <code>Math.min</code> propagates NaN
-            rather than clamping it). And the <strong>Commit Shield</strong> kept reporting repositories
-            as <strong>PROTECTED after their hooks were gone</strong> &mdash; the protected-repo list
-            compared raw path strings, so installing via the folder picker and uninstalling from the
-            working directory never matched. All three are fixed, and each is now pinned by a test.
-            <em>A security control that claims to be armed when it is not is worse than one that admits
-            it is off.</em>
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Prompts watched (97 rules)</h3>
-            <p>
-              Once Termpolis sees a <code>claude</code>, <code>codex</code>, <code>agy</code> or <code>gemini</code> launch arrive
-              as one line (a launcher button, a macro, or a paste into a shell that doesn&rsquo;t bracket pastes &mdash; not a command typed key by key or pasted into zsh or bash, which bracket them),
-              every submit and every paste is matched against
-              <strong>97 secret rules</strong> — on a <strong>shadow copy</strong>. Your keystrokes
-              reach the agent <strong>immediately and unmodified</strong>: nothing is withheld, nothing
-              is rewritten, and the scan never runs per keystroke (~0.05&nbsp;ms per submitted prompt).
-              A hit is <strong>recorded, not blocked</strong> — a <code>prompt_secret_sent</code> entry
-              naming <em>what</em> leaked, <code>DB_PASSWORD (env_secret)</code>, and
-              <strong>never the value</strong>. That name is what tells you to rotate it. Coverage: AWS,
-              GitHub PATs, Azure, GCP, Stripe, Slack, JWT, PEM — caught bare in prose, no name needed —
-              plus named secrets in <code>.env</code>, <code>appsettings.json</code>, YAML, connection
-              strings and credentialed URLs, and shapeless secrets you introduce in your own words
-              ("the api key is 8f3a9b2c…").
-              <strong>Limit — and it is the whole design:</strong> this does <em>not</em> prevent a
-              secret reaching the model. It cannot: by the time you hit Enter, the text is already in
-              the agent's own line buffer, so nothing written to the PTY can un-send it. Termpolis
-              detects and records here, and <em>blocks</em> where blocking actually works — the next two
-              cards. Text sent from Termpolis Remote, a workflow, or an agent through MCP
-              (<code>write_to_terminal</code>, <code>run_command</code>) is not watched.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Commit &amp; push secret shield</h3>
-            <p>
-              <strong>New in v1.25.</strong> The same secret-rule engine now also runs at the
-              <strong>git boundary</strong>: on the <strong>staged diff</strong> (what
-              <code>git commit</code> is about to capture) and on every <strong>unpushed
-              patch</strong> (what <code>git push</code> is about to send). A hit
-              <strong>blocks the operation</strong> and names what fired. The prompt watch only ever
-              saw text you typed <em>at</em> an agent — and there it can only record. It never saw git,
-              so a leaked key could still land in your history and be pushed to a remote.
-              <strong>Git is a boundary that can actually be held</strong>, so this is a real stop, not
-              a log line. On by default; toggle in Settings &rarr; AI Security.
-              <strong>However you commit.</strong> Out of the box it gates the git operations
-              Termpolis itself runs. Install the <code>pre-commit</code>&nbsp;/&nbsp;<code>pre-push</code>
-              hooks (Settings &rarr; AI Security) and it also catches a secret in a
-              <code>git commit</code> typed straight into a terminal, an IDE, or a script. The hooks
-              shell out to a <strong>standalone scanner</strong>, so they keep working
-              <em>even with Termpolis closed</em> — a shield that only guards you while the app is
-              running would quietly stop guarding you the moment you quit, which is worse than none,
-              because you&rsquo;d still believe you had one. An existing hook (husky, lint-staged) is
-              <strong>chained, never overwritten</strong>.
-              <strong>Fixed in v1.25.6:</strong> the protected-repo list compared raw path strings, so
-              a repo installed via the folder picker and uninstalled from the working directory never
-              matched &mdash; and kept being reported as <strong>PROTECTED after its hooks were
-              gone</strong>. It is now keyed on a canonical path, so the panel&rsquo;s answer matches
-              reality.
-              <strong>Limit:</strong> the hook <em>fails open</em> — if Node or the scanner is
-              missing, git is never blocked, so a broken state degrades to no protection rather than
-              to a wedged workflow. And <code>--no-verify</code> bypasses any git hook: this is a
-              strong net, not a cage.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Secrets never enter the brain</h3>
-            <p>
-              <strong>New in v1.25.</strong> Mneme indexes your transcripts and source files,
-              which means a key pasted into a session is a key headed for long-term storage.
-              Secrets are <strong>scrubbed before a memory is hashed, embedded, or written
-              to disk</strong> — so a credential sitting in a transcript or an indexed source
-              file never lands in the store, and can never be recalled back into an agent's
-              context months later. Like git, this is a boundary Termpolis owns, so here it is
-              <em>prevention</em>, not a log entry: the secret never exists in the brain to leak.
-              This sits on top of the sensitive-file denylist that keeps
-              <code>.env</code>-class files out of the indexer entirely.
-              <strong>Limits:</strong> the same regex-shaped coverage as the prompt watch — an
-              unpatterned custom token can still be embedded — and it runs <strong>at write
-              time</strong>: it cleans what goes in from v1.25 onward, it does <em>not</em>
-              retroactively scrub a brain you built before it existed.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Sensitive-file-read watcher</h3>
-            <p>
-              The prompt watch can only see what <em>you</em> type. When the agent
-              autonomously decides to read <code>.env</code>, <code>id_rsa</code>,
-              <code>~/.aws/credentials</code>, a <code>*.pem</code>, or any of the 16 other
-              high-risk patterns (20 rules in all), Termpolis subscribes to the agent's tool-call stream and
-              writes an audit entry naming the file and the agent (listed under Background watchers in Settings &rarr; AI Security; no live banner is shown). The bytes already
-              went to the provider, so the record is after-the-fact — but you now know to
-              add the path to <code>.claudeignore</code> (or rotate the secret) before the
-              next session.
-              <strong>Fixed in v1.25.6:</strong> one of those 20 rules &mdash; your <strong>GnuPG
-              private keyring</strong> &mdash; <em>could never fire</em>. <code>secring.gpg</code> had
-              been grouped into the rule&rsquo;s own exclusion list alongside the public keyrings, so
-              the exclusion returned first and the match never ran. Only the public
-              <code>pubring.*</code> entries are excluded now.
-              <strong>Limit:</strong> watches the agent's own tool runtime — files exfiltrated
-              via spawned subprocesses (e.g. <code>python -c 'open(".env").read()'</code>) only
-              show up if the wrapping <code>Bash</code> command parses to a known reader.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Code-chunk + env-dump heuristics</h3>
-            <p>
-              Prompts over 2&nbsp;KB are inspected for code-shaped structure (indentation +
-              braces + keywords + module declarations), and prompts of any size for 5+ <code>KEY=value</code> lines
-              suggestive of a pasted <code>.env</code>. Detections raise no live alert; they are
-              written to the audit log as <code>code_chunk_sent</code> /
-              <code>env_dump_sent</code>, so you can see afterwards that an entire source file or
-              env file went out. <strong>New in v1.25.2:</strong> these are their
-              <em>own</em> events — they used to share one with a real leaked credential, which
-              made a big paste look like a leaked key and inflated the count of secrets sent.
-              <strong>Limit:</strong> heuristic — false negatives possible on minified or
-              unusual shapes. The prompt isn't blocked; you decide.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Weekly ToS drift watcher</h3>
-            <p>
-              A scheduled GitHub Action fetches the three provider pages we cite (Anthropic
-              commercial terms, OpenAI enterprise privacy, and Google Gemini API terms; openai.com refuses the automated fetch, so the OpenAI page has no stored snapshot and is left to manual review),
-              normalises the HTML, hashes it, and opens a tracking
-              issue when the hash changes — so what the app advertises stays aligned with
-              what providers actually publish.
-              <strong>Limits:</strong> it detects rendered-text changes, not legal intent — a human
-              still reads the diff. And it is <strong>maintainer-facing</strong>: it files an issue
-              against the Termpolis repo so <em>our</em> published claims stay honest. It does not
-              raise an in-app alert to you, and it is no substitute for reading your provider's terms.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Gemini account-mode auto-detect</h3>
-            <p>
-              Reads <code>GEMINI_API_KEY</code>, <code>GOOGLE_API_KEY</code>,
-              <code>GOOGLE_GENAI_USE_GCA</code>, and
-              <code>GOOGLE_APPLICATION_CREDENTIALS</code>+<code>GOOGLE_CLOUD_PROJECT</code>
-              to classify the active Gemini session as paid (training-excluded) or free
-              (Google may use prompts for product improvement). <strong>Strict Mode</strong>
-              intercepts <code>gemini</code> launches that look free-tier &mdash; when the command reaches Termpolis as one line (the Continue ▾ menu&rsquo;s Gemini entry, a custom profile, a macro or a paste; not a command typed key by key, never <code>agy</code>, which the sidebar&rsquo;s Gemini / Antigravity CLI profile, the Welcome screen and the command palette launch, and never a launch from Remote, a workflow or the swarm) &mdash; and refuses to
-              forward them — the launch command never reaches the shell, and the block is audited.
-              This is the <strong>one security control that ships off</strong>: it can refuse a
-              launch you meant to make, so you opt into it deliberately. Everything else here
-              (audit log, Commit Shield, memory scrub) is <strong>on by default</strong>,
-              and the prompt watch cannot be turned off at all.
-              <strong>Limit:</strong> env-var heuristic — a Workspace Code Assist licence carrying no
-              env vars is classified as unsafe, and credentials shipped some other way can't be
-              classified at all.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Agent command enforcement</h3>
-            <p>
-              A sanitizer intercepts every swarm-launched agent command, strips unauthorized
-              flags (<code>-p</code>, <code>--sandbox</code>) and any injected prompt, and pins
-              each agent to its exact approved launch command — so a conductor can't be steered
-              into an unsafe invocation.
-              <strong>Limit:</strong> covers only the MCP <code>run_command</code> tool on swarm terminals &mdash; text sent with <code>write_to_terminal</code> or run through <code>run_and_wait</code> is not rewritten &mdash; and not arbitrary subprocesses
-              an agent spawns itself.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Local JSONL audit log</h3>
-            <p>
-              Every AI terminal open/close Termpolis detects (the same one-line launches that arm the prompt watch above), every <code>prompt_secret_sent</code> hit, every
-              code-chunk or env-dump detection, every Strict-Mode block — and, as of v1.25, every
-              blocked commit or push and every Safe Import verdict — writes to
-              <code>ai-security-audit.jsonl</code> in your userData directory.
-              <strong>Recording is on by default</strong>, and <strong>Settings &rarr; AI Security
-              &rarr; "Open the audit log"</strong> now opens a viewer over it, led by a
-              <strong>"Rotate these — they were sent to a model"</strong> panel listing each leaked
-              secret <em>by name</em>. The values aren't there: they were never captured.
-              10&nbsp;MB rotated, append-only, on disk only, wipeable.
-              <strong>Limit:</strong> local. We don't ship it anywhere. If your machine is
-              compromised, so is the log.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Tampering-surface minimisation</h3>
-            <p>
-              No browser extension, no IDE plug-in, no Termpolis cloud sync. The MCP server
-              binds to <code>127.0.0.1</code> with a 256-bit token rotated every launch.
-              No Termpolis accounts, and no Termpolis telemetry unless you opt in: crash
-              reports and anonymous usage statistics are two separate switches, both off by
-              default, and a crash report swaps your home-folder paths and user name for
-              placeholders before it is sent.
-              <strong>Limit:</strong> Termpolis is itself an Electron app — same caveats
-              apply as any local desktop process running with your privileges.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Built-in legal disclaimer</h3>
-            <p>
-              Apache 2.0 "AS&nbsp;IS". Settings → AI Security and <code>TERMS.md</code> ship
-              the full liability disclaimer covering provider ToS changes, the limits of
-              regex-based secret detection, and the scope of Strict Mode interception. Vetted,
-              transparent, auditable.
-            </p>
-          </article>
-        </div>
-        <div class="section-heading" style="margin-top:56px;">
-          <p class="eyebrow">🧩 New in v1.25 &middot; Safe Import</p>
-          <h2>Scan a third-party skill before it ever runs</h2>
-          <p>
-            Skills, plugins, slash-commands, subagents, and MCP servers are the new dependency —
-            and they are a live supply-chain vector. You paste a link, an agent writes it into
-            its own config, and from then on it runs with your privileges, inside your repo, next
-            to your credentials. Termpolis <strong>statically scans the artifact before it
-            is wired into any agent</strong> and <strong>refuses to install anything it rates
-            red</strong>. No other AI terminal we know of checks an artifact before wiring it in
-            — if one does, <a href="https://github.com/codedev-david/termpolis/issues/new" target="_blank" rel="noreferrer">file an issue</a> and we'll say so.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>41 rules — read, never run</h3>
-            <p>
-              The scan is <strong>static</strong>: Termpolis reads the artifact, it does not
-              execute it. 41 rules span <strong>outbound network calls</strong>
-              (<code>fetch</code>, <code>axios</code>, <code>curl</code>, WebSocket),
-              <strong>shell and eval execution</strong> (<code>child_process</code>,
-              <code>exec</code>, <code>eval</code>, <code>subprocess</code>),
-              <strong>credential and filesystem access</strong> (<code>~/.ssh</code>,
-              <code>~/.aws</code>, the OS keychain), and <strong>obfuscated payloads</strong>
-              (long base64 blobs, <code>atob</code>&nbsp;&rarr;&nbsp;<code>exec</code>).
-              <strong>Limit:</strong> static analysis reasons about the code as written — it is
-              not a sandbox and does not observe the artifact at runtime, so a sufficiently novel
-              packer can still evade the pattern set.
-            </p>
-          </article>
-          <article class="card">
-            <h3>It reads the instructions, too</h3>
-            <p>
-              An AI artifact ships <em>prompts</em>, and a prompt is executable. So five of those
-              rules read the skill's own instruction text for <strong>prompt injection</strong> —
-              &ldquo;ignore previous instructions,&rdquo; &ldquo;do not tell the user,&rdquo;
-              &ldquo;send the contents of&hellip;&rdquo; — because a skill with zero lines of code
-              can still tell your agent to go and exfiltrate a file for it.
-              <strong>Limit:</strong> pattern-based, and prose is easier to rephrase than an API
-              call.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Red never installs</h3>
-            <p>
-              You get a <strong>red / yellow / green report with <code>file:line</code></strong>
-              for every finding, so you're reviewing evidence rather than a verdict.
-              <strong>Anything rated red can never be installed</strong> — it is a gate, not a
-              warning you can click through. Yellow is yours to judge. The upload area and live
-              scan progress are in Settings &rarr; General.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Approvals are hash-pinned</h3>
-            <p>
-              An approval is pinned to the artifact's <strong>content hash</strong>, so editing an
-              approved skill re-prompts — there is no trust-on-first-use-then-swap. On approval,
-              Termpolis installs it wherever that <em>kind</em> of artifact actually goes: an
-              <strong>MCP server</strong> into Codex (not yet Claude Code, nor the <code>agy</code> behind Gemini); a <strong>slash command</strong>
-              into Claude and Gemini; a <strong>skill, subagent or plugin</strong> into
-              Claude Code, which is the only one of the three with a skills system. The installer
-              refuses <strong>zip-slip</strong> paths and <strong>TOML-injection</strong> in the
-              config it writes.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-security-center.png" alt="Termpolis AI Security Center settings tab — prompt secret watch, Gemini paid-tier enforcement, audit log.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-security-scanner.png" alt="Manual pre-paste secret scan flagging an AWS key and a GitHub token, with a redacted preview.">
-          </figure>
-        </div>
-        <p style="margin-top:24px; font-size:14px; opacity:0.85;">
-          <strong>What this is and isn't.</strong> Termpolis is defense in depth for the
-          hosted-model path — it raises the cost of accidental disclosure and gives you a
-          record to audit. It is <em>not</em> a guarantee that source code cannot reach a
-          provider; only not running the agent at all gives you that. The honest answer to
-          "can a hosted model leak my code?" is "yes, if you send it; the question is whether
-          the controls catch the obvious accidents and whether you trust the provider's terms
-          for the rest."
-        </p>
-      </section>
-
-      <!-- SWARM -->
-      <section id="swarm" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Multi-agent swarm</p>
-          <h2>The conductor that knows who plays what</h2>
-          <p>
-            No AI company has built a tool that brings together competing models to work as a team,
-            because it helps their competitors. Termpolis does it anyway, because it moves AI forward.
-            Claude, Codex, and Gemini working in harmony on the same project, directed by a live AI conductor.
-          </p>
-        </div>
-        <figure style="margin:24px 0 8px;padding:0;">
-          <img src="assets/diagram-swarm.svg?v=20261008b" alt="How a swarm works: you describe a goal; an AI conductor plans and splits it, runs the best agent for each piece in parallel — Claude, Codex and Gemini sharing one memory — then reports back." style="width:100%;height:auto;display:block;">
-        </figure>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>AI Conductor</h3>
-            <p>
-              A dedicated Claude Code instance runs as the swarm orchestrator. It reads every agent's
-              output as the work runs (it checks in every 15&ndash;20 seconds), decides what to delegate next, and issues instructions using live AI
-              reasoning, not hard-coded keyword matching. The conductor thinks; the agents execute.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Smart task routing</h3>
-            <p>
-              The orchestrator analyzes your task, breaks it into subtasks (refactoring, testing, docs, review),
-              and assigns each to the best agent based on a customizable capability matrix. The conductor also sees each
-              agent&rsquo;s cost tier and is told to run simple or routine Claude subtasks on cheaper models.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Customizable agent ratings</h3>
-            <p>
-              3 agents scored across 10 categories. Default ratings are estimates based on general model capabilities.
-              Customize them in Settings &gt; Agent Ratings based on your experience.
-              The AI conductor uses ratings as hints but makes its own judgment calls.
-            </p>
-          </article>
-          <article class="card">
-            <h3>3-step swarm launch</h3>
-            <p>
-              Pick a folder and Termpolis starts the conductor &rarr; describe the goal (plus optional constraints,
-              expected output and failure conditions) &rarr; launch. The conductor picks the agents and starts
-              each one in its own background terminal with its task prompt. The conductor monitors and adapts as work progresses.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Swarm review &amp; safe revert</h3>
-            <p>
-              Check the swarm&rsquo;s work before you keep it. Review every diff hunk in tracked files against the
-              pre-swarm HEAD, run the tests, and commit (Commit stays locked while the last test run is failing) &mdash; or <code>git reset --hard</code>
-              back to the pre-swarm commit. New untracked files the swarm creates are not listed for review:
-              Commit includes them and Revert all leaves them on disk.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Take over any agent, live</h3>
-            <p>
-              You stay in control of the fleet. Pause an agent, hard-interrupt a runaway, cancel
-              its current action, or send it a steering message &mdash; from the Activity Feed (Ctrl+Shift+A),
-              whose buttons write straight to the active terminal&rsquo;s pty.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-swarm-dashboard.png" alt="Termpolis swarm dashboard with Tasks, Messages, and Trace tabs.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-swarm-wizard.png" alt="Termpolis swarm wizard preparing the AI conductor.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-swarm-trace.png" alt="Termpolis swarm conductor Trace tab — the conductor's event timeline: plan, delegate, watch, merge.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-swarm-describe.png" alt="Start Swarm: describe the goal, with optional constraints, expected output and failure conditions, before the conductor plans the work.">
-          </figure>
-        </div>
       </section>
 
       <!-- DOWNLOADS -->
@@ -1895,591 +526,6 @@
             <a class="button button-secondary" href="/mobile/">Termpolis Remote</a>
           </div>
         </aside>
-      </section>
-
-      <!-- AI OBSERVABILITY -->
-      <section id="observability" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">AI observability</p>
-          <h2>See what every agent is doing, in real time</h2>
-          <p>
-            Run five agents at once and the usual problem shows up fast: two of them are doing the same work, one is about
-            to run out of context, and another is quietly burning tokens. Termpolis ships a local observability layer that
-            watches every Claude Code and Codex agent you open in a Termpolis terminal (not yet Gemini&rsquo;s <code>agy</code>). No cloud, no external dashboard, bounded memory, 90%+ test coverage.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Activity feed</h3>
-            <p>
-              Ctrl+Shift+A opens a live stream of every agent event: messages, tool calls, tool results, token updates,
-              compaction events, errors, and MCP audit entries. Filter by agent (Claude/Codex/Gemini), by kind,
-              or search full text. Newest first.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Context pins</h3>
-            <p>
-              Pin any snippet to the current project: a migration rule, a test policy, an API contract. Pins are
-              turned into a re-injection prompt you can copy into the next agent, so it doesn't lose the plot. Stored per project, up to 100 pins.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Redundancy detector</h3>
-            <p>
-              Ctrl+Shift+D surfaces duplicate work across terminals. Two agents running <code>npm test</code> at the same
-              time? Both editing the same file? A severity-ranked finding shows up immediately.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Efficiency panel</h3>
-            <p>
-              Ctrl+Shift+Y aggregates per-agent stats: tokens in/out, tool calls, messages, files touched, error rate, and tool calls per message. Spot
-              when one agent is burning budget while another is cruising.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Event bus</h3>
-            <p>
-              In-process bounded ring buffer (10K events) with rate limiting (500/sec burst) to prevent DoS from a runaway
-              agent. Persisted to JSONL with automatic rotation. 64KB payload cap. Subscriber callbacks are sandboxed so a
-              bad listener can't kill the bus.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-activity-feed.png" alt="Activity feed (Ctrl+Shift+A) — every tool call from every active agent in one streaming timeline.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-context-pins.png" alt="Context pins panel (Ctrl+Shift+B) — keep the prompts and snippets you actually need on every model.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-redundancy.png" alt="Redundancy panel (Ctrl+Shift+D) — flag agents that are doing overlapping work in the swarm.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-efficiency.png" alt="Efficiency panel (Ctrl+Shift+Y) — per-agent tokens, tool calls and error rate over a recent window, plus which agent has the lowest error rate, the fewest tool calls per message and the most files touched.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- WORKFLOW ORCHESTRATOR -->
-      <section id="workflow-orchestrator" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Workflow Orchestrator</p>
-          <h2>Chain agents, commands, and skills into one repeatable run</h2>
-          <p>
-            New in v1.31: an Azure-Logic-Apps-style canvas for automating the work you
-            repeat. Drop in steps, wire them together, hit Run, and watch each one go
-            green on a live timeline &mdash; all local, all on your machine. Every
-            workflow saves as portable YAML you can commit alongside your code.
-            New in v1.32: workflows run <em>themselves</em> &mdash; on a cron, on a
-            commit, on a push, or when files change.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Four kinds of step</h3>
-            <p>
-              <strong>Command</strong> runs a shell line on a real terminal &mdash; inline
-              or a script file, any shell, with a timeout. <strong>Agent</strong> launches
-              Claude Code, OpenAI Codex, or Gemini CLI on a prompt and waits for it to
-              finish. <strong>Skill</strong> calls one of Termpolis&rsquo;s built-in tools
-              &mdash; code search, memory, git. <strong>Control</strong> branches, loops,
-              waits, or notifies.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Real control flow</h3>
-            <p>
-              Branch to another step, loop earlier steps until a condition holds, wait, or
-              post a notification. Every step carries a <code>when</code> gate and an
-              optional &ldquo;continue even if this step fails,&rdquo; so a single workflow
-              can react to what the previous step actually did.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Data flows between steps</h3>
-            <p>
-              Later steps read earlier results &mdash; <code>steps.build.exitCode</code>, a
-              step&rsquo;s captured output &mdash; inside gates, branch conditions, loop
-              guards, and notify messages. Expressions run through a small, pure, sandboxed
-              evaluator; never <code>eval</code>.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Watch it run &mdash; and stop it</h3>
-            <p>
-              The Run view streams each step&rsquo;s output live, marks it succeeded,
-              failed, or skipped, and shows how long it took. Cancel mid-run and every
-              in-flight step is torn down cleanly.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Write once, run in any repo</h3>
-            <p>
-              Set a workflow&rsquo;s availability to <strong>Global</strong> and it follows you
-              &mdash; it shows in the sidebar in every project and runs against whichever
-              directory you&rsquo;re standing in, so <code>${project.cwd}</code>,
-              <code>${project.name}</code> and <code>${project.branch}</code> resolve to the
-              repo you&rsquo;re actually in. Give it a <strong>Category</strong> and the sidebar
-              files it into a collapsible folder. Give it <strong>Inputs</strong> and Termpolis
-              asks for them before the run &mdash; <code>${inputs.NAME}</code> reaches every
-              command, prompt, path, and condition, and a required input keeps the Run button
-              locked until it&rsquo;s filled in.
-            </p>
-          </article>
-          <article class="card">
-            <h3>It runs itself</h3>
-            <p>
-              Give a workflow a trigger and stop pressing Run. <strong>Schedule</strong>
-              takes a real cron expression (<code>0 2 * * *</code>, or <code>@daily</code>)
-              in your local time, and catches up a run missed while the app was closed.
-              <strong>Git commit</strong> fires within about 15 seconds of a commit landing on the checked-out
-              branch &mdash; it runs after the commit (it is not a git hook and can&rsquo;t block it) and can lint, test, or hand the diff to an
-              agent. <strong>Git push</strong> watches the remote-tracking ref.
-              <strong>File change</strong> is a debounced recursive watch you can narrow to
-              one folder. Triggers survive restarts, and an automatic run takes the exact
-              same path as pressing Run &mdash; including the workspace-trust gate, so an
-              untrusted folder never fires. A global workflow arms in every project you have
-              open, and each one keeps its own trigger state, so a commit in one repo only
-              fires that repo&rsquo;s run.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-workflow-designer.png" alt="Termpolis Workflow Orchestrator designer — a vertical pipeline of Command, Agent, Skill, and Control steps under a manual trigger.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-workflow-runner.png" alt="Termpolis Workflow Orchestrator run view — a live timeline of steps going green with elapsed times and streamed output.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- AI NATIVE -->
-      <section id="ai-native" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">AI-native features</p>
-          <h2>Built from the ground up for AI coding workflows</h2>
-          <p>
-            Termpolis isn't just a terminal that runs AI tools. It's designed around them.
-            Launch agents with one click, orchestrate swarms, track costs, record sessions,
-            search conversations, and let AI agents control your workspace through MCP.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>AI agent profiles</h3>
-            <p>
-              One-click launch for Claude Code, Codex, and Gemini / Antigravity CLI. Add custom profiles
-              for any AI tool. Each gets its own terminal with the right shell, color, and startup command.
-            </p>
-          </article>
-          <article class="card">
-            <h3>MCP server</h3>
-            <p>
-              Built-in HTTP/SSE server on localhost:9315 with 40 tools. AI agents create terminals,
-              run commands, read output, manage your workspace, and tap a shared memory that learns
-              from every session. Connects to Claude Code, Codex, and the Gemini / Antigravity CLI once you say so.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Native code graph</h3>
-            <p>
-              Agents navigate your codebase by structure, not grep. A
-              local, pre-indexed symbol graph &mdash; spanning <strong>TypeScript/JavaScript, Python,
-              Go, Rust, Java, C#, Ruby, and Swift</strong>, plus <strong>Terraform</strong> and
-              <strong>Bicep</strong> for infrastructure &mdash; answers <code>code_explore</code> (a
-              symbol&rsquo;s source, callers, and callees), <code>code_callers</code> /
-              <code>code_callees</code>, <code>code_impact</code> (the blast radius before you touch
-              a shared function), <code>code_search</code>, and <code>code_locate</code> (predict
-              <em>where</em> an issue lives). Parsing is AST-precise via <strong>web-tree-sitter</strong> (WASM) for the eight languages (Terraform and Bicep use pattern rules),
-              so it&rsquo;s still fully native-free and on your machine &mdash; no cloud, secrets excluded.
-              <strong>New in v1.23</strong>: the graph is keyed <strong>per repository</strong> &mdash; a
-              second repo no longer clobbers the first, and each repo&rsquo;s graph is a durable on-disk
-              store, so a transient non-git directory won&rsquo;t wipe one you&rsquo;ve already built. An edit
-              re-indexes just the changed file (debounced), so the graph stays fresh in seconds.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Context handoff</h3>
-            <p>
-              <strong>Past AI Sessions &rarr; Continue</strong> carries a past Claude Code session into Codex or a fresh Claude Code (its Gemini CLI entry types the old <code>gemini</code> command, not <code>agy</code>).
-              It hands over the project folder and branch, the original goal, your latest direction and the last assistant turn, pasted in for you to review and send.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Command palette</h3>
-            <p>
-              Ctrl+K opens a natural language command bar. Type "new terminal", "launch claude",
-              "split right". 19 commands, all local pattern matching, no API keys needed.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Prompt templates</h3>
-            <p>
-              Save reusable prompts (Fix Tests, Code Review, Refactor) and insert them into any
-              terminal with Ctrl+Shift+P. Create custom templates for your workflows.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Voice dictation</h3>
-            <p>
-              Talk to your agents instead of typing. <kbd>Ctrl+Shift+L</kbd> dictates
-              tap-to-toggle or hold-to-talk; Groq&rsquo;s cloud Whisper API transcribes it (off by default: switch voice on in Settings and add your Groq API key), called from the main process so the
-              API key never reaches the renderer, and a no-speech energy gate stops silence from
-              turning into hallucinated text. Pick and test your mic in Settings.
-            </p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-command-palette.png" alt="Termpolis command palette with natural language commands.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-prompt-templates.png" alt="Termpolis prompt templates panel.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- SHARE TO SLACK / TEAMS / PRs -->
-      <section id="share" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Share-ready output</p>
-          <h2>One shortcut from terminal to Slack, Teams, or a PR</h2>
-          <p>
-            AI workflows generate share-worthy output constantly: a stack trace to drop in a
-            channel, a green test run for a PR, a fenced snippet for the engineering wiki. Termpolis
-            gives you three reserved copy shortcuts &mdash; always on, and locked so a custom
-            keybinding can never shadow them &mdash; so the path from terminal buffer to a
-            teammate&rsquo;s chat window is a single keystroke.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Copy &mdash; <kbd>Ctrl+Shift+C</kbd></h3>
-            <p>
-              Copies the current selection
-              as clean text. The everyday copy &mdash; permanently bound to this combo.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Copy for Teams/Slack &mdash; <kbd>Ctrl+Shift+K</kbd></h3>
-            <p>
-              Formats the output to land nicely in Slack and Microsoft Teams: a compact,
-              emoji-friendly message with <strong>no hard-wrapped line breaks</strong>, pasted as an
-              ordinary message rather than a giant code box.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Copy as Code Block &mdash; <kbd>Ctrl+Shift+Q</kbd></h3>
-            <p>
-              Wraps the selection in triple-backtick fences, Markdown-ready for GitHub, GitLab, or
-              any wiki that respects fenced code.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <!-- GIT -->
-      <section id="git" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Git &amp; diffs</p>
-          <h2>Your repo state, where the work is happening</h2>
-          <p>
-            An agent changes files faster than you can watch. Termpolis keeps the answer to
-            &ldquo;what just changed, and have I pushed it?&rdquo; in the same window as the
-            terminal that changed it &mdash; a git panel, a diff reader, and a mark on every
-            terminal that goes amber the moment you have work waiting.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>The git panel</h3>
-            <p>
-              Opens from the sidebar and finds the repo itself, from the active terminal&rsquo;s
-              working directory &mdash; or point it at a folder. Current branch, staged and
-              unstaged sections with counts, and every file carrying its status letter &mdash;
-              <code>M</code> modified, <code>A</code> added, <code>D</code> deleted,
-              <code>R</code> renamed, <code>U</code> untracked.
-              Stage or unstage one file on hover, or all of them at once. Commit, pull, push.
-              It re-reads status every 3 seconds, so it is never showing you a stale tree.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Click a file, read the diff</h3>
-            <p>
-              Clicking a file opens its unstaged changes as a diff in place (staged-only and untracked files show no diff) &mdash; additions green,
-              deletions red, hunk headers blue. No external difftool, no leaving the window,
-              <kbd>Esc</kbd> back to the file list.
-            </p>
-          </article>
-          <article class="card">
-            <h3>When an agent prints a diff</h3>
-            <p>
-              A <strong>View Diff</strong> button appears on the pane when a plain (uncoloured) <code>diff --git</code> header shows up in its recent output; right-click &rarr; <strong>View as Diff</strong> opens the same view any time.
-              It takes the pane&rsquo;s last 4&nbsp;KB of output, strips the ANSI codes, and renders it properly:
-              split per file on <code>diff --git</code>, real line numbers recovered from each
-              <code>@@</code> hunk header, one click to copy. A wall of coloured terminal text
-              becomes something you can actually review.
-            </p>
-          </article>
-          <article class="card">
-            <h3>The dot that means &ldquo;you have work waiting&rdquo;</h3>
-            <p>
-              Every terminal row carries a small git mark &mdash; plain shells and AI terminals
-              alike. Grey and still when the tree is clean; <strong>amber and pulsing</strong>
-              when anything is staged, modified, untracked, conflicted, or
-              <strong>committed but not pushed</strong>. That last one is the state people
-              actually lose work from, and nothing else in a terminal shows it. Hover for the
-              breakdown: <em>3 staged, 2 modified, 1 to push</em>.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Behind the remote doesn&rsquo;t pulse</h3>
-            <p>
-              A deliberate choice. Being behind is someone else&rsquo;s work arriving, not yours
-              waiting &mdash; and on a busy shared repo it would leave the dot pulsing forever,
-              which teaches you to ignore it. It is still in the tooltip. Only your own
-              outstanding work animates.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Real git, every time</h3>
-            <p>
-              Every action is a real <code>git</code> command in a spawned process &mdash; no
-              reimplementation, no bundled libgit. Your hooks run, your config applies, your
-              credential helper is the one that answers, and you can always drop to the CLI and
-              see the identical state. Status polling is shared per working directory, so ten terminals
-              open in one directory is still one <code>git status</code>.
-            </p>
-          </article>
-        </div>
-        <aside class="companion-strip" style="margin-top:24px;">
-          <span class="platform-dot git" aria-hidden="true"></span>
-          <div>
-            <h3>And the commit itself is gated</h3>
-            <p>
-              The <strong>Commit &amp; Push Secret Shield</strong> scans the staged diff before a
-              commit and every unpushed patch before a push. A key in either one
-              <em>blocks</em> the operation and names the rule that caught it.
-            </p>
-          </div>
-          <div class="strip-actions">
-            <a class="button button-secondary" href="#security">Secret Shield</a>
-            <a class="button button-secondary" href="docs.html#git">Git docs</a>
-          </div>
-        </aside>
-      </section>
-
-      <!-- TERMINAL FEATURES -->
-      <section id="features" class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Terminal features</p>
-          <h2>Everything you need in a modern terminal</h2>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>Split panes</h3>
-            <p>Split any terminal horizontally or vertically with draggable dividers. Nest splits recursively.</p>
-          </article>
-          <article class="card">
-            <h3>7 themes</h3>
-            <p>Dark, Light, Solarized Dark/Light, Monokai, Dracula, Nord. Per-terminal with live preview.</p>
-          </article>
-          <article class="card">
-            <h3>Command autocomplete</h3>
-            <p>VS Code-style dropdown for 20+ tools. Commands, subcommands, flags with descriptions.</p>
-          </article>
-          <article class="card">
-            <h3>Command auto-fix</h3>
-            <p>Mistype a command? Green banner suggests the correction. Enter to run, Esc to ignore.</p>
-          </article>
-          <article class="card">
-            <h3>Configurable keybindings</h3>
-            <p>18 keyboard shortcuts; all but the three reserved copy shortcuts can be re-recorded in Settings.</p>
-          </article>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-modal.png" alt="Termpolis new terminal modal with themes, font size, and preview.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-settings.png" alt="Termpolis settings with keybindings.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- MCP -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">MCP integration</p>
-          <h2>AI agents control your terminal</h2>
-          <p>
-            Termpolis runs an MCP server on localhost:9315 with 40 tools. Claude Code,
-            Codex and the Gemini / Antigravity CLI connect to it once you agree. Secured with a 256-bit auth token,
-            localhost only, no plugins.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>40 MCP tools</h3>
-            <p>Terminal management (list, create, run, read, close, write) + file tree + git status + 6 swarm coordination tools + 14 memory/learning tools (write, search, list, related, link, graph, primer, anticipate, pool, self-check, feedback, conflicts, audit, correct) + 6 code-graph tools (explore, callers, callees, impact, search, locate) + run-and-wait, test coverage, retrieve-full, 2 MCP-gateway tools and <a href="#linked">linked machines</a>.</p>
-          </article>
-          <article class="card">
-            <h3>Connects to your agents &mdash; after it asks</h3>
-            <p>Termpolis shows you exactly what it would add to the Claude Code, Codex, and Gemini / Antigravity CLI config files on the first step of the tour, and writes nothing until you finish or skip it &mdash; the <strong>Connect agents</strong> box starts ticked, and clearing it says no. <strong>Settings &rarr; Agent Integration</strong> lists every change, and <strong>Disconnect</strong> removes all of it.</p>
-          </article>
-          <article class="card">
-            <h3>CLI tool included</h3>
-            <p><code>termpolis-cli</code> (a Node.js script in the app&rsquo;s <code>mcp-adapter</code> resources folder; it isn&rsquo;t added to your PATH) lets you control a running Termpolis from any terminal: list, create, run, read, close. Since <strong>v1.36</strong> it also reaches the shared brain &mdash; <code>primer</code>, <code>recall</code> and <code>remember</code> &mdash; so a CI job, a git hook or a plain script can read and write the same memory the app is built around.</p>
-          </article>
-          <article class="card">
-            <h3>Security hardened</h3>
-            <p>256-bit auth token, localhost only, CORS restricted, no plugins, no telemetry unless you opt in. Atomic file writes.</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- WORKSPACES -->
-      <section id="workspaces" class="section split reveal">
-        <div class="split-copy">
-          <p class="eyebrow">Workspaces</p>
-          <h2>Save and restore terminal sets</h2>
-          <ul class="detail-list">
-            <li>Save all terminals with names, shells, themes, fonts, colors, and working directories</li>
-            <li>Terminals reopen in the same directory they were in when saved</li>
-            <li>Settings and saved workspaces persist across restarts; each launch starts with a clean terminal list</li>
-            <li>Single-instance lock prevents session corruption</li>
-          </ul>
-        </div>
-        <div class="workspace-board">
-          <article class="workspace-card">
-            <span class="workspace-label">AI Coding</span>
-            <h3>Claude + Tests</h3>
-            <p>Claude Code on the left, test runner on the right.</p>
-          </article>
-          <article class="workspace-card">
-            <span class="workspace-label">Full Stack</span>
-            <h3>Dev Environment</h3>
-            <p>Frontend, backend, database, and AI agent in 4 panes.</p>
-          </article>
-          <article class="workspace-card">
-            <span class="workspace-label">Swarm</span>
-            <h3>Multi-Agent</h3>
-            <p>Claude, Codex, and Gemini collaborating on a task.</p>
-          </article>
-          <figure class="product-shot workspace-shot">
-            <img src="assets/screenshot-workspace-info.png" alt="Termpolis sidebar showing workspaces and AI agents.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- SHORTCUTS -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Shortcuts</p>
-          <h2>Keyboard shortcuts</h2>
-        </div>
-        <div class="shortcut-strip">
-          <article class="shortcut-card"><strong>Ctrl+K</strong><span>Command palette</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Shift+P</strong><span>Prompt templates</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Shift+S</strong><span>Swarm dashboard</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Shift+E</strong><span>Context panel</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Shift+I</strong><span>Conversation search</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Shift+X</strong><span>Clear terminal</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Shift+O</strong><span>App log</span></article>
-          <article class="shortcut-card"><strong>Alt+1–9</strong><span>Jump to terminal</span></article>
-          <article class="shortcut-card"><strong>Win+Shift+T</strong><span>Global: new terminal</span></article>
-          <article class="shortcut-card"><strong>Ctrl+Space</strong><span>Autocomplete</span></article>
-        </div>
-      </section>
-
-      <!-- PERFORMANCE -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Performance &amp; security</p>
-          <h2>Enterprise-grade reliability</h2>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <h3>14,700+ automated tests</h3>
-            <p>14,700+ unit &amp; component tests across 613 files (Vitest &mdash; 99.4% line, 98.7% statement, 98.7% function, 97.1% branch coverage) plus a 40+-spec Playwright end-to-end suite that launches the real Electron app, with automated screenshots. Every gate runs on every release.</p>
-          </article>
-          <article class="card">
-            <h3>Output throttling</h3>
-            <p>64KB per-frame rate limit. 10,000-line scrollback cap. Viewport-aware rendering in split view.</p>
-          </article>
-          <article class="card">
-            <h3>Token-saving model broker</h3>
-            <p>Run the cheapest viable model per task: pin a Claude model per profile or switch a running agent's model from the terminal header (Sonnet ≈40% cheaper than Opus, Haiku ≈80%; Codex and Gemini terminals list their own models), and let the swarm conductor downshift the simpler subtasks automatically. With <a href="#model-per-message">Model per message</a> on, each message you send runs on the model and effort it needs, picked on your computer. Relevance-gated memory recall keeps context windows lean so agents don't burn tokens re-deriving what they already know.</p>
-          </article>
-          <article class="card">
-            <h3>No plugins, by design</h3>
-            <p>Third-party plugins are a security risk. Every feature is built-in, auditable, and ships with the app.</p>
-          </article>
-          <article class="card">
-            <h3>Crash recovery</h3>
-            <p>React ErrorBoundary catches render crashes. Optional Sentry integration. Terminals survive UI errors.</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- SHELLS -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Supported shells</p>
-          <h2>Auto-detects your installed shells</h2>
-        </div>
-        <div class="shell-grid">
-          <article class="platform-card"><h3>PowerShell 7</h3><p>Windows, macOS, Linux</p></article>
-          <article class="platform-card"><h3>Windows PowerShell 5.1</h3><p>Windows, when PowerShell 7 isn&rsquo;t installed</p></article>
-          <article class="platform-card"><h3>Command Prompt</h3><p>Windows</p></article>
-          <article class="platform-card"><h3>Git Bash</h3><p>Windows</p></article>
-          <article class="platform-card"><h3>Bash</h3><p>macOS, Linux</p></article>
-          <article class="platform-card"><h3>Zsh</h3><p>macOS, Linux</p></article>
-        </div>
-      </section>
-
-      <!-- APP SHOWCASE -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">In action</p>
-          <h2>See Termpolis in action</h2>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-split-view.png" alt="Termpolis split view with Git Bash and PowerShell side by side.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-workspace-info.png" alt="Termpolis workspaces info modal.">
-          </figure>
-        </div>
-      </section>
-
-      <!-- SCREENSHOTS -->
-      <section class="section reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Screenshots</p>
-          <h2>The interface up close</h2>
-        </div>
-        <div class="feature-media-grid">
-          <figure class="product-shot">
-            <img src="assets/screenshot-modal.png" alt="Terminal creation with theme picker, font selector, and live preview.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-settings.png" alt="Settings panel with keybindings and shell config editor.">
-          </figure>
-        </div>
-        <div class="feature-media-grid" style="margin-top: 1rem;">
-          <figure class="product-shot">
-            <img src="assets/screenshot-command-palette.png" alt="Command palette with natural language commands.">
-          </figure>
-          <figure class="product-shot">
-            <img src="assets/screenshot-prompt-templates.png" alt="Prompt templates for AI coding workflows.">
-          </figure>
-        </div>
       </section>
 
       <!-- SPONSOR -->

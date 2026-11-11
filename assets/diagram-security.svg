@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="Where Termpolis checks for secrets. A commit or push from the Git panel, or from any terminal once its git hooks are installed, passes Commit Shield, which blocks a key. Anything an agent saves to memory has secrets scrubbed first. A skill, plugin or MCP server is scanned by Safe Import before it installs, and a red result never installs. A prompt you type is checked against 97 rules; a hit is recorded and named so you know what to rotate, but the prompt is not blocked. Every check runs on your computer.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16161d"/>
+      <stop offset="1" stop-color="#101015"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#6b6b82"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="778" rx="22" fill="url(#bg)" stroke="#2a2a38" stroke-width="1.5"/>
+
+  <text x="40" y="54" fill="#f4f4fa" font-size="30" font-weight="700">Where Termpolis checks for secrets</text>
+  <text x="40" y="86" fill="#a6a6bd" font-size="17">Each check sits where a secret can actually escape. All of them run on your computer.</text>
+
+  <!-- column labels -->
+  <text x="40" y="132" fill="#6b6b82" font-size="13" font-weight="700" letter-spacing="2">WHAT HAPPENS</text>
+  <text x="440" y="132" fill="#6b6b82" font-size="13" font-weight="700" letter-spacing="2">THE CHECK</text>
+  <text x="900" y="132" fill="#6b6b82" font-size="13" font-weight="700" letter-spacing="2">WHERE IT WOULD GO</text>
+
+  <!-- Lane 1: Commit Shield -->
+  <g>
+    <rect x="40" y="150" width="340" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="62" y="196" fill="#f4f4fa" font-size="19" font-weight="600">A commit or push</text>
+    <text x="62" y="224" fill="#a6a6bd" font-size="15">Git panel, Swarm Review, or any</text>
+    <text x="62" y="246" fill="#a6a6bd" font-size="15">terminal once the hooks are installed</text>
+    <line x1="384" y1="210" x2="432" y2="210" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="440" y="150" width="400" height="120" rx="14" fill="#2a1416" stroke="#ff7a45" stroke-opacity="0.55"/>
+    <text x="462" y="194" fill="#f4f4fa" font-size="20" font-weight="700">Commit Shield</text>
+    <rect x="462" y="210" width="78" height="26" rx="13" fill="#ff7a45"/>
+    <text x="501" y="228" fill="#1a0e08" font-size="13" font-weight="800" text-anchor="middle">BLOCKS</text>
+    <text x="552" y="228" fill="#d8c3bb" font-size="15">a key in the diff, and names it</text>
+    <line x1="844" y1="210" x2="892" y2="210" stroke="#6b6b82" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+    <rect x="900" y="150" width="260" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="922" y="204" fill="#f4f4fa" font-size="18" font-weight="600">Your git remote</text>
+    <text x="922" y="230" fill="#a6a6bd" font-size="15">GitHub, Azure DevOps…</text>
+  </g>
+
+  <!-- Lane 2: Memory scrub -->
+  <g>
+    <rect x="40" y="290" width="340" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="62" y="338" fill="#f4f4fa" font-size="19" font-weight="600">An agent saves a memory</text>
+    <text x="62" y="366" fill="#a6a6bd" font-size="15">a lesson, a decision, a handoff</text>
+    <line x1="384" y1="350" x2="432" y2="350" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="440" y="290" width="400" height="120" rx="14" fill="#2a1416" stroke="#ff7a45" stroke-opacity="0.55"/>
+    <text x="462" y="334" fill="#f4f4fa" font-size="20" font-weight="700">Memory scrub</text>
+    <rect x="462" y="350" width="90" height="26" rx="13" fill="#ff7a45"/>
+    <text x="507" y="368" fill="#1a0e08" font-size="13" font-weight="800" text-anchor="middle">REMOVES</text>
+    <text x="564" y="368" fill="#d8c3bb" font-size="15">secrets before anything is stored</text>
+    <line x1="844" y1="350" x2="892" y2="350" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="900" y="290" width="260" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="922" y="344" fill="#f4f4fa" font-size="18" font-weight="600">Local memory</text>
+    <text x="922" y="370" fill="#a6a6bd" font-size="15">encrypted on your disk</text>
+  </g>
+
+  <!-- Lane 3: Safe Import -->
+  <g>
+    <rect x="40" y="430" width="340" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="62" y="478" fill="#f4f4fa" font-size="19" font-weight="600">You install an add-on</text>
+    <text x="62" y="506" fill="#a6a6bd" font-size="15">a skill, plugin or MCP server</text>
+    <line x1="384" y1="490" x2="432" y2="490" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="440" y="430" width="400" height="120" rx="14" fill="#2a2214" stroke="#f2b94b" stroke-opacity="0.55"/>
+    <text x="462" y="474" fill="#f4f4fa" font-size="20" font-weight="700">Safe Import</text>
+    <rect x="462" y="490" width="70" height="26" rx="13" fill="#f2b94b"/>
+    <text x="497" y="508" fill="#1a1406" font-size="13" font-weight="800" text-anchor="middle">GATES</text>
+    <text x="544" y="508" fill="#ddd2bb" font-size="15">41 rules; a red result never installs</text>
+    <line x1="844" y1="490" x2="892" y2="490" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="900" y="430" width="260" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="922" y="484" fill="#f4f4fa" font-size="18" font-weight="600">Your agents</text>
+    <text x="922" y="510" fill="#a6a6bd" font-size="15">only if it passed</text>
+  </g>
+
+  <!-- Lane 4: Prompt watch -->
+  <g>
+    <rect x="40" y="570" width="340" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="62" y="618" fill="#f4f4fa" font-size="19" font-weight="600">You type a prompt</text>
+    <text x="62" y="646" fill="#a6a6bd" font-size="15">to Claude, Codex or Gemini</text>
+    <line x1="384" y1="630" x2="432" y2="630" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="440" y="570" width="400" height="120" rx="14" fill="#14222a" stroke="#66a7ff" stroke-opacity="0.55"/>
+    <text x="462" y="614" fill="#f4f4fa" font-size="20" font-weight="700">Prompt watch</text>
+    <rect x="462" y="630" width="84" height="26" rx="13" fill="#66a7ff"/>
+    <text x="504" y="648" fill="#08121a" font-size="13" font-weight="800" text-anchor="middle">DETECTS</text>
+    <text x="558" y="648" fill="#bfd0dd" font-size="15">97 rules; names what to rotate</text>
+    <text x="462" y="674" fill="#8aa0b2" font-size="13">It records the hit. It does not block the prompt.</text>
+    <line x1="844" y1="630" x2="892" y2="630" stroke="#6b6b82" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="900" y="570" width="260" height="120" rx="14" fill="#1c1c26" stroke="#2f2f40"/>
+    <text x="922" y="624" fill="#f4f4fa" font-size="18" font-weight="600">The model provider</text>
+    <text x="922" y="650" fill="#a6a6bd" font-size="15">as with any hosted AI</text>
+  </g>
+
+  <text x="40" y="740" fill="#7ee2a3" font-size="15">Every check runs locally, and the audit log stays on your computer.</text>
+</svg>

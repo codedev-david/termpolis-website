@@ -1157,3 +1157,151 @@ body.lightbox-open {
     transform: none;
   }
 }
+
+/* ---- Homepage v2 (2026-11-10): proof strip, pillars, compact grid ---- */
+.stats-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stats a,
+.hero-meta a,
+.read-more a,
+.card-link {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.stats a:hover,
+.hero-meta a:hover,
+.read-more a:hover,
+.card-link:hover {
+  text-decoration: underline;
+}
+
+.hero-meta {
+  margin: 1.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.pillar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+.pillar-flip .pillar-copy {
+  order: 2;
+}
+
+.pillar-copy h2 {
+  margin-bottom: 1rem;
+}
+
+.pillar-copy > p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 1.2rem;
+}
+
+.pillar-copy .detail-list li {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.pillar-copy .detail-list strong {
+  color: var(--text);
+}
+
+.read-more {
+  margin: 1.3rem 0 0;
+}
+
+.read-more a + a {
+  margin-left: 1rem;
+}
+
+.pillar-media {
+  margin: 0;
+}
+
+.pillar-media > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.1rem 0 0;
+}
+
+.feature-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.feature-grid-3 .card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.feature-grid-3 .card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.feature-grid-3 .card-link {
+  margin-top: auto;
+}
+
+.anchor-alias {
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+
+.table-note {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.table-note a {
+  color: var(--gold);
+}
+
+@media (max-width: 960px) {
+  .pillar,
+  .feature-grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.6rem;
+  }
+
+  .pillar-flip .pillar-copy {
+    order: 0;
+  }
+
+  .stats-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .stats-4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pillar-media .dashboard-thumb img {
+  max-height: 560px;
+  object-fit: cover;
+  object-position: left top;
+}
