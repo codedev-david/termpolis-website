@@ -2016,7 +2016,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <h3>Spending fewer tokens per task (v1.55)</h3>
             <ul class="docs-list">
               <li><strong>One row per lever.</strong> The receipt lists routing, late elision, relay, focused recall, graph first and lean output. A row says <em>measured against the holdout</em> only once its comparison clears a 99% interval; until then it says <em>collecting (n of N)</em>, and a lever without a randomised holdout is shown as an observed count, never as a saving.</li>
-              <li><strong>Fresh session.</strong> Before Claude Code compacts, it is asked to keep decisions and their reasons, file paths touched, the open next step and failing test names; afterwards your prompt is relayed so the new context starts on task.</li>
+              <li><strong>Fresh session.</strong> Offered before compaction since v1.59 (see <em>Offered before compaction</em> below). Before Claude Code compacts, it is asked to keep decisions and their reasons, file paths touched, the open next step and failing test names; afterwards your prompt is relayed so the new context starts on task.</li>
               <li><strong>Part of a result.</strong> <code>retrieve_full</code> takes <code>lines</code> (for example <code>120-180</code>) or <code>grep</code>, so an agent can fetch the slice it needs instead of the whole cached output.</li>
               <li><strong>Outline first.</strong> Before Claude reads a whole file over 1,500 lines, it is offered an outline of at most 60 lines. Only the path is sent to Termpolis.</li>
             </ul>
@@ -2058,12 +2058,29 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               has to fit inside.
             </p>
             <div class="docs-callout">
-              <strong>It only ever advises.</strong> Session depth never ends a session and is
-              deliberately not wired to anything that could. The arithmetic cannot prove the thing
+              <strong>It only ever advises.</strong> Session depth never ends a session on its
+              own: since v1.59 it can offer the <strong>Fresh session</strong> button, and only your click
+              starts one. The arithmetic cannot prove the thing
               it depends on &mdash; that the work <em>partitions</em>, so a fresh session handed the
               memory brain's context does the same job. That is a claim about answer quality, not
               about tokens.
             </div>
+
+            <h3>Offered before compaction (v1.59)</h3>
+            <p>
+              Until v1.59 the <strong>Fresh session</strong> button appeared only after Claude had
+              compacted, when the most expensive turns were already paid for. Now, when a terminal's
+              conversation reaches a depth band where a fresh session would cut the cost per turn by
+              <strong>at least 50%</strong> on your own curve, the pane header says so, for example
+              &ldquo;Long session. A fresh one saves 55% a turn.&rdquo; On typical traffic that is around
+              100 messages.
+            </p>
+            <ul class="docs-list">
+              <li><strong>Same safe handoff.</strong> Claude writes a short handoff note into Termpolis memory and quits, and a new session starts from that note. If Claude doesn't print the note's id, nothing is quit, and nothing is typed until the OS reports that Claude has exited.</li>
+              <li><strong>Dismiss means not now.</strong> Close the offer with &times; and it returns only when the conversation reaches the next band, where the saving is bigger.</li>
+              <li><strong>A <code>claude</code> you typed yourself.</strong> It gets the offer too, before and after compaction, and the fresh session keeps the flags you started it with. A Claude started with an inline account prefix (<code>CLAUDE_CONFIG_DIR=&hellip; claude</code>) gets no offer, because a retyped <code>claude</code> would start on a different account.</li>
+              <li><strong>Evidence first.</strong> The offer stays hidden until your own sessions have enough samples at both the shallow and the deep length, and never shows for a subagent's request or a failed one.</li>
+            </ul>
 
             <h3>The numbers, and where they come from</h3>
             <p>
