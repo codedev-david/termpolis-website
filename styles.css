@@ -138,6 +138,29 @@ input {
   gap: clamp(0.35rem, 0.55vw, 0.6rem);  /* capped so big monitors don't re-inflate the gaps past the pill */
 }
 
+/* Since the 2026-11 homepage restructure the pill carries only 8 links, so the tight sizing
+   above left them bunched against the right edge. On desktop (the nav is hidden at <=960px)
+   centre the nav in the pill: equal 1fr side columns put it in the true middle, and the brand
+   column never drops below the brand's own width, so a narrow window shifts the nav right
+   instead of overlapping the logo. */
+@media (min-width: 961px) {
+  .site-header {
+    display: grid;
+    grid-template-columns: minmax(max-content, 1fr) auto minmax(0, 1fr);
+  }
+
+  .site-header .brand {
+    justify-self: start;   /* keep the link's hit area the size of the logo + name */
+  }
+
+  .site-header .site-nav {
+    justify-self: center;
+    max-width: 100%;
+    font-size: 1rem;
+    gap: clamp(0.9rem, 1.6vw, 1.75rem);
+  }
+}
+
 /* Below ~1200px (incl. common laptop widths under 125–150% display scaling) the pill can't
    hold all 12 links, so it scrolls internally. Fade the right edge — unless already scrolled
    to the end — so the cut-off reads as "scroll for more →" rather than a broken clip.
