@@ -651,8 +651,11 @@
             <p>
               On a match the watcher writes an audit entry tagged
               <code>sensitive_file_read</code> (with rule id, tool name, source path) and
-              fires a <code>terminal:sensitive-file-read</code> IPC event to the renderer
-              — but no part of the UI listens for it yet, so no banner appears; the read shows up in the audit log. A per-terminal counter
+              fires a <code>terminal:sensitive-file-read</code> IPC event to the renderer.
+              Since v1.60 the window listens for it and shows a banner for 10 seconds: which agent
+              read which file, with a reminder to add it to the agent&rsquo;s ignore file before the next
+              session. It never blocks the agent and never shows the file&rsquo;s contents (before v1.60
+              nothing showed it and the read was only in the audit log). A per-terminal counter
               is exposed via <code>aiSecurity.sensitiveReads(terminalId)</code> so the
               Security panel could show a per-session count, but the panel never calls it; it shows a &ldquo;recent matches&rdquo; count from the audit log, with the newest five reads in a short running
               list.
@@ -1302,7 +1305,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 (e.g. "build the API + write the migration + add tests + write docs", or
                 "rewrite three unrelated modules in the same style.")
                 → <strong>Swarm.</strong> The conductor decomposes the task, hands subtasks to
-                the agents best-rated for each, and tracks them until they finish; in a git repo you can then check what it changed with <code>git diff</code> (the dashboard&rsquo;s Review tab can&rsquo;t be opened yet (as of v1.59); see <a href="#review">Swarm review</a>).
+                the agents best-rated for each, and tracks them until they finish; in a git repo you can then check what it changed in the dashboard&rsquo;s <a href="#review">Review tab</a> (since v1.60 it stays after you close the Swarm Complete dialog) or with <code>git diff</code>.
               </li>
               <li>
                 <strong>Is the task a long spec rather than a single ask?</strong>
@@ -1441,8 +1444,23 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <figcaption>A running terminal, 256-color palette, mouse scroll.</figcaption>
             </figure>
             <p>
-              Closing a terminal ends its process straight away, with no confirmation. Closing the
-              Termpolis window while an AI agent terminal is open does ask first.
+              Closing a terminal ends it straight away, with no confirmation. Since v1.60 that ends
+              its whole process tree, so nothing the shell or an agent in it started keeps running in
+              the background (<code>taskkill /T</code> on Windows, the process group on macOS and
+              Linux). Closing the Termpolis window while an AI agent terminal is open does ask first.
+            </p>
+            <p>
+              <strong>Typing goes straight to the shell on Windows (v1.61).</strong> Each terminal&rsquo;s
+              shell runs in a separate terminal process, and the window talks to that process over its
+              own line: your keys reach the shell, and the shell&rsquo;s echo reaches the screen, without
+              waiting on the app&rsquo;s main process. A busy moment there (a large paste being scanned, a
+              burst of output from another terminal, indexing) no longer delays what you type. The main
+              process still gets a copy of every key and every byte of output, so the prompt watch,
+              secret checks, scrollback and the phone app work as before. The terminal process also runs
+              at above-normal priority. Echo is never drawn ahead of the shell (no &ldquo;local
+              echo&rdquo;), because agent TUIs draw their own input and guessing would garble them. If the
+              line can&rsquo;t be made, typing falls back to the old path by itself;
+              <code>TERMPOLIS_NO_DIRECT_TYPING=1</code> turns it off. macOS and Linux keep the old path.
             </p>
             <p>
               <strong>Start fresh with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>.</strong> This clears the
@@ -1622,6 +1640,7 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Don't remember keybindings?</strong> Type the feature name and run it from the palette.</li>
               <li><strong>Jump to any open terminal.</strong> <kbd>Ctrl</kbd> + <kbd>K</kbd>, type the terminal's name, <kbd>Enter</kbd>.</li>
               <li><strong>Run a command from anywhere.</strong> Type <em>run</em> and the command, then press <kbd>Enter</kbd>; it runs in the active terminal. Past commands are in History search (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd>).</li>
+              <li><strong>Act on the active terminal.</strong> <em>Split Right</em>, <em>Split Down</em>, <em>Export Terminal Output</em> and <em>Start/Stop Recording</em> do what the terminal&rsquo;s right-click menu does (v1.60). A split from tab view switches to split view first.</li>
             </ul>
             <h3>How to use it</h3>
             <ol class="docs-list docs-list-ordered">
@@ -2214,8 +2233,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <strong>Staged Changes</strong> and <strong>Changes</strong>, each collapsible and
                 each with a count. Files carry a status letter &mdash; <code>M</code> modified,
                 <code>A</code> added, <code>D</code> deleted, <code>R</code> renamed,
-                <code>C</code> copied, <code>U</code> untracked (a merge conflict also shows as <code>U</code>) &mdash; coloured, and named in full
-                on hover.
+                <code>C</code> copied, <code>?</code> untracked, and <code>U</code> for a merge
+                conflict, which is listed once, under Changes, until you stage it (v1.60) &mdash;
+                coloured, and named in full on hover.
               </li>
               <li>
                 <strong>Stage / unstage.</strong> Hover a file for its <code>+</code> or
@@ -2439,25 +2459,30 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li>Leave <strong>Relay address</strong> at <code>wss://relay.termpolis.com</code> unless
                 you run your own relay (see <a href="#remote-security">How it is secured</a>).</li>
               <li>Under <strong>Pair a device</strong>, type a name for the phone (it defaults to
-                &ldquo;Phone&rdquo;) and tick what it will be allowed to do. Only <strong>Read terminal
-                output</strong> is ticked to begin with; see the <a href="#remote-permissions">next
-                section</a>. Click <strong>Pair a device</strong>.</li>
+                &ldquo;Phone&rdquo;) and tick what it will be allowed to do. Nothing is ticked to begin
+                with; see the <a href="#remote-permissions">next section</a>. Click <strong>Pair a
+                device</strong>.</li>
               <li>A QR code appears with a countdown. Scan it in the app. It works
                 <strong>once</strong> and expires after <strong>90 seconds</strong>; closing the dialog
-                withdraws it. The desktop shows the code only as a picture, so the app needs camera
-                access to pair.</li>
+                withdraws it. If the phone has no camera access, use the <strong>Copy</strong> button
+                under the code (v1.60), get the text onto the phone (Universal Clipboard, or a note to
+                yourself) and paste it into the app&rsquo;s Pair screen.</li>
               <li>Both screens show the <strong>same eight words</strong>, worked out from the two
-                devices&rsquo; keys. If they match, nothing sits in the middle. If they don&rsquo;t, tap
-                <strong>They do not match &mdash; unpair</strong> on the phone and
-                <strong>Revoke</strong> the phone on the desktop.</li>
+                devices&rsquo; keys. If they match, nothing sits in the middle: click <strong>The words
+                match</strong> on the desktop. If they don&rsquo;t, click <strong>They don&rsquo;t
+                match</strong>, which removes the phone, and tap <strong>They do not match &mdash;
+                unpair</strong> on the phone.</li>
             </ol>
             <div class="docs-callout">
               <p>
-                <strong>Treat the QR code like a password for its 90 seconds.</strong> Whoever scans it
-                first is paired, including through a screen share, a video call or a recording, and gets
-                the permissions you ticked straight away: Termpolis doesn&rsquo;t wait for you to compare
-                the words. Pair where nobody else can see the screen. If your phone fails to pair, or
-                <strong>Paired devices</strong> lists a phone you don&rsquo;t have, revoke it.
+                <strong>Nothing you ticked applies until you confirm the words on the desktop
+                (v1.60).</strong> Until then the phone is paired but can&rsquo;t list, read, start, type
+                into or close anything. A phone you didn&rsquo;t confirm in the dialog shows
+                <strong>Not confirmed</strong> in its row under <strong>Paired devices</strong>, with the
+                same two buttons. Phones paired before v1.60 count as confirmed. Treat the QR code like a
+                password for its 90 seconds anyway: whoever scans it first is paired, including through a
+                screen share, a video call or a recording. Pair where nobody else can see the screen, and
+                revoke any phone in <strong>Paired devices</strong> you don&rsquo;t recognise.
               </p>
             </div>
 
@@ -2465,7 +2490,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Each phone has its own permissions, chosen when you pair it and changed at any time with
               the checkboxes in its row under <strong>Paired devices</strong>. The desktop checks them on
-              every request, and a change takes effect at once. The phone only reports them: its
+              every request, and a change takes effect at once. None of them applies before the safety
+              words are confirmed. The phone only reports them: its
               Settings screen lists <em>What the desktop allows</em>, and it hides the controls it
               isn&rsquo;t allowed to use.
             </p>
@@ -2473,27 +2499,36 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <table class="docs-table">
                 <thead><tr><th>Permission</th><th>Default</th><th>What it allows</th></tr></thead>
                 <tbody>
-                  <tr><td><strong>Read terminal output</strong></td><td>on</td><td>List the terminals in this desktop&rsquo;s sidebar, each with its name and working folder, and stream the output of the one the phone has open. Swarm workers aren&rsquo;t listed.</td></tr>
-                  <tr><td><strong>Start terminals</strong></td><td>off</td><td>Start a terminal on this desktop. The app offers AI terminals only: Claude, Codex or Gemini (<code>agy</code>), in a folder picked by browsing this computer&rsquo;s folders. The picker opens at the home folder, which also lists every drive the computer can see (<code>C:\</code>, <code>D:\</code> and so on, mapped drives included; <code>/</code> on macOS and Linux). Network paths (<code>\\server\share</code>) are refused. The desktop itself would also open a plain shell. The agent runs the way Termpolis runs swarm workers: Claude and Gemini with their permission prompts skipped, Codex with approvals off in its <code>workspace-write</code> sandbox.</td></tr>
+                  <tr><td><strong>Read terminal output</strong></td><td>off</td><td>List the terminals in this desktop&rsquo;s sidebar, each with its name and working folder, and stream the output of the one the phone has open. Swarm workers are never listed and can&rsquo;t be opened from a phone.</td></tr>
+                  <tr><td><strong>Start terminals</strong></td><td>off</td><td>Marked as sensitive. Start a terminal on this desktop. The app offers AI terminals only: Claude, Codex or Gemini (<code>agy</code>), in a folder picked by browsing this computer&rsquo;s folders. Since v1.60 the folder must be in your home folder or, on Windows, on another local drive (<code>D:\</code>, <code>E:\</code> and so on). The system drive outside your home folder, <code>/</code> outside your home folder, and network paths (<code>\\server\share</code>) are refused, for browsing and as a terminal&rsquo;s folder; links are followed before the check. The agent asks before it edits files or runs commands, as it would if you had started it yourself, unless <em>Let agents started from a phone run unattended</em> is on (below).</td></tr>
                   <tr><td><strong>Type into terminals</strong></td><td>off</td><td>Type into any open terminal and press Enter. This is a keyboard: it skips the command checks the AI terminals run behind, so anything the phone types runs as you.</td></tr>
-                  <tr><td><strong>Close terminals</strong></td><td>off</td><td>End a running terminal. The current phone app has no control for this.</td></tr>
+                  <tr><td><strong>Close terminals</strong></td><td>off</td><td>Close any terminal. The phone asks for confirmation first (Close button from the phone app&rsquo;s next release).</td></tr>
                 </tbody>
               </table>
             </div>
             <p>
+              <strong>Let agents started from a phone run unattended</strong> (<em>Settings &rarr;
+              Remote</em>, off by default, marked dangerous, v1.60). When it is on, an agent a phone
+              starts is launched the way swarm workers are: Claude and Gemini with their permission
+              prompts skipped, Codex with approvals off in its <code>workspace-write</code> sandbox. It
+              then acts without asking. Turning it on takes a second click. Before v1.60 every agent a
+              phone started was launched this way.
+            </p>
+            <p>
               The risk, stated plainly: <em>Read</em> shows everything your terminals print.
-              <em>Type</em> can run any command as you. <em>Start</em> together with <em>Type</em> gives
-              the phone an agent that acts without asking. Grant those two only to a phone you trust as
-              much as the computer.
+              <em>Type</em> can run any command as you, and can answer an agent&rsquo;s approval
+              prompts. With <em>unattended</em> on, <em>Start</em> gives the phone an agent that acts
+              without asking. Grant those only to a phone you trust as much as the computer.
             </p>
 
             <h3 id="remote-using">Using it</h3>
             <ul class="docs-list">
               <li><strong>The terminal list</strong> shows the terminals in that desktop&rsquo;s sidebar,
                 titled with the desktop&rsquo;s name; swarm workers aren&rsquo;t included. Pull down to
-                refresh. While a terminal is open, the phone shows what its agent is doing
-                (<em>Thinking</em>, <em>Working</em>, <em>Waiting for you</em> and so on) with a one-line
-                summary; back on the list, its row keeps the last state the phone saw.</li>
+                refresh. The phone shows what each agent is doing (<em>Thinking</em>, <em>Working</em>,
+                <em>Waiting for you</em> and so on) with a one-line summary. Since v1.60 the desktop sends
+                that for every terminal in the list, not only the open one, and a phone gets the last
+                status of each as soon as it connects.</li>
               <li><strong>Open a terminal</strong> to see its output as it is printed. The desktop works
                 out cursor moves and redraws before sending, so a progress bar or status line shows its
                 latest state, in colour. Opening a terminal brings back what its last 32,768 printed
@@ -2503,11 +2538,15 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 keys (no Esc, Ctrl+C, Tab or arrows, and no Enter on its own), so a prompt that needs one
                 has to be answered at the computer.</li>
               <li><strong>New AI terminal</strong> (with <em>Start terminals</em>): choose
-                <em>Claude</em>, <em>Codex</em> or <em>Gemini</em>, browse to a folder on any of the
-                desktop&rsquo;s drives (listed at the top of its home folder), and tap <em>Start &hellip; here</em>. The phone opens the new
+                <em>Claude</em>, <em>Codex</em> or <em>Gemini</em>, browse to a folder in the
+                desktop&rsquo;s home folder (or, on Windows, on another local drive), and tap <em>Start &hellip; here</em>. The phone opens the new
                 terminal, named after the agent and the folder, for example &ldquo;Claude &middot;
                 myrepo&rdquo;. The desktop adds it to its sidebar like any terminal you open, so it
                 stays in the phone&rsquo;s list too.</li>
+              <li><strong>Close terminal</strong> (from the phone app&rsquo;s next release): on a
+                terminal&rsquo;s screen, with <em>Close terminals</em>, or with <em>Start terminals</em> for
+                a terminal the phone started. The phone asks first. A desktop before v1.60 accepts it only
+                with <em>Close terminals</em>, and the phone says so.</li>
               <li><strong>Several desktops.</strong> One phone pairs with up to 16 desktops, each with its
                 own key, and shows one at a time. <em>Desktops</em>, at the top left of the terminal
                 list, switches between them.</li>
@@ -2537,8 +2576,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 session but keeps the pairings, and phones reconnect when you tick it again.</li>
               <li><strong>After 30 days</strong> without contact, the desktop forgets a phone. Pair it
                 again to reconnect.</li>
-              <li><strong>Deleting the app</strong> isn&rsquo;t a reliable way to unpair, because iOS can
-                keep an app&rsquo;s Keychain entries after it is deleted. Unpair first.</li>
+              <li><strong>Deleting the app.</strong> iOS keeps an app&rsquo;s Keychain entries after it is
+                deleted, so with the current app, unpair first. From the phone app&rsquo;s next release,
+                the first launch after a reinstall erases what the old install left (pairings, keys and the
+                cached subscription status) before reading anything; a paid subscription is then found
+                again through the App Store. The desktop still lists the phone until you revoke it.</li>
             </ul>
 
             <h3 id="remote-security">How it is secured</h3>
@@ -2573,10 +2615,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 <code>ws://</code> address too, except for a relay on the same computer
                 (<code>localhost</code> or <code>127.0.0.1</code>): over <code>ws://</code> to another
                 computer, anyone on the network in between could see when your devices connect and take
-                their place in the relay first. A <code>ws://</code> address saved by an earlier version is
-                kept but no longer used. Nothing connects through it, and the Remote and Linked machines
-                panes both say so until you save a <code>wss://</code> address or click <strong>Use the
-                default relay</strong>.</li>
+                their place in the relay first. Since v1.60, a plain <code>ws://</code> address saved by an
+                older version is replaced with the default relay when Termpolis starts, so phones and
+                linked computers stay connected. The Remote pane names the old address until you save
+                another one or click <strong>Keep the default relay</strong>. The address stays in the
+                settings file, so an older version still reads what it wrote.</li>
               <li><strong>Keys.</strong> The desktop has one identity key for all its phones, encrypted
                 with the OS keychain (Windows DPAPI, macOS Keychain, Linux libsecret) where one is
                 available, and stored unencrypted in the data directory on Linux without a keyring, which
@@ -2605,8 +2648,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 desktop&rsquo;s own MCP server, limited to five tools: list, create, run a command in,
                 type into and close a terminal. Each of those calls is written to the MCP audit log with
                 the phone&rsquo;s device id but not what was typed, and phones share the MCP
-                server&rsquo;s rate limits with your agents. Folder browsing and the output stream are
-                handled by the bridge itself, so they aren&rsquo;t in the audit log. The phone&rsquo;s own
+                server&rsquo;s rate limits with your agents. The bridge reaches the MCP server with a key
+                of its own, kept in memory only (v1.60). Folder browsing (your home folder and, on
+                Windows, other local drives; folder names only) and the output stream are handled by the
+                bridge itself, so they aren&rsquo;t in the audit log. The phone&rsquo;s own
                 requests reach no memory, swarm or other tools, though an agent it types to can use
                 its own.</li>
               <li><strong>Nothing runs or stays on the phone.</strong> No agent, model credentials,
@@ -2706,10 +2751,13 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               the reason and how many more came that minute.
             </p>
             <p>
-              <strong>Notify me when a linked computer starts a job here</strong> is on by default. Each job
-              another computer starts here then shows a system notification naming the computer, the agent,
-              read-only or edit, and the folder, with the task&rsquo;s first line quoted under them; several
-              from one computer within a minute share one notification. Click it to open this pane. A
+              <strong>Notify me when a linked computer starts a job here, and when it ends</strong> is on by
+              default. Each job another computer starts here then shows a system notification naming the
+              computer, the agent, read-only or edit, and the folder, with the task&rsquo;s first line quoted
+              under them; several from one computer within a minute share one notification. Since v1.60, when
+              the job ends a second notification says whether it finished, failed or was cancelled, and how
+              long it ran; each computer&rsquo;s newest end notification replaces its last one. Click either
+              to open this pane. A
               refused request never notifies, and Linux without a notification daemon shows none. The
               notification is not a question: the job is already
               running, and <strong>Stop</strong> is how to end it.
@@ -2788,7 +2836,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 primer (up to 6,000 characters), so its answer can quote that machine&rsquo;s memory.</li>
               <li><strong><code>cwd</code></strong> is a folder on the other machine, absolute or starting
                 with <code>~</code>. It defaults to the home folder and must exist there. UNC network paths
-                (<code>\\server\share</code>) are refused.</li>
+                (<code>\\server\share</code>) are refused. Since v1.60 a URL is refused too, before anything
+                is sent, because a clone URL can carry a credential: one that starts with a scheme and two
+                slashes (<code>https://&hellip;</code>, <code>ssh://&hellip;</code>) or holds a user and a
+                password before an <code>@</code>. Where a refusal repeats the folder you gave, anything in
+                it that looks like a credential is taken out first.</li>
               <li><strong><code>write: true</code></strong> works only if that machine lets this one edit.</li>
               <li><code>run</code> waits up to <strong>45 seconds</strong> by default (<code>waitSec</code>,
                 at most 50), under the 60 seconds Codex gives one tool call. The other computer keeps a
@@ -2813,9 +2865,9 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>An encrypted relay.</strong> Making or entering a code requires a
                 <code>wss://</code> relay (<code>ws://</code> only to a relay on the same computer), and since
                 v1.53 <em>Settings &rarr; Remote</em> accepts nothing else. Links this computer created
-                reconnect through that setting; if it still holds a plain <code>ws://</code> address saved by
-                an earlier version, Termpolis connects none of them through it, and both panes say so until
-                it is changed. Links made by entering another computer&rsquo;s code use that computer&rsquo;s
+                reconnect through that setting. Since v1.60, a plain <code>ws://</code> address saved by an
+                older version is replaced with the default relay, and the Remote pane says so until another
+                address is saved. Links made by entering another computer&rsquo;s code use that computer&rsquo;s
                 relay, held to the same rule on every reconnect. The relay&rsquo;s source is in the
                 Termpolis repository (<code>relay/</code>), so you can run your own.</li>
               <li><strong>What the relay does see:</strong> both computers&rsquo; IP addresses, a room id
@@ -2857,12 +2909,18 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 arrives (in case the other computer runs a version that doesn&rsquo;t screen). A credential
                 whose own shape names it, a vendor token such as <code>sk-ant-&hellip;</code>,
                 <code>ghp_&hellip;</code>, <code>github_pat_&hellip;</code>, <code>AKIA&hellip;</code> or
-                <code>xox&hellip;</code>, or a whole private-key block, is removed and replaced with
+                <code>xox&hellip;</code>, or a private key, is removed and replaced with
                 <code>[REDACTED:&lt;rule&gt;]</code>, and your agent is told how many were removed and by
-                which rules. Anything that only looks like a credential is left in, because a job&rsquo;s
+                which rules. Since v1.60 a private key is recognised by what its bytes decode to, not by
+                how its lines are laid out: PKCS#8, PKCS#1, SEC1 EC, OpenSSH, OpenPGP and SSH2 keys under a
+                BEGIN line, a key file stored base64 encoded (a Kubernetes <code>tls.key</code>, a
+                <code>.env</code> value), a PuTTY <code>.ppk</code>&rsquo;s private lines and a JWK&rsquo;s
+                private members, whether the key sits indented in code, as JSON strings, in a diff, in grep
+                output or behind log timestamps. Anything that only looks like a credential is left in, because a job&rsquo;s
                 answer is usually code and its test fixtures look like credentials too: a
                 <code>password = "&hellip;"</code> line, a <code>postgres://user:pass@</code> URL, a JWT, a
-                value assigned to <code>API_KEY</code>, a private-key header with no key under it. Your agent
+                value assigned to <code>API_KEY</code>, a BEGIN line with no key under it, a test key whose body
+                is made up (zeros, one byte repeated), a public key or certificate. Your agent
                 then gets a note naming the rules that matched: <em>Possible credential in &hellip;, not
                 removed.</em> Each finding is written to the <a href="#security-audit">AI Security audit
                 log</a> on the computer that screened it, as rule ids and counts, never the value. A
@@ -2890,11 +2948,28 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 holds Termpolis&rsquo;s server; otherwise the server is switched off for the run.
                 <code>agy</code> itself passes the marker to the Termpolis server in its own config. These
                 limits bind read-only jobs. A Claude or Gemini job with <em>edit</em> permission has a shell
-                and runs as you, so it can get around them, for example by calling Termpolis&rsquo;s local MCP
-                server with its token: treat <em>edit</em> as full access. A Codex edit job&rsquo;s commands
+                and runs as you, so it can get around them, for example by leaving a process running that
+                calls Termpolis&rsquo;s local MCP server once the job has ended: treat <em>edit</em> as full
+                access. A Codex edit job&rsquo;s commands
                 run in Codex&rsquo;s sandbox with its network switched off, which is what keeps them from
                 that server; on Windows that isn&rsquo;t confirmed, so treat a Codex edit job there as full
                 access too.</li>
+              <li><strong>The MCP server limits its key while a job runs (v1.60).</strong> Termpolis&rsquo;s
+                local MCP server accepts the key it writes to a file in its data folder, and any process
+                running as you can read that file, a job another computer started included. While such a job
+                runs here, a call with that key reaches only the read-only tools above plus
+                <code>memory_primer</code> and <code>code_outline</code>; any other tool is refused with
+                <em>&hellip; is not available while a job another computer started is running on this
+                computer</em> and logged as <code>denied</code> in the MCP audit log. The limit ends when the
+                job&rsquo;s agent exits or is stopped. Agents already connected keep every tool, because the
+                agent connection (the stdio adapter) swaps the file&rsquo;s key for one of its own when it
+                starts; an agent that connects during a job is limited until the job ends. The remote bridge
+                that carries your phones&rsquo; requests has its own key, kept only in memory. The
+                <code>termpolis</code> command and the memory primer hook use the file&rsquo;s key, so during a
+                job only their memory and code reads work. What this doesn&rsquo;t stop: a process the job
+                leaves running can read the file after the job ends, and code running as you can read the
+                keys from Termpolis&rsquo;s memory. It closes the direct route, so treat <em>edit</em> as full
+                access all the same.</li>
               <li><strong>Your AI providers.</strong> Each agent&rsquo;s provider sees what that agent is
                 asked and answers, as always, and a job uses the doing computer&rsquo;s AI account.</li>
               <li><strong>Memory.</strong> The agent doing the work starts with that computer&rsquo;s own
@@ -3017,7 +3092,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
             <p>
               Termpolis runs an MCP server on <code>http://localhost:9315</code> (if 9315 is taken,
               Termpolis falls back to the next free port and writes the port it actually uses to the
-              <code>mcp-port</code> file in its data folder; the status bar always reads 9315). It's bound to
+              <code>mcp-port</code> file in its data folder, up to 9319; the status bar shows the port in
+              use, or <em>starting&hellip;</em> / <em>not running</em>). It's bound to
               the loopback interface only and rejects any MCP request without the right bearer
               token, so nothing on your network can reach it.
             </p>
@@ -3284,9 +3360,10 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               file</strong>), optionally <strong>Run tests</strong>, then <strong>Commit</strong> what
               you kept or <strong>Revert all</strong> back to that commit; <strong>Refine</strong>
               reopens the Start Swarm wizard on the same folder with your note and the previous
-              swarm's summary filled in. For now, though, the Swarm Complete dialog stays on top of
-              the dashboard and closing it removes the Review tab, so the panel can't be opened yet;
-              check a swarm's changes with <code>git diff</code> instead.
+              swarm's summary filled in. Since v1.60 the Review tab stays after you close the Swarm
+              Complete dialog, until the next swarm starts. A folder that isn&rsquo;t a git repository has
+              no starting commit to compare against, so it gets no Review tab, and a new file the swarm
+              hasn&rsquo;t added to git isn&rsquo;t listed.
             </p>
           </section>
 
@@ -3453,9 +3530,11 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
                 crowding out varied context, with a floor so a thin recall never starves the agent.</li>
               <li><strong>Auto-recovers from compaction.</strong> When Claude Code compacts its
                 conversation to fit the context window, Termpolis watches the terminal, waits for the
-                compaction to settle, and once the agent&rsquo;s input line is empty, types a one-line
-                instruction to reload its memory digest with <code>memory_primer</code> and presses
-                Enter, so it picks right back up (a Claude session Termpolis launched with its memory
+                compaction to settle, and types a one-line instruction to reload its memory digest
+                with <code>memory_primer</code> and presses Enter, so it picks right back up. It does
+                this only while the agent is still running, nothing on its screen is waiting for an
+                answer, and you aren&rsquo;t typing or have nothing half-typed or pasted on the input
+                line (a Claude session Termpolis launched with its memory
                 seed reloads the digest itself, so nothing is typed). Debounced
                 through the whole compaction and cooldown-guarded to fire once; opt-out in Settings.</li>
               <li><strong>See compaction coming.</strong> A live context-pressure pill in the status
@@ -3834,7 +3913,8 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               copyright, license and your Termpolis version; then <em>Swarm Active</em> with
               running/total agents and any errors (only while a swarm runs), the focused
               agent&rsquo;s context-window fill (<em>ctx N%</em>, when known), the MCP address
-              (always <code>localhost:9315</code>; it is not a health light), Sponsor, and
+              (<code>localhost:</code> and the port the server really bound, <em>MCP: starting&hellip;</em>
+              while it starts, or a grey <em>MCP: not running</em>), Sponsor, and
               Help / Support.
             </p>
           </section>

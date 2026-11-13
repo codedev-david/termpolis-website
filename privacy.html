@@ -55,7 +55,7 @@
 
     <main class="legal">
       <h1>Privacy Policy</h1>
-      <p class="stamp">Effective 10 November 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
+      <p class="stamp">Effective 12 November 2026 · Covers the Termpolis desktop app, the Termpolis Remote phone app, and the pairing relay.</p>
 
       <div class="callout">
         <p><strong>The short version.</strong> Termpolis runs on your computer. Your code,
@@ -95,8 +95,12 @@
         (more refusals of that computer within the same minute share one more line, with their count),
         with that computer's name, the agent, read-only or edit, the folder, the first line of the
         prompt (at most 80 characters, with anything that might be a credential taken out), the
-        credential rules it matched, how the job ended and why a request was refused. Never the rest
-        of the prompt, or the answer.</li>
+        credential rules it matched, how the job ended and why a request was refused (with anything in
+        it that might be a credential taken out). Never the rest of the prompt, or the answer.</li>
+        <li>The key local agents use to reach Termpolis's own MCP server (<code>mcp-token</code>, readable
+        only by you). While a job another of your computers started runs here, that key reaches only the
+        read-only memory and code tools. The keys used by Remote's bridge and by agents that are already
+        connected are kept in memory only, never on disk.</li>
       </ul>
       <p>Termpolis also changes your coding agents' own settings, but only if you connect
       them. The first step of the first-run tour shows exactly what it would change for each
@@ -212,13 +216,24 @@
       home one, say. Each pairing has its own private key and its own record, written to the
       keystore separately, so no two desktops see the same phone identity and forgetting one
       leaves the rest untouched.</p>
-      <p>The phone also keeps, in the same keystore, the App Store's last answer on whether your relay subscription is active, so the app can still let you in when the App Store cannot be reached. That is the whole list. Terminal output reaches the phone encrypted, is held in
+      <p>The phone also keeps, in the same keystore, the App Store's last answer on whether your relay subscription is active, so the app can still let you in when the App Store cannot be reached. From the phone app's next release it also keeps a small marker outside the keystore that says the app has been set up on this install (see section 6). That is the whole list. Terminal output reaches the phone encrypted, is held in
       memory while the app is open, and is never written to disk. Unpairing erases the key
       and the record for that desktop, and it works whether or not the relay is reachable.</p>
 
       <h3>The camera</h3>
       <p>Used for one thing: scanning the pairing code your desktop displays. Frames are
-      decoded on the device and discarded. Nothing from the camera is stored or transmitted.</p>
+      decoded on the device and discarded. Nothing from the camera is stored or transmitted.
+      The camera is optional: you can paste the pairing text instead, which the desktop copies
+      with its <em>Copy</em> button.</p>
+
+      <h3>What a phone can do on your desktop</h3>
+      <p>The desktop decides. Reading, starting a terminal, typing into one and closing one are
+      four separate permissions, all off until you turn them on, revocable at any moment and
+      checked on the desktop for every request. None of them applies until you confirm, on the
+      desktop, that the safety words on both screens match. Swarm workers are never shown to a
+      phone. An agent a phone starts asks before it edits files or runs commands, unless you turn
+      on the separate <em>Let agents started from a phone run unattended</em> setting, which is
+      off by default.</p>
 
       <h3>What the phone app collects</h3>
       <p>Nothing. There is no account, no analytics SDK, no crash reporter, no advertising
@@ -240,11 +255,14 @@
         frame to the other end of the room and forgets it. A room with nobody in it is
         discarded.</li>
         <li>Transport is TLS, and the payload inside it is sealed separately. Both layers
-        would have to fail to expose anything.</li>
+        would have to fail to expose anything. Termpolis uses only <code>wss://</code> relays (or
+        plain <code>ws://</code> to a relay on the same computer); a plain <code>ws://</code> address
+        an older version saved is replaced with the default relay, and the Remote pane says so.</li>
       </ul>
       <p>When you pair, both screens show the same eight words. They are derived from the
       two device keys, so they match only if nothing is sitting in the middle. Comparing
-      them takes a couple of seconds. A phone pairs by scanning a code shown on your
+      them takes a couple of seconds, and the phone gets no access until you confirm on the
+      desktop that they match. A phone pairs by scanning a code shown on your
       desktop's screen, which carries the desktop's public key and a one-time pairing secret, so treat that code like a password
       for the 90 seconds it is valid.</p>
 
@@ -263,12 +281,12 @@
       than by asking us:</p>
       <ul>
         <li><strong>Erase everything on the phone:</strong> forget each desktop in Settings,
-        which destroys its key and record. Deleting the app is not a reliable way to erase them, because iOS can keep an app's Keychain items after it is deleted. Nothing in the app erases its cached answer on whether your relay subscription is active.</li>
+        which destroys its key and record. Deleting the app is not a reliable way to erase them, because iOS can keep an app's Keychain items after it is deleted, and in the current release nothing in the app erases its cached answer on whether your relay subscription is active. From the phone app's next release, the first launch after a reinstall erases the pairings, keys and cached subscription answer the old install left, before anything reads them; it recognises a reinstall by a marker iOS deletes with the app, and your subscription is found again through the App Store.</li>
         <li><strong>Cut the phone off from one desktop:</strong> revoke the device in that
         desktop's Remote settings. Either end is enough — the channel cannot be re-opened
         without both. Any other desktops the phone is paired with are unaffected.</li>
         <li><strong>Erase everything on the desktop:</strong> delete the app's user data
-        directory (and, if you ever chose a memory sync folder, that folder too).</li>
+        directory (and, if an earlier version ever synced memory through a folder you chose, that folder too).</li>
         <li><strong>Stop telemetry:</strong> Settings → General → Privacy has one switch for
         crash reports and one for usage statistics. Both are off by default.</li>
         <li><strong>Turn the compression proxy off:</strong> untick <em>Route new Claude Code

@@ -208,12 +208,14 @@
           <h3>Start something new</h3>
           <ul>
             <li><em>New AI terminal</em> starts Claude, Codex or Gemini on the desktop, in a folder
-            you pick by browsing the desktop's folders, on any of its drives.</li>
+            you pick by browsing the desktop's folders: anywhere in its home folder, or on another
+            local drive on Windows.</li>
             <li>The picker shows folder names only, and only to a phone the desktop has allowed to
             start terminals.</li>
-            <li>An agent started this way runs the way Termpolis runs swarm workers, without
-            stopping for permission prompts, so allow it only on a phone you trust as much as the
-            desktop.</li>
+            <li>An agent started this way asks before it edits files or runs commands, and you
+            answer from the phone. Only if you turn on <em>Let agents started from a phone run
+            unattended</em> on the desktop (off by default) does it run without stopping, so keep
+            that for a phone you trust as much as the desktop.</li>
           </ul>
         </div>
         <div class="panel">
@@ -229,7 +231,8 @@
           <h3>The desktop stays in charge</h3>
           <ul>
             <li>Read output, start terminals, type, close terminals — four permissions, granted
-            per phone, on the desktop. Only reading is ticked when you pair.</li>
+            per phone, on the desktop. Nothing is ticked when you pair, and nothing applies until
+            you confirm the safety words on the desktop.</li>
             <li>Every request is checked again on the desktop when it arrives. The phone can
             report what it has been allowed; it cannot grant itself anything.</li>
             <li>Revoke from either end, at any time, and the channel does not reopen.</li>
@@ -255,19 +258,22 @@
           <strong>Turn Remote on, on the desktop</strong>
           Settings &rsaquo; Remote &rsaquo; <em>Allow phones to connect</em>. The same panel is where
           you choose what a phone is allowed to do: read output, start terminals, type, close
-          terminals. Only reading is ticked to begin with.
+          terminals. Nothing is ticked to begin with.
         </li>
         <li>
           <strong>Scan the code the desktop shows</strong>
           Click <em>Pair a device</em> and point the phone at the QR code. It works once, within
-          90 seconds, for whoever scans it first, so don't pair during a screen share. Pairing needs
-          the camera: the desktop shows the code only as a picture.
+          90 seconds, for whoever scans it first, so don't pair during a screen share. No camera?
+          Press <em>Copy</em> under the code on the desktop, get the text onto the phone (Universal
+          Clipboard, or a note to yourself) and paste it into the app instead.
         </li>
         <li>
           <strong>Compare the eight words</strong>
           Both screens show the same eight words, derived from the two devices' keys. If they
-          match, nothing is sitting in between. If they do not, tap <em>They do not match &mdash;
-          unpair</em> on the phone, revoke the phone on the desktop, and pair again. The words do not change while
+          match, nothing is sitting in between: click <em>The words match</em> on the desktop. The
+          phone gets nothing, not even reading, until you do. If they do not match, click <em>They
+          don't match</em> on the desktop, tap <em>They do not match &mdash; unpair</em> on the phone,
+          and pair again. The words do not change while
           the pairing lasts, so they can be compared again at any time.
         </li>
         <li>
@@ -286,6 +292,7 @@
             <li>Show what an agent has printed, live, and what it is doing.</li>
             <li>Type into a terminal, and send.</li>
             <li>Start Claude, Codex or Gemini in a folder you pick on the desktop.</li>
+            <li>Close a terminal, after asking you to confirm (from the phone app's next release).</li>
             <li>Switch between the desktops you have paired, and forget any one of them.</li>
           </ul>
         </div>
@@ -362,9 +369,10 @@
         </details>
         <details>
           <summary>The camera will not read the pairing code</summary>
-          <p>Pairing needs the camera, because the desktop shows the code only as a picture. If
-          the app never asks for it, or it was turned off, turn it on in iOS Settings &rsaquo;
-          Termpolis Remote &rsaquo; Camera. The code expires after 90 seconds: if the countdown ran
+          <p>If the app never asks for the camera, or it was turned off, turn it on in iOS
+          Settings &rsaquo; Termpolis Remote &rsaquo; Camera, or pair without it: press
+          <em>Copy</em> under the code on the desktop (Termpolis 1.60 or later), get the text onto
+          the phone and paste it into the box the app shows. The code expires after 90 seconds: if the countdown ran
           out, close the dialog and click <em>Pair a device</em> again. The camera is used for this
           one thing; frames are decoded on the phone and thrown away.</p>
         </details>
@@ -372,7 +380,7 @@
           <summary>The eight safety words do not match</summary>
           <p>Do not continue. Matching words mean the two devices hold each other's real keys;
           words that differ mean something is in between. Tap <em>They do not match &mdash;
-          unpair</em> on the phone, revoke the phone in Settings &rsaquo; Remote on the desktop, and pair again where
+          unpair</em> on the phone, click <em>They don't match</em> on the desktop (or revoke the phone in Settings &rsaquo; Remote), and pair again where
           nobody else can see the desktop's screen. Worth reporting to
           <a href="mailto:support@termpolis.com">support@termpolis.com</a> if it happens
           again.</p>
@@ -410,7 +418,9 @@
           &rsaquo; Remote, <em>Revoke</em> in this phone's row. Doing both is tidiest, because the
           desktop only hears about an unpair when it is online and on the phone's screen. Other
           pairings are untouched either way. Deleting the app on its own is not enough: iOS can keep
-          an app's Keychain entries after it is deleted, so unpair first.</p>
+          an app's Keychain entries after it is deleted, so unpair first. From the phone app's next
+          release, reinstalling erases whatever the old install left before anything reads it, and
+          the subscription is found again through the App Store.</p>
         </details>
       </div>
 
