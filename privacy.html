@@ -82,7 +82,7 @@
       <ul>
         <li>Terminal sessions, scrollback and command history.</li>
         <li>The shared memory ("Mneme") built from your sessions and code — its text, its
-        embeddings and its graph. The memory store itself is encrypted at rest with AES-256-GCM, under a key protected by your operating system's keychain; where there is no keychain, or on a computer still syncing memory through a folder an earlier version set up (1.53 can&rsquo;t turn sync on), it can be plain text. Its link graph and its corrections log (the text of any amended memory, and why) are not encrypted, and memories that versions before 1.53 moved to the archive of older, little-used ones can still be plain text; since 1.53 the archive is written under the same key as the store.</li>
+        embeddings and its graph. The memory store itself is encrypted at rest with AES-256-GCM, under a key protected by your operating system's keychain; where there is no keychain, or on a computer still syncing memory through a folder an older version set up, it can be plain text. Its link graph and its corrections log (the text of any amended memory, and why) are not encrypted, and memories that versions before 1.53 moved to the archive of older, little-used ones can still be plain text; since 1.53 the archive is written under the same key as the store.</li>
         <li>Your settings, workspaces, shell configuration and keybindings.</li>
         <li>Any credentials the CLI agents you use store for themselves. Termpolis does not
         read them and does not copy them anywhere.</li>

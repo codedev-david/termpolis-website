@@ -3453,13 +3453,12 @@ $env:ANTHROPIC_API_KEY      # PowerShell</code></pre>
               <li><strong>Secrets are never indexed.</strong> The code indexer reuses the same
                 sensitive-file denylist as the read watcher, so <code>.env</code> files, keys, and
                 cloud credentials are excluded.</li>
-              <li><strong>Each computer keeps its own memory.</strong> <em>Sync across machines</em> is
-                unavailable in this version (<strong>v1.53</strong>): the old shared-folder design could lock
-                or overwrite a computer&rsquo;s memory, so the Memory panel shows it as unavailable and
-                Termpolis won&rsquo;t turn it on while it is rebuilt. A sync an earlier version switched on
-                can still be turned off there. To use what another of your computers knows, link the two with
-                <a href="#linked-machines">Linked machines</a>: an agent there starts from that
-                machine&rsquo;s own memory, can search it read-only, and works on its files.</li>
+              <li><strong>Each computer keeps its own memory.</strong> To move a brain to another
+                computer, export and import it (below). To use what another of your computers knows without
+                copying it, link the two with <a href="#linked-machines">Linked machines</a>: an agent there
+                starts from that machine&rsquo;s own memory, can search it read-only, and works on its files.
+                A folder sync an older version switched on shows in the Memory panel only so you can turn it
+                off.</li>
               <li><strong>Portable &mdash; export / import the whole brain (v1.21).</strong>
                 <strong>Export…</strong> (Settings &rarr; General &rarr; Import / Export Memory) writes a
                 <code>termpolis-brain-&lt;date&gt;.zip</code> holding your memories, the knowledge
